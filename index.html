@@ -84,12 +84,29 @@
       background: #1976d2;
     }
 
+    /* Progress bar */
+    .progress-container {
+      width: 80%;
+      background: #ddd;
+      border-radius: 20px;
+      margin: 15px auto;
+      height: 20px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(45deg, #4CAF50, #2e7d32);
+      transition: width 0.4s ease;
+    }
+
     /* Papan markah */
     .scoreboard {
-      margin: 20px auto;
+      margin: 10px auto;
       padding: 15px;
       background: white;
-      width: 200px;
+      width: 220px;
       border-radius: 15px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
       font-size: 18px;
@@ -102,7 +119,7 @@
       background: #ffffff;
       margin: 20px auto;
       padding: 25px;
-      width: 80%;
+      width: 85%;
       border-radius: 20px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
@@ -111,11 +128,36 @@
       margin-bottom: 15px;
     }
 
+    .sequence-display {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 15px 0;
+      flex-wrap: wrap;
+    }
+
+    .seq-item {
+      background: #e3f2fd;
+      border: 2px solid #2196f3;
+      border-radius: 10px;
+      padding: 15px 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #1976d2;
+      min-width: 50px;
+    }
+
+    .missing {
+      background: #fff3e0;
+      border: 2px dashed #ff9800;
+      color: #f57c00;
+    }
+
     input[type="number"] {
       padding: 8px;
       border-radius: 8px;
       border: 1px solid #ccc;
-      margin: 5px;
+      margin: 10px;
       width: 80px;
       text-align: center;
       font-size: 16px;
@@ -150,6 +192,14 @@
     .wrong {
       color: red;
     }
+
+    /* Timer */
+    .timer {
+      font-size: 18px;
+      font-weight: bold;
+      color: #d32f2f;
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
@@ -163,12 +213,12 @@
     <button class="close-btn" onclick="tutupArahan()">❌ Tutup Arahan</button>
     <h2>📘 Arahan Permainan</h2>
     <ul>
-      <li>Pemain bermula di kotak <b>MULA</b> (nombor 1).</li>
-      <li>Lengkapkan jujukan nombor yang diberi dengan mengisi nombor yang hilang.</li>
-      <li>Setiap jawapan betul akan menggerakkan pemain 1 langkah ke hadapan.</li>
-      <li>Jawapan salah akan dipaparkan bersama jawapan sebenar.</li>
-      <li>Kumpul markah tertinggi dan capai kotak <b>TAMAT</b> untuk menang 🏆.</li>
-      <li>Gunakan butang <b>Petua</b> jika perlukan bantuan.</li>
+      <li>Terdapat <b>5 soalan</b yang perlu dijawab.</li>
+      <li>Lengkapkan jujukan nombor dengan mengisi nombor yang hilang.</li>
+      <li>Setiap jawapan betul memberi +1 markah.</li>
+      <li>Setiap soalan ada masa <b>20 saat</b untuk dijawab.</li>
+      <li>Jika masa tamat, jawapan dianggap salah.</li>
+      <li>Kumpul markah tertinggi untuk menang 🏆.</li>
     </ul>
   </div>
 
@@ -176,12 +226,21 @@
   <button class="reopen-btn" id="reopenBtn" onclick="bukaArahan()">📖 Buka Semula Arahan</button>
 
   <div class="scoreboard">
+    Soalan: <span id="qNum">1</span>/5 <br>
     Markah: <span id="score">0</span>
   </div>
 
+  <!-- Progress bar -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Timer -->
+  <div class="timer">⏱ Masa: <span id="timeLeft">20</span>s</div>
+
   <div class="question-box">
-    <h2>Selesaikan Jujukan</h2>
-    <p id="sequence">2, 4, __, 8, 10</p>
+    <h2 id="qTitle">Soalan 1</h2>
+    <div class="sequence-display" id="sequence"></div>
     <input type="number" id="answer">
     <br>
     <button onclick="checkAnswer()">Semak Jawapan</button>
@@ -191,22 +250,70 @@
   <script>
     let score = 0;
     let currentQuestion = 0;
+    let timer;
+    let timeLeft = 20;
 
     const questions = [
-      { seq: "2, 4, __, 8, 10", ans: 6 },
-      { seq: "3, 6, 9, __, 15", ans: 12 },
-      { seq: "5, __, 15, 20, 25", ans: 10 },
-      { seq: "10, 20, __, 40, 50", ans: 30 },
-      { seq: "7, 14, 21, __, 35", ans: 28 }
+      { seq: [2, 4, null, 8, 10], ans: 6 },
+      { seq: [3, 6, 9, null, 15], ans: 12 },
+      { seq: [5, null, 15, 20, 25], ans: 10 },
+      { seq: [10, 20, null, 40, 50], ans: 30 },
+      { seq: [7, 14, 21, null, 35], ans: 28 }
     ];
 
+    function renderSequence(arr) {
+      const container = document.getElementById("sequence");
+      container.innerHTML = "";
+      arr.forEach(num => {
+        const div = document.createElement("div");
+        div.className = "seq-item";
+        if (num === null) {
+          div.textContent = "?";
+          div.classList.add("missing");
+        } else {
+          div.textContent = num;
+        }
+        container.appendChild(div);
+      });
+    }
+
     function showQuestion() {
-      document.getElementById("sequence").innerText = questions[currentQuestion].seq;
+      if (currentQuestion >= questions.length) {
+        endGame();
+        return;
+      }
+
+      document.getElementById("qNum").innerText = currentQuestion + 1;
+      document.getElementById("qTitle").innerText = "Soalan " + (currentQuestion + 1);
+      renderSequence(questions[currentQuestion].seq);
       document.getElementById("answer").value = "";
       document.getElementById("feedback").innerText = "";
+
+      // Progress bar
+      const progress = ((currentQuestion) / questions.length) * 100;
+      document.getElementById("progressBar").style.width = progress + "%";
+
+      // Timer reset
+      timeLeft = 20;
+      document.getElementById("timeLeft").innerText = timeLeft;
+      clearInterval(timer);
+      timer = setInterval(countdown, 1000);
+    }
+
+    function countdown() {
+      timeLeft--;
+      document.getElementById("timeLeft").innerText = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        document.getElementById("feedback").innerText = "⏰ Masa tamat! Jawapan sebenar: " + questions[currentQuestion].ans;
+        document.getElementById("feedback").className = "feedback wrong";
+        currentQuestion++;
+        setTimeout(showQuestion, 2000);
+      }
     }
 
     function checkAnswer() {
+      clearInterval(timer);
       const userAns = parseInt(document.getElementById("answer").value);
       const correctAns = questions[currentQuestion].ans;
       const feedback = document.getElementById("feedback");
@@ -222,13 +329,17 @@
       }
 
       currentQuestion++;
-      if (currentQuestion < questions.length) {
-        setTimeout(showQuestion, 1500);
-      } else {
-        setTimeout(() => {
-          alert("Permainan Tamat! Markah akhir: " + score);
-        }, 1500);
-      }
+      setTimeout(showQuestion, 2000);
+    }
+
+    function endGame() {
+      document.getElementById("sequence").innerHTML = "";
+      document.getElementById("answer").style.display = "none";
+      document.querySelector("button").style.display = "none";
+      document.getElementById("qTitle").innerText = "Permainan Tamat!";
+      document.getElementById("feedback").innerText = "Markah akhir: " + score + "/" + questions.length + 
+        (score === questions.length ? " 🎉 Tahniah, semua betul!" : score >= 3 ? " 👍 Bagus, teruskan usaha!" : " 💪 Cuba lagi!");
+      document.getElementById("progressBar").style.width = "100%";
     }
 
     function tutupArahan() {
