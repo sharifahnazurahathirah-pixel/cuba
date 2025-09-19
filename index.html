@@ -73,6 +73,15 @@
         min-width: 40px;
         text-align: center;
         box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+        opacity: 0;
+        transform: scale(0.8);
+        animation: fadeInZoom 0.6s forwards;
+    }
+    @keyframes fadeInZoom {
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
     }
     input {
         padding: 8px;
@@ -100,13 +109,15 @@
         width: 80%;
         margin-left: auto;
         margin-right: auto;
+        overflow: hidden;
     }
     .progress-fill {
-        background: #4caf50;
+        background: linear-gradient(90deg, #4caf50, #66bb6a);
         height: 100%;
         width: 0%;
         border-radius: 10px;
-        transition: width 0.3s;
+        transition: width 0.8s ease-in-out;
+        box-shadow: 0 0 8px rgba(76,175,80,0.6);
     }
     #result { font-size: 1.3rem; margin-top: 20px; font-weight: bold; }
     #restartBtn {
@@ -119,7 +130,7 @@
 <body>
 
 <div class="header">
-    <h1>🎯 KUiz Jujukan Matematik</h1>
+    <h1>🎯 Kuiz Jujukan Matematik</h1>
     <p>Kuiz Interaktif Tingkatan 2</p>
 </div>
 
@@ -128,13 +139,13 @@
     <button class="close-btn" onclick="document.getElementById('instructions').style.display='none'">Tutup</button>
     <h2>📘 Arahan Kuiz</h2>
     <ul>
-        <li>Murid bermula di kotak <b>MULA</b> (Soalan 1).</li>
-        <li>Lengkapkan jujukan nombor yang diberi dengan mengisi nombor yang hilang.</li>
-        <li>Terdapat <b>10 soalan</b> rawak yang perlu dijawab.</li>
-        <li>Setiap jawapan betul akan menambah markah dan dipaparkan di papan markah.</li>
-        <li>Setiap soalan ada <b>10 saat</b> untuk dijawab ⏳.</li>
-        <li>Jawapan salah akan dipaparkan bersama jawapan sebenar.</li>
-        <li>Kumpul markah tertinggi dan capai keputusan akhir 🏆.</li>
+        <li>Murid perlu menjawab <b>10 soalan jujukan nombor</b> secara rawak.</li>
+        <li>Setiap soalan perlu dijawab dalam masa <b>10 saat</b> ⏳.</li>
+        <li>Isikan nombor yang hilang dalam kotak jujukan yang diberikan.</li>
+        <li>Jawapan betul akan menambah markah ✅.</li>
+        <li>Jawapan salah akan dipaparkan bersama jawapan sebenar ❌.</li>
+        <li>Markah akhir dipaparkan selepas semua soalan selesai 🏆.</li>
+        <li>Gunakan butang <b>Jawab Semula</b> untuk ulang kuiz dengan set soalan baru.</li>
     </ul>
 </div>
 
@@ -238,6 +249,7 @@
         document.getElementById("result").innerHTML =
             `Markah Akhir: ${score} / ${questions.length}`;
         document.getElementById("restartBtn").style.display = "inline-block";
+        document.getElementById("progressFill").style.width = "100%";
     }
 
     function restartQuiz() {
@@ -247,6 +259,7 @@
         document.getElementById("score").innerText = score;
         document.getElementById("result").innerText = "";
         document.getElementById("restartBtn").style.display = "none";
+        document.getElementById("progressFill").style.width = "0%";
         loadQuestion();
     }
 
