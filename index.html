@@ -437,14 +437,15 @@
         
         .instruction-content {
             padding: 0 25px 25px 25px;
-            max-height: 500px;
-            overflow: hidden;
+            max-height: none;
+            overflow: visible;
             transition: all 0.3s ease;
         }
         
         .instruction-content.collapsed {
             max-height: 0;
             padding: 0 25px;
+            overflow: hidden;
         }
         
         .instruction-grid {
@@ -546,6 +547,14 @@
             
             .instruction-content {
                 padding: 0 22px 22px 22px;
+                max-height: none;
+                overflow: visible;
+            }
+            
+            .instruction-content.collapsed {
+                max-height: 0;
+                padding: 0 22px;
+                overflow: hidden;
             }
             
             .instruction-grid {
@@ -680,6 +689,14 @@
             
             .instruction-content {
                 padding: 0 18px 18px 18px;
+                max-height: none;
+                overflow: visible;
+            }
+            
+            .instruction-content.collapsed {
+                max-height: 0;
+                padding: 0 18px;
+                overflow: hidden;
             }
             
             .instruction-item {
@@ -881,6 +898,14 @@
             
             .instruction-content {
                 padding: 0 15px 15px 15px;
+                max-height: none;
+                overflow: visible;
+            }
+            
+            .instruction-content.collapsed {
+                max-height: 0;
+                padding: 0 15px;
+                overflow: hidden;
             }
             
             .instruction-item {
@@ -1628,5 +1653,5 @@
             updateControlsLanguage();
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9817441f872c5348',t:'MTc1ODI2NTg1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98174f61f6cc9245',t:'MTc1ODI2NjMxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
