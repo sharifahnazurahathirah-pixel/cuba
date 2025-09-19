@@ -1,307 +1,258 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sequence Quest - Kuiz Jujukan</title>
-  <style>
-    * {margin:0;padding:0;box-sizing:border-box;}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuiz Jujukan Matematik</title>
+<style>
     body {
-      font-family:'Comic Sans MS', cursive, sans-serif;
-      background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
-      min-height:100vh;
-      padding:20px;
-    }
-    .game-container {
-      max-width:1200px;margin:0 auto;background:white;
-      border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,0.1);
-      overflow:hidden;
+        font-family: Arial, sans-serif;
+        background: #f3f8ff;
+        margin: 0;
+        padding: 0;
+        text-align: center;
     }
     .header {
-      background:linear-gradient(45deg,#ff6b6b,#feca57);
-      color:white;padding:20px;text-align:center;
+        background: #2196f3;
+        color: white;
+        padding: 20px;
     }
-    .header h1 {
-      font-size:2.5rem;margin-bottom:10px;
-      text-shadow:2px 2px 4px rgba(0,0,0,0.3);
+    .instructions-panel {
+        background: #fff3cd;
+        margin: 20px;
+        padding: 20px 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        border-left: 6px solid #ff9800;
+        color: #333;
+        font-family: "Trebuchet MS", sans-serif;
+        font-weight: bold;
+        text-align: left;
     }
-    .game-board {
-      display:grid;grid-template-columns:repeat(10,1fr);
-      gap:5px;padding:20px;background:#f8f9fa;
+    .instructions-panel h2 {
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+        color: #e65100;
+        font-weight: bold;
     }
-    .board-cell {
-      aspect-ratio:1;background:#e9ecef;border:2px solid #dee2e6;
-      border-radius:10px;display:flex;align-items:center;justify-content:center;
-      font-weight:bold;font-size:1.2rem;transition:all 0.3s ease;cursor:pointer;
-    }
-    .board-cell:hover {transform:scale(1.05);box-shadow:0 5px 15px rgba(0,0,0,0.2);}
-    .start {background:#28a745;color:white;}
-    .finish {background:#dc3545;color:white;}
-    .player {background:#007bff;color:white;animation:pulse 1s infinite;}
-    @keyframes pulse {0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
-    .question-panel {
-      background:white;margin:20px;padding:25px;border-radius:15px;
-      box-shadow:0 10px 25px rgba(0,0,0,0.1);border-left:5px solid #007bff;
-      font-weight:bold;font-family:Arial, sans-serif;
-    }
-    .question {font-size:1.3rem;margin-bottom:20px;color:#333;}
-    .sequence-display {
-      display:flex;gap:10px;margin:20px 0;flex-wrap:wrap;justify-content:center;
-    }
-    .sequence-item {
-      background:#e3f2fd;border:2px solid #2196f3;border-radius:10px;
-      padding:15px 20px;font-size:1.5rem;font-weight:bold;color:#1976d2;
-      min-width:60px;text-align:center;
-    }
-    .missing {background:#fff3e0;border:2px dashed #ff9800;color:#f57c00;}
-    .answer-input {
-      display:flex;gap:15px;align-items:center;justify-content:center;margin:20px 0;
-    }
-    .answer-input input {
-      padding:12px 20px;font-size:1.2rem;border:2px solid #ddd;border-radius:10px;
-      text-align:center;width:100px;
-    }
-    .answer-input input:focus {
-      outline:none;border-color:#007bff;box-shadow:0 0 10px rgba(0,123,255,0.3);
-    }
-    .btn {
-      background:linear-gradient(45deg,#007bff,#0056b3);color:white;border:none;
-      padding:12px 25px;border-radius:25px;font-size:1.1rem;cursor:pointer;
-      transition:all 0.3s ease;font-weight:bold;
-    }
-    .btn:hover {transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,123,255,0.4);}
-    .stats {
-      display:flex;justify-content:space-around;background:#f8f9fa;
-      padding:20px;margin:20px;border-radius:15px;
-    }
-    .stat-item {text-align:center;}
-    .stat-value {font-size:2rem;font-weight:bold;color:#007bff;}
-    .stat-label {color:#666;margin-top:5px;}
-    .feedback {
-      padding:15px;margin:15px 0;border-radius:10px;text-align:center;
-      font-weight:bold;font-size:1.1rem;
-    }
-    .correct {background:#d4edda;color:#155724;border:1px solid #c3e6cb;}
-    .incorrect {background:#f8d7da;color:#721c24;border:1px solid #f5c6cb;}
-    .sequence-type {
-      background:#e7f3ff;padding:10px 15px;border-radius:20px;
-      display:inline-block;margin-bottom:15px;font-weight:bold;color:#0066cc;
-    }
-    /* Kotak jujukan */
-    .seq-box {
-      display:inline-block;background:#fff;border:2px solid #4caf50;border-radius:8px;
-      padding:8px 14px;margin:4px;font-weight:bold;font-size:1.2rem;min-width:40px;
-      text-align:center;box-shadow:2px 2px 6px rgba(0,0,0,0.1);
-    }
-    @media(max-width:768px){
-      .game-board{grid-template-columns:repeat(5,1fr);}
-      .header h1{font-size:2rem;}
-      .sequence-item{padding:10px 15px;font-size:1.2rem;}
-    }
-    /* Panel arahan */
-    .instruction-panel {
-      background:#fff8e1;padding:20px;margin:20px;border-radius:15px;
-      border-left:6px solid #ff9800;box-shadow:0 8px 20px rgba(0,0,0,0.1);
-      font-weight:bold;font-family:Arial, sans-serif;
-    }
-    .instruction-panel h2 {
-      margin-bottom:10px;color:#e65100;text-align:center;
-      font-size:1.6rem;text-transform:uppercase;
+    .instructions-panel ul {
+        padding-left: 20px;
+        line-height: 1.6;
     }
     .close-btn {
-      float:right;background:#ff5722;color:white;border:none;
-      padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:bold;
+        background: #ff5722;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 8px;
+        float: right;
+        cursor: pointer;
+        font-size: 0.9rem;
     }
-    .close-btn:hover {background:#e64a19;}
-  </style>
+    .quiz-container {
+        margin: 20px auto;
+        max-width: 600px;
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .question {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+    }
+    .seq-box {
+        display: inline-block;
+        background: #ffffff;
+        border: 2px solid #4caf50;
+        border-radius: 8px;
+        padding: 8px 14px;
+        margin: 4px;
+        font-weight: bold;
+        font-size: 1.2rem;
+        min-width: 40px;
+        text-align: center;
+        box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+    }
+    input {
+        padding: 8px;
+        font-size: 1rem;
+        margin-top: 10px;
+    }
+    button {
+        padding: 8px 16px;
+        font-size: 1rem;
+        margin-top: 15px;
+        border: none;
+        border-radius: 8px;
+        background: #4caf50;
+        color: white;
+        cursor: pointer;
+    }
+    button:hover { background: #388e3c; }
+    #feedback { margin-top: 15px; font-weight: bold; }
+    #timer { font-weight: bold; color: red; }
+    .progress-bar {
+        background: #ddd;
+        border-radius: 10px;
+        margin: 20px;
+        height: 20px;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .progress-fill {
+        background: #4caf50;
+        height: 100%;
+        width: 0%;
+        border-radius: 10px;
+        transition: width 0.3s;
+    }
+    #result { font-size: 1.3rem; margin-top: 20px; font-weight: bold; }
+    #restartBtn {
+        display: none;
+        background: #2196f3;
+        margin-top: 20px;
+    }
+</style>
 </head>
 <body>
-  <div class="game-container">
-    <div class="header">
-      <h1>🎯 SEQUENCE QUEST</h1>
-      <p>Kuiz Jujukan Matematik Tingkatan 2</p>
-    </div>
 
-    <!-- Panel Arahan -->
-    <div class="instruction-panel" id="instructionPanel">
-      <button class="close-btn" onclick="closeInstructions()">Tutup</button>
-      <h2>📘 Arahan Kuiz</h2>
-      <p>1. Kuiz ini mempunyai <b>10 soalan rawak</b>.</p>
-      <p>2. Setiap soalan perlu dijawab dalam <b>10 saat</b>.</p>
-      <p>3. Murid akan bergerak ke hadapan jika jawapan betul.</p>
-      <p>4. Skor akan bertambah mengikut tahap kesukaran.</p>
-      <p>5. Tekan <b>Jawab Semula</b> untuk mengulangi kuiz dengan soalan baharu.</p>
-    </div>
-    
-    <div class="stats">
-      <div class="stat-item">
-        <div class="stat-value" id="position">1</div>
-        <div class="stat-label">Kedudukan</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value" id="score">0</div>
-        <div class="stat-label">Markah</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value" id="level">1</div>
-        <div class="stat-label">Tahap</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value" id="timer">10</div>
-        <div class="stat-label">Masa</div>
-      </div>
-    </div>
+<div class="header">
+    <h1>🎯 KUiz Jujukan Matematik</h1>
+    <p>Kuiz Interaktif Tingkatan 2</p>
+</div>
 
-    <div class="game-board" id="gameBoard"></div>
+<!-- 🔹 Panel Arahan -->
+<div class="instructions-panel" id="instructions">
+    <button class="close-btn" onclick="document.getElementById('instructions').style.display='none'">Tutup</button>
+    <h2>📘 Arahan Kuiz</h2>
+    <ul>
+        <li>Murid bermula di kotak <b>MULA</b> (Soalan 1).</li>
+        <li>Lengkapkan jujukan nombor yang diberi dengan mengisi nombor yang hilang.</li>
+        <li>Terdapat <b>10 soalan</b> rawak yang perlu dijawab.</li>
+        <li>Setiap jawapan betul akan menambah markah dan dipaparkan di papan markah.</li>
+        <li>Setiap soalan ada <b>10 saat</b> untuk dijawab ⏳.</li>
+        <li>Jawapan salah akan dipaparkan bersama jawapan sebenar.</li>
+        <li>Kumpul markah tertinggi dan capai keputusan akhir 🏆.</li>
+    </ul>
+</div>
 
-    <div class="question-panel">
-      <div class="sequence-type" id="sequenceType">Jujukan Aritmetik</div>
-      <div class="question" id="question">Lengkapkan jujukan berikut:</div>
-      <div class="sequence-display" id="sequenceDisplay"></div>
+<div class="quiz-container">
+    <div id="scoreboard">Markah: <span id="score">0</span></div>
+    <div id="timer">Masa: 10s</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div id="question" class="question"></div>
+    <input type="number" id="answer" placeholder="Jawapan anda">
+    <br>
+    <button onclick="checkAnswer()">Hantar</button>
+    <div id="feedback"></div>
+    <div id="result"></div>
+    <button id="restartBtn" onclick="restartQuiz()">Jawab Semula 🔄</button>
+</div>
 
-      <div class="answer-input">
-        <input type="number" id="answerInput" placeholder="?">
-        <button class="btn" onclick="checkAnswer()">Jawab</button>
-        <button class="btn" onclick="getHint()" style="background:linear-gradient(45deg,#28a745,#20c997);">Petua</button>
-      </div>
+<script>
+    const allQuestions = [
+        {q: "2, 4, 6, ?", a: "8"},
+        {q: "5, 10, 15, ?", a: "20"},
+        {q: "1, 1, 2, 3, 5, ?", a: "8"},
+        {q: "10, 20, 30, ?", a: "40"},
+        {q: "3, 6, 9, ?", a: "12"},
+        {q: "7, 14, 21, ?", a: "28"},
+        {q: "50, 40, 30, ?", a: "20"},
+        {q: "100, 90, 80, ?", a: "70"},
+        {q: "11, 22, 33, ?", a: "44"},
+        {q: "9, 18, 27, ?", a: "36"},
+        {q: "4, 9, 16, ?", a: "25"},
+        {q: "2, 4, 8, 16, ?", a: "32"},
+        {q: "1, 2, 4, 8, ?", a: "16"},
+        {q: "81, 64, 49, ?", a: "36"},
+        {q: "13, 16, 19, ?", a: "22"}
+    ];
 
-      <div id="feedback"></div>
-      <div style="text-align:center;margin-top:15px;">
-        <button class="btn" onclick="restartQuiz()" style="background:linear-gradient(45deg,#ff9800,#f57c00);">Jawab Semula</button>
-      </div>
-    </div>
-  </div>
+    let questions = [];
+    let current = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 10;
 
-  <script>
-    let currentPosition=1,score=0,level=1,currentQuestion={},timeLeft=10,timer;
-    let totalQuestions=10,answered=0;
-
-    function closeInstructions(){
-      document.getElementById("instructionPanel").style.display="none";
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     }
 
-    function initializeBoard(){
-      const board=document.getElementById('gameBoard');board.innerHTML='';
-      for(let i=1;i<=50;i++){
-        const cell=document.createElement('div');cell.className='board-cell';cell.textContent=i;
-        if(i===1){cell.classList.add('start');cell.textContent='MULA';}
-        else if(i===50){cell.classList.add('finish');cell.textContent='TAMAT';}
-        else if(i===currentPosition){cell.classList.add('player');cell.textContent='👤';}
-        board.appendChild(cell);
-      }
+    function formatSequence(q) {
+        return q.split(",").map(num => {
+            return `<span class="seq-box">${num.trim()}</span>`;
+        }).join("");
     }
 
-    function generateQuestion(){
-      const types=['arithmetic','geometric','square','fibonacci'];
-      const type=types[Math.floor(Math.random()*types.length)];
-      let sequence=[],missing=Math.floor(Math.random()*5)+2,answer=0,typeDisplay='';
-      switch(type){
-        case 'arithmetic':
-          const diff=Math.floor(Math.random()*5)+2;
-          const start=Math.floor(Math.random()*10)+1;
-          for(let i=0;i<6;i++){sequence.push(start+(i*diff));}
-          answer=sequence[missing];typeDisplay='Jujukan Aritmetik';break;
-        case 'geometric':
-          const ratio=Math.floor(Math.random()*3)+2;
-          const firstTerm=Math.floor(Math.random()*5)+1;
-          for(let i=0;i<6;i++){sequence.push(firstTerm*Math.pow(ratio,i));}
-          answer=sequence[missing];typeDisplay='Jujukan Geometri';break;
-        case 'square':
-          for(let i=1;i<=6;i++){sequence.push(i*i);}
-          answer=sequence[missing];typeDisplay='Jujukan Kuasa Dua';break;
-        case 'fibonacci':
-          sequence=[1,1,2,3,5,8];answer=sequence[missing];typeDisplay='Jujukan Fibonacci';break;
-      }
-      currentQuestion={sequence:sequence,missing:missing,answer:answer,type:type};
-      document.getElementById('sequenceType').textContent=typeDisplay;
-      displaySequence();
+    function loadQuestion() {
+        if(current >= questions.length) { endQuiz(); return; }
+        document.getElementById("question").innerHTML =
+            `Soalan ${current+1}: <br><br>` + formatSequence(questions[current].q);
+        document.getElementById("answer").value = "";
+        document.getElementById("feedback").innerText = "";
+        document.getElementById("progressFill").style.width = ((current)/questions.length)*100 + "%";
+        resetTimer();
     }
 
-    function displaySequence(){
-      const display=document.getElementById('sequenceDisplay');display.innerHTML='';
-      currentQuestion.sequence.forEach((num,index)=>{
-        const item=document.createElement('span');item.className='seq-box';
-        if(index===currentQuestion.missing){item.textContent='?';item.style.border='2px dashed #ff9800';}
-        else{item.textContent=num;}
-        display.appendChild(item);
-      });
+    function checkAnswer() {
+        let ans = document.getElementById("answer").value;
+        if(ans === "") return;
+        if(ans == questions[current].a) {
+            document.getElementById("feedback").innerHTML = "✅ Betul!";
+            score++;
+            document.getElementById("score").innerText = score;
+        } else {
+            document.getElementById("feedback").innerHTML =
+                `❌ Salah. Jawapan sebenar: <b>${questions[current].a}</b>`;
+        }
+        current++;
+        setTimeout(loadQuestion, 1000);
     }
 
-    function checkAnswer(){
-      const userAnswer=parseInt(document.getElementById('answerInput').value);
-      const feedback=document.getElementById('feedback');
-      clearInterval(timer);
-      if(userAnswer===currentQuestion.answer){
-        feedback.innerHTML='🎉 Betul! Tahniah!';feedback.className='feedback correct';
-        score+=10*level;currentPosition=Math.min(currentPosition+1,50);answered++;
-        if(currentPosition%10===0){level++;}
-        updateStats();initializeBoard();
-        setTimeout(()=>{nextQuestion();},1500);
-      }else{
-        feedback.innerHTML=`❌ Salah! Jawapan yang betul ialah ${currentQuestion.answer}`;
-        feedback.className='feedback incorrect';answered++;
-        setTimeout(()=>{nextQuestion();},2000);
-      }
+    function resetTimer() {
+        clearInterval(timer);
+        timeLeft = 10;
+        document.getElementById("timer").innerText = "Masa: " + timeLeft + "s";
+        timer = setInterval(() => {
+            timeLeft--;
+            document.getElementById("timer").innerText = "Masa: " + timeLeft + "s";
+            if(timeLeft <= 0) {
+                clearInterval(timer);
+                document.getElementById("feedback").innerHTML =
+                    `⏰ Masa tamat! Jawapan sebenar: <b>${questions[current].a}</b>`;
+                current++;
+                setTimeout(loadQuestion, 1500);
+            }
+        }, 1000);
     }
 
-    function getHint(){
-      const feedback=document.getElementById('feedback');let hint='';
-      switch(currentQuestion.type){
-        case 'arithmetic':
-          const diff=currentQuestion.sequence[1]-currentQuestion.sequence[0];
-          hint=`💡 Petua: Jujukan aritmetik, beza = ${diff}.`;break;
-        case 'geometric':
-          const ratio=currentQuestion.sequence[1]/currentQuestion.sequence[0];
-          hint=`💡 Petua: Jujukan geometri, nisbah = ${ratio}.`;break;
-        case 'square':hint=`💡 Petua: Jujukan kuasa dua, n².`;break;
-        case 'fibonacci':hint=`💡 Petua: Jujukan Fibonacci, tambah dua sebutan sebelum.`;break;
-      }
-      feedback.innerHTML=hint;feedback.className='feedback';
-      feedback.style.background='#fff3cd';feedback.style.color='#856404';
-      feedback.style.border='1px solid #ffeaa7';
+    function endQuiz() {
+        clearInterval(timer);
+        document.getElementById("question").innerHTML = "🎉 Kuiz Tamat!";
+        document.getElementById("result").innerHTML =
+            `Markah Akhir: ${score} / ${questions.length}`;
+        document.getElementById("restartBtn").style.display = "inline-block";
     }
 
-    function updateStats(){
-      document.getElementById('position').textContent=currentPosition;
-      document.getElementById('score').textContent=score;
-      document.getElementById('level').textContent=level;
+    function restartQuiz() {
+        questions = shuffle(allQuestions).slice(0,10);
+        current = 0;
+        score = 0;
+        document.getElementById("score").innerText = score;
+        document.getElementById("result").innerText = "";
+        document.getElementById("restartBtn").style.display = "none";
+        loadQuestion();
     }
 
-    function resetTimer(){
-      clearInterval(timer);timeLeft=10;
-      document.getElementById('timer').textContent=timeLeft;
-      timer=setInterval(()=>{
-        timeLeft--;document.getElementById('timer').textContent=timeLeft;
-        if(timeLeft<=0){clearInterval(timer);checkAnswer();}
-      },1000);
-    }
+    // mula kuiz
+    restartQuiz();
+</script>
 
-    function nextQuestion(){
-      if(answered>=totalQuestions){
-        document.getElementById('feedback').innerHTML='🏆 Kuiz Tamat! Skor anda: '+score;
-        document.getElementById('feedback').className='feedback correct';
-        return;
-      }
-      generateQuestion();
-      document.getElementById('answerInput').value='';
-      document.getElementById('feedback').innerHTML='';
-      resetTimer();
-    }
-
-    function restartQuiz(){
-      currentPosition=1;score=0;level=1;answered=0;
-      updateStats();initializeBoard();generateQuestion();resetTimer();
-      document.getElementById('feedback').innerHTML='';
-      document.getElementById('answerInput').value='';
-    }
-
-    // Enter key event
-    document.getElementById('answerInput').addEventListener('keypress',function(e){
-      if(e.key==='Enter'){checkAnswer();}
-    });
-
-    // Initialize
-    initializeBoard();generateQuestion();resetTimer();
-  </script>
 </body>
 </html>
