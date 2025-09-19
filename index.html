@@ -1,1657 +1,247 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pola / Patterns - Matematik Tingkatan 2</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fredoka+One:wght@400&family=Nunito:wght@400;600;700;800&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            color: white;
-        }
-        
-        .header h1 {
-            font-family: 'Fredoka One', cursive;
-            font-size: 3rem;
-            font-weight: 400;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            letter-spacing: 2px;
-        }
-        
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        .language-toggle {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-        
-        .lang-btn {
-            padding: 10px 20px;
-            border: 2px solid white;
-            background: transparent;
-            color: white;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .lang-btn.active {
-            background: white;
-            color: #667eea;
-        }
-        
-        .lang-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .lang-btn.active:hover {
-            background: white;
-        }
-        
-        .progress-bar {
-            background: rgba(255, 255, 255, 0.2);
-            height: 8px;
-            border-radius: 4px;
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            background: white;
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.3s ease;
-            width: 0%;
-        }
-        
-        .card-container {
-            perspective: 1000px;
-            margin-bottom: 30px;
-        }
-        
-        .flashcard {
-            width: 100%;
-            max-width: 600px;
-            height: 400px;
-            margin: 0 auto;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s;
-            cursor: pointer;
-        }
-        
-        .flashcard.flipped {
-            transform: rotateY(180deg);
-        }
-        
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 20px;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-        
-        .card-front {
-            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
-            color: #2c2c2c;
-        }
-        
-        .card-back {
-            background: linear-gradient(135deg, #48cae4 0%, #023e8a 100%);
-            color: white;
-            transform: rotateY(180deg);
-        }
-        
-        .card-title {
-            font-family: 'Nunito', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-        }
-        
-        .card-content {
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-        
-        .pattern-visual {
-            margin: 20px 0;
-            font-size: 2.5rem;
-            letter-spacing: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .shape {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            margin: 5px;
-            border-radius: 50%;
-            position: relative;
-        }
-        
-        .shape.circle {
-            border-radius: 50%;
-        }
-        
-        .shape.square {
-            border-radius: 8px;
-        }
-        
-        .shape.triangle {
-            width: 0;
-            height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-radius: 0;
-            margin: 10px;
-        }
-        
-        .shape.red { background-color: #ff6b6b; }
-        .shape.blue { background-color: #4ecdc4; }
-        .shape.green { background-color: #45b7d1; }
-        .shape.yellow { background-color: #f9ca24; }
-        .shape.purple { background-color: #a55eea; }
-        
-        .shape.triangle.red { border-bottom: 35px solid #ff6b6b; }
-        .shape.triangle.blue { border-bottom: 35px solid #4ecdc4; }
-        .shape.triangle.green { border-bottom: 35px solid #45b7d1; }
-        .shape.triangle.yellow { border-bottom: 35px solid #f9ca24; }
-        .shape.triangle.purple { border-bottom: 35px solid #a55eea; }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-        
-        .btn {
-            padding: 14px 28px;
-            border: none;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-        
-        .btn:hover::before {
-            left: 100%;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #ff5252 0%, #ffb300 100%);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        .btn-secondary {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-        }
-        
-        .btn-secondary:hover {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px);
-        }
-        
-        .interactive-features {
-            margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .feature-row {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .btn-feature {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            color: #333;
-            padding: 10px 18px;
-            font-size: 0.9rem;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-feature:hover {
-            background: linear-gradient(135deg, #96e6db 0%, #fcc8d1 100%);
-            transform: translateY(-2px);
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-        }
-        
-        .modal-content {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 10% auto;
-            padding: 30px;
-            border-radius: 20px;
-            width: 80%;
-            max-width: 500px;
-            color: white;
-            position: relative;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        .close {
-            position: absolute;
-            right: 20px;
-            top: 15px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            color: white;
-        }
-        
-        .close:hover {
-            opacity: 0.7;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .stat-item {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #feca57;
-            font-family: 'Nunito', sans-serif;
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            margin-top: 5px;
-            opacity: 0.9;
-        }
-        
-        .learned-card {
-            border: 3px solid #feca57 !important;
-            box-shadow: 0 0 20px rgba(254, 202, 87, 0.5) !important;
-        }
-        
-        .dark-mode {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
-        }
-        
-        .dark-mode .card-front {
-            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%) !important;
-            color: white !important;
-        }
-        
-        .dark-mode .card-back {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
-        }
-        
-        .card-counter {
-            color: white;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-        
-        .flip-hint {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
-        }
-        
-        .instruction-panel {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            overflow: hidden;
-        }
-        
-        .instruction-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 25px;
-            background: rgba(255, 255, 255, 0.05);
-            cursor: pointer;
-        }
-        
-        .instruction-header h3 {
-            color: white;
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin: 0;
-        }
-        
-        .instruction-toggle {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-        
-        .instruction-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .instruction-content {
-            padding: 0 25px 25px 25px;
-            max-height: none;
-            overflow: visible;
-            transition: all 0.3s ease;
-        }
-        
-        .instruction-content.collapsed {
-            max-height: 0;
-            padding: 0 25px;
-            overflow: hidden;
-        }
-        
-        .instruction-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .instruction-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .instruction-icon {
-            font-size: 2rem;
-            flex-shrink: 0;
-        }
-        
-        .instruction-text {
-            color: white;
-        }
-        
-        .instruction-text strong {
-            display: block;
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-            color: #feca57;
-        }
-        
-        .instruction-text p {
-            font-size: 0.95rem;
-            line-height: 1.5;
-            opacity: 0.9;
-            margin: 0;
-        }
-        
-        /* Tablet Styles */
-        @media (max-width: 1024px) {
-            .container {
-                max-width: 95%;
-                padding: 0 10px;
-            }
-            
-            .header h1 {
-                font-size: 2.5rem;
-            }
-            
-            .flashcard {
-                max-width: 550px;
-                height: 380px;
-            }
-            
-            .instruction-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 18px;
-            }
-        }
-        
-        /* Mobile Landscape */
-        @media (max-width: 768px) {
-            body {
-                padding: 15px 10px;
-            }
-            
-            .container {
-                max-width: 100%;
-            }
-            
-            .header {
-                margin-bottom: 25px;
-            }
-            
-            .header h1 {
-                font-size: 2.2rem;
-                margin-bottom: 8px;
-            }
-            
-            .header p {
-                font-size: 1.1rem;
-            }
-            
-            .instruction-panel {
-                margin-bottom: 25px;
-            }
-            
-            .instruction-header {
-                padding: 18px 22px;
-            }
-            
-            .instruction-header h3 {
-                font-size: 1.2rem;
-            }
-            
-            .instruction-content {
-                padding: 0 22px 22px 22px;
-                max-height: none;
-                overflow: visible;
-            }
-            
-            .instruction-content.collapsed {
-                max-height: 0;
-                padding: 0 22px;
-                overflow: hidden;
-            }
-            
-            .instruction-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-                margin-top: 18px;
-            }
-            
-            .instruction-item {
-                padding: 18px;
-                gap: 14px;
-            }
-            
-            .instruction-icon {
-                font-size: 1.6rem;
-            }
-            
-            .instruction-text strong {
-                font-size: 1.05rem;
-                margin-bottom: 8px;
-            }
-            
-            .instruction-text p {
-                font-size: 0.95rem;
-                line-height: 1.4;
-            }
-            
-            .flashcard {
-                height: 320px;
-                max-width: 100%;
-            }
-            
-            .card-face {
-                padding: 25px 18px;
-            }
-            
-            .card-title {
-                font-size: 1.5rem;
-                margin-bottom: 18px;
-            }
-            
-            .card-content {
-                font-size: 1.05rem;
-                line-height: 1.5;
-            }
-            
-            .controls {
-                gap: 12px;
-                margin-bottom: 25px;
-            }
-            
-            .controls .btn {
-                padding: 14px 20px;
-                font-size: 0.95rem;
-                min-width: 120px;
-            }
-            
-            .pattern-visual {
-                font-size: 2rem;
-                letter-spacing: 10px;
-                gap: 8px;
-                margin: 18px 0;
-            }
-            
-            .shape {
-                width: 35px;
-                height: 35px;
-                margin: 4px;
-            }
-            
-            .language-toggle {
-                gap: 12px;
-                margin-bottom: 25px;
-            }
-            
-            .lang-btn {
-                padding: 12px 20px;
-                font-size: 0.95rem;
-            }
-            
-            .feature-row {
-                gap: 12px;
-            }
-            
-            .btn-feature {
-                padding: 12px 18px;
-                font-size: 0.9rem;
-                min-width: 140px;
-            }
-            
-            .card-counter {
-                font-size: 1.05rem;
-                margin-bottom: 18px;
-            }
-            
-            .flip-hint {
-                font-size: 0.95rem;
-                bottom: 15px;
-            }
-        }
-        
-        /* Mobile Portrait */
-        @media (max-width: 480px) {
-            body {
-                padding: 12px 8px;
-            }
-            
-            .header {
-                margin-bottom: 20px;
-            }
-            
-            .header h1 {
-                font-size: 1.9rem;
-                letter-spacing: 1px;
-            }
-            
-            .header p {
-                font-size: 1rem;
-            }
-            
-            .instruction-panel {
-                margin-bottom: 20px;
-            }
-            
-            .instruction-header {
-                padding: 15px 18px;
-            }
-            
-            .instruction-header h3 {
-                font-size: 1.1rem;
-            }
-            
-            .instruction-content {
-                padding: 0 18px 18px 18px;
-                max-height: none;
-                overflow: visible;
-            }
-            
-            .instruction-content.collapsed {
-                max-height: 0;
-                padding: 0 18px;
-                overflow: hidden;
-            }
-            
-            .instruction-item {
-                padding: 15px;
-                gap: 12px;
-            }
-            
-            .instruction-icon {
-                font-size: 1.4rem;
-            }
-            
-            .instruction-text strong {
-                font-size: 1rem;
-                margin-bottom: 6px;
-            }
-            
-            .instruction-text p {
-                font-size: 0.9rem;
-                line-height: 1.4;
-            }
-            
-            .flashcard {
-                height: 300px;
-            }
-            
-            .card-face {
-                padding: 20px 15px;
-            }
-            
-            .card-title {
-                font-size: 1.3rem;
-                margin-bottom: 15px;
-            }
-            
-            .card-content {
-                font-size: 1rem;
-                line-height: 1.4;
-            }
-            
-            .controls {
-                gap: 10px;
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .controls .btn {
-                width: 100%;
-                max-width: 280px;
-                padding: 12px 16px;
-                font-size: 0.9rem;
-            }
-            
-            .pattern-visual {
-                font-size: 1.6rem;
-                letter-spacing: 6px;
-                gap: 6px;
-                margin: 15px 0;
-            }
-            
-            .shape {
-                width: 28px;
-                height: 28px;
-                margin: 3px;
-            }
-            
-            .shape.triangle {
-                border-left: 14px solid transparent;
-                border-right: 14px solid transparent;
-                margin: 8px 3px;
-            }
-            
-            .shape.triangle.red { border-bottom: 25px solid #ff6b6b; }
-            .shape.triangle.blue { border-bottom: 25px solid #4ecdc4; }
-            .shape.triangle.green { border-bottom: 25px solid #45b7d1; }
-            .shape.triangle.yellow { border-bottom: 25px solid #f9ca24; }
-            .shape.triangle.purple { border-bottom: 25px solid #a55eea; }
-            
-            .language-toggle {
-                gap: 10px;
-                margin-bottom: 20px;
-            }
-            
-            .lang-btn {
-                padding: 10px 18px;
-                font-size: 0.9rem;
-                flex: 1;
-                max-width: 140px;
-            }
-            
-            .feature-row {
-                gap: 10px;
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn-feature {
-                padding: 12px 16px;
-                font-size: 0.85rem;
-                width: 100%;
-                max-width: 280px;
-                text-align: center;
-            }
-            
-            .card-counter {
-                font-size: 1rem;
-                margin-bottom: 15px;
-            }
-            
-            .flip-hint {
-                font-size: 0.85rem;
-                bottom: 12px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-            
-            .stat-item {
-                padding: 15px 10px;
-            }
-            
-            .stat-number {
-                font-size: 2rem;
-            }
-            
-            .stat-label {
-                font-size: 0.8rem;
-            }
-            
-            .modal-content {
-                width: 95%;
-                margin: 5% auto;
-                padding: 20px 15px;
-                max-height: 85vh;
-                overflow-y: auto;
-            }
-            
-            .modal-content h2 {
-                font-size: 1.3rem;
-                margin-bottom: 15px;
-            }
-            
-            .progress-bar {
-                margin-bottom: 20px;
-                height: 10px;
-            }
-            
-            .interactive-features {
-                margin-top: 25px;
-                gap: 12px;
-            }
-        }
-        
-        /* Extra Small Mobile */
-        @media (max-width: 360px) {
-            .header h1 {
-                font-size: 1.7rem;
-            }
-            
-            .flashcard {
-                height: 280px;
-            }
-            
-            .card-face {
-                padding: 18px 12px;
-            }
-            
-            .card-title {
-                font-size: 1.2rem;
-                margin-bottom: 12px;
-            }
-            
-            .card-content {
-                font-size: 0.95rem;
-            }
-            
-            .controls .btn {
-                max-width: 260px;
-                padding: 11px 14px;
-                font-size: 0.85rem;
-            }
-            
-            .btn-feature {
-                max-width: 260px;
-                padding: 11px 14px;
-                font-size: 0.8rem;
-            }
-            
-            .lang-btn {
-                padding: 9px 16px;
-                font-size: 0.85rem;
-                max-width: 120px;
-            }
-            
-            .instruction-header {
-                padding: 12px 15px;
-            }
-            
-            .instruction-content {
-                padding: 0 15px 15px 15px;
-                max-height: none;
-                overflow: visible;
-            }
-            
-            .instruction-content.collapsed {
-                max-height: 0;
-                padding: 0 15px;
-                overflow: hidden;
-            }
-            
-            .instruction-item {
-                padding: 12px;
-                gap: 10px;
-            }
-            
-            .modal-content {
-                padding: 18px 12px;
-            }
-        }
-        
-        /* Large Desktop */
-        @media (min-width: 1200px) {
-            .container {
-                max-width: 1100px;
-            }
-            
-            .header h1 {
-                font-size: 3.2rem;
-            }
-            
-            .flashcard {
-                max-width: 650px;
-                height: 420px;
-            }
-            
-            .card-face {
-                padding: 45px;
-            }
-            
-            .card-title {
-                font-size: 2rem;
-                margin-bottom: 25px;
-            }
-            
-            .card-content {
-                font-size: 1.2rem;
-                line-height: 1.7;
-            }
-            
-            .instruction-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 25px;
-            }
-            
-            .instruction-item {
-                padding: 25px;
-                gap: 18px;
-            }
-            
-            .instruction-icon {
-                font-size: 2.2rem;
-            }
-            
-            .instruction-text strong {
-                font-size: 1.2rem;
-                margin-bottom: 10px;
-            }
-            
-            .instruction-text p {
-                font-size: 1rem;
-                line-height: 1.6;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sequence Quest - Tingkatan 2</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #d4fc79, #96e6a1);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .header {
+      background: #4CAF50;
+      color: white;
+      padding: 20px;
+      border-radius: 0 0 20px 20px;
+    }
+
+    .header h1 {
+      margin: 0;
+    }
+
+    /* 🔹 Panel Arahan */
+    .instructions-panel {
+      background: #fff8e1;
+      margin: 20px;
+      padding: 20px 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-left: 6px solid #ff9800;
+      color: #333;
+      position: relative;
+    }
+
+    .instructions-panel h2 {
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      color: #e65100;
+    }
+
+    .instructions-panel ul {
+      padding-left: 20px;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: #ff5722;
+      border: none;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .close-btn:hover {
+      background: #e64a19;
+    }
+
+    .reopen-btn {
+      display: none;
+      margin: 10px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #2196f3;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .reopen-btn:hover {
+      background: #1976d2;
+    }
+
+    /* Papan markah */
+    .scoreboard {
+      margin: 20px auto;
+      padding: 15px;
+      background: white;
+      width: 200px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    /* Kotak soalan */
+    .question-box {
+      background: #ffffff;
+      margin: 20px auto;
+      padding: 25px;
+      width: 80%;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .question-box h2 {
+      margin-bottom: 15px;
+    }
+
+    input[type="number"] {
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin: 5px;
+      width: 80px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #4CAF50;
+      color: white;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    .feedback {
+      font-size: 18px;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .wrong {
+      color: red;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Pola / Patterns</h1>
-            <p>Matematik Tingkatan 2 - Bab 1</p>
-        </div>
-        
-        <!-- Instruction Panel -->
-        <div class="instruction-panel">
-            <div class="instruction-header">
-                <h3 id="instruction-main-title">📚 Arahan Penggunaan Flash Card</h3>
-                <button class="instruction-toggle" onclick="toggleInstructions()">
-                    <span id="toggle-icon">▼</span>
-                </button>
-            </div>
-            <div class="instruction-content" id="instruction-content">
-                <div class="instruction-grid">
-                    <div class="instruction-item">
-                        <div class="instruction-icon">🖱️</div>
-                        <div class="instruction-text">
-                            <strong id="flip-title">Cara Flip Kad:</strong>
-                            <p id="flip-desc">Klik pada kad atau tekan Spacebar untuk membalikkan kad dan lihat jawapan</p>
-                        </div>
-                    </div>
-                    <div class="instruction-item">
-                        <div class="instruction-icon">⭐</div>
-                        <div class="instruction-text">
-                            <strong id="mark-title">Tandakan Sudah Faham:</strong>
-                            <p id="mark-desc">Klik butang "Sudah Faham" untuk tandakan kad yang dah faham. Kad akan ada border emas</p>
-                        </div>
-                    </div>
-                    <div class="instruction-item">
-                        <div class="instruction-icon">▶️</div>
-                        <div class="instruction-text">
-                            <strong id="auto-title">Auto Play:</strong>
-                            <p id="auto-desc">Aktifkan auto play untuk flip dan tukar kad secara automatik setiap 3 saat</p>
-                        </div>
-                    </div>
-                    <div class="instruction-item">
-                        <div class="instruction-icon">📊</div>
-                        <div class="instruction-text">
-                            <strong id="stats-title-inst">Statistik:</strong>
-                            <p id="stats-desc">Tengok progress pembelajaran - berapa kad sudah faham, kali flip, dan masa belajar</p>
-                        </div>
-                    </div>
-                    <div class="instruction-item">
-                        <div class="instruction-icon">📝</div>
-                        <div class="instruction-text">
-                            <strong id="export-title-inst">Export Nota:</strong>
-                            <p id="export-desc">Muat turun semua kad sebagai fail teks untuk rujukan offline dan ulangkaji</p>
-                        </div>
-                    </div>
-                    <div class="instruction-item">
-                        <div class="instruction-icon">🌙</div>
-                        <div class="instruction-text">
-                            <strong id="theme-title-inst">Tema & Lain-lain:</strong>
-                            <p id="theme-desc">Tukar tema gelap/terang, reset progress, atau kacau susunan kad</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="language-toggle">
-            <button class="lang-btn active" onclick="setLanguage('bm')">Bahasa Melayu</button>
-            <button class="lang-btn" onclick="setLanguage('en')">English</button>
-        </div>
-        
-        <div class="card-counter">
-            <span id="current-card">1</span> / <span id="total-cards">8</span>
-        </div>
-        
-        <div class="progress-bar">
-            <div class="progress-fill" id="progress"></div>
-        </div>
-        
-        <div class="card-container">
-            <div class="flashcard" id="flashcard" onclick="flipCard()">
-                <div class="card-face card-front">
-                    <div class="card-title" id="front-title">Apakah pola?</div>
-                    <div class="card-content" id="front-content">
-                        Terangkan konsep asas pola dalam matematik.
-                    </div>
-                </div>
-                <div class="card-face card-back">
-                    <div class="card-title" id="back-title">Jawapan</div>
-                    <div class="card-content" id="back-content">
-                        Pola ialah susunan objek, nombor atau bentuk yang mengikut peraturan tertentu dan berulang secara konsisten.
-                    </div>
-                </div>
-            </div>
-            <div class="flip-hint">Klik kad untuk membalikkan</div>
-        </div>
-        
-        <div class="controls">
-            <button class="btn btn-secondary" onclick="previousCard()">⬅ Sebelum</button>
-            <button class="btn btn-primary" onclick="flipCard()">Balikkan Kad</button>
-            <button class="btn btn-secondary" onclick="nextCard()">Seterusnya ➡</button>
-            <button class="btn btn-secondary" onclick="shuffleCards()">🔀 Kacau</button>
-        </div>
-        
-        <div class="interactive-features">
-            <div class="feature-row">
-                <button class="btn btn-feature" onclick="toggleAutoPlay()">
-                    <span id="autoplay-icon">▶️</span> <span id="autoplay-text">Auto Play</span>
-                </button>
-                <button class="btn btn-feature" onclick="markAsLearned()">
-                    <span id="learned-icon">⭐</span> <span id="learned-text">Sudah Faham</span>
-                </button>
-                <button class="btn btn-feature" onclick="showStats()">
-                    📊 <span id="stats-text">Statistik</span>
-                </button>
-            </div>
-            <div class="feature-row">
-                <button class="btn btn-feature" onclick="resetProgress()">
-                    🔄 <span id="reset-text">Reset</span>
-                </button>
-                <button class="btn btn-feature" onclick="toggleDarkMode()">
-                    🌙 <span id="theme-text">Tema Gelap</span>
-                </button>
-                <button class="btn btn-feature" onclick="exportToText()">
-                    📝 <span id="export-text">Export Nota</span>
-                </button>
-            </div>
-        </div>
-        
-        <!-- Stats Modal -->
-        <div id="stats-modal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeStats()">&times;</span>
-                <h2 id="stats-title">Statistik Pembelajaran</h2>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-number" id="total-cards-stat">8</div>
-                        <div class="stat-label" id="total-label">Jumlah Kad</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" id="learned-cards">0</div>
-                        <div class="stat-label" id="learned-label">Sudah Faham</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" id="flip-count">0</div>
-                        <div class="stat-label" id="flip-label">Kali Flip</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" id="study-time">0</div>
-                        <div class="stat-label" id="time-label">Minit Belajar</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div class="header">
+    <h1>🎯 SEQUENCE QUEST</h1>
+    <p>Permainan Jujukan Matematik Tingkatan 2</p>
+  </div>
 
-    <script>
-        let currentLanguage = 'bm';
-        let currentCardIndex = 0;
-        let isFlipped = false;
-        let autoPlayInterval = null;
-        let isAutoPlaying = false;
-        let learnedCards = new Set();
-        let flipCount = 0;
-        let startTime = Date.now();
-        let isDarkMode = false;
-        
-        const flashcards = {
-            bm: [
-                {
-                    front: {
-                        title: "Apakah pola?",
-                        content: "Terangkan konsep asas pola dalam matematik."
-                    },
-                    back: {
-                        title: "Jawapan",
-                        content: "Pola ialah susunan objek, nombor atau bentuk yang mengikut peraturan tertentu dan berulang secara konsisten."
-                    }
-                },
-                {
-                    front: {
-                        title: "Jenis-jenis Pola",
-                        content: "Nyatakan tiga jenis pola utama."
-                    },
-                    back: {
-                        title: "Jawapan",
-                        content: "1. Pola Nombor (contoh: 2, 4, 6, 8...)\n2. Pola Bentuk (contoh: ○△□○△□...)\n3. Pola Warna (contoh: merah-biru-hijau-merah-biru-hijau...)"
-                    }
-                },
-                {
-                    front: {
-                        title: "Urutan Nombor",
-                        content: "Cari sebutan seterusnya:\n5, 10, 15, 20, ?"
-                    },
-                    back: {
-                        title: "Jawapan: 25",
-                        content: "Pola: +5 setiap sebutan\n5 → 10 → 15 → 20 → 25\nIni adalah urutan aritmetik dengan beza sepunya = 5"
-                    }
-                },
-                {
-                    front: {
-                        title: "Pola Bentuk",
-                        content: "Lakarkan corak seterusnya:"
-                    },
-                    back: {
-                        title: "Jawapan",
-                        content: "Pola berulang: bulatan merah, segi empat biru, segitiga hijau\nCorak berulang setiap 3 unit\nJawapan: Bulatan merah"
-                    }
-                },
-                {
-                    front: {
-                        title: "Urutan Kuasa Dua",
-                        content: "Cari pola:\n1, 4, 9, 16, ?"
-                    },
-                    back: {
-                        title: "Jawapan: 25",
-                        content: "Pola: Kuasa dua nombor asli\n1² = 1, 2² = 4, 3² = 9, 4² = 16, 5² = 25\nSebutan ke-n = n²"
-                    }
-                },
-                {
-                    front: {
-                        title: "Pola Fibonacci",
-                        content: "Teruskan urutan:\n1, 1, 2, 3, 5, 8, ?"
-                    },
-                    back: {
-                        title: "Jawapan: 13",
-                        content: "Pola Fibonacci: Setiap sebutan = jumlah dua sebutan sebelumnya\n1+1=2, 1+2=3, 2+3=5, 3+5=8, 5+8=13"
-                    }
-                },
-                {
-                    front: {
-                        title: "Rumus Sebutan ke-n",
-                        content: "Untuk urutan 3, 6, 9, 12...\nCari rumus sebutan ke-n"
-                    },
-                    back: {
-                        title: "Jawapan: Tn = 3n",
-                        content: "Sebutan pertama (T₁) = 3×1 = 3\nSebutan kedua (T₂) = 3×2 = 6\nSebutan ketiga (T₃) = 3×3 = 9\nMaka, Tn = 3n"
-                    }
-                },
-                {
-                    front: {
-                        title: "Aplikasi Pola",
-                        content: "Berikan contoh pola dalam kehidupan seharian."
-                    },
-                    back: {
-                        title: "Jawapan",
-                        content: "• Hari dalam seminggu (Isnin-Ahad berulang)\n• Bulan dalam tahun (Jan-Dis berulang)\n• Corak pada kain batik\n• Susunan bata pada dinding\n• Nada muzik dalam lagu"
-                    }
-                }
-            ],
-            en: [
-                {
-                    front: {
-                        title: "What is a pattern?",
-                        content: "Explain the basic concept of patterns in mathematics."
-                    },
-                    back: {
-                        title: "Answer",
-                        content: "A pattern is an arrangement of objects, numbers, or shapes that follows a specific rule and repeats consistently."
-                    }
-                },
-                {
-                    front: {
-                        title: "Types of Patterns",
-                        content: "State three main types of patterns."
-                    },
-                    back: {
-                        title: "Answer",
-                        content: "1. Number Patterns (e.g., 2, 4, 6, 8...)\n2. Shape Patterns (e.g., ○△□○△□...)\n3. Color Patterns (e.g., red-blue-green-red-blue-green...)"
-                    }
-                },
-                {
-                    front: {
-                        title: "Number Sequence",
-                        content: "Find the next term:\n5, 10, 15, 20, ?"
-                    },
-                    back: {
-                        title: "Answer: 25",
-                        content: "Pattern: +5 each term\n5 → 10 → 15 → 20 → 25\nThis is an arithmetic sequence with common difference = 5"
-                    }
-                },
-                {
-                    front: {
-                        title: "Shape Pattern",
-                        content: "Draw the next pattern:"
-                    },
-                    back: {
-                        title: "Answer",
-                        content: "Repeating pattern: red circle, blue square, green triangle\nPattern repeats every 3 units\nAnswer: Red circle"
-                    }
-                },
-                {
-                    front: {
-                        title: "Square Number Sequence",
-                        content: "Find the pattern:\n1, 4, 9, 16, ?"
-                    },
-                    back: {
-                        title: "Answer: 25",
-                        content: "Pattern: Perfect squares\n1² = 1, 2² = 4, 3² = 9, 4² = 16, 5² = 25\nnth term = n²"
-                    }
-                },
-                {
-                    front: {
-                        title: "Fibonacci Pattern",
-                        content: "Continue the sequence:\n1, 1, 2, 3, 5, 8, ?"
-                    },
-                    back: {
-                        title: "Answer: 13",
-                        content: "Fibonacci pattern: Each term = sum of two previous terms\n1+1=2, 1+2=3, 2+3=5, 3+5=8, 5+8=13"
-                    }
-                },
-                {
-                    front: {
-                        title: "nth Term Formula",
-                        content: "For sequence 3, 6, 9, 12...\nFind the nth term formula"
-                    },
-                    back: {
-                        title: "Answer: Tn = 3n",
-                        content: "First term (T₁) = 3×1 = 3\nSecond term (T₂) = 3×2 = 6\nThird term (T₃) = 3×3 = 9\nTherefore, Tn = 3n"
-                    }
-                },
-                {
-                    front: {
-                        title: "Pattern Applications",
-                        content: "Give examples of patterns in daily life."
-                    },
-                    back: {
-                        title: "Answer",
-                        content: "• Days of the week (Mon-Sun repeating)\n• Months of the year (Jan-Dec repeating)\n• Batik fabric designs\n• Brick arrangements on walls\n• Musical notes in songs"
-                    }
-                }
-            ]
-        };
-        
-        function setLanguage(lang) {
-            currentLanguage = lang;
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            updateCard();
-            updateControls();
-            updateControlsLanguage();
-        }
-        
-        function updateCard() {
-            const card = flashcards[currentLanguage][currentCardIndex];
-            document.getElementById('front-title').textContent = card.front.title;
-            document.getElementById('back-title').textContent = card.back.title;
-            
-            // Special handling for shape pattern cards
-            if (currentCardIndex === 3) {
-                if (card.front.title.includes('Bentuk') || card.front.title.includes('Shape')) {
-                    document.getElementById('front-content').innerHTML = `
-                        ${card.front.content}
-                        <div class="pattern-visual">
-                            <div class="shape circle red"></div>
-                            <div class="shape square blue"></div>
-                            <div class="shape triangle green"></div>
-                            <div class="shape circle red"></div>
-                            <div class="shape square blue"></div>
-                            <div class="shape triangle green"></div>
-                            <div style="font-size: 2rem; margin: 0 10px;">?</div>
-                        </div>
-                    `;
-                } else {
-                    document.getElementById('front-content').textContent = card.front.content;
-                }
-                
-                document.getElementById('back-content').innerHTML = `
-                    ${card.back.content}
-                    <div class="pattern-visual">
-                        <div class="shape circle red"></div>
-                        <div class="shape square blue"></div>
-                        <div class="shape triangle green"></div>
-                        <div class="shape circle red"></div>
-                        <div class="shape square blue"></div>
-                        <div class="shape triangle green"></div>
-                        <div class="shape circle red" style="border: 3px solid #fff; box-shadow: 0 0 10px rgba(255,255,255,0.8);"></div>
-                    </div>
-                `;
-            } else {
-                document.getElementById('front-content').textContent = card.front.content;
-                document.getElementById('back-content').textContent = card.back.content;
-            }
-            
-            // Reset flip state
-            document.getElementById('flashcard').classList.remove('flipped');
-            isFlipped = false;
-            
-            // Update progress
-            const progress = ((currentCardIndex + 1) / flashcards[currentLanguage].length) * 100;
-            document.getElementById('progress').style.width = progress + '%';
-            
-            // Update counter
-            document.getElementById('current-card').textContent = currentCardIndex + 1;
-            document.getElementById('total-cards').textContent = flashcards[currentLanguage].length;
-        }
-        
-        function updateControls() {
-            const controls = document.querySelector('.controls');
-            if (currentLanguage === 'bm') {
-                controls.innerHTML = `
-                    <button class="btn btn-secondary" onclick="previousCard()">⬅ Sebelum</button>
-                    <button class="btn btn-primary" onclick="flipCard()">Balikkan Kad</button>
-                    <button class="btn btn-secondary" onclick="nextCard()">Seterusnya ➡</button>
-                    <button class="btn btn-secondary" onclick="shuffleCards()">🔀 Kacau</button>
-                `;
-                document.querySelector('.flip-hint').textContent = 'Klik kad untuk membalikkan';
-            } else {
-                controls.innerHTML = `
-                    <button class="btn btn-secondary" onclick="previousCard()">⬅ Previous</button>
-                    <button class="btn btn-primary" onclick="flipCard()">Flip Card</button>
-                    <button class="btn btn-secondary" onclick="nextCard()">Next ➡</button>
-                    <button class="btn btn-secondary" onclick="shuffleCards()">🔀 Shuffle</button>
-                `;
-                document.querySelector('.flip-hint').textContent = 'Click card to flip';
-            }
-        }
-        
-        function flipCard() {
-            const flashcard = document.getElementById('flashcard');
-            flashcard.classList.toggle('flipped');
-            isFlipped = !isFlipped;
-            flipCount++;
-        }
-        
-        function nextCard() {
-            if (currentCardIndex < flashcards[currentLanguage].length - 1) {
-                currentCardIndex++;
-                updateCardWithLearned();
-            }
-        }
-        
-        function previousCard() {
-            if (currentCardIndex > 0) {
-                currentCardIndex--;
-                updateCardWithLearned();
-            }
-        }
-        
-        function shuffleCards() {
-            const totalCards = flashcards[currentLanguage].length;
-            currentCardIndex = Math.floor(Math.random() * totalCards);
-            updateCardWithLearned();
-        }
-        
-        // Interactive Functions
-        function toggleAutoPlay() {
-            if (isAutoPlaying) {
-                clearInterval(autoPlayInterval);
-                isAutoPlaying = false;
-                document.getElementById('autoplay-icon').textContent = '▶️';
-                document.getElementById('autoplay-text').textContent = currentLanguage === 'bm' ? 'Auto Play' : 'Auto Play';
-            } else {
-                autoPlayInterval = setInterval(() => {
-                    if (!isFlipped) {
-                        flipCard();
-                    } else {
-                        nextCard();
-                    }
-                }, 3000);
-                isAutoPlaying = true;
-                document.getElementById('autoplay-icon').textContent = '⏸️';
-                document.getElementById('autoplay-text').textContent = currentLanguage === 'bm' ? 'Berhenti' : 'Stop';
-            }
-        }
-        
-        function markAsLearned() {
-            learnedCards.add(currentCardIndex);
-            document.getElementById('flashcard').classList.add('learned-card');
-            
-            // Update button text
-            document.getElementById('learned-icon').textContent = '✅';
-            setTimeout(() => {
-                document.getElementById('learned-icon').textContent = '⭐';
-            }, 1000);
-        }
-        
-        function showStats() {
-            const studyTimeMinutes = Math.floor((Date.now() - startTime) / 60000);
-            document.getElementById('learned-cards').textContent = learnedCards.size;
-            document.getElementById('flip-count').textContent = flipCount;
-            document.getElementById('study-time').textContent = studyTimeMinutes;
-            document.getElementById('stats-modal').style.display = 'block';
-        }
-        
-        function closeStats() {
-            document.getElementById('stats-modal').style.display = 'none';
-        }
-        
-        function resetProgress() {
-            if (confirm(currentLanguage === 'bm' ? 'Reset semua progress?' : 'Reset all progress?')) {
-                learnedCards.clear();
-                flipCount = 0;
-                startTime = Date.now();
-                currentCardIndex = 0;
-                updateCard();
-                document.getElementById('flashcard').classList.remove('learned-card');
-            }
-        }
-        
-        function toggleDarkMode() {
-            isDarkMode = !isDarkMode;
-            document.body.classList.toggle('dark-mode');
-            document.getElementById('theme-text').textContent = isDarkMode ? 
-                (currentLanguage === 'bm' ? 'Tema Terang' : 'Light Mode') : 
-                (currentLanguage === 'bm' ? 'Tema Gelap' : 'Dark Mode');
-        }
-        
-        // Update card with learned status
-        function updateCardWithLearned() {
-            updateCard();
-            const flashcard = document.getElementById('flashcard');
-            if (learnedCards.has(currentCardIndex)) {
-                flashcard.classList.add('learned-card');
-            } else {
-                flashcard.classList.remove('learned-card');
-            }
-        }
-        
-        // Toggle instruction panel
-        function toggleInstructions() {
-            const content = document.getElementById('instruction-content');
-            const icon = document.getElementById('toggle-icon');
-            
-            if (content.classList.contains('collapsed')) {
-                content.classList.remove('collapsed');
-                icon.textContent = '▼';
-            } else {
-                content.classList.add('collapsed');
-                icon.textContent = '▶';
-            }
-        }
-        
-        // Update controls with new language support
-        function updateControlsLanguage() {
-            const elements = {
-                'autoplay-text': isAutoPlaying ? (currentLanguage === 'bm' ? 'Berhenti' : 'Stop') : 'Auto Play',
-                'learned-text': currentLanguage === 'bm' ? 'Sudah Faham' : 'Learned',
-                'stats-text': currentLanguage === 'bm' ? 'Statistik' : 'Statistics',
-                'reset-text': 'Reset',
-                'theme-text': isDarkMode ? (currentLanguage === 'bm' ? 'Tema Terang' : 'Light Mode') : (currentLanguage === 'bm' ? 'Tema Gelap' : 'Dark Mode'),
-                'export-text': currentLanguage === 'bm' ? 'Export Nota' : 'Export Notes'
-            };
-            
-            // Update instructions
-            const instructionElements = {
-                'instruction-main-title': currentLanguage === 'bm' ? '📚 Arahan Penggunaan Flash Card' : '📚 Flash Card Usage Instructions',
-                'flip-title': currentLanguage === 'bm' ? 'Cara Flip Kad:' : 'How to Flip Cards:',
-                'flip-desc': currentLanguage === 'bm' ? 
-                    'Klik pada kad atau tekan Spacebar untuk membalikkan kad dan lihat jawapan' :
-                    'Click on the card or press Spacebar to flip the card and see the answer',
-                'mark-title': currentLanguage === 'bm' ? 'Tandakan Sudah Faham:' : 'Mark as Learned:',
-                'mark-desc': currentLanguage === 'bm' ? 
-                    'Klik butang "Sudah Faham" untuk tandakan kad yang dah faham. Kad akan ada border emas' :
-                    'Click "Learned" button to mark cards you understand. Card will have golden border',
-                'auto-title': currentLanguage === 'bm' ? 'Auto Play:' : 'Auto Play:',
-                'auto-desc': currentLanguage === 'bm' ? 
-                    'Aktifkan auto play untuk flip dan tukar kad secara automatik setiap 3 saat' :
-                    'Enable auto play to flip and change cards automatically every 3 seconds',
-                'stats-title-inst': currentLanguage === 'bm' ? 'Statistik:' : 'Statistics:',
-                'stats-desc': currentLanguage === 'bm' ? 
-                    'Tengok progress pembelajaran - berapa kad sudah faham, kali flip, dan masa belajar' :
-                    'View learning progress - cards learned, flip count, and study time',
-                'export-title-inst': currentLanguage === 'bm' ? 'Export Nota:' : 'Export Notes:',
-                'export-desc': currentLanguage === 'bm' ? 
-                    'Muat turun semua kad sebagai fail teks untuk rujukan offline dan ulangkaji' :
-                    'Download all cards as text file for offline reference and review',
-                'theme-title-inst': currentLanguage === 'bm' ? 'Tema & Lain-lain:' : 'Theme & Others:',
-                'theme-desc': currentLanguage === 'bm' ? 
-                    'Tukar tema gelap/terang, reset progress, atau kacau susunan kad' :
-                    'Switch dark/light theme, reset progress, or shuffle card order'
-            };
-            
-            Object.keys(elements).forEach(id => {
-                const element = document.getElementById(id);
-                if (element) element.textContent = elements[id];
-            });
-            
-            Object.keys(instructionElements).forEach(id => {
-                const element = document.getElementById(id);
-                if (element) element.textContent = instructionElements[id];
-            });
-            
-            // Update modal content
-            const modalElements = {
-                'stats-title': currentLanguage === 'bm' ? 'Statistik Pembelajaran' : 'Learning Statistics',
-                'total-label': currentLanguage === 'bm' ? 'Jumlah Kad' : 'Total Cards',
-                'learned-label': currentLanguage === 'bm' ? 'Sudah Faham' : 'Learned',
-                'flip-label': currentLanguage === 'bm' ? 'Kali Flip' : 'Flips',
-                'time-label': currentLanguage === 'bm' ? 'Minit Belajar' : 'Study Minutes'
-            };
-            
-            Object.keys(modalElements).forEach(id => {
-                const element = document.getElementById(id);
-                if (element) element.textContent = modalElements[id];
-            });
-        }
-        
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const statsModal = document.getElementById('stats-modal');
-            if (event.target === statsModal) {
-                statsModal.style.display = 'none';
-            }
-        }
-        
-        function exportToText() {
-            try {
-                const textContent = generateTextContent();
-                const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = currentLanguage === 'bm' ? 'Nota_Pola_Matematik.txt' : 'Patterns_Notes_Math.txt';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                alert(currentLanguage === 'bm' ? 
-                    '✅ Nota berjaya dimuat turun sebagai fail teks!' : 
-                    '✅ Notes successfully downloaded as text file!');
-            } catch (error) {
-                console.error('Text Export Error:', error);
-                alert(currentLanguage === 'bm' ? 
-                    'Ralat semasa export nota. Cuba lagi.' : 
-                    'Error exporting notes. Please try again.');
-            }
-        }
-        
-        function generateTextContent() {
-            const title = currentLanguage === 'bm' ? 'NOTA POLA - MATEMATIK TINGKATAN 2' : 'PATTERNS NOTES - FORM 2 MATHEMATICS';
-            const date = new Date().toLocaleDateString(currentLanguage === 'bm' ? 'ms-MY' : 'en-US');
-            
-            let content = `${title}\n`;
-            content += `${'='.repeat(title.length)}\n`;
-            content += `${currentLanguage === 'bm' ? 'Tarikh' : 'Date'}: ${date}\n\n`;
-            
-            flashcards[currentLanguage].forEach((card, index) => {
-                const cardNumber = currentLanguage === 'bm' ? 'KAD' : 'CARD';
-                content += `${cardNumber} ${index + 1}\n`;
-                content += `${'-'.repeat(20)}\n\n`;
-                
-                content += `${currentLanguage === 'bm' ? 'SOALAN' : 'QUESTION'}:\n`;
-                content += `${card.front.title}\n`;
-                content += `${card.front.content}\n\n`;
-                
-                content += `${currentLanguage === 'bm' ? 'JAWAPAN' : 'ANSWER'}:\n`;
-                content += `${card.back.title}\n`;
-                content += `${card.back.content}\n\n`;
-                content += `${'='.repeat(50)}\n\n`;
-            });
-            
-            content += `${currentLanguage === 'bm' ? 'TAMAT NOTA' : 'END OF NOTES'}\n`;
-            content += `${currentLanguage === 'bm' ? 'Dicipta dengan Flash Card Interaktif' : 'Created with Interactive Flash Cards'}`;
-            
-            return content;
-        }
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            switch(e.key) {
-                case 'ArrowLeft':
-                    previousCard();
-                    break;
-                case 'ArrowRight':
-                    nextCard();
-                    break;
-                case ' ':
-                case 'Enter':
-                    e.preventDefault();
-                    flipCard();
-                    break;
-            }
-        });
-        
-        // Initialize application
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCard();
-            updateControls();
-            updateControlsLanguage();
-        });
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98174f61f6cc9245',t:'MTc1ODI2NjMxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+  <!-- 🔹 Panel Arahan -->
+  <div class="instructions-panel" id="instructions">
+    <button class="close-btn" onclick="tutupArahan()">❌ Tutup Arahan</button>
+    <h2>📘 Arahan Permainan</h2>
+    <ul>
+      <li>Pemain bermula di kotak <b>MULA</b> (nombor 1).</li>
+      <li>Lengkapkan jujukan nombor yang diberi dengan mengisi nombor yang hilang.</li>
+      <li>Setiap jawapan betul akan menggerakkan pemain 1 langkah ke hadapan.</li>
+      <li>Jawapan salah akan dipaparkan bersama jawapan sebenar.</li>
+      <li>Kumpul markah tertinggi dan capai kotak <b>TAMAT</b> untuk menang 🏆.</li>
+      <li>Gunakan butang <b>Petua</b> jika perlukan bantuan.</li>
+    </ul>
+  </div>
+
+  <!-- 🔹 Butang Buka Semula -->
+  <button class="reopen-btn" id="reopenBtn" onclick="bukaArahan()">📖 Buka Semula Arahan</button>
+
+  <div class="scoreboard">
+    Markah: <span id="score">0</span>
+  </div>
+
+  <div class="question-box">
+    <h2>Selesaikan Jujukan</h2>
+    <p id="sequence">2, 4, __, 8, 10</p>
+    <input type="number" id="answer">
+    <br>
+    <button onclick="checkAnswer()">Semak Jawapan</button>
+    <p class="feedback" id="feedback"></p>
+  </div>
+
+  <script>
+    let score = 0;
+    let currentQuestion = 0;
+
+    const questions = [
+      { seq: "2, 4, __, 8, 10", ans: 6 },
+      { seq: "3, 6, 9, __, 15", ans: 12 },
+      { seq: "5, __, 15, 20, 25", ans: 10 },
+      { seq: "10, 20, __, 40, 50", ans: 30 },
+      { seq: "7, 14, 21, __, 35", ans: 28 }
+    ];
+
+    function showQuestion() {
+      document.getElementById("sequence").innerText = questions[currentQuestion].seq;
+      document.getElementById("answer").value = "";
+      document.getElementById("feedback").innerText = "";
+    }
+
+    function checkAnswer() {
+      const userAns = parseInt(document.getElementById("answer").value);
+      const correctAns = questions[currentQuestion].ans;
+      const feedback = document.getElementById("feedback");
+
+      if (userAns === correctAns) {
+        score++;
+        document.getElementById("score").innerText = score;
+        feedback.innerText = "✅ Betul!";
+        feedback.className = "feedback correct";
+      } else {
+        feedback.innerText = "❌ Salah. Jawapan sebenar: " + correctAns;
+        feedback.className = "feedback wrong";
+      }
+
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        setTimeout(showQuestion, 1500);
+      } else {
+        setTimeout(() => {
+          alert("Permainan Tamat! Markah akhir: " + score);
+        }, 1500);
+      }
+    }
+
+    function tutupArahan() {
+      document.getElementById("instructions").style.display = "none";
+      document.getElementById("reopenBtn").style.display = "block";
+    }
+
+    function bukaArahan() {
+      document.getElementById("instructions").style.display = "block";
+      document.getElementById("reopenBtn").style.display = "none";
+    }
+
+    showQuestion();
+  </script>
+</body>
 </html>
