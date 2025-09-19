@@ -3,28 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sequence Quest - Tingkatan 2</title>
+  <title>🎯 SEQUENCE QUEST</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #d4fc79, #96e6a1);
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #6dd5ed, #2193b0);
       margin: 0;
       padding: 0;
       text-align: center;
+      color: #333;
     }
-
     .header {
-      background: #4CAF50;
-      color: white;
       padding: 20px;
-      border-radius: 0 0 20px 20px;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-
-    .header h1 {
-      margin: 0;
-    }
-
-    /* 🔹 Panel Arahan */
     .instructions-panel {
       background: #fff8e1;
       margin: 20px;
@@ -32,173 +25,85 @@
       border-radius: 15px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       border-left: 6px solid #ff9800;
-      color: #333;
-      position: relative;
+      text-align: left;
     }
-
     .instructions-panel h2 {
       margin-bottom: 15px;
       font-size: 1.5rem;
       color: #e65100;
     }
-
     .instructions-panel ul {
       padding-left: 20px;
       line-height: 1.6;
-      text-align: left;
     }
-
     .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      background: #ff5722;
+      background: #e65100;
+      color: #fff;
       border: none;
-      color: white;
-      font-size: 14px;
-      font-weight: bold;
-      padding: 5px 10px;
+      padding: 6px 12px;
       border-radius: 8px;
       cursor: pointer;
-      transition: 0.3s;
+      float: right;
     }
-
-    .close-btn:hover {
-      background: #e64a19;
-    }
-
-    .reopen-btn {
-      display: none;
-      margin: 10px auto;
-      padding: 10px 20px;
-      font-size: 16px;
-      background: #2196f3;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .reopen-btn:hover {
-      background: #1976d2;
-    }
-
-    /* Progress bar */
-    .progress-container {
-      width: 80%;
-      background: #ddd;
-      border-radius: 20px;
-      margin: 15px auto;
-      height: 20px;
-      overflow: hidden;
-    }
-
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(45deg, #4CAF50, #2e7d32);
-      transition: width 0.4s ease;
-    }
-
-    /* Papan markah */
-    .scoreboard {
-      margin: 10px auto;
-      padding: 15px;
-      background: white;
-      width: 220px;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    /* Kotak soalan */
-    .question-box {
-      background: #ffffff;
+    .quiz-container {
       margin: 20px auto;
-      padding: 25px;
-      width: 85%;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      padding: 20px;
+      background: #fff;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
     }
-
-    .question-box h2 {
-      margin-bottom: 15px;
+    .question-box {
+      background: #f1f8e9;
+      padding: 20px;
+      border: 2px dashed #8bc34a;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
     }
-
-    .sequence-display {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin: 15px 0;
-      flex-wrap: wrap;
-    }
-
-    .seq-item {
-      background: #e3f2fd;
+    input {
+      padding: 10px;
+      width: 100px;
       border: 2px solid #2196f3;
-      border-radius: 10px;
-      padding: 15px 20px;
-      font-size: 20px;
-      font-weight: bold;
-      color: #1976d2;
-      min-width: 50px;
-    }
-
-    .missing {
-      background: #fff3e0;
-      border: 2px dashed #ff9800;
-      color: #f57c00;
-    }
-
-    input[type="number"] {
-      padding: 8px;
       border-radius: 8px;
-      border: 1px solid #ccc;
-      margin: 10px;
-      width: 80px;
       text-align: center;
-      font-size: 16px;
+      font-size: 1rem;
     }
-
     button {
       padding: 10px 20px;
-      margin-top: 10px;
-      font-size: 16px;
+      margin: 10px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      background: #4CAF50;
-      color: white;
+      font-size: 1rem;
       transition: 0.3s;
     }
-
-    button:hover {
-      background: #45a049;
-    }
-
+    button:hover { opacity: 0.9; }
+    .submit-btn { background: #4caf50; color: white; }
+    .hint-btn { background: #ff9800; color: white; }
+    .restart-btn { background: #2196f3; color: white; }
     .feedback {
-      font-size: 18px;
+      font-weight: bold;
       margin-top: 15px;
-      font-weight: bold;
+      min-height: 24px;
     }
-
-    .correct {
-      color: green;
+    .score-board, .timer, .progress {
+      margin-top: 10px;
+      font-size: 1rem;
     }
-
-    .wrong {
-      color: red;
+    .progress-bar {
+      height: 15px;
+      background: #ddd;
+      border-radius: 10px;
+      margin-top: 10px;
+      overflow: hidden;
     }
-
-    /* Timer */
-    .timer {
-      font-size: 18px;
-      font-weight: bold;
-      color: #d32f2f;
-      margin: 10px 0;
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #4caf50;
+      transition: width 0.3s ease-in-out;
     }
   </style>
 </head>
@@ -208,151 +113,134 @@
     <p>Permainan Jujukan Matematik Tingkatan 2</p>
   </div>
 
-  <!-- 🔹 Panel Arahan -->
+  <!-- Panel Arahan -->
   <div class="instructions-panel" id="instructions">
-    <button class="close-btn" onclick="tutupArahan()">❌ Tutup Arahan</button>
+    <button class="close-btn" onclick="document.getElementById('instructions').style.display='none'">Tutup ✖</button>
     <h2>📘 Arahan Permainan</h2>
     <ul>
-      <li>Terdapat <b>5 soalan</b yang perlu dijawab.</li>
-      <li>Lengkapkan jujukan nombor dengan mengisi nombor yang hilang.</li>
-      <li>Setiap jawapan betul memberi +1 markah.</li>
-      <li>Setiap soalan ada masa <b>20 saat</b untuk dijawab.</li>
-      <li>Jika masa tamat, jawapan dianggap salah.</li>
+      <li>Pemain bermula dengan 10 soalan jujukan nombor.</li>
+      <li>Lengkapkan nombor yang hilang dalam kotak jawapan.</li>
+      <li>Setiap jawapan betul akan menambah markah anda.</li>
+      <li>Jawapan salah akan dipaparkan bersama jawapan sebenar.</li>
+      <li>Anda ada <b>10 saat</b> untuk jawab setiap soalan ⏱️.</li>
+      <li>Gunakan butang <b>Petua</b> jika perlukan bantuan.</li>
       <li>Kumpul markah tertinggi untuk menang 🏆.</li>
     </ul>
   </div>
 
-  <!-- 🔹 Butang Buka Semula -->
-  <button class="reopen-btn" id="reopenBtn" onclick="bukaArahan()">📖 Buka Semula Arahan</button>
-
-  <div class="scoreboard">
-    Soalan: <span id="qNum">1</span>/5 <br>
-    Markah: <span id="score">0</span>
-  </div>
-
-  <!-- Progress bar -->
-  <div class="progress-container">
-    <div class="progress-bar" id="progressBar"></div>
-  </div>
-
-  <!-- Timer -->
-  <div class="timer">⏱ Masa: <span id="timeLeft">20</span>s</div>
-
-  <div class="question-box">
-    <h2 id="qTitle">Soalan 1</h2>
-    <div class="sequence-display" id="sequence"></div>
-    <input type="number" id="answer">
-    <br>
-    <button onclick="checkAnswer()">Semak Jawapan</button>
-    <p class="feedback" id="feedback"></p>
+  <div class="quiz-container">
+    <div class="question-box" id="question"></div>
+    <input type="number" id="answer" placeholder="Jawapan">
+    <div>
+      <button class="submit-btn" onclick="checkAnswer()">Hantar</button>
+      <button class="hint-btn" onclick="showHint()">Petua 💡</button>
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="timer">Masa: <span id="time">10</span>s</div>
+    <div class="score-board">Markah: <span id="score">0</span></div>
+    <div class="progress">Soalan: <span id="qNum">0</span>/10</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div id="finalResult"></div>
+    <button id="restartBtn" class="restart-btn" style="display:none;" onclick="restartQuiz()">🔄 Main Semula</button>
   </div>
 
   <script>
-    let score = 0;
-    let currentQuestion = 0;
-    let timer;
-    let timeLeft = 20;
-
-    const questions = [
-      { seq: [2, 4, null, 8, 10], ans: 6 },
-      { seq: [3, 6, 9, null, 15], ans: 12 },
-      { seq: [5, null, 15, 20, 25], ans: 10 },
-      { seq: [10, 20, null, 40, 50], ans: 30 },
-      { seq: [7, 14, 21, null, 35], ans: 28 }
+    const allQuestions = [
+      {q:"2, 4, 6, ?", a:8, h:"Tambah 2 setiap kali"},
+      {q:"5, 10, 15, ?", a:20, h:"Darab 5"},
+      {q:"1, 4, 9, 16, ?", a:25, h:"Kuasa dua nombor"},
+      {q:"10, 20, 30, ?", a:40, h:"Tambah 10"},
+      {q:"2, 4, 8, 16, ?", a:32, h:"Darab 2"},
+      {q:"100, 90, 80, ?", a:70, h:"Tolak 10"},
+      {q:"1, 2, 4, 8, ?", a:16, h:"Darab 2"},
+      {q:"3, 6, 9, ?", a:12, h:"Tambah 3"},
+      {q:"7, 14, 21, ?", a:28, h:"Darab 7"},
+      {q:"9, 18, 27, ?", a:36, h:"Darab 9"},
+      {q:"50, 45, 40, ?", a:35, h:"Tolak 5"},
+      {q:"11, 22, 33, ?", a:44, h:"Tambah 11"},
+      {q:"4, 8, 12, ?", a:16, h:"Tambah 4"},
+      {q:"81, 72, 63, ?", a:54, h:"Tolak 9"},
+      {q:"6, 12, 24, ?", a:48, h:"Darab 2"}
     ];
+    let questions = [];
+    let current = 0, score = 0, timer, timeLeft = 10;
 
-    function renderSequence(arr) {
-      const container = document.getElementById("sequence");
-      container.innerHTML = "";
-      arr.forEach(num => {
-        const div = document.createElement("div");
-        div.className = "seq-item";
-        if (num === null) {
-          div.textContent = "?";
-          div.classList.add("missing");
-        } else {
-          div.textContent = num;
-        }
-        container.appendChild(div);
-      });
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i+1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
     }
 
-    function showQuestion() {
-      if (currentQuestion >= questions.length) {
-        endGame();
-        return;
-      }
+    function startQuiz() {
+      questions = shuffle([...allQuestions]).slice(0,10);
+      current = 0; score = 0;
+      document.getElementById("score").innerText = score;
+      document.getElementById("finalResult").innerHTML = "";
+      document.getElementById("restartBtn").style.display="none";
+      loadQuestion();
+    }
 
-      document.getElementById("qNum").innerText = currentQuestion + 1;
-      document.getElementById("qTitle").innerText = "Soalan " + (currentQuestion + 1);
-      renderSequence(questions[currentQuestion].seq);
+    function loadQuestion() {
+      if(current >= questions.length) { endQuiz(); return; }
+      document.getElementById("question").innerText = `Soalan ${current+1}: ${questions[current].q}`;
       document.getElementById("answer").value = "";
       document.getElementById("feedback").innerText = "";
-
-      // Progress bar
-      const progress = ((currentQuestion) / questions.length) * 100;
-      document.getElementById("progressBar").style.width = progress + "%";
-
-      // Timer reset
-      timeLeft = 20;
-      document.getElementById("timeLeft").innerText = timeLeft;
-      clearInterval(timer);
-      timer = setInterval(countdown, 1000);
-    }
-
-    function countdown() {
-      timeLeft--;
-      document.getElementById("timeLeft").innerText = timeLeft;
-      if (timeLeft <= 0) {
-        clearInterval(timer);
-        document.getElementById("feedback").innerText = "⏰ Masa tamat! Jawapan sebenar: " + questions[currentQuestion].ans;
-        document.getElementById("feedback").className = "feedback wrong";
-        currentQuestion++;
-        setTimeout(showQuestion, 2000);
-      }
+      document.getElementById("qNum").innerText = current+1;
+      document.getElementById("progressFill").style.width = ((current)/questions.length)*100 + "%";
+      resetTimer();
     }
 
     function checkAnswer() {
-      clearInterval(timer);
-      const userAns = parseInt(document.getElementById("answer").value);
-      const correctAns = questions[currentQuestion].ans;
-      const feedback = document.getElementById("feedback");
-
-      if (userAns === correctAns) {
+      let ans = parseInt(document.getElementById("answer").value);
+      if(ans === questions[current].a) {
+        document.getElementById("feedback").innerText = "✅ Betul!";
         score++;
         document.getElementById("score").innerText = score;
-        feedback.innerText = "✅ Betul!";
-        feedback.className = "feedback correct";
       } else {
-        feedback.innerText = "❌ Salah. Jawapan sebenar: " + correctAns;
-        feedback.className = "feedback wrong";
+        document.getElementById("feedback").innerText = "❌ Salah! Jawapan: " + questions[current].a;
       }
-
-      currentQuestion++;
-      setTimeout(showQuestion, 2000);
+      clearInterval(timer);
+      current++;
+      setTimeout(loadQuestion, 1000);
     }
 
-    function endGame() {
-      document.getElementById("sequence").innerHTML = "";
-      document.getElementById("answer").style.display = "none";
-      document.querySelector("button").style.display = "none";
-      document.getElementById("qTitle").innerText = "Permainan Tamat!";
-      document.getElementById("feedback").innerText = "Markah akhir: " + score + "/" + questions.length + 
-        (score === questions.length ? " 🎉 Tahniah, semua betul!" : score >= 3 ? " 👍 Bagus, teruskan usaha!" : " 💪 Cuba lagi!");
-      document.getElementById("progressBar").style.width = "100%";
+    function showHint() {
+      document.getElementById("feedback").innerText = "💡 Petua: " + questions[current].h;
     }
 
-    function tutupArahan() {
-      document.getElementById("instructions").style.display = "none";
-      document.getElementById("reopenBtn").style.display = "block";
+    function resetTimer() {
+      clearInterval(timer);
+      timeLeft = 10;
+      document.getElementById("time").innerText = timeLeft;
+      timer = setInterval(()=>{
+        timeLeft--;
+        document.getElementById("time").innerText = timeLeft;
+        if(timeLeft <= 0) {
+          clearInterval(timer);
+          document.getElementById("feedback").innerText = "⏰ Masa tamat! Jawapan: " + questions[current].a;
+          current++;
+          setTimeout(loadQuestion, 1000);
+        }
+      },1000);
     }
 
-    function bukaArahan() {
-      document.getElementById("instructions").style.display = "block";
-      document.getElementById("reopenBtn").style.display = "none";
+    function endQuiz() {
+      clearInterval(timer);
+      document.getElementById("question").innerText = "🎉 Kuiz Tamat!";
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("finalResult").innerHTML = `<h2>Markah Akhir: ${score}/${questions.length}</h2>
+        <p>${score >= 8 ? "Hebat! 🌟" : score >=5 ? "Bagus, teruskan berlatih 👍" : "Jangan putus asa, cuba lagi 💪"}</p>`;
+      document.getElementById("restartBtn").style.display="inline-block";
+      document.getElementById("progressFill").style.width = "100%";
     }
 
-    showQuestion();
+    function restartQuiz() {
+      startQuiz();
+    }
+
+    window.onload = startQuiz;
   </script>
 </body>
 </html>
