@@ -205,6 +205,7 @@
             justify-content: center;
             gap: 20px;
             flex-wrap: wrap;
+            margin-bottom: 30px;
         }
         
         .btn {
@@ -257,28 +258,6 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%);
             border-color: rgba(255, 255, 255, 0.5);
             transform: translateY(-2px);
-        }
-        
-        .card-counter {
-            color: white;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-        
-        .flip-hint {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
         }
         
         .interactive-features {
@@ -394,59 +373,31 @@
             background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
         }
         
-        .export-options {
-            display: grid;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .export-option {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .export-option:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-        
-        .export-icon {
-            font-size: 2.5rem;
-            min-width: 60px;
+        .card-counter {
+            color: white;
             text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
         }
         
-        .export-info h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: #feca57;
-        }
-        
-        .export-info p {
+        .flip-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.9rem;
-            opacity: 0.9;
-            margin: 0;
+            animation: pulse 2s infinite;
         }
         
-
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
         
         @media (max-width: 768px) {
             body {
                 padding: 10px;
-            }
-            
-            .container {
-                padding: 0;
             }
             
             .header h1 {
@@ -487,48 +438,6 @@
                 padding: 12px 16px;
                 font-size: 0.9rem;
             }
-            
-            .feature-row {
-                gap: 8px;
-                flex-direction: column;
-            }
-            
-            .btn-feature {
-                padding: 10px 15px;
-                font-size: 0.85rem;
-                width: 100%;
-                max-width: 250px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .modal-content {
-                width: 95%;
-                margin: 10% auto;
-                padding: 20px;
-                max-height: 80vh;
-                overflow-y: auto;
-            }
-            
-            .export-options {
-                gap: 10px;
-            }
-            
-            .export-option {
-                padding: 15px;
-                flex-direction: column;
-                text-align: center;
-                gap: 10px;
-            }
-            
-            .export-icon {
-                font-size: 2rem;
-            }
-            
-
             
             .pattern-visual {
                 font-size: 1.8rem;
@@ -579,31 +488,29 @@
                 font-size: 0.8rem;
             }
             
+            .feature-row {
+                gap: 8px;
+                flex-direction: column;
+            }
+            
             .btn-feature {
                 padding: 8px 12px;
                 font-size: 0.8rem;
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
             }
             
             .modal-content {
-                width: 98%;
-                margin: 5% auto;
-                padding: 15px;
-            }
-            
-            .export-option {
-                padding: 12px;
-            }
-            
-            .export-icon {
-                font-size: 1.5rem;
-            }
-            
-            .export-info h3 {
-                font-size: 1rem;
-            }
-            
-            .export-info p {
-                font-size: 0.8rem;
+                width: 95%;
+                margin: 10% auto;
+                padding: 20px;
+                max-height: 80vh;
+                overflow-y: auto;
             }
         }
     </style>
@@ -614,8 +521,6 @@
             <h1>Pola / Patterns</h1>
             <p>Matematik Tingkatan 2 - Bab 1</p>
         </div>
-        
-
         
         <div class="language-toggle">
             <button class="lang-btn active" onclick="setLanguage('bm')">Bahasa Melayu</button>
@@ -655,7 +560,6 @@
             <button class="btn btn-secondary" onclick="shuffleCards()">🔀 Kacau</button>
         </div>
         
-        <!-- New Interactive Features -->
         <div class="interactive-features">
             <div class="feature-row">
                 <button class="btn btn-feature" onclick="toggleAutoPlay()">
@@ -675,8 +579,8 @@
                 <button class="btn btn-feature" onclick="toggleDarkMode()">
                     🌙 <span id="theme-text">Tema Gelap</span>
                 </button>
-                <button class="btn btn-feature" onclick="showExportOptions()">
-                    📝 <span id="export-text">Export Nota</span>
+                <button class="btn btn-feature" onclick="exportToPDF()">
+                    📄 <span id="export-text">Export PDF</span>
                 </button>
             </div>
         </div>
@@ -688,7 +592,7 @@
                 <h2 id="stats-title">Statistik Pembelajaran</h2>
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <div class="stat-number" id="total-cards">8</div>
+                        <div class="stat-number" id="total-cards-stat">8</div>
                         <div class="stat-label" id="total-label">Jumlah Kad</div>
                     </div>
                     <div class="stat-item">
@@ -702,44 +606,6 @@
                     <div class="stat-item">
                         <div class="stat-number" id="study-time">0</div>
                         <div class="stat-label" id="time-label">Minit Belajar</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Export Options Modal -->
-        <div id="export-modal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeExportOptions()">&times;</span>
-                <h2 id="export-modal-title">Pilih Format Export</h2>
-                <div class="export-options">
-                    <div class="export-option" onclick="exportAsPDF()">
-                        <div class="export-icon">📄</div>
-                        <div class="export-info">
-                            <h3 id="pdf-title">PDF Berwarna</h3>
-                            <p id="pdf-desc">Nota lengkap dengan warna dan format cantik</p>
-                        </div>
-                    </div>
-                    <div class="export-option" onclick="exportAsSlides()">
-                        <div class="export-icon">🎞️</div>
-                        <div class="export-info">
-                            <h3 id="slides-title">Slaid HTML</h3>
-                            <p id="slides-desc">Format persembahan interaktif</p>
-                        </div>
-                    </div>
-                    <div class="export-option" onclick="exportAsText()">
-                        <div class="export-icon">📝</div>
-                        <div class="export-info">
-                            <h3 id="text-title">Teks Ringkas</h3>
-                            <p id="text-desc">Format teks mudah untuk rujukan cepat</p>
-                        </div>
-                    </div>
-                    <div class="export-option" onclick="exportAsStudyGuide()">
-                        <div class="export-icon">📚</div>
-                        <div class="export-info">
-                            <h3 id="guide-title">Panduan Belajar</h3>
-                            <p id="guide-desc">HTML berwarna dengan tips pembelajaran</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -930,6 +796,7 @@
             event.target.classList.add('active');
             updateCard();
             updateControls();
+            updateControlsLanguage();
         }
         
         function updateCard() {
@@ -938,7 +805,7 @@
             document.getElementById('back-title').textContent = card.back.title;
             
             // Special handling for shape pattern cards
-            if (currentCardIndex === 3) { // Shape pattern card
+            if (currentCardIndex === 3) {
                 if (card.front.title.includes('Bentuk') || card.front.title.includes('Shape')) {
                     document.getElementById('front-content').innerHTML = `
                         ${card.front.content}
@@ -1017,41 +884,24 @@
         function nextCard() {
             if (currentCardIndex < flashcards[currentLanguage].length - 1) {
                 currentCardIndex++;
-                updateCard();
+                updateCardWithLearned();
             }
         }
         
         function previousCard() {
             if (currentCardIndex > 0) {
                 currentCardIndex--;
-                updateCard();
+                updateCardWithLearned();
             }
         }
         
         function shuffleCards() {
             const totalCards = flashcards[currentLanguage].length;
             currentCardIndex = Math.floor(Math.random() * totalCards);
-            updateCard();
+            updateCardWithLearned();
         }
         
-        // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            switch(e.key) {
-                case 'ArrowLeft':
-                    previousCard();
-                    break;
-                case 'ArrowRight':
-                    nextCard();
-                    break;
-                case ' ':
-                case 'Enter':
-                    e.preventDefault();
-                    flipCard();
-                    break;
-            }
-        });
-        
-        // New Interactive Functions
+        // Interactive Functions
         function toggleAutoPlay() {
             if (isAutoPlaying) {
                 clearInterval(autoPlayInterval);
@@ -1114,26 +964,64 @@
                 (currentLanguage === 'bm' ? 'Tema Gelap' : 'Dark Mode');
         }
         
-        function showExportOptions() {
-            document.getElementById('export-modal').style.display = 'block';
+        // Update card with learned status
+        function updateCardWithLearned() {
+            updateCard();
+            const flashcard = document.getElementById('flashcard');
+            if (learnedCards.has(currentCardIndex)) {
+                flashcard.classList.add('learned-card');
+            } else {
+                flashcard.classList.remove('learned-card');
+            }
         }
         
-        function closeExportOptions() {
-            document.getElementById('export-modal').style.display = 'none';
+        // Update controls with new language support
+        function updateControlsLanguage() {
+            const elements = {
+                'autoplay-text': isAutoPlaying ? (currentLanguage === 'bm' ? 'Berhenti' : 'Stop') : 'Auto Play',
+                'learned-text': currentLanguage === 'bm' ? 'Sudah Faham' : 'Learned',
+                'stats-text': currentLanguage === 'bm' ? 'Statistik' : 'Statistics',
+                'reset-text': 'Reset',
+                'theme-text': isDarkMode ? (currentLanguage === 'bm' ? 'Tema Terang' : 'Light Mode') : (currentLanguage === 'bm' ? 'Tema Gelap' : 'Dark Mode'),
+                'export-text': currentLanguage === 'bm' ? 'Export PDF' : 'Export PDF'
+            };
+            
+            Object.keys(elements).forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.textContent = elements[id];
+            });
+            
+            // Update modal content
+            const modalElements = {
+                'stats-title': currentLanguage === 'bm' ? 'Statistik Pembelajaran' : 'Learning Statistics',
+                'total-label': currentLanguage === 'bm' ? 'Jumlah Kad' : 'Total Cards',
+                'learned-label': currentLanguage === 'bm' ? 'Sudah Faham' : 'Learned',
+                'flip-label': currentLanguage === 'bm' ? 'Kali Flip' : 'Flips',
+                'time-label': currentLanguage === 'bm' ? 'Minit Belajar' : 'Study Minutes'
+            };
+            
+            Object.keys(modalElements).forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.textContent = modalElements[id];
+            });
         }
         
-        function exportAsPDF() {
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const statsModal = document.getElementById('stats-modal');
+            if (event.target === statsModal) {
+                statsModal.style.display = 'none';
+            }
+        }
+        
+        function exportToPDF() {
             try {
-                // Create HTML content for PDF
                 const htmlContent = generatePDFContent();
-                
-                // Create a new window for PDF generation
                 const printWindow = window.open('', '_blank', 'noopener,noreferrer');
                 if (printWindow) {
                     printWindow.document.write(htmlContent);
                     printWindow.document.close();
                     
-                    // Wait for content to load, then trigger print
                     printWindow.onload = function() {
                         setTimeout(() => {
                             printWindow.print();
@@ -1144,59 +1032,12 @@
                         'Sila benarkan popup untuk export PDF' : 
                         'Please allow popups to export PDF');
                 }
-                closeExportOptions();
             } catch (error) {
                 console.error('PDF Export Error:', error);
                 alert(currentLanguage === 'bm' ? 
                     'Ralat semasa export PDF. Cuba lagi.' : 
                     'Error exporting PDF. Please try again.');
             }
-        }
-        
-        function exportAsSlides() {
-            const slidesContent = generateSlidesContent();
-            const blob = new Blob([slidesContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = currentLanguage === 'bm' ? 'slaid-pola.html' : 'patterns-slides.html';
-            a.click();
-            URL.revokeObjectURL(url);
-            closeExportOptions();
-        }
-        
-        function exportAsText() {
-            let notes = currentLanguage === 'bm' ? 
-                'NOTA POLA - MATEMATIK TINGKATAN 2\n\n' : 
-                'PATTERNS NOTES - FORM 2 MATHEMATICS\n\n';
-            
-            flashcards[currentLanguage].forEach((card, index) => {
-                notes += `${index + 1}. ${card.front.title}\n`;
-                notes += `${card.front.content}\n\n`;
-                notes += `Jawapan/Answer:\n${card.back.content}\n\n`;
-                notes += '---\n\n';
-            });
-            
-            const blob = new Blob([notes], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = currentLanguage === 'bm' ? 'nota-pola.txt' : 'patterns-notes.txt';
-            a.click();
-            URL.revokeObjectURL(url);
-            closeExportOptions();
-        }
-        
-        function exportAsStudyGuide() {
-            const studyGuideContent = generateStudyGuideContent();
-            const blob = new Blob([studyGuideContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = currentLanguage === 'bm' ? 'panduan-belajar-pola.html' : 'patterns-study-guide.html';
-            a.click();
-            URL.revokeObjectURL(url);
-            closeExportOptions();
         }
         
         function generatePDFContent() {
@@ -1349,245 +1190,22 @@
             return content;
         }
         
-        function generateSlidesContent() {
-            const title = currentLanguage === 'bm' ? 'SLAID POLA - MATEMATIK TINGKATAN 2' : 'PATTERNS SLIDES - FORM 2 MATHEMATICS';
-            
-            let content = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="UTF-8">
-                <title>${title}</title>
-                <style>
-                    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-                    body { font-family: 'Poppins', sans-serif; margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-                    .slide { width: 100vw; height: 100vh; display: none; padding: 60px; box-sizing: border-box; color: white; }
-                    .slide.active { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-                    .slide h1 { font-size: 3rem; margin-bottom: 20px; }
-                    .slide h2 { font-size: 2.5rem; margin-bottom: 30px; color: #feca57; }
-                    .slide p { font-size: 1.5rem; line-height: 1.6; max-width: 800px; }
-                    .controls { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 1000; }
-                    .btn { padding: 10px 20px; margin: 0 10px; background: rgba(255,255,255,0.2); color: white; border: none; border-radius: 25px; cursor: pointer; }
-                    .btn:hover { background: rgba(255,255,255,0.3); }
-                    .slide-counter { position: fixed; top: 30px; right: 30px; background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 20px; }
-                </style>
-            </head>
-            <body>
-                <div class="slide-counter"><span id="current">1</span> / <span id="total">${flashcards[currentLanguage].length + 1}</span></div>
-                
-                <div class="slide active">
-                    <h1>${title}</h1>
-                    <p>${currentLanguage === 'bm' ? 'Persembahan Interaktif' : 'Interactive Presentation'}</p>
-                    <p>${new Date().toLocaleDateString()}</p>
-                </div>
-            `;
-            
-            flashcards[currentLanguage].forEach((card, index) => {
-                content += `
-                <div class="slide">
-                    <h2>${card.front.title}</h2>
-                    <p>${card.front.content}</p>
-                    <hr style="margin: 40px 0; border: 1px solid rgba(255,255,255,0.3);">
-                    <h2>${card.back.title}</h2>
-                    <p>${card.back.content}</p>
-                </div>
-                `;
-            });
-            
-            content += `
-                <div class="controls">
-                    <button class="btn" onclick="previousSlide()">⬅ ${currentLanguage === 'bm' ? 'Sebelum' : 'Previous'}</button>
-                    <button class="btn" onclick="nextSlide()">${currentLanguage === 'bm' ? 'Seterusnya' : 'Next'} ➡</button>
-                </div>
-                
-                <script>
-                    let currentSlide = 0;
-                    const slides = document.querySelectorAll('.slide');
-                    const totalSlides = slides.length;
-                    
-                    function showSlide(n) {
-                        slides[currentSlide].classList.remove('active');
-                        currentSlide = (n + totalSlides) % totalSlides;
-                        slides[currentSlide].classList.add('active');
-                        document.getElementById('current').textContent = currentSlide + 1;
-                    }
-                    
-                    function nextSlide() { showSlide(currentSlide + 1); }
-                    function previousSlide() { showSlide(currentSlide - 1); }
-                    
-                    document.addEventListener('keydown', function(e) {
-                        if (e.key === 'ArrowRight') nextSlide();
-                        if (e.key === 'ArrowLeft') previousSlide();
-                    });
-                </script>
-            <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98165a9d779d454a',t:'MTc1ODI1NjI5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-            </html>
-            `;
-            
-            return content;
-        }
-        
-        function generateStudyGuideContent() {
-            const title = currentLanguage === 'bm' ? 'PANDUAN BELAJAR POLA - MATEMATIK TINGKATAN 2' : 'PATTERNS STUDY GUIDE - FORM 2 MATHEMATICS';
-            
-            let content = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="UTF-8">
-                <title>${title}</title>
-                <style>
-                    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-                    body { font-family: 'Poppins', sans-serif; margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
-                    .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
-                    .header { text-align: center; color: white; margin-bottom: 50px; }
-                    .header h1 { font-size: 3rem; margin-bottom: 10px; }
-                    .tips { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; margin-bottom: 40px; color: white; }
-                    .card { background: rgba(255,255,255,0.95); margin: 30px 0; padding: 30px; border-radius: 20px; color: #2c3e50; }
-                    .question-section { background: linear-gradient(135deg, #ff6b6b, #feca57); color: white; padding: 25px; border-radius: 15px; margin-bottom: 20px; }
-                    .answer-section { background: linear-gradient(135deg, #48cae4, #023e8a); color: white; padding: 25px; border-radius: 15px; }
-                    .study-tip { background: #f8f9fa; padding: 20px; border-left: 5px solid #feca57; margin: 20px 0; border-radius: 0 10px 10px 0; }
-                    .highlight { background: #fff3cd; padding: 2px 6px; border-radius: 4px; color: #856404; }
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <div class="header">
-                        <h1>${title}</h1>
-                        <p>${currentLanguage === 'bm' ? 'Panduan Lengkap dengan Tips Pembelajaran' : 'Complete Guide with Learning Tips'}</p>
-                    </div>
-                    
-                    <div class="tips">
-                        <h2>💡 ${currentLanguage === 'bm' ? 'Tips Pembelajaran' : 'Learning Tips'}</h2>
-                        <ul>
-                            <li>${currentLanguage === 'bm' ? 'Baca soalan dengan teliti sebelum cuba jawab' : 'Read questions carefully before attempting to answer'}</li>
-                            <li>${currentLanguage === 'bm' ? 'Cari corak atau peraturan dalam setiap pola' : 'Look for patterns or rules in each sequence'}</li>
-                            <li>${currentLanguage === 'bm' ? 'Latih dengan contoh yang berbeza' : 'Practice with different examples'}</li>
-                            <li>${currentLanguage === 'bm' ? 'Gunakan gambar rajah untuk membantu pemahaman' : 'Use diagrams to aid understanding'}</li>
-                        </ul>
-                    </div>
-            `;
-            
-            flashcards[currentLanguage].forEach((card, index) => {
-                const studyTips = [
-                    currentLanguage === 'bm' ? 'Cuba cari persamaan dalam setiap sebutan' : 'Try to find similarities in each term',
-                    currentLanguage === 'bm' ? 'Lukis gambar rajah jika perlu' : 'Draw diagrams if necessary',
-                    currentLanguage === 'bm' ? 'Semak jawapan dengan menguji pola pada sebutan seterusnya' : 'Check answers by testing the pattern on the next term',
-                    currentLanguage === 'bm' ? 'Ingat formula asas untuk pola biasa' : 'Remember basic formulas for common patterns'
-                ];
-                
-                content += `
-                <div class="card">
-                    <h2>${currentLanguage === 'bm' ? 'Topik' : 'Topic'} ${index + 1}</h2>
-                    <div class="question-section">
-                        <h3>${card.front.title}</h3>
-                        <p>${card.front.content}</p>
-                    </div>
-                    <div class="answer-section">
-                        <h3>${card.back.title}</h3>
-                        <p>${card.back.content}</p>
-                    </div>
-                    <div class="study-tip">
-                        <strong>💡 ${currentLanguage === 'bm' ? 'Tip Pembelajaran:' : 'Study Tip:'}</strong> ${studyTips[index % studyTips.length]}
-                    </div>
-                </div>
-                `;
-            });
-            
-            content += `
-                </div>
-            </body>
-            </html>
-            `;
-            
-            return content;
-        }
-        
-        // Update controls with new language support
-        function updateControlsLanguage() {
-            const elements = {
-                'autoplay-text': isAutoPlaying ? (currentLanguage === 'bm' ? 'Berhenti' : 'Stop') : 'Auto Play',
-                'learned-text': currentLanguage === 'bm' ? 'Sudah Faham' : 'Learned',
-                'stats-text': currentLanguage === 'bm' ? 'Statistik' : 'Statistics',
-                'reset-text': 'Reset',
-                'theme-text': isDarkMode ? (currentLanguage === 'bm' ? 'Tema Terang' : 'Light Mode') : (currentLanguage === 'bm' ? 'Tema Gelap' : 'Dark Mode'),
-                'export-text': currentLanguage === 'bm' ? 'Export Nota' : 'Export Notes'
-            };
-            
-            Object.keys(elements).forEach(id => {
-                const element = document.getElementById(id);
-                if (element) element.textContent = elements[id];
-            });
-            
-            // Update modal content
-            const modalElements = {
-                'stats-title': currentLanguage === 'bm' ? 'Statistik Pembelajaran' : 'Learning Statistics',
-                'total-label': currentLanguage === 'bm' ? 'Jumlah Kad' : 'Total Cards',
-                'learned-label': currentLanguage === 'bm' ? 'Sudah Faham' : 'Learned',
-                'flip-label': currentLanguage === 'bm' ? 'Kali Flip' : 'Flips',
-                'time-label': currentLanguage === 'bm' ? 'Minit Belajar' : 'Study Minutes',
-                'export-modal-title': currentLanguage === 'bm' ? 'Pilih Format Export' : 'Choose Export Format'
-            };
-            
-            Object.keys(modalElements).forEach(id => {
-                const element = document.getElementById(id);
-                if (element) element.textContent = modalElements[id];
-            });
-        }
-        
-        // Update card with learned status
-        function updateCardWithLearned() {
-            updateCard();
-            const flashcard = document.getElementById('flashcard');
-            if (learnedCards.has(currentCardIndex)) {
-                flashcard.classList.add('learned-card');
-            } else {
-                flashcard.classList.remove('learned-card');
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    previousCard();
+                    break;
+                case 'ArrowRight':
+                    nextCard();
+                    break;
+                case ' ':
+                case 'Enter':
+                    e.preventDefault();
+                    flipCard();
+                    break;
             }
-        }
-        
-        // Navigation functions
-        function nextCard() {
-            if (currentCardIndex < flashcards[currentLanguage].length - 1) {
-                currentCardIndex++;
-                updateCardWithLearned();
-            }
-        }
-        
-        function previousCard() {
-            if (currentCardIndex > 0) {
-                currentCardIndex--;
-                updateCardWithLearned();
-            }
-        }
-        
-        function shuffleCards() {
-            const totalCards = flashcards[currentLanguage].length;
-            currentCardIndex = Math.floor(Math.random() * totalCards);
-            updateCardWithLearned();
-        }
-        
-        // Language switching
-        function setLanguage(lang) {
-            currentLanguage = lang;
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            updateCardWithLearned();
-            updateControls();
-            updateControlsLanguage();
-        }
-        
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const statsModal = document.getElementById('stats-modal');
-            const exportModal = document.getElementById('export-modal');
-            if (event.target === statsModal) {
-                statsModal.style.display = 'none';
-            }
-            if (event.target === exportModal) {
-                exportModal.style.display = 'none';
-            }
-        }
+        });
         
         // Initialize application
         document.addEventListener('DOMContentLoaded', function() {
@@ -1596,5 +1214,5 @@
             updateControlsLanguage();
         });
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'981710bc2092b71c',t:'MTc1ODI2Mzc1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
