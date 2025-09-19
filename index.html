@@ -520,6 +520,10 @@
         <div class="header">
             <h1>Pola / Patterns</h1>
             <p>Matematik Tingkatan 2 - Bab 1</p>
+            <div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; font-size: 0.95rem;">
+                <strong id="instruction-title">📚 Arahan Penggunaan:</strong>
+                <span id="instruction-text">Klik kad untuk membalikkan • Gunakan butang navigasi • Tandakan kad yang sudah faham • Auto play untuk pembelajaran automatik</span>
+            </div>
         </div>
         
         <div class="language-toggle">
@@ -579,8 +583,8 @@
                 <button class="btn btn-feature" onclick="toggleDarkMode()">
                     🌙 <span id="theme-text">Tema Gelap</span>
                 </button>
-                <button class="btn btn-feature" onclick="exportToPDF()">
-                    📄 <span id="export-text">Export PDF</span>
+                <button class="btn btn-feature" onclick="exportToText()">
+                    📝 <span id="export-text">Export Nota</span>
                 </button>
             </div>
         </div>
@@ -983,12 +987,25 @@
                 'stats-text': currentLanguage === 'bm' ? 'Statistik' : 'Statistics',
                 'reset-text': 'Reset',
                 'theme-text': isDarkMode ? (currentLanguage === 'bm' ? 'Tema Terang' : 'Light Mode') : (currentLanguage === 'bm' ? 'Tema Gelap' : 'Dark Mode'),
-                'export-text': currentLanguage === 'bm' ? 'Export PDF' : 'Export PDF'
+                'export-text': currentLanguage === 'bm' ? 'Export Nota' : 'Export Notes'
+            };
+            
+            // Update instructions
+            const instructionElements = {
+                'instruction-title': currentLanguage === 'bm' ? '📚 Arahan Penggunaan:' : '📚 Instructions:',
+                'instruction-text': currentLanguage === 'bm' ? 
+                    'Klik kad untuk membalikkan • Gunakan butang navigasi • Tandakan kad yang sudah faham • Auto play untuk pembelajaran automatik' :
+                    'Click card to flip • Use navigation buttons • Mark cards as learned • Auto play for automatic learning'
             };
             
             Object.keys(elements).forEach(id => {
                 const element = document.getElementById(id);
                 if (element) element.textContent = elements[id];
+            });
+            
+            Object.keys(instructionElements).forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.textContent = instructionElements[id];
             });
             
             // Update modal content
@@ -1014,179 +1031,56 @@
             }
         }
         
-        function exportToPDF() {
+        function exportToText() {
             try {
-                const htmlContent = generatePDFContent();
-                const printWindow = window.open('', '_blank', 'noopener,noreferrer');
-                if (printWindow) {
-                    printWindow.document.write(htmlContent);
-                    printWindow.document.close();
-                    
-                    printWindow.onload = function() {
-                        setTimeout(() => {
-                            printWindow.print();
-                        }, 1000);
-                    };
-                } else {
-                    alert(currentLanguage === 'bm' ? 
-                        'Sila benarkan popup untuk export PDF' : 
-                        'Please allow popups to export PDF');
-                }
-            } catch (error) {
-                console.error('PDF Export Error:', error);
+                const textContent = generateTextContent();
+                const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = currentLanguage === 'bm' ? 'Nota_Pola_Matematik.txt' : 'Patterns_Notes_Math.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
                 alert(currentLanguage === 'bm' ? 
-                    'Ralat semasa export PDF. Cuba lagi.' : 
-                    'Error exporting PDF. Please try again.');
+                    '✅ Nota berjaya dimuat turun sebagai fail teks!' : 
+                    '✅ Notes successfully downloaded as text file!');
+            } catch (error) {
+                console.error('Text Export Error:', error);
+                alert(currentLanguage === 'bm' ? 
+                    'Ralat semasa export nota. Cuba lagi.' : 
+                    'Error exporting notes. Please try again.');
             }
         }
         
-        function generatePDFContent() {
+        function generateTextContent() {
             const title = currentLanguage === 'bm' ? 'NOTA POLA - MATEMATIK TINGKATAN 2' : 'PATTERNS NOTES - FORM 2 MATHEMATICS';
+            const date = new Date().toLocaleDateString(currentLanguage === 'bm' ? 'ms-MY' : 'en-US');
             
-            let content = `<!DOCTYPE html>
-<html lang="${currentLanguage === 'bm' ? 'ms' : 'en'}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title}</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .header { 
-            text-align: center; 
-            margin-bottom: 40px; 
-            color: white;
-            padding: 30px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .header h1 { 
-            font-size: 2.5rem; 
-            margin-bottom: 10px; 
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .header p { 
-            font-size: 1.2rem; 
-            opacity: 0.9;
-        }
-        
-        .card { 
-            background: rgba(255,255,255,0.95); 
-            margin: 30px 0; 
-            padding: 30px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            page-break-inside: avoid;
-        }
-        
-        .question { 
-            background: linear-gradient(135deg, #ff6b6b, #feca57); 
-            color: white; 
-            padding: 25px; 
-            border-radius: 15px; 
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        .answer { 
-            background: linear-gradient(135deg, #48cae4, #023e8a); 
-            color: white; 
-            padding: 25px; 
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        .card-number { 
-            font-size: 1.5rem; 
-            font-weight: 700; 
-            margin-bottom: 20px; 
-            color: #2c3e50;
-            text-align: center;
-        }
-        
-        .card-title { 
-            font-size: 1.4rem; 
-            font-weight: 600; 
-            margin-bottom: 15px; 
-        }
-        
-        .card-content { 
-            font-size: 1.1rem; 
-            line-height: 1.8; 
-            white-space: pre-line;
-        }
-        
-        @media print { 
-            body { 
-                background: white !important;
-                padding: 10px;
-            }
-            .header {
-                background: #667eea !important;
-                color: white !important;
-            }
-            .card { 
-                break-inside: avoid; 
-                margin: 20px 0;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            body { padding: 10px; }
-            .header { padding: 20px; }
-            .header h1 { font-size: 2rem; }
-            .card { padding: 20px; margin: 20px 0; }
-            .question, .answer { padding: 20px; }
-            .card-title { font-size: 1.2rem; }
-            .card-content { font-size: 1rem; }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>${title}</h1>
-            <p>${new Date().toLocaleDateString(currentLanguage === 'bm' ? 'ms-MY' : 'en-US')}</p>
-        </div>`;
+            let content = `${title}\n`;
+            content += `${'='.repeat(title.length)}\n`;
+            content += `${currentLanguage === 'bm' ? 'Tarikh' : 'Date'}: ${date}\n\n`;
             
             flashcards[currentLanguage].forEach((card, index) => {
-                const cardNumber = currentLanguage === 'bm' ? 'Kad' : 'Card';
-                content += `
-        <div class="card">
-            <div class="card-number">${cardNumber} ${index + 1}</div>
-            <div class="question">
-                <div class="card-title">${card.front.title}</div>
-                <div class="card-content">${card.front.content.replace(/\n/g, '<br>')}</div>
-            </div>
-            <div class="answer">
-                <div class="card-title">${card.back.title}</div>
-                <div class="card-content">${card.back.content.replace(/\n/g, '<br>')}</div>
-            </div>
-        </div>`;
+                const cardNumber = currentLanguage === 'bm' ? 'KAD' : 'CARD';
+                content += `${cardNumber} ${index + 1}\n`;
+                content += `${'-'.repeat(20)}\n\n`;
+                
+                content += `${currentLanguage === 'bm' ? 'SOALAN' : 'QUESTION'}:\n`;
+                content += `${card.front.title}\n`;
+                content += `${card.front.content}\n\n`;
+                
+                content += `${currentLanguage === 'bm' ? 'JAWAPAN' : 'ANSWER'}:\n`;
+                content += `${card.back.title}\n`;
+                content += `${card.back.content}\n\n`;
+                content += `${'='.repeat(50)}\n\n`;
             });
             
-            content += `
-    </div>
-</body>
-</html>`;
+            content += `${currentLanguage === 'bm' ? 'TAMAT NOTA' : 'END OF NOTES'}\n`;
+            content += `${currentLanguage === 'bm' ? 'Dicipta dengan Flash Card Interaktif' : 'Created with Interactive Flash Cards'}`;
+            
             return content;
         }
         
@@ -1214,5 +1108,5 @@
             updateControlsLanguage();
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'981710bc2092b71c',t:'MTc1ODI2Mzc1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9817247bd21b7a7f',t:'MTc1ODI2NDU2MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
