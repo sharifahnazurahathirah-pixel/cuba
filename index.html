@@ -5,187 +5,175 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kuiz Jujukan Matematik</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #f3f8ff;
-        margin: 0;
-        padding: 0;
-        text-align: center;
+    body { font-family: Arial, sans-serif; background: #f3f8ff; margin: 0; padding: 0; text-align: center; }
+    .header { background: #2196f3; color: white; padding: 20px; position: relative; }
+    .lang-select {
+        position: absolute; top: 20px; right: 20px;
     }
-    .header {
-        background: #2196f3;
-        color: white;
-        padding: 20px;
+    .lang-select button {
+        background: white; border: none; padding: 5px 10px; margin-left: 5px;
+        border-radius: 6px; cursor: pointer; font-weight: bold;
     }
     .instructions-panel {
-        background: #fff3cd;
-        margin: 20px;
-        padding: 20px 25px;
-        border-radius: 15px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        border-left: 6px solid #ff9800;
-        color: #333;
-        font-family: "Trebuchet MS", sans-serif;
-        font-weight: bold;
-        text-align: left;
+        background: #fff3cd; margin: 20px; padding: 20px 25px; border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-left: 6px solid #ff9800;
+        color: #333; font-family: "Trebuchet MS", sans-serif; font-weight: bold; text-align: left;
     }
-    .instructions-panel h2 {
-        margin-bottom: 15px;
-        font-size: 1.5rem;
-        color: #e65100;
-        font-weight: bold;
-    }
-    .instructions-panel ul {
-        padding-left: 20px;
-        line-height: 1.6;
-    }
+    .instructions-panel h2 { margin-bottom: 15px; font-size: 1.5rem; color: #e65100; font-weight: bold; }
+    .instructions-panel ul { padding-left: 20px; line-height: 1.6; }
     .close-btn {
-        background: #ff5722;
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        border-radius: 8px;
-        float: right;
-        cursor: pointer;
-        font-size: 0.9rem;
+        background: #ff5722; color: white; border: none; padding: 6px 12px;
+        border-radius: 8px; float: right; cursor: pointer; font-size: 0.9rem;
     }
-    .quiz-container {
-        margin: 20px auto;
-        max-width: 600px;
-        background: white;
-        padding: 25px;
-        border-radius: 15px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    .question {
-        font-size: 1.3rem;
-        margin-bottom: 15px;
-    }
+    .quiz-container { margin: 20px auto; max-width: 600px; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .question { font-size: 1.3rem; margin-bottom: 15px; }
     .seq-box {
-        display: inline-block;
-        background: #ffffff;
-        border: 2px solid #4caf50;
-        border-radius: 8px;
-        padding: 8px 14px;
-        margin: 4px;
-        font-weight: bold;
-        font-size: 1.2rem;
-        min-width: 40px;
-        text-align: center;
-        box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-        opacity: 0;
-        transform: scale(0.8);
-        animation: fadeInZoom 0.6s forwards;
+        display: inline-block; background: #ffffff; border: 2px solid #4caf50; border-radius: 8px;
+        padding: 8px 14px; margin: 4px; font-weight: bold; font-size: 1.2rem; min-width: 40px; text-align: center;
+        box-shadow: 2px 2px 6px rgba(0,0,0,0.1); opacity: 0; transform: scale(0.8); animation: fadeInZoom 0.6s forwards;
     }
-    @keyframes fadeInZoom {
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-    input {
-        padding: 8px;
-        font-size: 1rem;
-        margin-top: 10px;
-    }
-    button {
-        padding: 8px 16px;
-        font-size: 1rem;
-        margin-top: 15px;
-        border: none;
-        border-radius: 8px;
-        background: #4caf50;
-        color: white;
-        cursor: pointer;
-    }
+    @keyframes fadeInZoom { to { opacity: 1; transform: scale(1); } }
+    input { padding: 8px; font-size: 1rem; margin-top: 10px; }
+    button { padding: 8px 16px; font-size: 1rem; margin-top: 15px; border: none; border-radius: 8px; background: #4caf50; color: white; cursor: pointer; }
     button:hover { background: #388e3c; }
     #feedback { margin-top: 15px; font-weight: bold; }
     #timer { font-weight: bold; color: red; }
-    .progress-bar {
-        background: #ddd;
-        border-radius: 10px;
-        margin: 20px;
-        height: 20px;
-        width: 80%;
-        margin-left: auto;
-        margin-right: auto;
-        overflow: hidden;
-    }
-    .progress-fill {
-        background: linear-gradient(90deg, #4caf50, #66bb6a);
-        height: 100%;
-        width: 0%;
-        border-radius: 10px;
-        transition: width 0.8s ease-in-out;
-        box-shadow: 0 0 8px rgba(76,175,80,0.6);
-    }
+    .progress-bar { background: #ddd; border-radius: 10px; margin: 20px; height: 20px; width: 80%; margin-left: auto; margin-right: auto; overflow: hidden; }
+    .progress-fill { background: linear-gradient(90deg, #4caf50, #66bb6a); height: 100%; width: 0%; border-radius: 10px; transition: width 0.8s ease-in-out; box-shadow: 0 0 8px rgba(76,175,80,0.6); }
     #result { font-size: 1.3rem; margin-top: 20px; font-weight: bold; }
-    #restartBtn {
-        display: none;
-        background: #2196f3;
-        margin-top: 20px;
-    }
+    #restartBtn { display: none; background: #2196f3; margin-top: 20px; }
 </style>
 </head>
 <body>
 
 <div class="header">
-    <h1>🎯 Kuiz Jujukan Matematik</h1>
-    <p>Kuiz Interaktif Tingkatan 2</p>
+    <h1 id="title">🎯 Kuiz Jujukan Matematik</h1>
+    <p id="subtitle">Kuiz Interaktif Tingkatan 2</p>
+    <div class="lang-select">
+        <button onclick="setLanguage('ms')">🇲🇾 BM</button>
+        <button onclick="setLanguage('en')">🇬🇧 EN</button>
+    </div>
 </div>
 
 <!-- 🔹 Panel Arahan -->
 <div class="instructions-panel" id="instructions">
-    <button class="close-btn" onclick="document.getElementById('instructions').style.display='none'">Tutup</button>
-    <h2>📘 Arahan Kuiz</h2>
-    <ul>
-        <li>Murid perlu menjawab <b>10 soalan jujukan nombor</b> secara rawak.</li>
-        <li>Setiap soalan perlu dijawab dalam masa <b>10 saat</b> ⏳.</li>
-        <li>Isikan nombor yang hilang dalam kotak jujukan yang diberikan.</li>
-        <li>Jawapan betul akan menambah markah ✅.</li>
-        <li>Jawapan salah akan dipaparkan bersama jawapan sebenar ❌.</li>
-        <li>Markah akhir dipaparkan selepas semua soalan selesai 🏆.</li>
-        <li>Gunakan butang <b>Jawab Semula</b> untuk ulang kuiz dengan set soalan baru.</li>
-    </ul>
+    <button class="close-btn" onclick="document.getElementById('instructions').style.display='none'" id="closeBtn">Tutup</button>
+    <h2 id="instructionsTitle">📘 Arahan Kuiz</h2>
+    <ul id="instructionsList"></ul>
 </div>
 
 <div class="quiz-container">
-    <div id="scoreboard">Markah: <span id="score">0</span></div>
+    <div id="scoreboard"><span id="scoreLabel">Markah</span>: <span id="score">0</span></div>
     <div id="timer">Masa: 10s</div>
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
     <div id="question" class="question"></div>
     <input type="number" id="answer" placeholder="Jawapan anda">
     <br>
-    <button onclick="checkAnswer()">Hantar</button>
+    <button onclick="checkAnswer()" id="submitBtn">Hantar</button>
     <div id="feedback"></div>
     <div id="result"></div>
     <button id="restartBtn" onclick="restartQuiz()">Jawab Semula 🔄</button>
 </div>
 
 <script>
-    const allQuestions = [
-        {q: "2, 4, 6, ?", a: "8"},
-        {q: "5, 10, 15, ?", a: "20"},
-        {q: "1, 1, 2, 3, 5, ?", a: "8"},
-        {q: "10, 20, 30, ?", a: "40"},
-        {q: "3, 6, 9, ?", a: "12"},
-        {q: "7, 14, 21, ?", a: "28"},
-        {q: "50, 40, 30, ?", a: "20"},
-        {q: "100, 90, 80, ?", a: "70"},
-        {q: "11, 22, 33, ?", a: "44"},
-        {q: "9, 18, 27, ?", a: "36"},
-        {q: "4, 9, 16, ?", a: "25"},
-        {q: "2, 4, 8, 16, ?", a: "32"},
-        {q: "1, 2, 4, 8, ?", a: "16"},
-        {q: "81, 64, 49, ?", a: "36"},
-        {q: "13, 16, 19, ?", a: "22"}
-    ];
+    // 🔹 Teks UI dalam 2 bahasa
+    const uiText = {
+        ms: {
+            title: "🎯 Kuiz Jujukan Matematik",
+            subtitle: "Kuiz Interaktif Tingkatan 2",
+            close: "Tutup",
+            instructionsTitle: "📘 Arahan Kuiz",
+            instructions: [
+                "Murid perlu menjawab <b>10 soalan jujukan nombor</b> secara rawak.",
+                "Setiap soalan perlu dijawab dalam masa <b>10 saat</b> ⏳.",
+                "Isikan nombor yang hilang dalam kotak jujukan yang diberikan.",
+                "Jawapan betul akan menambah markah ✅.",
+                "Jawapan salah akan dipaparkan bersama jawapan sebenar ❌.",
+                "Markah akhir dipaparkan selepas semua soalan selesai 🏆.",
+                "Gunakan butang <b>Jawab Semula</b> untuk ulang kuiz dengan set soalan baru."
+            ],
+            score: "Markah",
+            submit: "Hantar",
+            restart: "Jawab Semula 🔄",
+            correct: "✅ Betul!",
+            wrong: "❌ Salah. Jawapan sebenar: ",
+            timeout: "⏰ Masa tamat! Jawapan sebenar: ",
+            end: "🎉 Kuiz Tamat!",
+            final: "Markah Akhir"
+        },
+        en: {
+            title: "🎯 Math Sequence Quiz",
+            subtitle: "Interactive Quiz Form 2",
+            close: "Close",
+            instructionsTitle: "📘 Quiz Instructions",
+            instructions: [
+                "Students must answer <b>10 sequence questions</b> randomly.",
+                "Each question must be answered within <b>10 seconds</b> ⏳.",
+                "Fill in the missing number in the given sequence box.",
+                "Correct answers will add points ✅.",
+                "Wrong answers will display the correct one ❌.",
+                "Final score is shown after all questions are done 🏆.",
+                "Use the <b>Retry</b> button to play again with new questions."
+            ],
+            score: "Score",
+            submit: "Submit",
+            restart: "Retry 🔄",
+            correct: "✅ Correct!",
+            wrong: "❌ Wrong. Correct answer: ",
+            timeout: "⏰ Time's up! Correct answer: ",
+            end: "🎉 Quiz Finished!",
+            final: "Final Score"
+        }
+    };
 
+    // 🔹 Soalan dalam dua bahasa
+    const allQuestions = {
+        ms: [
+            {q: "2, 4, 6, ?", a: "8"},
+            {q: "5, 10, 15, ?", a: "20"},
+            {q: "1, 1, 2, 3, 5, ?", a: "8"},
+            {q: "10, 20, 30, ?", a: "40"},
+            {q: "3, 6, 9, ?", a: "12"},
+            {q: "7, 14, 21, ?", a: "28"},
+            {q: "50, 40, 30, ?", a: "20"},
+            {q: "100, 90, 80, ?", a: "70"},
+            {q: "11, 22, 33, ?", a: "44"},
+            {q: "9, 18, 27, ?", a: "36"}
+        ],
+        en: [
+            {q: "2, 4, 6, ?", a: "8"},
+            {q: "5, 10, 15, ?", a: "20"},
+            {q: "1, 1, 2, 3, 5, ?", a: "8"},
+            {q: "10, 20, 30, ?", a: "40"},
+            {q: "3, 6, 9, ?", a: "12"},
+            {q: "7, 14, 21, ?", a: "28"},
+            {q: "50, 40, 30, ?", a: "20"},
+            {q: "100, 90, 80, ?", a: "70"},
+            {q: "11, 22, 33, ?", a: "44"},
+            {q: "9, 18, 27, ?", a: "36"}
+        ]
+    };
+
+    let currentLang = "ms";
     let questions = [];
     let current = 0;
     let score = 0;
     let timer;
     let timeLeft = 10;
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        const t = uiText[lang];
+        document.getElementById("title").innerText = t.title;
+        document.getElementById("subtitle").innerText = t.subtitle;
+        document.getElementById("closeBtn").innerText = t.close;
+        document.getElementById("instructionsTitle").innerText = t.instructionsTitle;
+        document.getElementById("instructionsList").innerHTML = t.instructions.map(i => `<li>${i}</li>`).join("");
+        document.getElementById("scoreLabel").innerText = t.score;
+        document.getElementById("submitBtn").innerText = t.submit;
+        document.getElementById("restartBtn").innerText = t.restart;
+        restartQuiz();
+    }
 
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -196,9 +184,7 @@
     }
 
     function formatSequence(q) {
-        return q.split(",").map(num => {
-            return `<span class="seq-box">${num.trim()}</span>`;
-        }).join("");
+        return q.split(",").map(num => `<span class="seq-box">${num.trim()}</span>`).join("");
     }
 
     function loadQuestion() {
@@ -214,13 +200,13 @@
     function checkAnswer() {
         let ans = document.getElementById("answer").value;
         if(ans === "") return;
+        const t = uiText[currentLang];
         if(ans == questions[current].a) {
-            document.getElementById("feedback").innerHTML = "✅ Betul!";
+            document.getElementById("feedback").innerHTML = t.correct;
             score++;
             document.getElementById("score").innerText = score;
         } else {
-            document.getElementById("feedback").innerHTML =
-                `❌ Salah. Jawapan sebenar: <b>${questions[current].a}</b>`;
+            document.getElementById("feedback").innerHTML = t.wrong + `<b>${questions[current].a}</b>`;
         }
         current++;
         setTimeout(loadQuestion, 1000);
@@ -229,14 +215,13 @@
     function resetTimer() {
         clearInterval(timer);
         timeLeft = 10;
-        document.getElementById("timer").innerText = "Masa: " + timeLeft + "s";
+        document.getElementById("timer").innerText = (currentLang=="ms" ? "Masa: " : "Time: ") + timeLeft + "s";
         timer = setInterval(() => {
             timeLeft--;
-            document.getElementById("timer").innerText = "Masa: " + timeLeft + "s";
+            document.getElementById("timer").innerText = (currentLang=="ms" ? "Masa: " : "Time: ") + timeLeft + "s";
             if(timeLeft <= 0) {
                 clearInterval(timer);
-                document.getElementById("feedback").innerHTML =
-                    `⏰ Masa tamat! Jawapan sebenar: <b>${questions[current].a}</b>`;
+                document.getElementById("feedback").innerHTML = uiText[currentLang].timeout + `<b>${questions[current].a}</b>`;
                 current++;
                 setTimeout(loadQuestion, 1500);
             }
@@ -245,17 +230,16 @@
 
     function endQuiz() {
         clearInterval(timer);
-        document.getElementById("question").innerHTML = "🎉 Kuiz Tamat!";
-        document.getElementById("result").innerHTML =
-            `Markah Akhir: ${score} / ${questions.length}`;
+        const t = uiText[currentLang];
+        document.getElementById("question").innerHTML = t.end;
+        document.getElementById("result").innerHTML = `${t.final}: ${score} / ${questions.length}`;
         document.getElementById("restartBtn").style.display = "inline-block";
         document.getElementById("progressFill").style.width = "100%";
     }
 
     function restartQuiz() {
-        questions = shuffle(allQuestions).slice(0,10);
-        current = 0;
-        score = 0;
+        questions = shuffle([...allQuestions[currentLang]]).slice(0,10);
+        current = 0; score = 0;
         document.getElementById("score").innerText = score;
         document.getElementById("result").innerText = "";
         document.getElementById("restartBtn").style.display = "none";
@@ -263,8 +247,8 @@
         loadQuestion();
     }
 
-    // mula kuiz
-    restartQuiz();
+    // mula dengan BM
+    setLanguage("ms");
 </script>
 
 </body>
