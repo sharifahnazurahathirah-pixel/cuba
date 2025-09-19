@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🎯 SEQUENCE QUEST</title>
+  <!-- Import font bold -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -18,23 +20,46 @@
       background: #fff;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
+    /* 🌟 Panel Arahan Baru */
     .instructions-panel {
-      background: #fff8e1;
-      margin: 20px;
-      padding: 20px 25px;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      border-left: 6px solid #ff9800;
+      background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+      margin: 20px auto;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      border-left: 8px solid #ff9800;
+      width: 90%;
+      max-width: 700px;
       text-align: left;
+      position: relative;
+      animation: fadeIn 1s ease-in-out;
+      font-family: 'Comic Neue', cursive; /* 🎨 tukar font untuk arahan */
+      font-weight: 700;
+    }
+    .instructions-panel:hover {
+      transform: scale(1.02);
+      transition: 0.3s;
     }
     .instructions-panel h2 {
       margin-bottom: 15px;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       color: #e65100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .instructions-panel ul {
       padding-left: 20px;
-      line-height: 1.6;
+      line-height: 1.8;
+      font-size: 1.1rem;
+      list-style: none;
+    }
+    .instructions-panel li {
+      margin-bottom: 8px;
+    }
+    .instructions-panel li span.icon {
+      margin-right: 10px;
+      font-size: 1.2rem;
     }
     .close-btn {
       background: #e65100;
@@ -43,7 +68,14 @@
       padding: 6px 12px;
       border-radius: 8px;
       cursor: pointer;
-      float: right;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 0.9rem;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-10px);}
+      to {opacity: 1; transform: translateY(0);}
     }
     .quiz-container {
       margin: 20px auto;
@@ -110,21 +142,21 @@
 <body>
   <div class="header">
     <h1>🎯 SEQUENCE QUEST</h1>
-    <p>Permainan Jujukan Matematik Tingkatan 2</p>
+    <p>Kuiz Jujukan Matematik Tingkatan 2</p>
   </div>
 
-  <!-- Panel Arahan -->
+  <!-- 📘 Panel Arahan -->
   <div class="instructions-panel" id="instructions">
     <button class="close-btn" onclick="document.getElementById('instructions').style.display='none'">Tutup ✖</button>
-    <h2>📘 Arahan Permainan</h2>
+    <h2>📘 Arahan Kuiz</h2>
     <ul>
-      <li>Pemain bermula dengan 10 soalan jujukan nombor.</li>
-      <li>Lengkapkan nombor yang hilang dalam kotak jawapan.</li>
-      <li>Setiap jawapan betul akan menambah markah anda.</li>
-      <li>Jawapan salah akan dipaparkan bersama jawapan sebenar.</li>
-      <li>Anda ada <b>10 saat</b> untuk jawab setiap soalan ⏱️.</li>
-      <li>Gunakan butang <b>Petua</b> jika perlukan bantuan.</li>
-      <li>Kumpul markah tertinggi untuk menang 🏆.</li>
+      <li><span class="icon">👩‍🎓</span> Murid perlu menjawab <b>10 soalan jujukan nombor</b>.</li>
+      <li><span class="icon">🔢</span> Lengkapkan nombor yang hilang dalam kotak jawapan.</li>
+      <li><span class="icon">🏆</span> Setiap jawapan betul akan menambah markah anda.</li>
+      <li><span class="icon">❌</span> Jawapan salah akan dipaparkan bersama jawapan sebenar.</li>
+      <li><span class="icon">⏱️</span> Anda ada <b>10 saat</b> untuk jawab setiap soalan.</li>
+      <li><span class="icon">💡</span> Gunakan butang <b>Petua</b> jika perlukan bantuan.</li>
+      <li><span class="icon">🎮</span> Kumpul markah tertinggi dan cuba lagi untuk tingkatkan skor!</li>
     </ul>
   </div>
 
@@ -141,9 +173,10 @@
     <div class="progress">Soalan: <span id="qNum">0</span>/10</div>
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
     <div id="finalResult"></div>
-    <button id="restartBtn" class="restart-btn" style="display:none;" onclick="restartQuiz()">🔄 Main Semula</button>
+    <button id="restartBtn" class="restart-btn" style="display:none;" onclick="restartQuiz()">🔄 Jawab Semula</button>
   </div>
 
+  <!-- ⚡ Script sama -->
   <script>
     const allQuestions = [
       {q:"2, 4, 6, ?", a:8, h:"Tambah 2 setiap kali"},
