@@ -1,278 +1,240 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kuiz Jujukan Nombor</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f7f7f7;
-    margin: 0;
-    padding: 0;
-  }
-  .container {
-    max-width: 600px;
-    margin: 30px auto;
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    text-align: center;
-  }
-  h2 {
-    margin-top: 0;
-  }
-  #instructionPanel {
-    background: #e3f2fd;
-    border: 2px solid #2196f3;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    font-size: 1.1rem;
-  }
-  .close-btn {
-    float: right;
-    cursor: pointer;
-    font-weight: bold;
-    color: #d32f2f;
-  }
-  .seq-box {
-    display: inline-block;
-    background: #ffffff;
-    border: 2px solid #4caf50;
-    border-radius: 8px;
-    padding: 8px 14px;
-    margin: 4px;
-    font-weight: bold;
-    font-size: 1.2rem;
-    min-width: 40px;
-    text-align: center;
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-    opacity: 0;
-    transform: scale(0.8);
-    animation: fadeInZoom 0.6s forwards;
-  }
-  @keyframes fadeInZoom {
-    to { opacity: 1; transform: scale(1); }
-  }
-  input, button {
-    padding: 10px;
-    margin-top: 10px;
-    font-size: 1rem;
-  }
-  #feedback {
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  #score {
-    margin-top: 15px;
-    font-size: 1.1rem;
-  }
-  #progressBar {
-    width: 100%;
-    height: 15px;
-    background: #ddd;
-    border-radius: 8px;
-    margin: 15px 0;
-    overflow: hidden;
-  }
-  #progressFill {
-    height: 100%;
-    width: 0%;
-    background: #4caf50;
-    transition: width 0.3s;
-  }
-  #timer {
-    font-weight: bold;
-    color: #d32f2f;
-    margin-top: 10px;
-  }
-  .lang-buttons {
-    text-align: center;
-    margin-bottom: 15px;
-  }
-  .lang-buttons button {
-    margin: 0 5px;
-    padding: 6px 14px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    background: #2196f3;
-    color: #fff;
-    font-weight: bold;
-  }
-  .lang-buttons button:hover {
-    background: #1976d2;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎯 KU1Z JUJUKAN</title>
+  <style>
+    * {margin:0; padding:0; box-sizing:border-box;}
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh; padding:20px;
+    }
+    .game-container {
+      max-width:1200px; margin:0 auto; background:white;
+      border-radius:20px; box-shadow:0 20px 40px rgba(0,0,0,0.1);
+      overflow:hidden;
+    }
+    .header {
+      background:linear-gradient(45deg,#ff6b6b,#feca57);
+      color:white; padding:20px; text-align:center;
+    }
+    .header h1 {
+      font-size:2.5rem; margin-bottom:10px;
+      text-shadow:2px 2px 4px rgba(0,0,0,0.3);
+    }
+    /* Language buttons */
+    .lang-buttons {
+      display:flex; gap:10px; justify-content:center; margin:15px 0;
+    }
+    .lang-buttons button {
+      padding:8px 15px; border:none; border-radius:20px;
+      cursor:pointer; font-weight:bold;
+      background:linear-gradient(45deg,#007bff,#0056b3); color:white;
+      transition:0.3s;
+    }
+    .lang-buttons button:hover {transform:scale(1.05);}
+    /* Stats */
+    .stats {
+      display:flex; justify-content:space-around;
+      background:#f8f9fa; padding:20px; margin:20px; border-radius:15px;
+    }
+    .stat-item {text-align:center;}
+    .stat-value {font-size:2rem;font-weight:bold;color:#007bff;}
+    .stat-label {color:#666;margin-top:5px;}
+    /* Board */
+    .game-board {
+      display:grid; grid-template-columns:repeat(10,1fr);
+      gap:5px; padding:20px; background:#f8f9fa;
+    }
+    .board-cell {
+      aspect-ratio:1; background:#e9ecef; border:2px solid #dee2e6;
+      border-radius:10px; display:flex; align-items:center; justify-content:center;
+      font-weight:bold; font-size:1.2rem; transition:all .3s ease; cursor:pointer;
+    }
+    .board-cell:hover {transform:scale(1.05); box-shadow:0 5px 15px rgba(0,0,0,0.2);}
+    .start {background:#28a745; color:white;}
+    .finish {background:#dc3545; color:white;}
+    .player {background:#007bff; color:white; animation:pulse 1s infinite;}
+    @keyframes pulse {0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
+    /* Question Panel */
+    .question-panel {
+      background:white; margin:20px; padding:25px; border-radius:15px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.1); border-left:5px solid #007bff;
+      animation:fadeIn .6s ease;
+    }
+    @keyframes fadeIn {from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
+    .question {font-size:1.3rem; margin-bottom:20px; color:#333; font-weight:bold;}
+    .sequence-display {
+      display:flex; gap:10px; margin:20px 0; flex-wrap:wrap; justify-content:center;
+    }
+    .sequence-item {
+      background:#e3f2fd; border:2px solid #2196f3; border-radius:10px;
+      padding:15px 20px; font-size:1.5rem; font-weight:bold; color:#1976d2;
+      min-width:60px; text-align:center; animation:zoomIn .5s ease;
+    }
+    @keyframes zoomIn {from{opacity:0;transform:scale(.5);}to{opacity:1;transform:scale(1);}}
+    .missing {background:#fff3e0;border:2px dashed #ff9800;color:#f57c00;}
+    /* Input + Buttons */
+    .answer-input {
+      display:flex; gap:15px; align-items:center; justify-content:center; margin:20px 0;
+    }
+    .answer-input input {
+      padding:12px 20px; font-size:1.2rem; border:2px solid #ddd; border-radius:10px;
+      text-align:center; width:160px; transition:0.3s;
+    }
+    .answer-input input:focus {
+      outline:none; border-color:#007bff; box-shadow:0 0 10px rgba(0,123,255,0.3);
+    }
+    .btn {
+      background:linear-gradient(45deg,#007bff,#0056b3);
+      color:white;border:none;padding:12px 25px;border-radius:25px;
+      font-size:1.1rem;cursor:pointer;transition:all 0.3s ease;font-weight:bold;
+    }
+    .btn:hover {transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,123,255,0.4);}
+    /* Feedback */
+    .feedback {
+      padding:15px; margin:15px 0; border-radius:10px; text-align:center;
+      font-weight:bold; font-size:1.1rem;
+    }
+    .correct {background:#d4edda;color:#155724;border:1px solid #c3e6cb;}
+    .incorrect {background:#f8d7da;color:#721c24;border:1px solid #f5c6cb;}
+    /* Progress bar */
+    .progress-container {width:80%;margin:15px auto;background:#eee;border-radius:20px;overflow:hidden;}
+    .progress-bar {height:20px;background:#007bff;width:0%;transition:width 0.5s;}
+    /* Timer */
+    .timer {text-align:center;font-weight:bold;color:#dc3545;font-size:1.2rem;}
+  </style>
 </head>
 <body>
+  <div class="game-container">
+    <div class="header">
+      <h1>🎯 KU1Z JUJUKAN</h1>
+      <p id="subtitle">Uji minda murid dengan soalan matematik</p>
+    </div>
 
-<div class="container">
-  <div class="lang-buttons">
-    <button onclick="setLanguage('ms')">🇲🇾 Bahasa Melayu</button>
-    <button onclick="setLanguage('en')">🇬🇧 English</button>
+    <div class="lang-buttons">
+      <button onclick="setLanguage('ms')">🇲🇾 BM</button>
+      <button onclick="setLanguage('en')">🇬🇧 EN</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat-item"><div class="stat-value" id="position">1</div><div class="stat-label" id="lblPos">Kedudukan</div></div>
+      <div class="stat-item"><div class="stat-value" id="score">0</div><div class="stat-label" id="lblScore">Markah</div></div>
+      <div class="stat-item"><div class="stat-value" id="level">1</div><div class="stat-label" id="lblLevel">Tahap</div></div>
+    </div>
+
+    <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="timer" id="timer">10s</div>
+
+    <div class="game-board" id="gameBoard"></div>
+
+    <div class="question-panel">
+      <div class="question" id="question">Lengkapkan jujukan berikut:</div>
+      <div class="sequence-display" id="sequenceDisplay"></div>
+      <div class="answer-input">
+        <input type="number" id="answerInput" placeholder="Masukkan jawapan di sini">
+        <button class="btn" onclick="checkAnswer()" id="btnAnswer">Jawab</button>
+        <button class="btn" onclick="getHint()" style="background:linear-gradient(45deg,#28a745,#20c997);" id="btnHint">Petua</button>
+      </div>
+      <div id="feedback"></div>
+      <div style="text-align:center;margin-top:15px;">
+        <button class="btn" onclick="restartQuiz()" id="btnRestart">Jawab Semula</button>
+      </div>
+    </div>
   </div>
-
-  <div id="instructionPanel">
-    <span class="close-btn" onclick="this.parentElement.style.display='none'">✖</span>
-    <p id="instructions"></p>
-  </div>
-
-  <h2 id="quizTitle"></h2>
-  <div id="question"></div>
-  <input type="number" id="answer" placeholder="..." />
-  <br>
-  <button onclick="checkAnswer()" id="submitBtn"></button>
-  <p id="feedback"></p>
-  <div id="progressBar"><div id="progressFill"></div></div>
-  <p id="score"></p>
-  <p id="timer"></p>
-  <button onclick="restartQuiz()" id="restartBtn" style="display:none;"></button>
-</div>
 
 <script>
-  let current = 0;
-  let score = 0;
-  let timer;
-  let timeLeft = 10;
-  let lang = "ms"; // default bahasa
-  let questions = [];
+let currentPosition=1, score=0, level=1, currentQuestion={}, qCount=0, totalQ=10, timerInt, timeLeft=10, lang='ms';
 
-  // Soalan BM
-  const questions_ms = [
-    { q: "2, 4, 6, 8", a: 10 },
-    { q: "5, 10, 15, 20", a: 25 },
-    { q: "1, 4, 7, 10", a: 13 },
-    { q: "3, 6, 9, 12", a: 15 },
-    { q: "10, 20, 30, 40", a: 50 },
-    { q: "7, 14, 21, 28", a: 35 },
-    { q: "9, 18, 27, 36", a: 45 },
-    { q: "11, 22, 33, 44", a: 55 },
-    { q: "13, 26, 39, 52", a: 65 },
-    { q: "8, 16, 24, 32", a: 40 }
-  ];
+const texts={
+  ms:{subtitle:"Uji minda murid dengan soalan matematik",pos:"Kedudukan",score:"Markah",level:"Tahap",
+      q:"Lengkapkan jujukan berikut:",ans:"Jawab",hint:"Petua",restart:"Jawab Semula",ph:"Masukkan jawapan di sini",
+      correct:"🎉 Betul! Tahniah!",wrong:"❌ Salah! Jawapan yang betul ialah "},
+  en:{subtitle:"Test students with math sequence questions",pos:"Position",score:"Score",level:"Level",
+      q:"Complete the following sequence:",ans:"Answer",hint:"Hint",restart:"Retry",ph:"Enter your answer here",
+      correct:"🎉 Correct! Well done!",wrong:"❌ Wrong! The correct answer is "}
+};
 
-  // Questions EN
-  const questions_en = [
-    { q: "2, 4, 6, 8", a: 10 },
-    { q: "5, 10, 15, 20", a: 25 },
-    { q: "1, 4, 7, 10", a: 13 },
-    { q: "3, 6, 9, 12", a: 15 },
-    { q: "10, 20, 30, 40", a: 50 },
-    { q: "7, 14, 21, 28", a: 35 },
-    { q: "9, 18, 27, 36", a: 45 },
-    { q: "11, 22, 33, 44", a: 55 },
-    { q: "13, 26, 39, 52", a: 65 },
-    { q: "8, 16, 24, 32", a: 40 }
-  ];
+function setLanguage(l){lang=l;
+  document.getElementById('subtitle').textContent=texts[l].subtitle;
+  document.getElementById('lblPos').textContent=texts[l].pos;
+  document.getElementById('lblScore').textContent=texts[l].score;
+  document.getElementById('lblLevel').textContent=texts[l].level;
+  document.getElementById('question').textContent=texts[l].q;
+  document.getElementById('btnAnswer').textContent=texts[l].ans;
+  document.getElementById('btnHint').textContent=texts[l].hint;
+  document.getElementById('btnRestart').textContent=texts[l].restart;
+  document.getElementById('answerInput').placeholder=texts[l].ph;
+}
 
-  // Teks UI
-  const uiText = {
-    ms: {
-      title: "Kuiz Jujukan Nombor",
-      instr: "Murid, sila lengkapkan 10 soalan jujukan nombor. Anda ada 10 saat untuk setiap soalan. Klik 'Jawab Semula' untuk mencuba lagi.",
-      submit: "Hantar",
-      restart: "Jawab Semula",
-      correct: "Betul!",
-      wrong: "Salah. Jawapan sepatutnya",
-      score: "Skor",
-      timer: "Masa berbaki"
-    },
-    en: {
-      title: "Number Sequence Quiz",
-      instr: "Students, please complete 10 number sequence questions. You have 10 seconds for each question. Click 'Try Again' to retry.",
-      submit: "Submit",
-      restart: "Try Again",
-      correct: "Correct!",
-      wrong: "Wrong. The correct answer is",
-      score: "Score",
-      timer: "Time left"
-    }
-  };
+function initializeBoard(){
+  const board=document.getElementById('gameBoard'); board.innerHTML='';
+  for(let i=1;i<=50;i++){const cell=document.createElement('div');
+    cell.className='board-cell'; cell.textContent=i;
+    if(i===1){cell.classList.add('start'); cell.textContent='MULA';}
+    else if(i===50){cell.classList.add('finish'); cell.textContent='TAMAT';}
+    else if(i===currentPosition){cell.classList.add('player'); cell.textContent='👤';}
+    board.appendChild(cell);}
+}
 
-  function setLanguage(l) {
-    lang = l;
-    if (lang === "ms") {
-      questions = [...questions_ms].sort(() => Math.random() - 0.5);
-    } else {
-      questions = [...questions_en].sort(() => Math.random() - 0.5);
-    }
-    document.getElementById("quizTitle").innerText = uiText[lang].title;
-    document.getElementById("instructions").innerText = uiText[lang].instr;
-    document.getElementById("submitBtn").innerText = uiText[lang].submit;
-    document.getElementById("restartBtn").innerText = uiText[lang].restart;
-    restartQuiz();
+function generateQuestion(){
+  const types=['arithmetic','geometric','square','fibonacci'];
+  const type=types[Math.floor(Math.random()*types.length)];
+  let sequence=[],missing=Math.floor(Math.random()*4)+1,answer=0;
+  switch(type){
+    case 'arithmetic':const diff=Math.floor(Math.random()*5)+2,start=Math.floor(Math.random()*10)+1;
+      for(let i=0;i<6;i++)sequence.push(start+i*diff); answer=sequence[missing];break;
+    case 'geometric':const ratio=Math.floor(Math.random()*3)+2,first=Math.floor(Math.random()*5)+1;
+      for(let i=0;i<6;i++)sequence.push(first*Math.pow(ratio,i)); answer=sequence[missing];break;
+    case 'square':for(let i=1;i<=6;i++)sequence.push(i*i); answer=sequence[missing];break;
+    case 'fibonacci':sequence=[1,1,2,3,5,8]; answer=sequence[missing];break;
   }
+  currentQuestion={sequence,missing,answer,type}; displaySequence();
+  qCount++; updateProgress(); resetTimer();
+}
 
-  function formatSequence(q) {
-    return q.split(",").map(num => {
-      return `<span class="seq-box">${num.trim()}</span>`;
-    }).join("");
+function displaySequence(){
+  const display=document.getElementById('sequenceDisplay'); display.innerHTML='';
+  currentQuestion.sequence.forEach((num,idx)=>{const item=document.createElement('div');
+    item.className='sequence-item'; item.textContent=(idx===currentQuestion.missing)?'?':num;
+    if(idx===currentQuestion.missing)item.classList.add('missing'); display.appendChild(item);});
+}
+
+function checkAnswer(){
+  const userAnswer=parseInt(document.getElementById('answerInput').value);
+  const feedback=document.getElementById('feedback');
+  clearInterval(timerInt);
+  if(userAnswer===currentQuestion.answer){
+    feedback.textContent=texts[lang].correct; feedback.className='feedback correct';
+    score+=10*level; currentPosition=Math.min(currentPosition+1,50);
+    if(currentPosition%10===0)level++; updateStats(); initializeBoard();
+  } else {
+    feedback.textContent=texts[lang].wrong+currentQuestion.answer; feedback.className='feedback incorrect';
   }
+  setTimeout(()=>{if(qCount>=totalQ){feedback.textContent="🏆 Tamat!";}else{generateQuestion();document.getElementById('answerInput').value='';feedback.innerHTML='';}},1500);
+}
 
-  function loadQuestion() {
-    if(current >= questions.length) { endQuiz(); return; }
-    document.getElementById("question").innerHTML = 
-      `Soalan ${current+1}: <br><br>` + formatSequence(questions[current].q);
-    document.getElementById("answer").value = "";
-    document.getElementById("feedback").innerText = "";
-    document.getElementById("progressFill").style.width = ((current)/questions.length)*100 + "%";
-    resetTimer();
-  }
+function getHint(){const fb=document.getElementById('feedback'); let hint='';
+  switch(currentQuestion.type){
+    case 'arithmetic':hint=`💡 ${lang==='ms'?"Petua: Bezanya ialah ":"Hint: Difference is "} ${currentQuestion.sequence[1]-currentQuestion.sequence[0]}`;break;
+    case 'geometric':hint=`💡 ${lang==='ms'?"Petua: Nisbahnya ialah ":"Hint: Ratio is "} ${currentQuestion.sequence[1]/currentQuestion.sequence[0]}`;break;
+    case 'square':hint=lang==='ms'?"💡 Petua: n²":"💡 Hint: n²";break;
+    case 'fibonacci':hint=lang==='ms'?"💡 Petua: jumlah dua sebelumnya":"💡 Hint: sum of previous two";break;}
+  fb.textContent=hint; fb.className='feedback'; fb.style.background='#fff3cd'; fb.style.color='#856404'; fb.style.border='1px solid #ffeaa7';
+}
 
-  function checkAnswer() {
-    let ans = document.getElementById("answer").value;
-    if(ans == questions[current].a) {
-      document.getElementById("feedback").innerText = uiText[lang].correct;
-      score++;
-    } else {
-      document.getElementById("feedback").innerText = 
-        `${uiText[lang].wrong} ${questions[current].a}`;
-    }
-    current++;
-    setTimeout(loadQuestion, 1000);
-  }
-
-  function endQuiz() {
-    clearInterval(timer);
-    document.getElementById("question").innerHTML = "🎉 " + uiText[lang].score + ": " + score + "/" + questions.length;
-    document.getElementById("submitBtn").style.display = "none";
-    document.getElementById("restartBtn").style.display = "inline-block";
-    document.getElementById("timer").innerText = "";
-  }
-
-  function restartQuiz() {
-    current = 0;
-    score = 0;
-    document.getElementById("submitBtn").style.display = "inline-block";
-    document.getElementById("restartBtn").style.display = "none";
-    loadQuestion();
-    document.getElementById("score").innerText = uiText[lang].score + ": 0";
-  }
-
-  function resetTimer() {
-    clearInterval(timer);
-    timeLeft = 10;
-    document.getElementById("timer").innerText = uiText[lang].timer + ": " + timeLeft;
-    timer = setInterval(() => {
-      timeLeft--;
-      document.getElementById("timer").innerText = uiText[lang].timer + ": " + timeLeft;
-      if(timeLeft <= 0) {
-        clearInterval(timer);
-        document.getElementById("feedback").innerText = 
-          `${uiText[lang].wrong} ${questions[current].a}`;
-        current++;
-        setTimeout(loadQuestion, 1000);
-      }
-    }, 1000);
-  }
-
-  // Default BM
-  setLanguage("ms");
+function updateStats(){document.getElementById('position').textContent=currentPosition;
+  document.getElementById('score').textContent=score;
+  document.getElementById('level').textContent=level;}
+function updateProgress(){document.getElementById('progressBar').style.width=(qCount/totalQ*100)+'%';}
+function resetTimer(){clearInterval(timerInt); timeLeft=10; document.getElementById('timer').textContent=timeLeft+'s';
+  timerInt=setInterval(()=>{timeLeft--; document.getElementById('timer').textContent=timeLeft+'s';
+    if(timeLeft<=0){clearInterval(timerInt); checkAnswer();}},1000);}
+function restartQuiz(){qCount=0;score=0;level=1;currentPosition=1;updateStats();initializeBoard();updateProgress();generateQuestion();}
+document.getElementById('answerInput').addEventListener('keypress',e=>{if(e.key==='Enter')checkAnswer();});
+initializeBoard(); generateQuestion();
 </script>
-
 </body>
 </html>
