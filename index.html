@@ -28,24 +28,17 @@
 <body class="bg-gradient-to-br from-purple-100 via-pink-50 to-orange-100 min-h-screen">
     <!-- Header -->
     <div class="bg-gradient-to-r from-violet-500 to-purple-600 shadow-lg border-b-4 border-pink-400">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6 flex items-center justify-between">
-            <div>
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white text-center drop-shadow-lg leading-tight">
-                    📍 Menentukan Jarak Sebenar Berpandukan Skala pada Peta
-                </h1>
-                <p class="text-center text-purple-100 mt-2 font-medium text-sm sm:text-base">Geografi Tingkatan 2 - Bab 1</p>
-            </div>
-            
-            <!-- Music Button -->
-            <button id="musicBtn" class="ml-4 px-3 py-2 bg-gradient-to-r from-emerald-400 to-green-500 text-white rounded-full shadow-md hover:from-emerald-500 hover:to-green-600 transition">
-                🔊 On
-            </button>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+            <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white text-center drop-shadow-lg leading-tight">
+                📍 Menentukan Jarak Sebenar Berpandukan Skala pada Peta
+            </h1>
+            <p class="text-center text-purple-100 mt-2 font-medium text-sm sm:text-base">Geografi Tingkatan 2 - Bab 1</p>
         </div>
     </div>
 
     <!-- Main Container -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
-        <!-- Contoh isi asal awak kekalkan -->
+        <!-- Pengenalan -->
         <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg slide-enter">
             <h2 class="text-2xl font-bold text-purple-700 mb-4">📖 Pengenalan</h2>
             <p class="text-gray-700 leading-relaxed">
@@ -54,6 +47,7 @@
             </p>
         </div>
 
+        <!-- Contoh -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
             <div class="map-example p-6 rounded-xl">
                 <h3 class="text-lg font-semibold text-yellow-800 mb-2">🗺️ Contoh Peta</h3>
@@ -68,31 +62,5 @@
             </div>
         </div>
     </div>
-
-    <!-- Audio (soothing background music) -->
-    <audio id="bgMusic" autoplay loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_08dbcf6220.mp3?filename=relaxing-meditation-music-21977.mp3" type="audio/mpeg">
-    </audio>
-
-    <script>
-        const musicBtn = document.getElementById("musicBtn");
-        const bgMusic = document.getElementById("bgMusic");
-        let isMuted = false;
-
-        // Kawal volume supaya lebih lembut
-        bgMusic.volume = 0.5;
-
-        musicBtn.addEventListener("click", () => {
-            if (!isMuted) {
-                bgMusic.muted = true;
-                musicBtn.textContent = "🔇 Off";
-                isMuted = true;
-            } else {
-                bgMusic.muted = false;
-                musicBtn.textContent = "🔊 On";
-                isMuted = false;
-            }
-        });
-    </script>
 </body>
 </html>
