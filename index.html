@@ -1,676 +1,210 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menentukan Jarak Sebenar Berpandukan Skala pada Peta</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .slide-enter {
-            animation: slideIn 0.5s ease-out;
-        }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.3s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .progress-bar {
-            transition: width 0.3s ease;
-        }
-        
-        .map-example {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fed7aa 100%);
-            border: 2px dashed #f59e0b;
-        }
-        
-        .formula-box {
-            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 50%, #ddd6fe 100%);
-            border-left: 4px solid #8b5cf6;
-        }
-        
-        /* Mobile optimizations */
-        @media (max-width: 768px) {
-            .mobile-stack {
-                flex-direction: column !important;
-                gap: 1rem !important;
-            }
-            
-            .mobile-full {
-                width: 100% !important;
-            }
-            
-            .mobile-text-sm {
-                font-size: 0.875rem !important;
-            }
-            
-            .mobile-p-4 {
-                padding: 1rem !important;
-            }
-            
-            .mobile-text-center {
-                text-align: center !important;
-            }
-        }
-        
-        /* Ensure buttons are touch-friendly on mobile */
-        @media (max-width: 768px) {
-            button {
-                min-height: 44px;
-                padding: 0.75rem 1rem !important;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hubung Kait antara Ciri Pandang Darat Fizikal dan Ciri Pandang Darat Budaya</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 700px;
+      width: 90%;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2e7d32;
+    }
+    .progress {
+      height: 20px;
+      background: #c8e6c9;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 15px 0;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background: #2e7d32;
+      transition: width 0.4s;
+    }
+    .card {
+      padding: 15px;
+      border-radius: 10px;
+      background: #e8f5e9;
+      margin-bottom: 20px;
+    }
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      margin: 10px 0;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 16px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .btn-primary { background: #2e7d32; color: #fff; }
+    .btn-secondary { background: #81c784; color: #fff; }
+    .btn-danger { background: #e53935; color: #fff; }
+    .feedback {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .correct { background: #c8e6c9; color: #1b5e20; }
+    .partial { background: #fff3cd; color: #856404; }
+    .wrong { background: #ffcdd2; color: #b71c1c; }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-purple-100 via-pink-50 to-orange-100 min-h-screen">
-    <!-- Header -->
-    <div class="bg-gradient-to-r from-violet-500 to-purple-600 shadow-lg border-b-4 border-pink-400">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
-            <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white text-center drop-shadow-lg leading-tight">
-                📍 Menentukan Jarak Sebenar Berpandukan Skala pada Peta
-            </h1>
-            <p class="text-center text-purple-100 mt-2 font-medium text-sm sm:text-base">Geografi Tingkatan 2 - Bab 1</p>
-        </div>
-    </div>
+<body>
+  <div class="container">
+    <h1>Hubung Kait antara Ciri Pandang Darat Fizikal dan Ciri Pandang Darat Budaya</h1>
+    <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+    <div id="quiz"></div>
+    <div id="feedback" aria-live="polite"></div>
+    <div id="controls"></div>
+    <div id="summary" style="display:none;"></div>
+  </div>
 
-    <!-- Main Container -->
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
-        <!-- Control Panel -->
-        <div class="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 border-2 border-cyan-200">
-            <div class="mobile-stack flex flex-col lg:flex-row items-center justify-between gap-4">
-                <!-- Slide Info -->
-                <div class="mobile-text-center text-center lg:text-left mobile-full">
-                    <h2 class="text-base sm:text-lg font-semibold text-gray-800" id="slideTitle">Pengenalan kepada Skala Peta</h2>
-                    <p class="text-gray-600 mt-1 text-sm sm:text-base" id="slideDescription">Memahami konsep asas skala dalam peta geografi</p>
-                </div>
-                
-                <!-- Progress Bar -->
-                <div class="mobile-full w-full lg:w-64">
-                    <div class="flex justify-between text-xs sm:text-sm text-gray-600 mb-2">
-                        <span>Kemajuan</span>
-                        <span id="progressText">1 / 8</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2 sm:h-3 mb-4">
-                        <div class="progress-bar bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 h-2 sm:h-3 rounded-full" id="progressBar" style="width: 12.5%"></div>
-                    </div>
-                    
-                    <!-- Controls -->
-                    <div class="flex gap-2 sm:gap-3 justify-center px-2">
-                        <button id="prevBtn" class="flex-1 sm:flex-none px-2 sm:px-3 py-2 bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-lg hover:from-orange-500 hover:to-red-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md text-xs sm:text-sm max-w-24 sm:max-w-none">
-                            ← Sebelum
-                        </button>
-                        <button id="playBtn" class="flex-1 sm:flex-none px-2 sm:px-3 py-2 bg-gradient-to-r from-emerald-400 to-green-500 text-white rounded-lg hover:from-emerald-500 hover:to-green-600 transition-all duration-200 shadow-md text-xs sm:text-sm max-w-28 sm:max-w-none">
-                            ▶ Auto Play
-                        </button>
-                        <button id="nextBtn" class="flex-1 sm:flex-none px-2 sm:px-3 py-2 bg-gradient-to-r from-blue-400 to-purple-500 text-white rounded-lg hover:from-blue-500 hover:to-purple-600 transition-all duration-200 shadow-md text-xs sm:text-sm max-w-28 sm:max-w-none">
-                            Seterusnya →
-                        </button>
-                        <!-- 🎵 Butang Muzik (Hidden) -->
-                        <button id="musicBtn" class="hidden flex-1 sm:flex-none px-2 sm:px-3 py-2 
-                            bg-gradient-to-r from-indigo-400 to-blue-500 text-white rounded-lg 
-                            hover:from-indigo-500 hover:to-blue-600 transition-all duration-200 
-                            shadow-md text-xs sm:text-sm max-w-28 sm:max-w-none">
-                            🔊 Muzik
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <script>
+    // Tambah API Key anda di sini jika mahu gunakan AI
+    const API_KEY = ""; // <-- Letak OpenAI API Key (atau biarkan kosong untuk fallback kata kunci)
 
-        <!-- Slide Content -->
-        <div class="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-lg border-2 border-blue-200 min-h-64 sm:min-h-96">
-            <div id="slideContent" class="mobile-p-4 p-4 sm:p-6 lg:p-8">
-                <!-- Slide content will be inserted here -->
-            </div>
-        </div>
-    </div>
+    const questions = [
+      { q: "Kawasan tanah rata dan subur.", a: ["sawah", "padi", "menuai", "kampung"] },
+      { q: "Sungai besar dan boleh dilayari.", a: ["perdagangan", "pengangkutan", "ikan", "air"] },
+      { q: "Kawasan tanah tinggi dan berlereng.", a: ["teres", "bertangga", "rumah", "bukit"] },
+      { q: "Kawasan pantai.", a: ["nelayan", "ikan", "pelancongan", "laut"] },
+      { q: "Iklim lembap sepanjang tahun.", a: ["getah", "sawit", "ladang"] },
+      { q: "Kawasan kering/kurang hujan.", a: ["ternakan", "unta", "padang pasir", "rumah"] }
+    ];
 
-    <!-- Audio (muzik latar) -->
-    <audio id="bgMusic" autoplay loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
-        Browser anda tidak menyokong audio.
-    </audio>
+    let current = 0;
+    let answers = [];
 
-    <script>
-        const slides = [
-            {
-                title: "Pengenalan kepada Skala Peta",
-                description: "Memahami konsep asas skala dalam peta geografi",
-                content: `
-                    <div class="text-center mb-6 sm:mb-8">
-                        <div class="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4">🗺️</div>
-                        <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Apa itu Skala Peta?</h2>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
-                        <div class="bg-blue-50 p-4 sm:p-6 rounded-lg border-l-4 border-blue-500">
-                            <h3 class="font-semibold text-base sm:text-lg mb-3 text-blue-800">📏 Definisi</h3>
-                            <p class="text-gray-700 leading-relaxed text-sm sm:text-base">
-                                Skala peta ialah nisbah antara jarak pada peta dengan jarak sebenar di permukaan bumi.
-                            </p>
-                        </div>
-                        <div class="bg-green-50 p-4 sm:p-6 rounded-lg border-l-4 border-green-500">
-                            <h3 class="font-semibold text-base sm:text-lg mb-3 text-green-800">🎯 Tujuan</h3>
-                            <p class="text-gray-700 leading-relaxed text-sm sm:text-base">
-                                Membantu kita mengira jarak sebenar antara dua tempat berdasarkan jarak yang diukur pada peta.
-                            </p>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                title: "Jenis-jenis Skala Peta",
-                description: "Mengenal pasti tiga jenis skala yang digunakan dalam peta",
-                content: `
-                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">📊 Jenis-jenis Skala Peta</h2>
-                    <div class="grid gap-4 sm:gap-6">
-                        <div class="bg-yellow-50 p-4 sm:p-6 rounded-lg border-l-4 border-yellow-500">
-                            <h3 class="font-semibold text-base sm:text-lg mb-3 text-yellow-800">1️⃣ Skala Nombor (Numerical Scale)</h3>
-                            <p class="text-gray-700 mb-2 text-sm sm:text-base">Ditulis dalam bentuk nisbah seperti:</p>
-                            <div class="bg-white p-3 rounded border text-center font-mono text-base sm:text-lg">
-                                1 : 50,000 atau 1/50,000
-                            </div>
-                            <p class="text-xs sm:text-sm text-gray-600 mt-2">Bermaksud: 1 cm pada peta = 50,000 cm di dunia sebenar</p>
-                        </div>
-                        
-                        <div class="bg-blue-50 p-4 sm:p-6 rounded-lg border-l-4 border-blue-500">
-                            <h3 class="font-semibold text-base sm:text-lg mb-3 text-blue-800">2️⃣ Skala Perkataan (Statement Scale)</h3>
-                            <p class="text-gray-700 mb-2 text-sm sm:text-base">Ditulis dalam bentuk ayat seperti:</p>
-                            <div class="bg-white p-3 rounded border text-center font-medium text-sm sm:text-base">
-                                "1 cm mewakili 500 meter"
-                            </div>
-                        </div>
-                        
-                        <div class="bg-green-50 p-4 sm:p-6 rounded-lg border-l-4 border-green-500">
-                            <h3 class="font-semibold text-base sm:text-lg mb-3 text-green-800">3️⃣ Skala Grafik (Graphic Scale)</h3>
-                            <p class="text-gray-700 mb-2 text-sm sm:text-base">Berbentuk garisan bergraduat:</p>
-                            <div class="bg-white p-3 sm:p-4 rounded border">
-                                <div class="flex items-center justify-center">
-                                    <div class="w-24 sm:w-32 h-3 sm:h-4 bg-gradient-to-r from-black via-white to-black border border-gray-400 relative">
-                                        <div class="absolute -bottom-5 sm:-bottom-6 left-0 text-xs">0</div>
-                                        <div class="absolute -bottom-5 sm:-bottom-6 left-1/2 transform -translate-x-1/2 text-xs">5 km</div>
-                                        <div class="absolute -bottom-5 sm:-bottom-6 right-0 text-xs">10 km</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                title: "Formula Asas Pengiraan",
-                description: "Mempelajari formula untuk mengira jarak sebenar",
-                content: `
-                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">🧮 Formula Pengiraan Jarak</h2>
-                    
-                    <div class="formula-box p-4 sm:p-6 lg:p-8 rounded-lg mb-4 sm:mb-6">
-                        <h3 class="text-lg sm:text-xl font-semibold mb-4 text-center text-amber-800">Formula Utama:</h3>
-                        <div class="text-center">
-                            <div class="bg-white p-4 sm:p-6 rounded-lg shadow-inner border-2 border-amber-200 inline-block max-w-full">
-                                <div class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 mb-2 leading-tight">
-                                    Jarak Sebenar = Jarak pada Peta × Skala
-                                </div>
-                                <div class="text-base sm:text-lg text-gray-600">
-                                    atau
-                                </div>
-                                <div class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 mt-2">
-                                    JS = JP × S
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-center">
-                        <div class="bg-blue-50 p-3 sm:p-4 rounded-lg">
-                            <div class="text-2xl sm:text-3xl mb-2">📏</div>
-                            <h4 class="font-semibold text-blue-800 text-sm sm:text-base">JS</h4>
-                            <p class="text-xs sm:text-sm text-gray-600">Jarak Sebenar</p>
-                        </div>
-                        <div class="bg-green-50 p-3 sm:p-4 rounded-lg">
-                            <div class="text-2xl sm:text-3xl mb-2">📐</div>
-                            <h4 class="font-semibold text-green-800 text-sm sm:text-base">JP</h4>
-                            <p class="text-xs sm:text-sm text-gray-600">Jarak pada Peta</p>
-                        </div>
-                        <div class="bg-purple-50 p-3 sm:p-4 rounded-lg">
-                            <div class="text-2xl sm:text-3xl mb-2">⚖️</div>
-                            <h4 class="font-semibold text-purple-800 text-sm sm:text-base">S</h4>
-                            <p class="text-xs sm:text-sm text-gray-600">Skala</p>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                title: "Langkah-langkah Pengiraan",
-                description: "Panduan langkah demi langkah untuk mengira jarak sebenar",
-                content: `
-                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">📋 Langkah-langkah Pengiraan</h2>
-                    
-                    <div class="space-y-3 sm:space-y-4">
-                        <div class="flex items-start gap-3 sm:gap-4 bg-blue-50 p-3 sm:p-4 rounded-lg border-l-4 border-blue-500">
-                            <div class="bg-blue-500 text-white rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-bold flex-shrink-0 text-sm sm:text-base">1</div>
-                            <div>
-                                <h3 class="font-semibold text-blue-800 mb-1 text-sm sm:text-base">Ukur jarak pada peta</h3>
-                                <p class="text-gray-700 text-xs sm:text-sm">Gunakan pembaris untuk mengukur jarak antara dua titik pada peta (dalam cm)</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start gap-3 sm:gap-4 bg-green-50 p-3 sm:p-4 rounded-lg border-l-4 border-green-500">
-                            <div class="bg-green-500 text-white rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-bold flex-shrink-0 text-sm sm:text-base">2</div>
-                            <div>
-                                <h3 class="font-semibold text-green-800 mb-1 text-sm sm:text-base">Kenal pasti skala peta</h3>
-                                <p class="text-gray-700 text-xs sm:text-sm">Cari skala yang tertera pada peta (contoh: 1:50,000)</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start gap-3 sm:gap-4 bg-yellow-50 p-3 sm:p-4 rounded-lg border-l-4 border-yellow-500">
-                            <div class="bg-yellow-500 text-white rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-bold flex-shrink-0 text-sm sm:text-base">3</div>
-                            <div>
-                                <h3 class="font-semibold text-yellow-800 mb-1 text-sm sm:text-base">Tukar skala kepada unit yang sama</h3>
-                                <p class="text-gray-700 text-xs sm:text-sm">Pastikan unit jarak peta dan skala adalah sama (biasanya cm)</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start gap-3 sm:gap-4 bg-purple-50 p-3 sm:p-4 rounded-lg border-l-4 border-purple-500">
-                            <div class="bg-purple-500 text-white rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-bold flex-shrink-0 text-sm sm:text-base">4</div>
-                            <div>
-                                <h3 class="font-semibold text-purple-800 mb-1 text-sm sm:text-base">Kira jarak sebenar</h3>
-                                <p class="text-gray-700 text-xs sm:text-sm">Gunakan formula: Jarak Sebenar = Jarak pada Peta × Skala</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start gap-3 sm:gap-4 bg-red-50 p-3 sm:p-4 rounded-lg border-l-4 border-red-500">
-                            <div class="bg-red-500 text-white rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-bold flex-shrink-0 text-sm sm:text-base">5</div>
-                            <div>
-                                <h3 class="font-semibold text-red-800 mb-1 text-sm sm:text-base">Tukar kepada unit yang sesuai</h3>
-                                <p class="text-gray-700 text-xs sm:text-sm">Tukar jawapan kepada unit yang diminta (meter, kilometer, dll.)</p>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                title: "Contoh Pengiraan 1",
-                description: "Contoh mudah menggunakan skala 1:50,000",
-                content: `
-                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">📝 Contoh Pengiraan 1</h2>
-                    
-                    <div class="map-example p-4 sm:p-6 rounded-lg mb-4 sm:mb-6">
-                        <h3 class="font-semibold text-base sm:text-lg mb-3 sm:mb-4 text-center text-green-800">🗺️ Situasi:</h3>
-                        <div class="bg-white p-3 sm:p-4 rounded border-2 border-green-300">
-                            <p class="text-gray-700 text-center text-sm sm:text-base lg:text-lg leading-relaxed">
-                                Jarak antara Bandar A dan Bandar B pada peta ialah <strong>4 cm</strong><br>
-                                Skala peta: <strong>1 : 50,000</strong><br>
-                                Cari jarak sebenar antara kedua-dua bandar.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="formula-box p-4 sm:p-6 rounded-lg">
-                        <h3 class="font-semibold text-base sm:text-lg mb-3 sm:mb-4 text-amber-800">🧮 Penyelesaian:</h3>
-                        <div class="space-y-2 sm:space-y-3">
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center bg-white p-3 rounded border gap-1 sm:gap-0">
-                                <span class="text-gray-700 text-sm sm:text-base">Jarak pada peta (JP)</span>
-                                <span class="font-semibold text-sm sm:text-base">= 4 cm</span>
-                            </div>
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center bg-white p-3 rounded border gap-1 sm:gap-0">
-                                <span class="text-gray-700 text-sm sm:text-base">Skala (S)</span>
-                                <span class="font-semibold text-sm sm:text-base">= 1 : 50,000 = 50,000</span>
-                            </div>
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center bg-white p-3 rounded border gap-1 sm:gap-0">
-                                <span class="text-gray-700 text-sm sm:text-base">Jarak Sebenar (JS)</span>
-                                <span class="font-semibold text-sm sm:text-base">= JP × S</span>
-                            </div>
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center bg-white p-3 rounded border gap-1 sm:gap-0">
-                                <span class="text-gray-700 text-sm sm:text-base"></span>
-                                <span class="font-semibold text-sm sm:text-base">= 4 cm × 50,000</span>
-                            </div>
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center bg-green-100 p-3 rounded border-2 border-green-500 gap-1 sm:gap-0">
-                                <span class="text-gray-700 text-sm sm:text-base"></span>
-                                <span class="font-bold text-green-800 text-sm sm:text-base">= 200,000 cm = 2 km</span>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                title: "Contoh Pengiraan 2",
-                description: "Contoh dengan skala yang berbeza dan unit yang perlu ditukar",
-                content: `
-                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">📝 Contoh Pengiraan 2</h2>
-                    
-                    <div class="map-example p-4 sm:p-6 rounded-lg mb-4 sm:mb-6">
-                        <h3 class="font-semibold text-base sm:text-lg mb-3 sm:mb-4 text-center text-green-800">🗺️ Situasi:</h3>
-                        <div class="bg-white p-3 sm:p-4 rounded border-2 border-green-300">
-                            <p class="text-gray-700 text-center text-sm sm:text-base lg:text-lg leading-relaxed">
-                                Jarak antara Sekolah dan Perpustakaan pada peta ialah <strong>2.5 cm</strong><br>
-                                Skala peta: <strong>1 : 25,000</strong><br>
-                                Cari jarak sebenar dalam meter.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="formula-box p-4 sm:p-6 rounded-lg">
-                        <h3 class="font-semibold text-base sm:text-lg mb-3 sm:mb-4 text-amber-800">🧮 Penyelesaian:</h3>
-                        <div class="space-y-2 sm:space-y-3">
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center bg-white p-3 rounded border gap-1 sm:gap-0">
-                                <span class="text-gray-700 text-sm sm:text-base">Jarak pada peta (JP)</span>
-                                <span class="font-semibold text-sm sm:text-base">= 2.5 cm</span>
-                            </div>
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center bg-white p-3 rounded border gap-1 sm:gap-0">
-                                <span class="text-gray-700 text-sm sm:text-base">Skala (S)</span>
-                                <span class="font-semibold text-sm sm:text-base">= 1 : 25,000 = 25,000</span>
-                            </div>
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center bg-white p-3 rounded border gap-1 sm:gap-0">
-                                <span class="text-gray-700 text-sm sm:text-base">Jarak Sebenar (JS)</span>
-                                <span class="font-semibold text-sm sm:text-base">= 2.5 × 25,000 = 62,500 cm</span>
-                            </div>
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center bg-blue-100 p-3 rounded border gap-1 sm:gap-0">
-                                <span class="text-gray-700 text-sm sm:text-base">Tukar kepada meter:</span>
-                                <span class="font-semibold text-sm sm:text-base">62,500 cm ÷ 100 = 625 m</span>
-                            </div>
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center bg-green-100 p-3 rounded border-2 border-green-500 gap-1 sm:gap-0">
-                                <span class="text-gray-700 text-sm sm:text-base"><strong>Jawapan:</strong></span>
-                                <span class="font-bold text-green-800 text-sm sm:text-base">625 meter</span>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                title: "Tips dan Petua",
-                description: "Tips berguna untuk menguasai pengiraan jarak pada peta",
-                content: `
-                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">💡 Tips dan Petua</h2>
-                    
-                    <div class="grid gap-4 sm:gap-6">
-                        <div class="bg-blue-50 p-4 sm:p-6 rounded-lg border-l-4 border-blue-500">
-                            <h3 class="font-semibold text-base sm:text-lg mb-3 text-blue-800">🎯 Petua Pengukuran</h3>
-                            <ul class="space-y-2 text-gray-700">
-                                <li class="flex items-start gap-2">
-                                    <span class="text-blue-500 mt-1 text-sm sm:text-base">•</span>
-                                    <span class="text-xs sm:text-sm">Gunakan pembaris yang tepat dan ukur dengan teliti</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-blue-500 mt-1 text-sm sm:text-base">•</span>
-                                    <span class="text-xs sm:text-sm">Untuk jalan berkelok, bahagikan kepada beberapa segmen lurus</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-blue-500 mt-1 text-sm sm:text-base">•</span>
-                                    <span class="text-xs sm:text-sm">Gunakan benang atau tali untuk mengukur jalan yang tidak lurus</span>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <div class="bg-green-50 p-4 sm:p-6 rounded-lg border-l-4 border-green-500">
-                            <h3 class="font-semibold text-base sm:text-lg mb-3 text-green-800">🔢 Petua Pengiraan</h3>
-                            <ul class="space-y-2 text-gray-700">
-                                <li class="flex items-start gap-2">
-                                    <span class="text-green-500 mt-1 text-sm sm:text-base">•</span>
-                                    <span class="text-xs sm:text-sm">Sentiasa periksa unit - pastikan konsisten</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-green-500 mt-1 text-sm sm:text-base">•</span>
-                                    <span class="text-xs sm:text-sm">Ingat: 1 m = 100 cm, 1 km = 1000 m</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-green-500 mt-1 text-sm sm:text-base">•</span>
-                                    <span class="text-xs sm:text-sm">Bulatkan jawapan kepada tempat perpuluhan yang sesuai</span>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <div class="bg-yellow-50 p-4 sm:p-6 rounded-lg border-l-4 border-yellow-500">
-                            <h3 class="font-semibold text-base sm:text-lg mb-3 text-yellow-800">⚠️ Kesilapan Biasa</h3>
-                            <ul class="space-y-2 text-gray-700">
-                                <li class="flex items-start gap-2">
-                                    <span class="text-yellow-500 mt-1 text-sm sm:text-base">•</span>
-                                    <span class="text-xs sm:text-sm">Terlupa menukar unit (cm kepada m atau km)</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-yellow-500 mt-1 text-sm sm:text-base">•</span>
-                                    <span class="text-xs sm:text-sm">Salah faham skala (1:50,000 bermaksud 50,000 kali ganda)</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-yellow-500 mt-1 text-sm sm:text-base">•</span>
-                                    <span class="text-xs sm:text-sm">Tidak teliti dalam pengukuran jarak pada peta</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                title: "Latihan dan Kesimpulan",
-                description: "Ringkasan pembelajaran dan cadangan latihan lanjut",
-                content: `
-                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">🎓 Kesimpulan</h2>
-                    
-                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 sm:p-6 rounded-lg mb-4 sm:mb-6 border border-blue-200">
-                        <h3 class="font-semibold text-base sm:text-lg mb-3 sm:mb-4 text-blue-800 text-center">📚 Apa yang telah kita pelajari:</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-                            <div class="space-y-2">
-                                <div class="flex items-center gap-2">
-                                    <span class="text-green-500 text-sm sm:text-base">✓</span>
-                                    <span class="text-gray-700 text-xs sm:text-sm">Konsep skala peta</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-green-500 text-sm sm:text-base">✓</span>
-                                    <span class="text-gray-700 text-xs sm:text-sm">Jenis-jenis skala</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-green-500 text-sm sm:text-base">✓</span>
-                                    <span class="text-gray-700 text-xs sm:text-sm">Formula pengiraan</span>
-                                </div>
-                            </div>
-                            <div class="space-y-2">
-                                <div class="flex items-center gap-2">
-                                    <span class="text-green-500 text-sm sm:text-base">✓</span>
-                                    <span class="text-gray-700 text-xs sm:text-sm">Langkah-langkah pengiraan</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-green-500 text-sm sm:text-base">✓</span>
-                                    <span class="text-gray-700 text-xs sm:text-sm">Contoh-contoh praktikal</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-green-500 text-sm sm:text-base">✓</span>
-                                    <span class="text-gray-700 text-xs sm:text-sm">Tips dan petua</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="formula-box p-4 sm:p-6 rounded-lg mb-4 sm:mb-6">
-                        <h3 class="font-semibold text-base sm:text-lg mb-3 text-amber-800 text-center">🔑 Formula Penting:</h3>
-                        <div class="text-center bg-white p-3 sm:p-4 rounded border-2 border-amber-200">
-                            <div class="text-base sm:text-lg lg:text-xl font-bold text-gray-800 leading-tight">
-                                Jarak Sebenar = Jarak pada Peta × Skala
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-green-50 p-4 sm:p-6 rounded-lg border-l-4 border-green-500">
-                        <h3 class="font-semibold text-base sm:text-lg mb-3 text-green-800">🏃‍♂️ Latihan Lanjut:</h3>
-                        <ul class="space-y-2 text-gray-700">
-                            <li class="flex items-start gap-2">
-                                <span class="text-green-500 mt-1 text-sm sm:text-base">•</span>
-                                <span class="text-xs sm:text-sm">Cuba ukur jarak antara rumah dan sekolah menggunakan peta tempatan</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-green-500 mt-1 text-sm sm:text-base">•</span>
-                                <span class="text-xs sm:text-sm">Bandingkan jarak yang dikira dengan jarak sebenar (menggunakan GPS)</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-green-500 mt-1 text-sm sm:text-base">•</span>
-                                <span class="text-xs sm:text-sm">Buat latihan dengan peta yang mempunyai skala berbeza</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="text-center mt-6 sm:mt-8">
-                        <div class="text-3xl sm:text-4xl mb-2">🎉</div>
-                        <p class="text-sm sm:text-base lg:text-lg font-semibold text-gray-800 leading-relaxed px-2">Tahniah! Anda telah menguasai cara menentukan jarak sebenar berpandukan skala pada peta!</p>
-                    </div>
-                `
-            }
-        ];
+    function updateProgress() {
+      document.getElementById("progress-bar").style.width = ((current) / questions.length) * 100 + "%";
+    }
 
-        let currentSlide = 0;
-        let isAutoPlaying = false;
-        let autoPlayInterval;
+    function showQuestion() {
+      updateProgress();
+      if (current < questions.length) {
+        document.getElementById("quiz").innerHTML = `
+          <div class="card">
+            <strong>Soalan ${current+1}:</strong> ${questions[current].q}
+          </div>
+          <textarea id="answer" placeholder="Tulis jawapan anda di sini..."></textarea>
+          <button class="btn-primary" onclick="submitAnswer()">Hantar</button>
+        `;
+        document.getElementById("feedback").innerHTML = "";
+        document.getElementById("controls").innerHTML = "";
+      } else {
+        showSummary();
+      }
+    }
 
-        const slideContent = document.getElementById('slideContent');
-        const slideTitle = document.getElementById('slideTitle');
-        const slideDescription = document.getElementById('slideDescription');
-        const progressBar = document.getElementById('progressBar');
-        const progressText = document.getElementById('progressText');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const playBtn = document.getElementById('playBtn');
-        const musicBtn = document.getElementById('musicBtn');
-        const music = document.getElementById('bgMusic');
-        let isMuted = false;
+    async function getAIResponse(question, answer) {
+      const url = "https://api.openai.com/v1/chat/completions";
+      const payload = {
+        model: "gpt-4o-mini",
+        messages: [
+          { role: "system", content: "Anda ialah guru Geografi Tingkatan 2. Beri maklum balas semula jadi dan ringkas tentang hubungan ciri fizikal dengan budaya masyarakat." },
+          { role: "user", content: `Soalan: ${question}\nJawapan murid: ${answer}` }
+        ],
+        max_tokens: 150,
+        temperature: 0.7
+      };
 
-        function updateSlide() {
-            const slide = slides[currentSlide];
-            
-            // Update content with animation
-            slideContent.classList.remove('slide-enter');
-            slideContent.innerHTML = slide.content;
-            slideContent.classList.add('slide-enter');
-            
-            // Update slide info
-            slideTitle.textContent = slide.title;
-            slideDescription.textContent = slide.description;
-            
-            // Update progress
-            const progress = ((currentSlide + 1) / slides.length) * 100;
-            progressBar.style.width = progress + '%';
-            progressText.textContent = `${currentSlide + 1} / ${slides.length}`;
-            
-            // Update button states
-            prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide === slides.length - 1;
-            
-            // Update button text for last slide
-            if (currentSlide === slides.length - 1) {
-                nextBtn.textContent = 'Selesai ✓';
-            } else {
-                nextBtn.textContent = 'Seterusnya →';
-            }
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${API_KEY}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+      return data.choices[0].message.content;
+    }
+
+    async function submitAnswer() {
+      const userAns = document.getElementById("answer").value.trim().toLowerCase();
+      if (!userAns) return;
+
+      let feedbackBox = document.getElementById("feedback");
+      let feedback = "";
+
+      if (API_KEY) {
+        // Guna AI
+        feedback = await getAIResponse(questions[current].q, userAns);
+        feedbackBox.className = "feedback partial";
+      } else {
+        // Fallback kata kunci
+        const keywords = questions[current].a;
+        const found = keywords.some(k => userAns.includes(k));
+
+        if (found) {
+          feedback = "Bagus! Jawapan anda betul. Masyarakat di kawasan ini menjalankan kegiatan berkaitan: " + keywords.join(", ");
+          feedbackBox.className = "feedback correct";
+        } else {
+          feedback = "Tidak tepat. Contoh jawapan: " + keywords.join(", ");
+          feedbackBox.className = "feedback wrong";
         }
+      }
 
-        function nextSlide() {
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                updateSlide();
-            } else if (isAutoPlaying) {
-                stopAutoPlay();
-            }
-        }
+      feedbackBox.innerHTML = feedback;
 
-        function prevSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateSlide();
-            }
-        }
+      document.getElementById("controls").innerHTML = `
+        <button class="btn-secondary" onclick="showQuestion(++current)">Teruskan Soalan Lain</button>
+        <button class="btn-danger" onclick="showQuestion()">Cuba Lagi</button>
+      `;
 
-        function startAutoPlay() {
-            isAutoPlaying = true;
-            playBtn.textContent = '⏸ Berhenti';
-            playBtn.classList.remove('bg-gradient-to-r', 'from-emerald-400', 'to-green-500', 'hover:from-emerald-500', 'hover:to-green-600');
-            playBtn.classList.add('bg-gradient-to-r', 'from-red-400', 'to-pink-500', 'hover:from-red-500', 'hover:to-pink-600');
-            
-            autoPlayInterval = setInterval(() => {
-                if (currentSlide < slides.length - 1) {
-                    nextSlide();
-                } else {
-                    stopAutoPlay();
-                }
-            }, 5000); // 5 seconds per slide
-        }
+      answers.push({q: questions[current].q, a: userAns, fb: feedback});
+    }
 
-        function stopAutoPlay() {
-            isAutoPlaying = false;
-            playBtn.textContent = '▶ Auto Play';
-            playBtn.classList.remove('bg-gradient-to-r', 'from-red-400', 'to-pink-500', 'hover:from-red-500', 'hover:to-pink-600');
-            playBtn.classList.add('bg-gradient-to-r', 'from-emerald-400', 'to-green-500', 'hover:from-emerald-500', 'hover:to-green-600');
-            
-            if (autoPlayInterval) {
-                clearInterval(autoPlayInterval);
-            }
-        }
+    function showSummary() {
+      document.getElementById("quiz").innerHTML = "";
+      document.getElementById("feedback").innerHTML = "";
+      document.getElementById("controls").innerHTML = "";
+      document.getElementById("progress-bar").style.width = "100%";
 
-        // Event listeners
-        nextBtn.addEventListener('click', () => {
-            if (isAutoPlaying) stopAutoPlay();
-            nextSlide();
-        });
+      let html = "<h2>Ringkasan Jawapan</h2><ul>";
+      answers.forEach((x,i) => {
+        html += `<li><strong>Soalan ${i+1}:</strong> ${x.q}<br><em>Jawapan anda:</em> ${x.a}<br><em>Maklum balas:</em> ${x.fb}</li>`;
+      });
+      html += "</ul><button class='btn-primary' onclick='restartQuiz()'>Ulang Semula</button>";
+      document.getElementById("summary").innerHTML = html;
+      document.getElementById("summary").style.display = "block";
+    }
 
-        prevBtn.addEventListener('click', () => {
-            if (isAutoPlaying) stopAutoPlay();
-            prevSlide();
-        });
+    function restartQuiz() {
+      current = 0;
+      answers = [];
+      document.getElementById("summary").style.display = "none";
+      showQuestion();
+    }
 
-        playBtn.addEventListener('click', () => {
-            if (isAutoPlaying) {
-                stopAutoPlay();
-            } else {
-                startAutoPlay();
-            }
-        });
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === ' ') {
-                e.preventDefault();
-                if (isAutoPlaying) stopAutoPlay();
-                nextSlide();
-            } else if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                if (isAutoPlaying) stopAutoPlay();
-                prevSlide();
-            } else if (e.key === 'Escape') {
-                if (isAutoPlaying) stopAutoPlay();
-            }
-        });
-
-        // Music controls
-        music.volume = 0.5; // bunyi sederhana
-
-        musicBtn.addEventListener('click', () => {
-            if (isMuted) {
-                music.muted = false;
-                musicBtn.textContent = "🔊 Muzik";
-            } else {
-                music.muted = true;
-                musicBtn.textContent = "🔇 Senyap";
-            }
-            isMuted = !isMuted;
-        });
-
-        // Initialize
-        updateSlide();
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'982f0eaf466dc0c2',t:'MTc1ODUxNTMyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    showQuestion();
+  </script>
+</body>
 </html>
