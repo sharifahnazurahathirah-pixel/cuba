@@ -1,368 +1,110 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Hubung Kait: Ciri Fizikal ↔ Budaya — Geografi T2 Bab 2</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --bg-A: #e8fbf4;
-      --bg-B: #eef7ff;
-      --accent: #0b6b4f;
-      --accent2: #1565c0;
-      --card: #ffffff;
-      --muted: #4b5563;
-      --success: #dff3ea;
-      --warn: #fff8e1;
-      --error: #ffe7e7;
-      --shadow: 0 8px 24px rgba(6,30,28,0.06);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-      background: linear-gradient(135deg,var(--bg-A),var(--bg-B));
-      color: #07251a;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      padding:20px;
-      display:flex;
-      justify-content:center;
-      min-height:100vh;
-    }
-
-    .wrap{
-      width:100%;
-      max-width:920px;
-    }
-
-    header.appbar{
-      background:var(--card);
-      padding:18px 20px;
-      border-radius:12px;
-      display:flex;
-      gap:16px;
-      align-items:center;
-      box-shadow:var(--shadow);
-    }
-    .logo{
-      width:64px;height:64px;border-radius:12px;background:linear-gradient(180deg,var(--accent2),var(--accent));
-      display:flex;align-items:center;justify-content:center;color:white;font-family:"Fredoka",sans-serif;font-size:24px;
-      box-shadow:0 6px 18px rgba(21,101,192,0.12);
-    }
-    header h1{margin:0;font-family:"Fredoka",sans-serif;color:var(--accent2);font-size:20px}
-    header p.sub{margin:0;color:var(--muted);font-size:13px}
-
-    /* instructions */
-    .instructions{
-      margin-top:14px;
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-    }
-    .panel-instr{
-      flex:1;
-      background:linear-gradient(180deg,#ffffff,#f7fffb);
-      padding:16px;border-radius:12px;border-left:6px solid #34a853;box-shadow:var(--shadow);
-    }
-    .panel-instr h2{margin:0 0 8px 0;font-size:16px;color:#166534;font-weight:600}
-    .panel-instr ul{margin:0;padding-left:18px;color:var(--muted);font-size:14px;line-height:1.5}
-
-    /* main card */
-    .card{
-      margin-top:14px;
-      background:var(--card);
-      border-radius:14px;
-      padding:18px;
-      box-shadow:var(--shadow);
-    }
-
-    .question-box{
-      background:linear-gradient(180deg,#f1fbff,#eaf6ff);
-      border-radius:12px;
-      padding:16px;
-      border-left:6px solid #90caf9;
-    }
-    .question-box p{margin:6px 0;color:var(--accent2);font-weight:600;line-height:1.5}
-
-    textarea{
-      width:100%;
-      min-height:100px;
-      margin-top:12px;
-      padding:12px;
-      border-radius:10px;
-      border:1px solid #d1d5db;
-      font-size:15px;
-      font-family:inherit;
-      resize:vertical;
-    }
-
-    .controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-    .btn{padding:10px 16px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
-    .btn-primary{background:var(--accent);color:white;box-shadow:0 6px 18px rgba(11,107,79,0.12)}
-    .btn-ghost{background:#f3f4f6;color:#111;border:1px solid #e6e7ea}
-    .btn-acc{background:#42a5f5;color:white}
-
-    .feedback{display:none;margin-top:12px;padding:12px;border-radius:10px;font-weight:600}
-    .feedback.correct{background:var(--success);color:#0d5b39}
-    .feedback.partial{background:var(--warn);color:#6a4a00}
-    .feedback.incorrect{background:var(--error);color:#7f1d1d}
-
-    .progress{height:14px;background:#f3f4f6;border-radius:999px;overflow:hidden;margin-top:14px}
-    .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4dd0e1,#1565c0);transition:width .4s}
-
-    .summary{display:none;margin-top:14px;padding:14px;border-radius:12px;background:#fff;box-shadow:var(--shadow)}
-
-    footer.note{margin-top:12px;color:var(--muted);font-size:13px}
-
-    /* responsive */
-    @media (max-width:760px){
-      header{flex-direction:row;gap:12px}
-      .instructions{flex-direction:column}
-      .panel-instr{order:2}
-      .card{order:1;margin-top:12px}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hubung Kait: Ciri Fizikal ↔ Budaya — Geografi Tingkatan 2 Bab 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg-A:#e8fbf4;--bg-B:#eef7ff;--accent:#0b6b4f;--accent2:#1565c0;--card:#ffffff;--muted:#4b5563;--success:#dff3ea;--warn:#fff8e1;--error:#ffe7e7;--shadow:0 8px 24px rgba(6,30,28,0.06)}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg-A),var(--bg-B));color:#07251a;padding:20px;display:flex;justify-content:center;min-height:100vh;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.wrap{width:100%;max-width:920px}
+header.appbar{background:var(--card);padding:18px 20px;border-radius:12px;display:flex;gap:16px;align-items:center;box-shadow:var(--shadow)}
+.logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(180deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;color:white;font-family:'Fredoka',sans-serif;font-size:24px;box-shadow:0 6px 18px rgba(21,101,192,0.12)}
+header h1{margin:0;font-family:'Fredoka',sans-serif;color:var(--accent2);font-size:20px}header p.sub{margin:0;color:var(--muted);font-size:13px}
+.instructions{margin-top:14px;display:flex;gap:12px;align-items:flex-start}
+.panel-instr{flex:1;background:linear-gradient(180deg,#ffffff,#f7fffb);padding:16px;border-radius:12px;border-left:6px solid #34a853;box-shadow:var(--shadow)}
+.panel-instr h2{margin:0 0 8px 0;font-size:16px;color:#166534;font-weight:600}
+.panel-instr ul{margin:0;padding-left:18px;color:var(--muted);font-size:14px;line-height:1.5}
+.card{margin-top:14px;background:var(--card);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+.question-box{background:linear-gradient(180deg,#f1fbff,#eaf6ff);border-radius:12px;padding:16px;border-left:6px solid #90caf9}
+.question-box p{margin:6px 0;color:var(--accent2);font-weight:600;line-height:1.5}
+textarea{width:100%;min-height:100px;margin-top:12px;padding:12px;border-radius:10px;border:1px solid #d1d5db;font-size:15px;font-family:inherit;resize:vertical}
+.controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.btn{padding:10px 16px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
+.btn-primary{background:var(--accent);color:white;box-shadow:0 6px 18px rgba(11,107,79,0.12)}
+.btn-ghost{background:#f3f4f6;color:#111;border:1px solid #e6e7ea}
+.btn-acc{background:#42a5f5;color:white}
+.feedback{display:none;margin-top:12px;padding:12px;border-radius:10px;font-weight:600}
+.feedback.correct{background:var(--success);color:#0d5b39}
+.feedback.partial{background:var(--warn);color:#6a4a00}
+.feedback.incorrect{background:var(--error);color:#7f1d1d}
+.progress{height:14px;background:#f3f4f6;border-radius:999px;overflow:hidden;margin-top:14px}
+.progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4dd0e1,#1565c0);transition:width .4s}
+.summary{display:none;margin-top:14px;padding:14px;border-radius:12px;background:#fff;box-shadow:var(--shadow)}
+footer.note{margin-top:12px;color:var(--muted);font-size:13px}
+@media (max-width:760px){header{flex-direction:row;gap:12px}.instructions{flex-direction:column}.panel-instr{order:2}.card{order:1;margin-top:12px}}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="appbar">
-      <div class="logo">Geo</div>
-      <div>
-        <h1>Hubung Kait: Ciri Fizikal ↔ Budaya</h1>
-        <p class="sub">Geografi Tingkatan 2 — Bab 2 · Mod Murid</p>
-      </div>
-    </header>
-
-    <div class="instructions">
-      <div class="panel-instr" aria-labelledby="instrTitle">
-        <h2 id="instrTitle">Cara guna (ringkas)</h2>
-        <ul>
-          <li>Baca pernyataan di kotak berwarna (setiap baris satu ayat).</li>
-          <li>Tulis jawapan 1–2 ayat menerangkan hubungan yang diminta.</li>
-          <li>Klik <strong>Hantar</strong> — sistem akan berikan maklum balas.</li>
-          <li>Jika kurang tepat: gunakan <strong>Cuba Lagi</strong> atau <strong>Teruskan Soalan Lain</strong>.</li>
-          <li>Selesaikan semua 6 soalan untuk lihat ringkasan.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card" role="application" aria-live="polite">
-      <div id="stageArea">
-        <!-- injected -->
-      </div>
-
-      <div class="progress" aria-hidden="true"><i id="bar"></i></div>
-
-      <div id="summary" class="summary" aria-live="polite"></div>
-    </div>
-
-    <footer class="note">Tip: Gunakan ayat ringkas, contohnya: "Tanah pamah → sawah padi → budaya menuai".</footer>
-  </div>
-
-  <script>
-    // QUESTIONS: each text uses line breaks (\n) to show per-line statements
-    const questions = [
-      {
-        type: 'A',
-        text:
-`🌾 Pernyataan:
+<div class="wrap">
+<header class="appbar">
+<div class="logo">Geo</div>
+<div>
+<h1>Hubung Kait: Ciri Fizikal ↔ Budaya</h1>
+<p class="sub">Geografi Tingkatan 2 — Bab 2 · Mod Murid</p>
+</div>
+</header>
+<div class="instructions">
+<div class="panel-instr" aria-labelledby="instrTitle">
+<h2 id="instrTitle">Cara guna (ringkas)</h2>
+<ul>
+<li>Baca pernyataan di kotak berwarna (setiap baris satu ayat).</li>
+<li>Tulis jawapan 1–2 ayat menerangkan hubungan yang diminta.</li>
+<li>Klik <strong>Hantar</strong> — sistem akan berikan maklum balas.</li>
+<li>Jika kurang tepat: gunakan <strong>Cuba Lagi</strong> atau <strong>Teruskan Soalan Lain</strong>.</li>
+<li>Selesaikan semua 6 soalan untuk lihat ringkasan.</li>
+</ul>
+</div>
+</div>
+<div class="card" role="application" aria-live="polite">
+<div id="stageArea"></div>
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+<div id="summary" class="summary" aria-live="polite"></div>
+</div>
+<footer class="note">Tip: Gunakan ayat ringkas, contohnya: "Tanah pamah → sawah padi → budaya menuai".</footer>
+</div>
+<script>
+const questions=[
+{type:'A',text:`🌾 Pernyataan:
 Kawasan tanah pamah yang subur.
 Banyak sawah padi terdapat di kawasan ini.
 Soalan:
-Terangkan satu cara ciri fizikal ini mempengaruhi budaya setempat.`,
-        keywords: ['padi','sawah','menuai','pertanian','kampung']
-      },
-      {
-        type: 'B',
-        text:
-`🏠 Pernyataan:
+Terangkan satu cara ciri fizikal ini mempengaruhi budaya setempat.`,keywords:['padi','sawah','menuai','pertanian','kampung']},
+{type:'B',text:`🏠 Pernyataan:
 Budaya rumah panggung tradisional.
 Rumah dibina tinggi di atas tiang.
 Soalan:
-Apakah ciri fizikal yang biasanya terdapat di kawasan ini?`,
-        keywords: ['banjir','lembap','tasik','pantai','air','rendah']
-      },
-      {
-        type: 'A',
-        text:
-`🚣 Pernyataan:
+Apakah ciri fizikal yang biasanya terdapat di kawasan ini?`,keywords:['banjir','lembap','tasik','pantai','air','rendah']},
+{type:'A',text:`🚣 Pernyataan:
 Sungai lebar dan boleh dilayari.
 Sungai menjadi laluan pengangkutan penting.
 Soalan:
-Terangkan satu aktiviti budaya atau ekonomi yang dipengaruhi oleh sungai.`,
-        keywords: ['perdagangan','pengangkutan','ikan','pelabuhan','pasar']
-      },
-      {
-        type: 'B',
-        text:
-`🎎 Pernyataan:
+Terangkan satu aktiviti budaya atau ekonomi yang dipengaruhi oleh sungai.`,keywords:['perdagangan','pengangkutan','ikan','pelabuhan','pasar']},
+{type:'B',text:`🎎 Pernyataan:
 Upacara menuai padi diadakan setiap tahun.
 Perayaan ini berkaitan hasil tanaman.
 Soalan:
-Apakah ciri fizikal atau musim yang menyokong budaya menuai?`,
-        keywords: ['datar','sawah','musim','hujan','iklim','pertanian']
-      },
-      {
-        type: 'A',
-        text:
-`⛰️ Pernyataan:
+Apakah ciri fizikal atau musim yang menyokong budaya menuai?`,keywords:['datar','sawah','musim','hujan','iklim','pertanian']},
+{type:'A',text:`⛰️ Pernyataan:
 Kawasan berbukit.
 Pertanian teres dijalankan di lereng.
 Soalan:
-Terangkan satu penyesuaian budaya atau teknik pertanian di kawasan ini.`,
-        keywords: ['teres','lereng','bukit','padi','penduduk']
-      },
-      {
-        type: 'B',
-        text:
-`🏖️ Pernyataan:
+Terangkan satu penyesuaian budaya atau teknik pertanian di kawasan ini.`,keywords:['teres','lereng','bukit','padi','penduduk']},
+{type:'B',text:`🏖️ Pernyataan:
 Komuniti nelayan di tepi laut.
 Aktiviti menangkap ikan menjadi budaya.
 Soalan:
-Nyatakan satu ciri fizikal yang biasanya terdapat di kawasan ini.`,
-        keywords: ['pantai','laut','ikan','karang','pasir']
-      }
-    ];
-
-    let idx = 0;
-    const total = questions.length;
-    const stageArea = document.getElementById('stageArea');
-    const bar = document.getElementById('bar');
-    const summaryEl = document.getElementById('summary');
-    const answers = [];
-
-    function renderStage(){
-      const q = questions[idx];
-      bar.style.width = Math.round((idx/total)*100) + '%';
-
-      // split lines for clear display
-      const lines = q.text.split('\n').map(line => line.trim()).filter(Boolean);
-
-      stageArea.innerHTML = `
-        <div class="question-box" id="qbox">
-          ${lines.map(l => `<p>${l}</p>`).join('')}
-        </div>
-
-        <textarea id="resp" placeholder="Tulis jawapan anda (1–2 ayat)..."></textarea>
-
-        <div class="controls">
-          <button id="send" class="btn btn-primary">Hantar</button>
-          <button id="try" class="btn btn-acc" style="display:none">Cuba Lagi</button>
-          <button id="skip" class="btn btn-ghost" style="display:none">Teruskan Soalan Lain</button>
-        </div>
-
-        <div id="fb" class="feedback" role="status" aria-live="polite"></div>
-      `;
-
-      document.getElementById('send').addEventListener('click', handleSubmit);
-      document.getElementById('try').addEventListener('click', ()=> {
-        document.getElementById('fb').style.display='none';
-        document.getElementById('try').style.display='none';
-        document.getElementById('skip').style.display='none';
-        document.getElementById('resp').focus();
-      });
-      document.getElementById('skip').addEventListener('click', ()=> {
-        answers.push({q: q.text, a: '(Dilangkau)', fb: 'Dilangkau oleh pelajar'});
-        nextStage();
-      });
-
-      // focus field for accessibility
-      setTimeout(()=>{ const r = document.getElementById('resp'); if(r) r.focus(); },50);
-    }
-
-    function normalize(s){ return s ? s.toLowerCase().replace(/[.,?!;:()]/g,'') : ''; }
-
-    function handleSubmit(){
-      const q = questions[idx];
-      const respEl = document.getElementById('resp');
-      const valRaw = respEl.value.trim();
-      const val = normalize(valRaw);
-      const fb = document.getElementById('fb');
-      const kws = q.keywords.map(k => k.toLowerCase());
-
-      if(!val){
-        fb.className='feedback incorrect';
-        fb.style.display='block';
-        fb.textContent = '⚠️ Sila masukkan jawapan sebelum hantar.';
-        return;
-      }
-
-      const found = kws.some(k => val.includes(k));
-      if(found){
-        fb.className='feedback correct';
-        fb.style.display='block';
-        fb.textContent = '✅ Betul — contoh konsep: ' + kws.slice(0,3).join(', ') + '.';
-        answers.push({q:q.text, a: valRaw, fb: fb.textContent});
-        // auto advance shortly so student sees feedback
-        setTimeout(()=> nextStage(), 900);
-      } else if(val.length > 8){
-        fb.className='feedback partial';
-        fb.style.display='block';
-        fb.textContent = '✨ Hampir — contoh lengkap: ' + kws.join(', ') + '. Tekan "Cuba Lagi" untuk ubah jawapan atau "Teruskan Soalan Lain".';
-        document.getElementById('try').style.display='inline-block';
-        document.getElementById('skip').style.display='inline-block';
-        answers.push({q:q.text, a: valRaw, fb: fb.textContent});
-      } else {
-        fb.className='feedback incorrect';
-        fb.style.display='block';
-        fb.textContent = '❌ Kurang tepat. Contoh jawapan: ' + kws.join(', ') + '. Tekan "Cuba Lagi" atau "Teruskan Soalan Lain".';
-        document.getElementById('try').style.display='inline-block';
-        document.getElementById('skip').style.display='inline-block';
-        answers.push({q:q.text, a: valRaw, fb: fb.textContent});
-      }
-    }
-
-    function nextStage(){
-      idx++;
-      if(idx < total){
-        renderStage();
-      } else {
-        finish();
-      }
-    }
-
-    function finish(){
-      bar.style.width = '100%';
-      stageArea.innerHTML = '';
-      let html = '<h3 style="margin-top:0;color:var(--accent2)">🎉 Tamat — Ringkasan Jawapan</h3><ol style="padding-left:18px">';
-      answers.forEach(a=>{
-        html += `<li style="margin-bottom:12px">
-          <div style="background:#fbfdff;padding:10px;border-radius:8px;margin-bottom:8px;font-weight:600">${a.q.replace(/\n/g,'<br>')}</div>
-          <div><strong>Jawapan murid:</strong> ${a.a}</div>
-          <div style="margin-top:6px;color:var(--muted)"><em>Maklum balas:</em> ${a.fb}</div>
-        </li>`;
-      });
-      html += `</ol><div style="text-align:center;margin-top:12px"><button class="btn btn-primary" onclick="restart()">Ulang Semula</button></div>`;
-      summaryEl.innerHTML = html;
-      summaryEl.style.display = 'block';
-      // place summary below card
-      document.getElementById('summary').innerHTML = html;
-      document.getElementById('summary').style.display = 'block';
-    }
-
-    function restart(){
-      idx = 0;
-      answers.length = 0;
-      document.getElementById('summary').style.display = 'none';
-      renderStage();
-    }
-
-    // init
-    const summaryEl = document.getElementById('summary');
-    renderStage();
-
-    // keyboard accessibility: Enter in textarea won't submit (to avoid accidental). Use Ctrl+Enter to submit.
-    document.addEventListener('keydown', (e)=>{
-      if(e.key==='Enter' && (e.ctrlKey || e.metaKey)){
-        const btn = document.getElementById('send');
-        if(btn) btn.click();
-      }
-    });
-  </script>
+Nyatakan satu ciri fizikal yang biasanya terdapat di kawasan ini.`,keywords:['pantai','laut','ikan','karang','pasir']}
+];
+let idx=0;const total=questions.length;const stageArea=document.getElementById('stageArea');const bar=document.getElementById('bar');const summaryEl=document.getElementById('summary');const answers=[];
+function renderStage(){const q=questions[idx];bar.style.width=Math.round(idx/total*100)+'%';const lines=q.text.split('\n').map(l=>l.trim()).filter(Boolean);stageArea.innerHTML=`<div class="question-box" id="qbox">${lines.map(l=>`<p>${l}</p>`).join('')}</div><textarea id="resp" placeholder="Tulis jawapan anda (1–2 ayat)..."></textarea><div class="controls"><button id="send" class="btn btn-primary">Hantar</button><button id="try" class="btn btn-acc" style="display:none">Cuba Lagi</button><button id="skip" class="btn btn-ghost" style="display:none">Teruskan Soalan Lain</button></div><div id="fb" class="feedback" role="status" aria-live="polite"></div>`;document.getElementById('send').addEventListener('click',handleSubmit);document.getElementById('try').addEventListener('click',()=>{document.getElementById('fb').style.display='none';document.getElementById('try').style.display='none';document.getElementById('skip').style.display='none';document.getElementById('resp').focus();});document.getElementById('skip').addEventListener('click',()=>{answers.push({q:q.text,a:'(Dilangkau)',fb:'Dilangkau oleh pelajar'});nextStage();});setTimeout(()=>{const r=document.getElementById('resp');if(r)r.focus();},50);}
+function normalize(s){return s?s.toLowerCase().replace(/[.,?!;:()]/g,''):'';}
+function handleSubmit(){const q=questions[idx];const respEl=document.getElementById('resp');const valRaw=respEl.value.trim();const val=normalize(valRaw);const fb=document.getElementById('fb');const kws=q.keywords.map(k=>k.toLowerCase());if(!val){fb.className='feedback incorrect';fb.style.display='block';fb.textContent='⚠️ Sila masukkan jawapan sebelum hantar.';return;}const found=kws.some(k=>val.includes(k));if(found){fb.className='feedback correct';fb.style.display='block';fb.textContent='✅ Betul — contoh konsep: '+kws.slice(0,3).join(', ') + '.';answers.push({q:q.text,a:valRaw,fb:fb.textContent});setTimeout(()=>nextStage(),900);}else if(val.length>8){fb.className='feedback partial';fb.style.display='block';fb.textContent='✨ Hampir — contoh lengkap: '+kws.join(', ')+'. Tekan "Cuba Lagi" untuk ubah jawapan atau "Teruskan Soalan Lain".';document.getElementById('try').style.display='inline-block';document.getElementById('skip').style.display='inline-block';answers.push({q:q.text,a:valRaw,fb:fb.textContent});}else{fb.className='feedback incorrect';fb.style.display='block';fb.textContent='❌ Kurang tepat. Contoh jawapan: '+kws.join(', ')+'. Tekan "Cuba Lagi" atau "Teruskan Soalan Lain".';document.getElementById('try').style.display='inline-block';document.getElementById('skip').style.display='inline-block';answers.push({q:q.text,a:valRaw,fb:fb.textContent});}}
+function nextStage(){idx++;if(idx<total){renderStage();}else{finish();}}
+function finish(){bar.style.width='100%';stageArea.innerHTML='';let html='<h3 style="margin-top:0;color:var(--accent2)">🎉 Tamat — Ringkasan Jawapan</h3><ol style="padding-left:18px">';answers.forEach(a=>{html+=`<li style="margin-bottom:12px"><div style="background:#fbfdff;padding:10px;border-radius:8px;margin-bottom:8px;font-weight:600">${a.q.replace(/\n/g,'<br>')}</div><div><strong>Jawapan murid:</strong> ${a.a}</div><div style="margin-top:6px;color:var(--muted)"><em>Maklum balas:</em> ${a.fb}</div></li>`});html+='</ol><div style="text-align:center;margin-top:12px"><button class="btn btn-primary" onclick="restart()">Ulang Semula</button></div>';summaryEl.innerHTML=html;summaryEl.style.display='block';}
+function restart(){idx=0;answers.length=0;summaryEl.style.display='none';renderStage();}
+renderStage();</script>
 </body>
 </html>
