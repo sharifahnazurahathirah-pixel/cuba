@@ -1,143 +1,425 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Template Komik 6 Panel (Boleh Edit)</title>
-  <style>
-    :root{
-      --panel-gap:12px;
-      --panel-bg:#fff;
-      --panel-border:#ccc;
-      --bubble-bg:rgba(255,255,255,0.95);
-      --bubble-border:#555;
-      --font-family: 'Arial', sans-serif;
-    }
-    html,body{height:100%;margin:0;padding:16px;background:#f5f7fb;font-family:var(--font-family);} 
-    .page{max-width:1000px;margin:0 auto;background:#fff;padding:18px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
-    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-    h1{font-size:18px;margin:0}
-    .controls{display:flex;gap:8px;align-items:center}
-    button{padding:8px 10px;border-radius:6px;border:1px solid #bbb;background:#fff;cursor:pointer}
-    .grid{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:260px;gap:var(--panel-gap)}
-    .panel{position:relative;border:1px solid var(--panel-border);background:var(--panel-bg);overflow:hidden;border-radius:6px;padding:8px}
-    .panel .art{height:100%;background:linear-gradient(180deg,#eef2f7,#ffffff);display:flex;align-items:center;justify-content:center;color:#98a0ad;font-size:14px}
-    .bubble{position:absolute;max-width:60%;padding:8px 10px;border-radius:12px;background:var(--bubble-bg);border:1px solid var(--bubble-border);box-shadow:0 4px 10px rgba(0,0,0,0.06);font-size:13px;line-height:1.2}
-    .bubble.siti{left:8px}
-    .bubble.lina{right:8px}
-    .bubble.small{font-size:11px;padding:6px 8px}
-    /* positions for each panel to make layout varied */
-    #p1 .bubble.siti{top:12px}
-    #p1 .bubble.lina{bottom:12px}
-
-    #p2 .bubble.lina{top:12px}
-    #p2 .bubble.siti{bottom:12px}
-
-    #p3 .bubble.lina{top:10px}
-    #p3 .bubble.siti{left:10px;bottom:10px}
-
-    #p4 .bubble.lina{top:8px;right:12px}
-    #p4 .bubble.siti{left:12px;bottom:12px}
-
-    #p5 .bubble.lina{top:12px;left:12px}
-    #p5 .bubble.siti{right:12px;bottom:12px}
-
-    #p6 .bubble.siti{top:14px;left:14px}
-    #p6 .bubble.lina{top:14px;right:14px}
-
-    /* small-font helper */
-    .small-font .bubble{font-size:11px}
-
-    /* make dialog editable look */
-    [contenteditable]{outline: none;}
-    .hint{font-size:12px;color:#666}
-    footer{margin-top:14px;font-size:13px;color:#444}
-  </style>
-</head>
-<body>
-  <div class="page">
-    <header>
-      <h1>Template Komik 6 Panel — (Boleh Edit)</h1>
-      <div class="controls">
-        <label class="hint">Saiz fon kecil untuk muatkan 2 dialog/panel</label>
-        <button id="toggleSmall">Tukar Fon Kecil</button>
-        <button id="printBtn">Cetak / Simpan sebagai PDF</button>
-      </div>
-    </header>
-
-    <section class="grid" id="comicGrid">
-      <!-- Panel 1 -->
-      <article class="panel" id="p1">
-        <div class="art">[GAMBAR: Siti &amp; Lina di atas meja dengan peta]</div>
-        <div class="bubble siti" contenteditable="true" aria-label="Siti Panel 1">Siti: “Awak tahu tak cara baca rujukan grid 6 angka? Saya keliru.”</div>
-        <div class="bubble lina" contenteditable="true" aria-label="Lina Panel 1">Lina: “Boleh, saya terangkan. Mudah sahaja.”</div>
-      </article>
-
-      <!-- Panel 2 -->
-      <article class="panel" id="p2">
-        <div class="art">[GAMBAR: Lina menunjuk garisan menegak]</div>
-        <div class="bubble lina" contenteditable="true" aria-label="Lina Panel 2">Lina: “Mula-mula baca garisan menegak, namanya garisan timuran. Bacanya kiri ke kanan.”</div>
-        <div class="bubble siti" contenteditable="true" aria-label="Siti Panel 2">Siti: “Oh, jadi nombor pertama dari garisan timuran?”</div>
-      </article>
-
-      <!-- Panel 3 -->
-      <article class="panel" id="p3">
-        <div class="art">[GAMBAR: Bahagikan petak besar kepada 10 bahagian]</div>
-        <div class="bubble lina" contenteditable="true" aria-label="Lina Panel 3">Lina: “Petak besar dibahagi 10. Angka ke-2 & ke-3 tunjuk kedudukan tepat.”</div>
-        <div class="bubble siti" contenteditable="true" aria-label="Siti Panel 3">Siti: “Jadi tiga nombor untuk garisan timuran.”</div>
-      </article>
-
-      <!-- Panel 4 -->
-      <article class="panel" id="p4">
-        <div class="art">[GAMBAR: Lina menunjuk garisan melintang]</div>
-        <div class="bubble lina" contenteditable="true" aria-label="Lina Panel 4">Lina: “Baca garisan melintang, iaitu garisan utaraan. Bacanya bawah ke atas.”</div>
-        <div class="bubble siti" contenteditable="true" aria-label="Siti Panel 4">Siti: “Sama juga, nombor garisan + dua angka kecil?”</div>
-      </article>
-
-      <!-- Panel 5 -->
-      <article class="panel" id="p5">
-        <div class="art">[GAMBAR: Lina menulis contoh nombor 345672]</div>
-        <div class="bubble lina" contenteditable="true" aria-label="Lina Panel 5">Lina: “Tiga nombor timuran + tiga nombor utaraan = enam angka penuh.”</div>
-        <div class="bubble siti" contenteditable="true" aria-label="Siti Panel 5">Siti: “Contohnya nombor 345672.”</div>
-      </article>
-
-      <!-- Panel 6 -->
-      <article class="panel" id="p6">
-        <div class="art">[GAMBAR: Siti tersenyum memegang peta]</div>
-        <div class="bubble siti" contenteditable="true" aria-label="Siti Panel 6">Siti: “Sekarang jelas. Ingat: timuran dulu, kemudian utaraan.”</div>
-        <div class="bubble lina" contenteditable="true" aria-label="Lina Panel 6">Lina: “Tepat sekali! Awak cepat faham.”</div>
-      </article>
-
-    </section>
-
-    <footer>
-      Petua: Klik pada mana-mana teks untuk edit. Gunakan butang "Tukar Fon Kecil" untuk mengecilkan teks agar dua dialog muat dalam satu panel. Untuk simpan visual, gunakan fungsi Cetak (Save as PDF) atau ambil screenshot.
-    </footer>
-  </div>
-
-  <script>
-    const toggle = document.getElementById('toggleSmall');
-    const page = document.querySelector('.page');
-    toggle.addEventListener('click', ()=>{
-      document.querySelector('.grid').classList.toggle('small-font');
-    });
-
-    document.getElementById('printBtn').addEventListener('click', ()=>{
-      window.print();
-    });
-
-    // Accessibility: ensure empty bubbles have placeholder text when blurred
-    document.querySelectorAll('[contenteditable]').forEach(el=>{
-      el.addEventListener('blur', ()=>{
-        if(el.textContent.trim()===''){
-          // leave empty but show outline - optional
-          el.textContent = el.getAttribute('aria-label') + '\n(klik untuk edit)';
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Card Sistem Pengangkutan Malaysia - Geografi T2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .flip-card {
+            perspective: 1000px;
+            height: 400px;
         }
-      });
-      el.addEventListener('focus', ()=>{
-        if(el.textContent.includes('(klik untuk edit)')) el.textContent='';
-      });
-    });
-  </script>
-</body>
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen p-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">🚗 Pengangkutan di Malaysia</h1>
+            <p class="text-lg text-gray-600">Geografi Tingkatan 2 - Bab 5: Pengangkutan di Malaysia</p>
+            <div class="mt-4 bg-white rounded-full p-1 shadow-lg inline-block">
+                <div class="flex items-center space-x-4 px-6 py-2">
+                    <span class="text-sm font-medium text-gray-600">📊 Kemajuan Pembelajaran:</span>
+                    <div class="w-48 bg-gray-200 rounded-full h-3">
+                        <div id="progressBar" class="progress-bar bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <span id="progressText" class="text-sm font-bold text-gray-700">0/18</span>
+                </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">💡 Bar kemajuan menunjukkan berapa banyak kad yang telah anda baca untuk memantau pembelajaran</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex justify-center mb-6 space-x-2 flex-wrap">
+            <button onclick="showCategory('jalan')" id="btn-jalan" class="category-btn bg-red-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-600 transition-colors m-1">
+                🛣️ Jaringan Jalan Raya
+            </button>
+            <button onclick="showCategory('keretapi')" id="btn-keretapi" class="category-btn bg-blue-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors m-1">
+                🚂 Landasan Kereta Api
+            </button>
+            <button onclick="showCategory('lapangan')" id="btn-lapangan" class="category-btn bg-green-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-600 transition-colors m-1">
+                ✈️ Lapangan Terbang
+            </button>
+            <button onclick="showCategory('pelabuhan')" id="btn-pelabuhan" class="category-btn bg-purple-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-purple-600 transition-colors m-1">
+                🚢 Pelabuhan Utama
+            </button>
+        </div>
+
+        <!-- Flash Cards Container -->
+        <div id="flashCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Cards will be populated by JavaScript -->
+        </div>
+
+        <!-- Controls -->
+        <div class="text-center mt-8">
+            <button onclick="flipAllCards()" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105 shadow-lg mr-4">
+                🔄 Terbalik Semua Kad
+            </button>
+            <button onclick="showStats()" class="bg-gradient-to-r from-indigo-500 to-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:from-indigo-600 hover:to-blue-600 transition-all transform hover:scale-105 shadow-lg mr-4">
+                📈 Lihat Statistik
+            </button>
+            <button onclick="resetProgress()" class="bg-gray-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors shadow-lg">
+                🔄 Reset Kemajuan
+            </button>
+        </div>
+
+        <!-- Statistics Modal -->
+        <div id="statsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="bg-white rounded-xl p-8 max-w-md mx-4 shadow-2xl">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">📊 Statistik Pembelajaran</h3>
+                <div id="statsContent" class="space-y-4">
+                    <!-- Stats will be populated by JavaScript -->
+                </div>
+                <button onclick="closeStats()" class="w-full mt-6 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                    Tutup
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-8 text-gray-600">
+            <p class="text-sm">💡 Klik pada kad untuk melihat maklumat terperinci</p>
+            <p class="text-xs mt-2">Untuk kegunaan pendidikan - Subjek Geografi Tingkatan 2</p>
+        </div>
+    </div>
+
+    <script>
+        const flashCardsData = {
+            jalan: [
+                {
+                    title: "Lebuhraya Utara-Selatan (PLUS)",
+                    icon: "🛣️",
+                    front: "Lebuhraya Terpanjang Malaysia",
+                    back: "• Panjang: 966 km\n• Menghubungkan: Bukit Kayu Hitam - Johor Bahru\n• Melalui: 9 negeri\n• Dibuka: 1994\n• Operator: PLUS Malaysia Berhad\n• Kepentingan: Tulang belakang ekonomi negara"
+                },
+                {
+                    title: "Lebuhraya Pantai Timur (LPT)",
+                    icon: "🌊",
+                    front: "Menghubungkan Pantai Timur",
+                    back: "• Panjang: 433 km\n• Menghubungkan: Karak - Kuala Terengganu\n• Melalui: Pahang, Terengganu\n• Dibuka: 2015\n• Kepentingan: Membangunkan pantai timur\n• Mengurangkan masa perjalanan 2 jam"
+                },
+                {
+                    title: "Lebuhraya Lingkaran Tengah (MRR2)",
+                    icon: "🔄",
+                    front: "Lingkaran Kuala Lumpur",
+                    back: "• Panjang: 35.7 km\n• Lokasi: Sekitar Kuala Lumpur\n• Fungsi: Mengurangkan kesesakan\n• Menghubungkan: 8 lebuhraya utama\n• Kepentingan: Sistem pengangkutan bandar\n• Status: Percuma (tanpa tol)"
+                },
+                {
+                    title: "Lebuhraya Borneo (Pan Borneo)",
+                    icon: "🌴",
+                    front: "Projek Terbesar Sabah & Sarawak",
+                    back: "• Panjang: 2,239 km\n• Menghubungkan: Semanjung - Sabah - Sarawak\n• Fasa 1: 2015-2023\n• Kos: RM27 bilion\n• Kepentingan: Integrasi Borneo\n• Status: Dalam pembinaan"
+                }
+            ],
+            keretapi: [
+                {
+                    title: "KTM Komuter",
+                    icon: "🚊",
+                    front: "Perkhidmatan Komuter Lembah Klang",
+                    back: "• Laluan: 6 laluan utama\n• Stesen: 53 stesen\n• Kawasan: Lembah Klang\n• Penumpang: 120,000 harian\n• Operator: KTM Berhad\n• Kepentingan: Pengangkutan awam bandar"
+                },
+                {
+                    title: "ETS (Electric Train Service)",
+                    icon: "⚡",
+                    front: "Kereta Api Elektrik Berkelajuan Tinggi",
+                    back: "• Kelajuan: Sehingga 160 km/j\n• Laluan: KL Sentral - Padang Besar\n• Stesen: 8 stesen utama\n• Masa: KL-Ipoh (2 jam)\n• Dibuka: 2010\n• Kepentingan: Pengangkutan pantas"
+                },
+                {
+                    title: "LRT (Light Rail Transit)",
+                    icon: "🚇",
+                    front: "Sistem Rail Ringan KL",
+                    back: "• Laluan: 3 laluan (Ampang, Kelana Jaya, Sri Petaling)\n• Stesen: 74 stesen\n• Penumpang: 240,000 harian\n• Operator: Rapid Rail\n• Kepentingan: Mengurangkan kesesakan\n• Integrasi dengan MRT"
+                },
+                {
+                    title: "MRT (Mass Rapid Transit)",
+                    icon: "🚄",
+                    front: "Sistem Transit Massa Terkini",
+                    back: "• Laluan: 2 laluan (SBK, SSP)\n• Stesen: 62 stesen\n• Kapasiti: 1.2 juta penumpang\n• Teknologi: Tanpa pemandu\n• Dibuka: 2017\n• Kepentingan: Tulang belakang pengangkutan awam"
+                },
+                {
+                    title: "Sabah State Railway",
+                    icon: "🚂",
+                    front: "Kereta Api Bersejarah Sabah",
+                    back: "• Laluan: Tanjung Aru - Papar (134 km)\n• Dibina: 1896 (zaman British)\n• Lebar trek: 1000mm (meter gauge)\n• Stesen: 16 stesen\n• Kepentingan: Pelancongan & sejarah\n• Status: Kereta api tertua Malaysia"
+                },
+                {
+                    title: "North Borneo Railway",
+                    icon: "🚃",
+                    front: "Kereta Api Pelancongan Sabah",
+                    back: "• Laluan: Kota Kinabalu - Papar\n• Jarak: 134 km\n• Lokomotif: Steam engine 1954\n• Pengalaman: Nostalgia kolonial\n• Pemandangan: Pantai & kampung\n• Operator: Sutera Harbour Resort"
+                }
+            ],
+            lapangan: [
+                {
+                    title: "KLIA (Kuala Lumpur International Airport)",
+                    icon: "✈️",
+                    front: "Lapangan Terbang Utama Malaysia",
+                    back: "• Lokasi: Sepang, Selangor\n• Dibuka: 1998\n• Penumpang: 25 juta setahun\n• Terminal: 2 terminal utama\n• Landasan: 4 landasan\n• Status: Hub antarabangsa Asia"
+                },
+                {
+                    title: "Lapangan Terbang Senai",
+                    icon: "🛬",
+                    front: "Pintu Masuk Selatan Malaysia",
+                    back: "• Lokasi: Johor Bahru, Johor\n• Penumpang: 4 juta setahun\n• Kepentingan: Hubungan dengan Singapura\n• Syarikat: AirAsia, Malaysia Airlines\n• Status: Lapangan terbang antarabangsa\n• Kod: JHB"
+                },
+                {
+                    title: "Lapangan Terbang Kota Kinabalu",
+                    icon: "🏔️",
+                    front: "Hub Utama Sabah",
+                    back: "• Lokasi: Kota Kinabalu, Sabah\n• Penumpang: 8 juta setahun\n• Terminal: 2 terminal\n• Kepentingan: Pelancongan Borneo\n• Destinasi: 20+ negara\n• Kod: BKI"
+                },
+                {
+                    title: "Lapangan Terbang Kuching",
+                    icon: "🐱",
+                    front: "Pintu Masuk Sarawak",
+                    back: "• Lokasi: Kuching, Sarawak\n• Penumpang: 5 juta setahun\n• Kepentingan: Hub Sarawak\n• Destinasi: Asia Tenggara\n• Terminal: 1 terminal utama\n• Kod: KCH"
+                }
+            ],
+            pelabuhan: [
+                {
+                    title: "Pelabuhan Klang",
+                    icon: "🚢",
+                    front: "Pelabuhan Terbesar Malaysia",
+                    back: "• Lokasi: Selangor\n• Ranking: Top 12 dunia\n• Kontena: 13 juta TEU\n• Kepentingan: Hub perdagangan Asia\n• Kemudahan: 19 terminal\n• Operator: Westports, Northport"
+                },
+                {
+                    title: "Pelabuhan Tanjung Pelepas (PTP)",
+                    icon: "⚓",
+                    front: "Pelabuhan Kontena Terkini",
+                    back: "• Lokasi: Johor\n• Dibuka: 1999\n• Kontena: 9 juta TEU\n• Kedalaman: 17 meter\n• Kepentingan: Pelabuhan dalam air\n• Teknologi: Automasi tinggi"
+                },
+                {
+                    title: "Pelabuhan Bintulu",
+                    icon: "⛽",
+                    front: "Hub Gas Asli Cecair (LNG)",
+                    back: "• Lokasi: Sarawak\n• Kepentingan: Eksport LNG terbesar\n• Kemudahan: Terminal LNG\n• Industri: Petrokimia\n• Status: Pelabuhan industri\n• Operator: Bintulu Port"
+                },
+                {
+                    title: "Pelabuhan Kuantan",
+                    icon: "🏭",
+                    front: "Pelabuhan Pantai Timur Utama",
+                    back: "• Lokasi: Pahang\n• Kepentingan: ECRL terminus\n• Kemudahan: Multipurpose terminal\n• Industri: Kelapa sawit, getah\n• Projek: Malaysia-China Kuantan Industrial Park\n• Status: Pelabuhan dalam pembangunan"
+                }
+            ]
+        };
+
+        let currentCategory = 'jalan';
+        let flippedCards = new Set();
+        let viewedCards = new Set();
+
+        function getCardFrontColor(category) {
+            const colors = {
+                'jalan': 'from-red-100 to-orange-100 border-red-300',
+                'keretapi': 'from-blue-100 to-cyan-100 border-blue-300',
+                'lapangan': 'from-green-100 to-emerald-100 border-green-300',
+                'pelabuhan': 'from-purple-100 to-pink-100 border-purple-300'
+            };
+            return colors[category] || 'from-white to-gray-50 border-gray-200';
+        }
+
+        function getCardBackColor(category) {
+            const colors = {
+                'jalan': 'from-red-500 to-orange-600',
+                'keretapi': 'from-blue-500 to-cyan-600',
+                'lapangan': 'from-green-500 to-emerald-600',
+                'pelabuhan': 'from-purple-500 to-pink-600'
+            };
+            return colors[category] || 'from-blue-500 to-purple-600';
+        }
+
+        function showCategory(category) {
+            currentCategory = category;
+            
+            // Update button styles
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('ring-4', 'ring-white', 'ring-opacity-50');
+            });
+            document.getElementById(`btn-${category}`).classList.add('ring-4', 'ring-white', 'ring-opacity-50');
+            
+            renderCards();
+        }
+
+        function renderCards() {
+            const container = document.getElementById('flashCardsContainer');
+            const cards = flashCardsData[currentCategory];
+            
+            container.innerHTML = cards.map((card, index) => `
+                <div class="flip-card" id="card-${currentCategory}-${index}">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front bg-gradient-to-br ${getCardFrontColor(currentCategory)} shadow-xl border-2 border-opacity-30 cursor-pointer hover:shadow-2xl transition-all transform hover:scale-105 hover:rotate-1">
+                            <div class="text-6xl mb-4 animate-bounce">${card.icon}</div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">${card.title}</h3>
+                            <p class="text-gray-700 text-center font-medium">${card.front}</p>
+                            <div class="absolute bottom-4 right-4 text-2xl animate-pulse">🔄</div>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br ${getCardBackColor(currentCategory)} text-white shadow-xl cursor-pointer">
+                            <div class="text-4xl mb-4">${card.icon}</div>
+                            <h3 class="text-lg font-bold mb-4">${card.title}</h3>
+                            <div class="text-sm leading-relaxed whitespace-pre-line text-left">${card.back}</div>
+                            <div class="absolute bottom-4 right-4 text-2xl">✅</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add click handlers
+            cards.forEach((card, index) => {
+                const cardElement = document.getElementById(`card-${currentCategory}-${index}`);
+                cardElement.addEventListener('click', () => flipCard(currentCategory, index));
+            });
+        }
+
+        function flipCard(category, index) {
+            const cardId = `card-${category}-${index}`;
+            const cardElement = document.getElementById(cardId);
+            
+            cardElement.classList.toggle('flipped');
+            
+            const cardKey = `${category}-${index}`;
+            if (cardElement.classList.contains('flipped')) {
+                flippedCards.add(cardKey);
+                viewedCards.add(cardKey);
+            } else {
+                flippedCards.delete(cardKey);
+            }
+            
+            updateProgress();
+        }
+
+        function flipAllCards() {
+            const cards = flashCardsData[currentCategory];
+            cards.forEach((card, index) => {
+                const cardId = `card-${currentCategory}-${index}`;
+                const cardElement = document.getElementById(cardId);
+                const cardKey = `${currentCategory}-${index}`;
+                
+                if (!cardElement.classList.contains('flipped')) {
+                    cardElement.classList.add('flipped');
+                    flippedCards.add(cardKey);
+                    viewedCards.add(cardKey);
+                }
+            });
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const totalCards = Object.values(flashCardsData).flat().length;
+            const viewedCount = viewedCards.size;
+            const percentage = (viewedCount / totalCards) * 100;
+            
+            document.getElementById('progressBar').style.width = `${percentage}%`;
+            document.getElementById('progressText').textContent = `${viewedCount}/${totalCards}`;
+        }
+
+        function resetProgress() {
+            flippedCards.clear();
+            viewedCards.clear();
+            
+            document.querySelectorAll('.flip-card').forEach(card => {
+                card.classList.remove('flipped');
+            });
+            
+            updateProgress();
+        }
+
+        function showStats() {
+            const totalCards = Object.values(flashCardsData).flat().length;
+            const viewedCount = viewedCards.size;
+            const percentage = Math.round((viewedCount / totalCards) * 100);
+            
+            // Calculate category progress
+            const categoryStats = {};
+            Object.keys(flashCardsData).forEach(category => {
+                const categoryCards = flashCardsData[category].length;
+                const categoryViewed = Array.from(viewedCards).filter(card => card.startsWith(category)).length;
+                const categoryPercentage = Math.round((categoryViewed / categoryCards) * 100);
+                
+                const categoryNames = {
+                    'jalan': 'Jaringan Jalan Raya',
+                    'keretapi': 'Landasan Kereta Api',
+                    'lapangan': 'Lapangan Terbang',
+                    'pelabuhan': 'Pelabuhan Utama'
+                };
+                
+                categoryStats[categoryNames[category]] = {
+                    viewed: categoryViewed,
+                    total: categoryCards,
+                    percentage: categoryPercentage
+                };
+            });
+
+            const statsContent = document.getElementById('statsContent');
+            statsContent.innerHTML = `
+                <div class="text-center mb-4">
+                    <div class="text-4xl font-bold text-blue-600">${percentage}%</div>
+                    <div class="text-gray-600">Kemajuan Keseluruhan</div>
+                    <div class="text-sm text-gray-500">${viewedCount} daripada ${totalCards} kad</div>
+                </div>
+                
+                <div class="space-y-3">
+                    ${Object.entries(categoryStats).map(([name, stats]) => `
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="font-medium text-gray-700">${name}</span>
+                            <div class="text-right">
+                                <div class="font-bold text-gray-800">${stats.percentage}%</div>
+                                <div class="text-xs text-gray-500">${stats.viewed}/${stats.total}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="mt-4 p-3 bg-blue-50 rounded-lg text-center">
+                    <div class="text-sm text-blue-700">
+                        ${viewedCount === totalCards ? 
+                            '🎉 Tahniah! Anda telah menyelesaikan semua kad!' : 
+                            `💪 Teruskan usaha! ${totalCards - viewedCount} kad lagi untuk diselesaikan.`
+                        }
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('statsModal').classList.remove('hidden');
+            document.getElementById('statsModal').classList.add('flex');
+        }
+
+        function closeStats() {
+            document.getElementById('statsModal').classList.add('hidden');
+            document.getElementById('statsModal').classList.remove('flex');
+        }
+
+        // Initialize
+        showCategory('jalan');
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9831596335d2a559',t:'MTc1ODUzOTM1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
