@@ -27,50 +27,53 @@
 
     <!-- Control Panel -->
     <div class="max-w-4xl mx-auto p-4">
-        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
-            <h2 class="text-xl font-semibold mb-4 text-gray-800">📊 Panel Kawalan</h2>
-            <div class="grid grid-cols-2 md:grid-cols-6 gap-3">
-                <button onclick="resetQuiz()" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm">
+        <div class="bg-white bg-opacity-95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 mb-6 sparkle border-4 border-pink-200">
+            <h2 class="text-2xl font-bold mb-6 text-center gradient-text">🎮 Panel Kawalan Ajaib 🎮</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+                <button onclick="resetQuiz()" class="bg-gradient-to-r from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 text-white px-3 py-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:rotate-3 text-sm font-bold shadow-lg">
                     🔄 Mula Semula
                 </button>
-                <button onclick="showHint()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm">
+                <button onclick="showHint()" class="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white px-3 py-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:rotate-3 text-sm font-bold shadow-lg">
                     💡 Petunjuk
                 </button>
-                <button onclick="showStats()" class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm">
+                <button onclick="showStats()" class="bg-gradient-to-r from-purple-400 to-purple-600 hover:from-purple-500 hover:to-purple-700 text-white px-3 py-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:rotate-3 text-sm font-bold shadow-lg">
                     📈 Statistik
                 </button>
-                <button onclick="toggleSound()" class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm">
+                <button onclick="toggleSound()" class="bg-gradient-to-r from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 text-white px-3 py-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:rotate-3 text-sm font-bold shadow-lg">
                     🔊 Bunyi
                 </button>
-                <button onclick="showProgress()" class="bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm">
+                <button onclick="showProgress()" class="bg-gradient-to-r from-indigo-400 to-blue-600 hover:from-indigo-500 hover:to-blue-700 text-white px-3 py-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:rotate-3 text-sm font-bold shadow-lg">
                     📊 Kemajuan
                 </button>
-                <button onclick="showNotes()" class="bg-teal-500 hover:bg-teal-600 text-white px-3 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm">
+                <button onclick="showNotes()" class="bg-gradient-to-r from-teal-400 to-green-600 hover:from-teal-500 hover:to-green-700 text-white px-3 py-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:rotate-3 text-sm font-bold shadow-lg">
                     📝 Nota
                 </button>
             </div>
         </div>
 
         <!-- Score Display -->
-        <div class="bg-white rounded-xl shadow-lg p-4 mb-6">
-            <div class="flex justify-between items-center">
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-green-600" id="score">0</div>
-                    <div class="text-sm text-gray-600">Markah</div>
+        <div class="bg-gradient-to-r from-pink-100 to-purple-100 rounded-2xl shadow-2xl p-6 mb-6 border-4 border-yellow-300">
+            <div class="grid grid-cols-3 gap-4">
+                <div class="text-center bg-white rounded-xl p-4 shadow-lg transform hover:scale-105 transition-all duration-300">
+                    <div class="text-3xl mb-2">🏆</div>
+                    <div class="text-3xl font-bold text-green-600" id="score">0</div>
+                    <div class="text-sm font-semibold text-gray-700">Markah</div>
                 </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-blue-600" id="question-count">1/10</div>
-                    <div class="text-sm text-gray-600">Soalan</div>
+                <div class="text-center bg-white rounded-xl p-4 shadow-lg transform hover:scale-105 transition-all duration-300">
+                    <div class="text-3xl mb-2">📝</div>
+                    <div class="text-3xl font-bold text-blue-600" id="question-count">1/10</div>
+                    <div class="text-sm font-semibold text-gray-700">Soalan</div>
                 </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-purple-600" id="streak">0</div>
-                    <div class="text-sm text-gray-600">Berturut</div>
+                <div class="text-center bg-white rounded-xl p-4 shadow-lg transform hover:scale-105 transition-all duration-300">
+                    <div class="text-3xl mb-2">🔥</div>
+                    <div class="text-3xl font-bold text-purple-600" id="streak">0</div>
+                    <div class="text-sm font-semibold text-gray-700">Berturut</div>
                 </div>
             </div>
         </div>
 
         <!-- Quiz Container -->
-        <div id="quiz-container" class="bg-white rounded-xl shadow-lg p-6 fade-in">
+        <div id="quiz-container" class="bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-2xl p-8 fade-in border-4 border-blue-200 sparkle">
             <!-- Question will be loaded here -->
         </div>
 
@@ -226,18 +229,18 @@
             container.innerHTML = `
                 <div class="fade-in">
                     <div class="mb-6">
-                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
-                            <h3 class="font-semibold text-blue-800 mb-2">📍 Situasi:</h3>
-                            <p class="text-blue-700">${question.situation}</p>
+                        <div class="bg-gradient-to-r from-yellow-100 to-orange-100 border-4 border-yellow-400 p-6 mb-6 rounded-2xl shadow-lg">
+                            <h3 class="font-bold text-orange-800 mb-3 text-lg">📍 Situasi Menarik:</h3>
+                            <p class="text-orange-700 text-lg leading-relaxed">${question.situation}</p>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-800">${question.question}</h3>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded-xl border-2 border-purple-300">${question.question}</h3>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         ${question.options.map((option, index) => `
                             <button onclick="selectAnswer(${index})" 
-                                    class="option-btn bg-gray-50 hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-300 p-4 rounded-lg text-left transition-all duration-300 transform hover:scale-105">
-                                <span class="text-lg">${option}</span>
+                                    class="option-btn bg-gradient-to-r from-white to-blue-50 hover:from-blue-100 hover:to-purple-100 border-3 border-blue-200 hover:border-purple-400 p-6 rounded-2xl text-left transition-all duration-300 transform hover:scale-110 hover:rotate-1 shadow-lg hover:shadow-2xl">
+                                <span class="text-xl font-semibold text-gray-800">${option}</span>
                             </button>
                         `).join('')}
                     </div>
@@ -317,17 +320,21 @@
                 emoji = "🏆";
                 title = "Cemerlang!";
                 message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Pengetahuan anda tentang pengangkutan awam Malaysia sangat baik!`;
-            } else if (percentage >= 70) {
+            } else if (percentage >= 80) {
                 emoji = "🎉";
                 title = "Bagus!";
                 message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Prestasi yang baik!`;
-            } else if (percentage >= 50) {
+            } else if (percentage >= 60) {
+                emoji = "😊";
+                title = "Memuaskan";
+                message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Teruskan usaha yang baik!`;
+            } else if (percentage >= 40) {
                 emoji = "👍";
-                title = "Tidak Buruk!";
-                message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Teruskan usaha!`;
+                title = "Baik";
+                message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Masih ada ruang untuk diperbaiki!`;
             } else {
                 emoji = "💪";
-                title = "Teruskan Usaha";
+                title = "Tidak Memuaskan";
                 message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Jangan putus asa, cuba lagi!`;
             }
             
@@ -463,5 +470,5 @@
         // Initialize the quiz
         loadQuestion();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9831aff614cc9103',t:'MTc1ODU0MjkwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9831ba7cf1cf8e0c',t:'MTc1ODU0MzMzNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
