@@ -3,495 +3,465 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flash Card Sistem Pengangkutan Malaysia - Geografi T2</title>
+    <title>Praktis Pengangkutan Awam Malaysia</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    screens: {
-                        'xs': '475px',
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        .flip-card {
-            perspective: 1000px;
-            height: 350px;
-        }
-        @media (min-width: 640px) {
-            .flip-card {
-                height: 380px;
-            }
-        }
-        @media (min-width: 1024px) {
-            .flip-card {
-                height: 400px;
-            }
-        }
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-        .flip-card.flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 24px;
-        }
-        .flip-card-back {
-            transform: rotateY(180deg);
-        }
-        .progress-bar {
-            transition: width 0.3s ease;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .bounce { animation: bounce 0.6s ease-in-out; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+        .pulse-ring { animation: pulse-ring 2s infinite; }
+        @keyframes pulse-ring { 0% { transform: scale(0.33); } 40%, 50% { opacity: 1; } 100% { opacity: 0; transform: scale(1.2); } }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen p-4">
-    <div class="max-w-6xl mx-auto">
-        <!-- Header -->
-        <div class="text-center mb-6 sm:mb-8">
-            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2 px-4">🚗 Pengangkutan di Malaysia</h1>
-            <p class="text-base sm:text-lg text-gray-600 px-4">Geografi Tingkatan 2 - Bab 5: Pengangkutan di Malaysia</p>
-            <div class="mt-4 bg-white rounded-full p-1 shadow-lg inline-block mx-4">
-                <div class="flex items-center space-x-2 sm:space-x-4 px-3 sm:px-6 py-2">
-                    <span class="text-xs sm:text-sm font-medium text-gray-600 hidden sm:inline">📊 Kemajuan Pembelajaran:</span>
-                    <span class="text-xs sm:text-sm font-medium text-gray-600 sm:hidden">📊 Kemajuan:</span>
-                    <div class="w-32 sm:w-48 bg-gray-200 rounded-full h-3">
-                        <div id="progressBar" class="progress-bar bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full" style="width: 0%"></div>
-                    </div>
-                    <span id="progressText" class="text-xs sm:text-sm font-bold text-gray-700">0/18</span>
-                </div>
+<body class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-green-600 text-white p-4 shadow-lg">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-2xl md:text-3xl font-bold text-center">🚌 Praktis: Pengangkutan Awam di Malaysia</h1>
+            <p class="text-center mt-2 text-blue-100">Geografi Tingkatan 2 - Bab 5</p>
+        </div>
+    </div>
+
+    <!-- Control Panel -->
+    <div class="max-w-4xl mx-auto p-4">
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">📊 Panel Kawalan</h2>
+            <div class="grid grid-cols-2 md:grid-cols-6 gap-3">
+                <button onclick="resetQuiz()" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm">
+                    🔄 Mula Semula
+                </button>
+                <button onclick="showHint()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm">
+                    💡 Petunjuk
+                </button>
+                <button onclick="showStats()" class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm">
+                    📈 Statistik
+                </button>
+                <button onclick="toggleSound()" class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm">
+                    🔊 Bunyi
+                </button>
+                <button onclick="showProgress()" class="bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm">
+                    📊 Kemajuan
+                </button>
+                <button onclick="showNotes()" class="bg-teal-500 hover:bg-teal-600 text-white px-3 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm">
+                    📝 Nota
+                </button>
             </div>
-            <p class="text-xs text-gray-500 mt-2 px-4">💡 Bar kemajuan menunjukkan berapa banyak kad yang telah anda baca untuk memantau pembelajaran</p>
         </div>
 
-        <!-- Instructions Panel -->
-        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 sm:p-6 mb-6 mx-2 sm:mx-0">
-            <div class="flex items-start space-x-3">
-                <div class="text-2xl sm:text-3xl">📚</div>
-                <div class="flex-1">
-                    <h3 class="text-lg sm:text-xl font-bold text-blue-800 mb-3">Panel Arahan Flash Card</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm sm:text-base">
-                        <div class="space-y-2">
-                            <div class="flex items-center space-x-2">
-                                <span class="text-blue-600">👆</span>
-                                <span class="text-gray-700"><strong>Klik kad</strong> untuk melihat maklumat terperinci</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <span class="text-green-600">🔄</span>
-                                <span class="text-gray-700"><strong>Terbalik Semua</strong> untuk melihat jawapan sekaligus</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <span class="text-purple-600">📈</span>
-                                <span class="text-gray-700"><strong>Lihat Statistik</strong> untuk memantau kemajuan</span>
-                            </div>
-                        </div>
-                        <div class="space-y-2">
-                            <div class="flex items-center space-x-2">
-                                <span class="text-red-600">🎯</span>
-                                <span class="text-gray-700"><strong>4 Kategori:</strong> Jalan, Kereta Api, Lapangan Terbang, Pelabuhan</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <span class="text-orange-600">📊</span>
-                                <span class="text-gray-700"><strong>18 Kad</strong> dengan maklumat lengkap dan terkini</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <span class="text-indigo-600">🎓</span>
-                                <span class="text-gray-700"><strong>Sesuai</strong> untuk guru dan murid Tingkatan 2</span>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Score Display -->
+        <div class="bg-white rounded-xl shadow-lg p-4 mb-6">
+            <div class="flex justify-between items-center">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-600" id="score">0</div>
+                    <div class="text-sm text-gray-600">Markah</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-blue-600" id="question-count">1/10</div>
+                    <div class="text-sm text-gray-600">Soalan</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-purple-600" id="streak">0</div>
+                    <div class="text-sm text-gray-600">Berturut</div>
                 </div>
             </div>
         </div>
 
-        <!-- Navigation -->
-        <div class="flex justify-center mb-6 px-2">
-            <div class="grid grid-cols-2 gap-3 w-full max-w-2xl">
-                <!-- Baris Atas -->
-                <button onclick="showCategory('jalan')" id="btn-jalan" class="category-btn bg-red-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-red-600 transition-colors text-xs sm:text-sm">
-                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">🛣️</span>
-                    <span class="block sm:inline sm:ml-1">Jaringan Jalan Raya</span>
-                </button>
-                <button onclick="showCategory('keretapi')" id="btn-keretapi" class="category-btn bg-blue-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors text-xs sm:text-sm">
-                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">🚂</span>
-                    <span class="block sm:inline sm:ml-1">Landasan Kereta Api</span>
-                </button>
-                <!-- Baris Bawah -->
-                <button onclick="showCategory('lapangan')" id="btn-lapangan" class="category-btn bg-green-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-green-600 transition-colors text-xs sm:text-sm">
-                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">✈️</span>
-                    <span class="block sm:inline sm:ml-1">Lapangan Terbang</span>
-                </button>
-                <button onclick="showCategory('pelabuhan')" id="btn-pelabuhan" class="category-btn bg-purple-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-purple-600 transition-colors text-xs sm:text-sm">
-                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">🚢</span>
-                    <span class="block sm:inline sm:ml-1">Pelabuhan Utama</span>
+        <!-- Quiz Container -->
+        <div id="quiz-container" class="bg-white rounded-xl shadow-lg p-6 fade-in">
+            <!-- Question will be loaded here -->
+        </div>
+
+        <!-- Results Container -->
+        <div id="results-container" class="bg-white rounded-xl shadow-lg p-6 hidden">
+            <div class="text-center">
+                <div class="text-6xl mb-4" id="result-emoji">🎉</div>
+                <h2 class="text-2xl font-bold mb-4" id="result-title">Tahniah!</h2>
+                <p class="text-lg mb-6" id="result-message"></p>
+                <button onclick="resetQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Cuba Lagi
                 </button>
             </div>
         </div>
+    </div>
 
-        <!-- Flash Cards Container -->
-        <div id="flashCardsContainer" class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 px-2 sm:px-0">
-            <!-- Cards will be populated by JavaScript -->
+    <!-- Hint Modal -->
+    <div id="hint-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 m-4 max-w-md">
+            <h3 class="text-lg font-semibold mb-4">💡 Petunjuk</h3>
+            <p id="hint-text" class="text-gray-700 mb-4"></p>
+            <button onclick="closeHint()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Tutup</button>
         </div>
+    </div>
 
-        <!-- Controls -->
-        <div class="text-center mt-6 sm:mt-8 px-2">
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4">
-                <button onclick="flipAllCards()" class="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-3 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base">
-                    🔄 Terbalik Semua Kad
-                </button>
-                <button onclick="showStats()" class="w-full sm:w-auto bg-gradient-to-r from-indigo-500 to-blue-500 text-white px-4 sm:px-6 py-3 rounded-lg font-medium hover:from-indigo-600 hover:to-blue-600 transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base">
-                    📈 Lihat Statistik
-                </button>
-                <button onclick="resetProgress()" class="w-full sm:w-auto bg-gray-500 text-white px-4 sm:px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors shadow-lg text-sm sm:text-base">
-                    🔄 Reset Kemajuan
-                </button>
-            </div>
+    <!-- Progress Modal -->
+    <div id="progress-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 m-4 max-w-lg">
+            <h3 class="text-lg font-semibold mb-4">📊 Kemajuan Pembelajaran</h3>
+            <div id="progress-content" class="text-gray-700 mb-4"></div>
+            <button onclick="closeProgress()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Tutup</button>
         </div>
+    </div>
 
-        <!-- Statistics Modal -->
-        <div id="statsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
-            <div class="bg-white rounded-xl p-4 sm:p-8 w-full max-w-md mx-auto shadow-2xl max-h-[90vh] overflow-y-auto">
-                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">📊 Statistik Pembelajaran</h3>
-                <div id="statsContent" class="space-y-3 sm:space-y-4">
-                    <!-- Stats will be populated by JavaScript -->
+    <!-- Notes Modal -->
+    <div id="notes-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 m-4 max-w-2xl max-h-96 overflow-y-auto">
+            <h3 class="text-lg font-semibold mb-4">📝 Nota Pembelajaran: Pengangkutan Awam Malaysia</h3>
+            <div class="text-gray-700 mb-4 space-y-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-blue-800 mb-2">🚇 Pengangkutan Rel</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• <strong>LRT:</strong> Menghubungkan kawasan bandar (Ampang, Kelana Jaya)</li>
+                        <li>• <strong>MRT:</strong> Sistem terbaru, laluan Sungai Buloh-Kajang</li>
+                        <li>• <strong>KTM Komuter:</strong> Perkhidmatan kereta api tempatan</li>
+                        <li>• <strong>KLIA Ekspres:</strong> Terus ke lapangan terbang</li>
+                    </ul>
                 </div>
-                <button onclick="closeStats()" class="w-full mt-4 sm:mt-6 bg-blue-500 text-white py-2 sm:py-3 rounded-lg hover:bg-blue-600 transition-colors text-sm sm:text-base">
-                    Tutup
-                </button>
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-green-800 mb-2">🚌 Pengangkutan Jalan Raya</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• <strong>Bas Ekspres:</strong> Perjalanan jarak jauh antara negeri</li>
+                        <li>• <strong>Bas Bandar:</strong> Perkhidmatan dalam bandar (RapidKL)</li>
+                        <li>• <strong>Bas Nadi Putra:</strong> Khusus Putrajaya & Cyberjaya</li>
+                    </ul>
+                </div>
+                <div class="bg-cyan-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-cyan-800 mb-2">🚢 Pengangkutan Air</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• <strong>Feri Pulau Pinang:</strong> Butterworth ↔ Georgetown</li>
+                        <li>• <strong>Feri Langkawi:</strong> Kuala Perlis/Kuala Kedah ↔ Langkawi</li>
+                        <li>• <strong>Bot Sungai:</strong> Perkhidmatan tempatan di Sarawak</li>
+                    </ul>
+                </div>
             </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="text-center mt-6 sm:mt-8 text-gray-600 px-4">
-            <p class="text-sm">💡 Klik pada kad untuk melihat maklumat terperinci</p>
-            <p class="text-xs mt-2">Untuk kegunaan pendidikan - Subjek Geografi Tingkatan 2</p>
+            <button onclick="closeNotes()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Tutup</button>
         </div>
     </div>
 
     <script>
-        const flashCardsData = {
-            jalan: [
-                {
-                    title: "Lebuhraya Utara-Selatan (PLUS)",
-                    icon: "🛣️",
-                    front: "Lebuhraya Terpanjang Malaysia",
-                    back: "• Panjang: 966 km\n• Menghubungkan: Bukit Kayu Hitam - Johor Bahru\n• Melalui: 9 negeri\n• Dibuka: 1994\n• Operator: PLUS Malaysia Berhad\n• Kepentingan: Tulang belakang ekonomi negara"
-                },
-                {
-                    title: "Lebuhraya Pantai Timur (LPT)",
-                    icon: "🌊",
-                    front: "Menghubungkan Pantai Timur",
-                    back: "• Panjang: 433 km\n• Menghubungkan: Karak - Kuala Terengganu\n• Melalui: Pahang, Terengganu\n• Dibuka: 2015\n• Kepentingan: Membangunkan pantai timur\n• Mengurangkan masa perjalanan 2 jam"
-                },
-                {
-                    title: "Lebuhraya Lingkaran Tengah (MRR2)",
-                    icon: "🔄",
-                    front: "Lingkaran Kuala Lumpur",
-                    back: "• Panjang: 35.7 km\n• Lokasi: Sekitar Kuala Lumpur\n• Fungsi: Mengurangkan kesesakan\n• Menghubungkan: 8 lebuhraya utama\n• Kepentingan: Sistem pengangkutan bandar\n• Status: Percuma (tanpa tol)"
-                },
-                {
-                    title: "Lebuhraya Borneo (Pan Borneo)",
-                    icon: "🌴",
-                    front: "Projek Terbesar Sabah & Sarawak",
-                    back: "• Panjang: 2,239 km\n• Menghubungkan: Semanjung - Sabah - Sarawak\n• Fasa 1: 2015-2023\n• Kos: RM27 bilion\n• Kepentingan: Integrasi Borneo\n• Status: Dalam pembinaan"
-                }
-            ],
-            keretapi: [
-                {
-                    title: "KTM Komuter",
-                    icon: "🚊",
-                    front: "Perkhidmatan Komuter Lembah Klang",
-                    back: "• Laluan: 6 laluan utama\n• Stesen: 53 stesen\n• Kawasan: Lembah Klang\n• Penumpang: 120,000 harian\n• Operator: KTM Berhad\n• Kepentingan: Pengangkutan awam bandar"
-                },
-                {
-                    title: "ETS (Electric Train Service)",
-                    icon: "⚡",
-                    front: "Kereta Api Elektrik Berkelajuan Tinggi",
-                    back: "• Kelajuan: Sehingga 160 km/j\n• Laluan: KL Sentral - Padang Besar\n• Stesen: 8 stesen utama\n• Masa: KL-Ipoh (2 jam)\n• Dibuka: 2010\n• Kepentingan: Pengangkutan pantas"
-                },
-                {
-                    title: "LRT (Light Rail Transit)",
-                    icon: "🚇",
-                    front: "Sistem Rail Ringan KL",
-                    back: "• Laluan: 3 laluan (Ampang, Kelana Jaya, Sri Petaling)\n• Stesen: 74 stesen\n• Penumpang: 240,000 harian\n• Operator: Rapid Rail\n• Kepentingan: Mengurangkan kesesakan\n• Integrasi dengan MRT"
-                },
-                {
-                    title: "MRT (Mass Rapid Transit)",
-                    icon: "🚄",
-                    front: "Sistem Transit Massa Terkini",
-                    back: "• Laluan: 2 laluan (SBK, SSP)\n• Stesen: 62 stesen\n• Kapasiti: 1.2 juta penumpang\n• Teknologi: Tanpa pemandu\n• Dibuka: 2017\n• Kepentingan: Tulang belakang pengangkutan awam"
-                },
-                {
-                    title: "Sabah State Railway",
-                    icon: "🚂",
-                    front: "Kereta Api Bersejarah Sabah",
-                    back: "• Laluan: Tanjung Aru - Papar (134 km)\n• Dibina: 1896 (zaman British)\n• Lebar trek: 1000mm (meter gauge)\n• Stesen: 16 stesen\n• Kepentingan: Pelancongan & sejarah\n• Status: Kereta api tertua Malaysia"
-                },
-                {
-                    title: "North Borneo Railway",
-                    icon: "🚃",
-                    front: "Kereta Api Pelancongan Sabah",
-                    back: "• Laluan: Kota Kinabalu - Papar\n• Jarak: 134 km\n• Lokomotif: Steam engine 1954\n• Pengalaman: Nostalgia kolonial\n• Pemandangan: Pantai & kampung\n• Operator: Sutera Harbour Resort"
-                }
-            ],
-            lapangan: [
-                {
-                    title: "KLIA (Kuala Lumpur International Airport)",
-                    icon: "✈️",
-                    front: "Lapangan Terbang Utama Malaysia",
-                    back: "• Lokasi: Sepang, Selangor\n• Dibuka: 1998\n• Penumpang: 25 juta setahun\n• Terminal: 2 terminal utama\n• Landasan: 4 landasan\n• Status: Hub antarabangsa Asia"
-                },
-                {
-                    title: "Lapangan Terbang Senai",
-                    icon: "🛬",
-                    front: "Pintu Masuk Selatan Malaysia",
-                    back: "• Lokasi: Johor Bahru, Johor\n• Penumpang: 4 juta setahun\n• Kepentingan: Hubungan dengan Singapura\n• Syarikat: AirAsia, Malaysia Airlines\n• Status: Lapangan terbang antarabangsa\n• Kod: JHB"
-                },
-                {
-                    title: "Lapangan Terbang Kota Kinabalu",
-                    icon: "🏔️",
-                    front: "Hub Utama Sabah",
-                    back: "• Lokasi: Kota Kinabalu, Sabah\n• Penumpang: 8 juta setahun\n• Terminal: 2 terminal\n• Kepentingan: Pelancongan Borneo\n• Destinasi: 20+ negara\n• Kod: BKI"
-                },
-                {
-                    title: "Lapangan Terbang Kuching",
-                    icon: "🐱",
-                    front: "Pintu Masuk Sarawak",
-                    back: "• Lokasi: Kuching, Sarawak\n• Penumpang: 5 juta setahun\n• Kepentingan: Hub Sarawak\n• Destinasi: Asia Tenggara\n• Terminal: 1 terminal utama\n• Kod: KCH"
-                }
-            ],
-            pelabuhan: [
-                {
-                    title: "Pelabuhan Klang",
-                    icon: "🚢",
-                    front: "Pelabuhan Terbesar Malaysia",
-                    back: "• Lokasi: Selangor\n• Ranking: Top 12 dunia\n• Kontena: 13 juta TEU\n• Kepentingan: Hub perdagangan Asia\n• Kemudahan: 19 terminal\n• Operator: Westports, Northport"
-                },
-                {
-                    title: "Pelabuhan Tanjung Pelepas (PTP)",
-                    icon: "⚓",
-                    front: "Pelabuhan Kontena Terkini",
-                    back: "• Lokasi: Johor\n• Dibuka: 1999\n• Kontena: 9 juta TEU\n• Kedalaman: 17 meter\n• Kepentingan: Pelabuhan dalam air\n• Teknologi: Automasi tinggi"
-                },
-                {
-                    title: "Pelabuhan Bintulu",
-                    icon: "⛽",
-                    front: "Hub Gas Asli Cecair (LNG)",
-                    back: "• Lokasi: Sarawak\n• Kepentingan: Eksport LNG terbesar\n• Kemudahan: Terminal LNG\n• Industri: Petrokimia\n• Status: Pelabuhan industri\n• Operator: Bintulu Port"
-                },
-                {
-                    title: "Pelabuhan Kuantan",
-                    icon: "🏭",
-                    front: "Pelabuhan Pantai Timur Utama",
-                    back: "• Lokasi: Pahang\n• Kepentingan: ECRL terminus\n• Kemudahan: Multipurpose terminal\n• Industri: Kelapa sawit, getah\n• Projek: Malaysia-China Kuantan Industrial Park\n• Status: Pelabuhan dalam pembangunan"
-                }
-            ]
-        };
+        let currentQuestion = 0;
+        let score = 0;
+        let streak = 0;
+        let soundEnabled = true;
 
-        let currentCategory = 'jalan';
-        let flippedCards = new Set();
-        let viewedCards = new Set();
-
-        function getCardFrontColor(category) {
-            const colors = {
-                'jalan': 'from-red-100 to-orange-100 border-red-300',
-                'keretapi': 'from-blue-100 to-cyan-100 border-blue-300',
-                'lapangan': 'from-green-100 to-emerald-100 border-green-300',
-                'pelabuhan': 'from-purple-100 to-pink-100 border-purple-300'
-            };
-            return colors[category] || 'from-white to-gray-50 border-gray-200';
-        }
-
-        function getCardBackColor(category) {
-            const colors = {
-                'jalan': 'from-red-500 to-orange-600',
-                'keretapi': 'from-blue-500 to-cyan-600',
-                'lapangan': 'from-green-500 to-emerald-600',
-                'pelabuhan': 'from-purple-500 to-pink-600'
-            };
-            return colors[category] || 'from-blue-500 to-purple-600';
-        }
-
-        function showCategory(category) {
-            currentCategory = category;
-            
-            // Update button styles
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('ring-4', 'ring-white', 'ring-opacity-50');
-            });
-            document.getElementById(`btn-${category}`).classList.add('ring-4', 'ring-white', 'ring-opacity-50');
-            
-            renderCards();
-        }
-
-        function renderCards() {
-            const container = document.getElementById('flashCardsContainer');
-            const cards = flashCardsData[currentCategory];
-            
-            container.innerHTML = cards.map((card, index) => `
-                <div class="flip-card" id="card-${currentCategory}-${index}">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front bg-gradient-to-br ${getCardFrontColor(currentCategory)} shadow-xl border-2 border-opacity-30 cursor-pointer hover:shadow-2xl transition-all transform hover:scale-105 hover:rotate-1">
-                            <div class="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4 animate-bounce">${card.icon}</div>
-                            <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-800 mb-2 text-center px-2 leading-tight">${card.title}</h3>
-                            <p class="text-gray-700 text-center font-medium text-sm sm:text-base px-2 leading-snug">${card.front}</p>
-                            <div class="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 text-xl sm:text-2xl animate-pulse">🔄</div>
-                        </div>
-                        <div class="flip-card-back bg-gradient-to-br ${getCardBackColor(currentCategory)} text-white shadow-xl cursor-pointer">
-                            <div class="text-3xl sm:text-4xl mb-3 sm:mb-4">${card.icon}</div>
-                            <h3 class="text-base sm:text-lg font-bold mb-3 sm:mb-4 px-2">${card.title}</h3>
-                            <div class="text-xs sm:text-sm leading-relaxed whitespace-pre-line text-left px-2 overflow-y-auto max-h-48 sm:max-h-56">${card.back}</div>
-                            <div class="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 text-xl sm:text-2xl">✅</div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-
-            // Add click handlers
-            cards.forEach((card, index) => {
-                const cardElement = document.getElementById(`card-${currentCategory}-${index}`);
-                cardElement.addEventListener('click', () => flipCard(currentCategory, index));
-            });
-        }
-
-        function flipCard(category, index) {
-            const cardId = `card-${category}-${index}`;
-            const cardElement = document.getElementById(cardId);
-            
-            cardElement.classList.toggle('flipped');
-            
-            const cardKey = `${category}-${index}`;
-            if (cardElement.classList.contains('flipped')) {
-                flippedCards.add(cardKey);
-                viewedCards.add(cardKey);
-            } else {
-                flippedCards.delete(cardKey);
+        const questions = [
+            {
+                situation: "Ahmad ingin pergi dari Kuala Lumpur ke Johor Bahru untuk melawat keluarga. Perjalanan ini mengambil masa kira-kira 4-5 jam.",
+                question: "Apakah pengangkutan awam yang paling sesuai untuk Ahmad?",
+                options: ["🚌 Bas Ekspres", "🚇 LRT", "🚕 Teksi", "🛵 Motosikal"],
+                correct: 0,
+                hint: "Fikirkan tentang jarak yang jauh dan masa perjalanan yang lama. Pengangkutan manakah yang sesuai untuk perjalanan antara negeri?"
+            },
+            {
+                situation: "Siti bekerja di KLCC dan tinggal di Ampang. Dia perlu pergi bekerja setiap hari pada waktu pagi yang sibuk.",
+                question: "Pengangkutan awam manakah yang paling praktikal untuk Siti?",
+                options: ["🚇 LRT", "🚌 Bas Bandar", "🚕 Teksi", "🚲 Basikal"],
+                correct: 0,
+                hint: "Pertimbangkan kesesakan lalu lintas pada waktu pagi dan keperluan untuk sampai tepat pada masa."
+            },
+            {
+                situation: "Keluarga Pak Ali ingin pergi bercuti ke Pulau Langkawi dari Kuala Perlis.",
+                question: "Bagaimanakah mereka boleh sampai ke Pulau Langkawi?",
+                options: ["🚢 Feri", "🚌 Bas", "🚇 MRT", "🚕 Teksi"],
+                correct: 0,
+                hint: "Pulau Langkawi dikelilingi oleh laut. Fikirkan pengangkutan yang boleh merentasi air."
+            },
+            {
+                situation: "Aminah seorang pelajar universiti di Putrajaya. Dia perlu pergi ke perpustakaan yang terletak 2 stesen jauhnya.",
+                question: "Apakah pilihan pengangkutan yang paling ekonomik untuk Aminah?",
+                options: ["🚇 MRT", "🚕 Teksi", "🚗 Kereta Sewa", "🚁 Helikopter"],
+                correct: 0,
+                hint: "Sebagai pelajar, Aminah perlu pilihan yang murah dan cekap untuk jarak yang pendek."
+            },
+            {
+                situation: "Encik Lim perlu pergi ke lapangan terbang KLIA dari KL Sentral dengan bagasi yang banyak.",
+                question: "Pengangkutan manakah yang paling sesuai?",
+                options: ["🚄 KLIA Ekspres", "🚌 Bas Bandar", "🚇 LRT", "🚲 Basikal"],
+                correct: 0,
+                hint: "Fikirkan tentang kelajuan, keselesaan, dan kemudahan untuk membawa bagasi berat."
+            },
+            {
+                situation: "Puan Sarah tinggal di Klang dan bekerja di Shah Alam. Dia perlu pengangkutan harian yang boleh dipercayai.",
+                question: "Apakah pilihan terbaik untuk Puan Sarah?",
+                options: ["🚇 KTM Komuter", "🚢 Bot", "🚁 Helikopter", "🛵 Motosikal"],
+                correct: 0,
+                hint: "KTM Komuter menghubungkan bandar-bandar di Lembah Klang dengan jadual yang tetap."
+            },
+            {
+                situation: "Sekumpulan pelancong dari Singapura ingin melawat Melaka untuk sehari.",
+                question: "Bagaimanakah cara yang paling praktikal untuk mereka?",
+                options: ["🚌 Bas Ekspres", "🚇 MRT", "🚢 Kapal Terbang", "🚲 Basikal"],
+                correct: 0,
+                hint: "Pertimbangkan jarak antara Singapura dan Melaka, serta keperluan untuk perjalanan sehari."
+            },
+            {
+                situation: "Azman perlu pergi dari Gombak ke Bukit Bintang untuk membeli-belah pada hujung minggu.",
+                question: "Pengangkutan awam manakah yang menghubungkan kedua-dua tempat ini?",
+                options: ["🚇 LRT", "🚢 Feri", "🚁 Helikopter", "🚂 Kereta Api Laju"],
+                correct: 0,
+                hint: "LRT mempunyai laluan yang menghubungkan Gombak dengan pusat bandar Kuala Lumpur."
+            },
+            {
+                situation: "Keluarga Cik Ros ingin pergi dari Butterworth ke Pulau Pinang untuk makan malam.",
+                question: "Bagaimanakah mereka boleh menyeberang ke Pulau Pinang?",
+                options: ["🚢 Feri Pulau Pinang", "🚌 Bas", "🚇 LRT", "🚲 Basikal"],
+                correct: 0,
+                hint: "Pulau Pinang dan Butterworth dipisahkan oleh selat. Apa pengangkutan yang menghubungkan kedua-duanya?"
+            },
+            {
+                situation: "Hafiz seorang pekerja di Cyberjaya yang perlu pergi ke mesyuarat di Putrajaya Sentral.",
+                question: "Apakah pengangkutan awam yang tersedia di kawasan ini?",
+                options: ["🚌 Bas Nadi Putra", "🚇 LRT", "🚢 Bot", "🚂 KTM Intercity"],
+                correct: 0,
+                hint: "Cyberjaya dan Putrajaya mempunyai sistem bas tempatan yang menghubungkan kedua-dua bandar."
             }
-            
-            updateProgress();
-        }
+        ];
 
-        function flipAllCards() {
-            const cards = flashCardsData[currentCategory];
-            cards.forEach((card, index) => {
-                const cardId = `card-${currentCategory}-${index}`;
-                const cardElement = document.getElementById(cardId);
-                const cardKey = `${currentCategory}-${index}`;
-                
-                if (!cardElement.classList.contains('flipped')) {
-                    cardElement.classList.add('flipped');
-                    flippedCards.add(cardKey);
-                    viewedCards.add(cardKey);
-                }
-            });
-            updateProgress();
-        }
-
-        function updateProgress() {
-            const totalCards = Object.values(flashCardsData).flat().length;
-            const viewedCount = viewedCards.size;
-            const percentage = (viewedCount / totalCards) * 100;
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            const container = document.getElementById('quiz-container');
             
-            document.getElementById('progressBar').style.width = `${percentage}%`;
-            document.getElementById('progressText').textContent = `${viewedCount}/${totalCards}`;
-        }
-
-        function resetProgress() {
-            flippedCards.clear();
-            viewedCards.clear();
-            
-            document.querySelectorAll('.flip-card').forEach(card => {
-                card.classList.remove('flipped');
-            });
-            
-            updateProgress();
-        }
-
-        function showStats() {
-            const totalCards = Object.values(flashCardsData).flat().length;
-            const viewedCount = viewedCards.size;
-            const percentage = Math.round((viewedCount / totalCards) * 100);
-            
-            // Calculate category progress
-            const categoryStats = {};
-            Object.keys(flashCardsData).forEach(category => {
-                const categoryCards = flashCardsData[category].length;
-                const categoryViewed = Array.from(viewedCards).filter(card => card.startsWith(category)).length;
-                const categoryPercentage = Math.round((categoryViewed / categoryCards) * 100);
-                
-                const categoryNames = {
-                    'jalan': 'Jaringan Jalan Raya',
-                    'keretapi': 'Landasan Kereta Api',
-                    'lapangan': 'Lapangan Terbang',
-                    'pelabuhan': 'Pelabuhan Utama'
-                };
-                
-                categoryStats[categoryNames[category]] = {
-                    viewed: categoryViewed,
-                    total: categoryCards,
-                    percentage: categoryPercentage
-                };
-            });
-
-            const statsContent = document.getElementById('statsContent');
-            statsContent.innerHTML = `
-                <div class="text-center mb-4">
-                    <div class="text-4xl font-bold text-blue-600">${percentage}%</div>
-                    <div class="text-gray-600">Kemajuan Keseluruhan</div>
-                    <div class="text-sm text-gray-500">${viewedCount} daripada ${totalCards} kad</div>
-                </div>
-                
-                <div class="space-y-3">
-                    ${Object.entries(categoryStats).map(([name, stats]) => `
-                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                            <span class="font-medium text-gray-700">${name}</span>
-                            <div class="text-right">
-                                <div class="font-bold text-gray-800">${stats.percentage}%</div>
-                                <div class="text-xs text-gray-500">${stats.viewed}/${stats.total}</div>
-                            </div>
+            container.innerHTML = `
+                <div class="fade-in">
+                    <div class="mb-6">
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                            <h3 class="font-semibold text-blue-800 mb-2">📍 Situasi:</h3>
+                            <p class="text-blue-700">${question.situation}</p>
                         </div>
-                    `).join('')}
-                </div>
-                
-                <div class="mt-4 p-3 bg-blue-50 rounded-lg text-center">
-                    <div class="text-sm text-blue-700">
-                        ${viewedCount === totalCards ? 
-                            '🎉 Tahniah! Anda telah menyelesaikan semua kad!' : 
-                            `💪 Teruskan usaha! ${totalCards - viewedCount} kad lagi untuk diselesaikan.`
-                        }
+                        <h3 class="text-xl font-semibold text-gray-800">${question.question}</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${question.options.map((option, index) => `
+                            <button onclick="selectAnswer(${index})" 
+                                    class="option-btn bg-gray-50 hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-300 p-4 rounded-lg text-left transition-all duration-300 transform hover:scale-105">
+                                <span class="text-lg">${option}</span>
+                            </button>
+                        `).join('')}
                     </div>
                 </div>
             `;
             
-            document.getElementById('statsModal').classList.remove('hidden');
-            document.getElementById('statsModal').classList.add('flex');
+            updateQuestionCount();
         }
 
-        function closeStats() {
-            document.getElementById('statsModal').classList.add('hidden');
-            document.getElementById('statsModal').classList.remove('flex');
+        function selectAnswer(selectedIndex) {
+            const question = questions[currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            
+            buttons.forEach((btn, index) => {
+                btn.disabled = true;
+                if (index === question.correct) {
+                    btn.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
+                    btn.classList.remove('hover:bg-blue-50', 'hover:border-blue-300');
+                } else if (index === selectedIndex && index !== question.correct) {
+                    btn.classList.add('bg-red-100', 'border-red-500', 'text-red-800');
+                    btn.classList.remove('hover:bg-blue-50', 'hover:border-blue-300');
+                }
+            });
+
+            if (selectedIndex === question.correct) {
+                score += 10;
+                streak++;
+                if (soundEnabled) playSuccessSound();
+                showFeedback("Betul! 🎉", "success");
+            } else {
+                streak = 0;
+                if (soundEnabled) playErrorSound();
+                showFeedback("Tidak tepat 😔", "error");
+            }
+
+            updateScore();
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    showResults();
+                }
+            }, 2000);
         }
 
-        // Initialize
-        showCategory('jalan');
+        function showFeedback(message, type) {
+            const feedback = document.createElement('div');
+            feedback.className = `fixed top-4 right-4 p-4 rounded-lg text-white font-semibold z-50 bounce ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
+            feedback.textContent = message;
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                feedback.remove();
+            }, 2000);
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('streak').textContent = streak;
+        }
+
+        function updateQuestionCount() {
+            document.getElementById('question-count').textContent = `${currentQuestion + 1}/${questions.length}`;
+        }
+
+        function showResults() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const resultsContainer = document.getElementById('results-container');
+            resultsContainer.classList.remove('hidden');
+            
+            const percentage = (score / (questions.length * 10)) * 100;
+            let emoji, title, message;
+            
+            if (percentage >= 90) {
+                emoji = "🏆";
+                title = "Cemerlang!";
+                message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Pengetahuan anda tentang pengangkutan awam Malaysia sangat baik!`;
+            } else if (percentage >= 70) {
+                emoji = "🎉";
+                title = "Bagus!";
+                message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Prestasi yang baik!`;
+            } else if (percentage >= 50) {
+                emoji = "👍";
+                title = "Tidak Buruk!";
+                message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Teruskan usaha!`;
+            } else {
+                emoji = "💪";
+                title = "Teruskan Usaha";
+                message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Jangan putus asa, cuba lagi!`;
+            }
+            
+            document.getElementById('result-emoji').textContent = emoji;
+            document.getElementById('result-title').textContent = title;
+            document.getElementById('result-message').textContent = message;
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            streak = 0;
+            updateScore();
+            document.getElementById('results-container').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function showHint() {
+            const question = questions[currentQuestion];
+            document.getElementById('hint-text').textContent = question.hint;
+            document.getElementById('hint-modal').classList.remove('hidden');
+            document.getElementById('hint-modal').classList.add('flex');
+        }
+
+        function closeHint() {
+            document.getElementById('hint-modal').classList.add('hidden');
+            document.getElementById('hint-modal').classList.remove('flex');
+        }
+
+        function showStats() {
+            const percentage = currentQuestion > 0 ? (score / (currentQuestion * 10)) * 100 : 0;
+            alert(`📊 Statistik Semasa:\n\n✅ Soalan Dijawab: ${currentQuestion}/${questions.length}\n🎯 Markah: ${score}/${questions.length * 10}\n📈 Peratusan: ${percentage.toFixed(1)}%\n🔥 Streak: ${streak}`);
+        }
+
+        function showProgress() {
+            const percentage = currentQuestion > 0 ? (score / (currentQuestion * 10)) * 100 : 0;
+            const progressBar = `
+                <div class="mb-4">
+                    <div class="flex justify-between text-sm mb-2">
+                        <span>Kemajuan Keseluruhan</span>
+                        <span>${currentQuestion}/${questions.length}</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="bg-blue-600 h-3 rounded-full transition-all duration-500" style="width: ${(currentQuestion/questions.length)*100}%"></div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="flex justify-between text-sm mb-2">
+                        <span>Prestasi</span>
+                        <span>${percentage.toFixed(1)}%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="bg-green-600 h-3 rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-center">
+                    <div class="bg-blue-50 p-3 rounded-lg">
+                        <div class="text-2xl font-bold text-blue-600">${score}</div>
+                        <div class="text-sm text-gray-600">Markah</div>
+                    </div>
+                    <div class="bg-orange-50 p-3 rounded-lg">
+                        <div class="text-2xl font-bold text-orange-600">${streak}</div>
+                        <div class="text-sm text-gray-600">Streak</div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('progress-content').innerHTML = progressBar;
+            document.getElementById('progress-modal').classList.remove('hidden');
+            document.getElementById('progress-modal').classList.add('flex');
+        }
+
+        function closeProgress() {
+            document.getElementById('progress-modal').classList.add('hidden');
+            document.getElementById('progress-modal').classList.remove('flex');
+        }
+
+        function showNotes() {
+            document.getElementById('notes-modal').classList.remove('hidden');
+            document.getElementById('notes-modal').classList.add('flex');
+        }
+
+        function closeNotes() {
+            document.getElementById('notes-modal').classList.add('hidden');
+            document.getElementById('notes-modal').classList.remove('flex');
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = event.target;
+            btn.textContent = soundEnabled ? '🔊 Bunyi' : '🔇 Bunyi';
+        }
+
+        function playSuccessSound() {
+            // Simple audio feedback using Web Audio API
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+            oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
+            oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        }
+
+        function playErrorSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+            oscillator.frequency.setValueAtTime(150, audioContext.currentTime + 0.1);
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.2);
+        }
+
+        // Initialize the quiz
+        loadQuestion();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983162ffe6f79103',t:'MTc1ODUzOTc1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9831aff614cc9103',t:'MTc1ODU0MjkwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
