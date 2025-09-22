@@ -3,243 +3,164 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hubung Kait antara Ciri Pandang Darat Fizikal dan Budaya</title>
+  <title>Hubung Kait: Ciri Pandang Darat Fizikal ↔ Budaya — Geografi Tingkatan 2 Bab 2</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to bottom right, #e3f2fd, #ffffff);
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-    }
-    .container {
-      background: #fff;
-      margin: 20px;
-      padding: 20px;
-      border-radius: 15px;
-      max-width: 650px;
-      width: 100%;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.1);
-    }
-    h1 {
-      text-align: center;
-      color: #1565c0;
-      font-weight: 600;
-    }
-    .instructions-panel {
-      background: #e8f5e9;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 25px;
-      border-left: 6px solid #43a047;
-    }
-    .instructions-panel h2 {
-      margin-top: 0;
-      font-size: 18px;
-      color: #2e7d32;
-      font-weight: 600;
-    }
-    .instructions-panel p {
-      font-size: 14px;
-      color: #33691e;
-      margin: 5px 0;
-    }
-    .question {
-      margin-bottom: 15px;
-      font-weight: 600;
-      color: #333;
-    }
-    textarea {
-      width: 100%;
-      height: 70px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      padding: 10px;
-      font-size: 14px;
-      resize: none;
-      font-family: 'Poppins', sans-serif;
-    }
-    button {
-      background: #1565c0;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin: 8px 5px 0 0;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      font-family: 'Poppins', sans-serif;
-      transition: background 0.3s, transform 0.2s;
-    }
-    button:hover {
-      background: #0d47a1;
-      transform: scale(1.05);
-    }
-    .feedback {
-      margin-top: 10px;
-      padding: 12px;
-      border-radius: 10px;
-      display: none;
-      font-size: 14px;
-      font-weight: 500;
-    }
-    .feedback.correct { background: #c8e6c9; color: #256029; }
-    .feedback.partial { background: #fff9c4; color: #8a6d00; }
-    .feedback.incorrect { background: #ffcdd2; color: #b71c1c; }
-    .progress {
-      height: 12px;
-      background: #eee;
-      border-radius: 6px;
-      overflow: hidden;
-      margin-top: 20px;
-    }
-    .progress-bar {
-      height: 100%;
-      width: 0;
-      background: #1565c0;
-      transition: width 0.5s;
-    }
-    .end-screen {
-      display: none;
-      text-align: center;
-      margin-top: 20px;
-    }
-    .end-screen h2 {
-      color: #2e7d32;
-      font-weight: 600;
-    }
-    @media (max-width: 480px) {
-      h1 { font-size: 20px; }
-      button { width: 100%; margin-top: 10px; }
-      textarea { height: 90px; }
-    }
+    :root{--bg1:#e9f7f2;--accent:#1565c0;--card:#ffffff;--muted:#374151}
+    *{box-sizing:border-box}
+    body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg1),#ffffff);margin:0;padding:18px;display:flex;justify-content:center}
+    .wrap{max-width:780px;width:100%}
+    header{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06);display:flex;gap:12px;align-items:center}
+    h1{margin:0;font-size:1.15rem;color:var(--accent)}
+    .meta{color:#4b5563;font-size:0.95rem}
+
+    .instructions{background:#e8f6ff;border-left:6px solid var(--accent);padding:14px;border-radius:10px;margin-top:14px}
+    .instructions h2{margin:0 0 6px;font-size:1rem;color:var(--accent)}
+    .instructions p{margin:6px 0;color:var(--muted)}
+
+    .card{background:var(--card);border-radius:12px;padding:16px;margin-top:14px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+    .question-box{background:#eaf6ff;padding:14px;border-radius:10px;border-left:6px solid #90caf9}
+    .question-box p{margin:0;font-weight:600;color:#0d47a1}
+
+    textarea{width:100%;min-height:84px;padding:10px;border-radius:8px;border:1px solid #d1d5db;margin-top:12px;font-size:14px}
+    .controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    button{background:var(--accent);color:#fff;border:0;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+    button.secondary{background:#42a5f5}
+    button.ghost{background:#f3f4f6;color:#111}
+
+    .feedback{display:none;padding:12px;border-radius:8px;margin-top:10px;font-weight:600}
+    .feedback.correct{background:#e6f4ea;color:#14532d}
+    .feedback.partial{background:#fff7e6;color:#6a4a00}
+    .feedback.incorrect{background:#ffe7e7;color:#7f1d1d}
+
+    .progress{height:12px;background:#f3f4f6;border-radius:8px;overflow:hidden;margin-top:12px}
+    .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4dd0e1,#1565c0);transition:width .4s}
+
+    .end{display:none;text-align:center;padding:12px}
+
+    footer{margin-top:12px;color:#6b7280;font-size:13px}
+
+    @media (max-width:600px){header{flex-direction:column;align-items:flex-start}button{flex:1 1 auto}}
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Hubung Kait antara Ciri Pandang Darat Fizikal dan Budaya</h1>
-
-    <div class="instructions-panel">
-      <h2>Arahan 📘</h2>
-      <p>1. Baca soalan yang diberikan dengan teliti.</p>
-      <p>2. Tulis jawapan anda dalam ruangan yang disediakan.</p>
-      <p>3. Klik <b>Hantar</b> untuk semak jawapan.</p>
-      <p>4. Jika jawapan kurang tepat, anda boleh pilih <b>Cuba Lagi</b> atau terus ke <b>Soalan Seterusnya</b>.</p>
-      <p>5. Lengkapkan semua soalan untuk melihat keputusan akhir.</p>
-    </div>
-
-    <div id="quiz">
-      <div class="question" id="question"></div>
-      <textarea id="answer" placeholder="Tulis jawapan anda di sini..."></textarea>
+  <div class="wrap">
+    <header>
       <div>
-        <button onclick="checkAnswer()">Hantar</button>
-        <button onclick="tryAgain()" style="display:none;" id="tryBtn">Cuba Lagi</button>
-        <button onclick="nextQuestion()" style="display:none;" id="nextBtn">Teruskan Soalan Lain</button>
+        <h1>Hubung Kait: Ciri Pandang Darat Fizikal ↔ Budaya</h1>
+        <div class="meta">Untuk: Geografi Tingkatan 2 — Bab 2 • Mod Murid (tanpa API)</div>
       </div>
-      <div id="feedback" class="feedback"></div>
-      <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    </header>
+
+    <div class="instructions">
+      <h2>Arahan Ringkas</h2>
+      <p>1) Baca pernyataan dalam kotak biru. 2) Tulis jawapan anda menerangkan hubungan antara ciri fizikal dan budaya (atau sebaliknya, mengikut soalan). 3) Klik <strong>Hantar</strong> untuk semak. 4) Jika jawapan kurang tepat, pilih <strong>Cuba Lagi</strong> atau <strong>Teruskan Soalan Lain</strong>. Lengkapkan semua soalan (6) untuk lihat ringkasan.</p>
     </div>
 
-    <div class="end-screen" id="endScreen">
-      <h2>🎉 Syabas! Anda telah menamatkan kuiz.</h2>
-      <p>Teruskan ulang kaji untuk lebih memahami hubungan antara ciri pandang darat fizikal dan budaya.</p>
-      <button onclick="restartQuiz()">Ulang Semula</button>
+    <div class="card" id="card">
+      <div id="stageArea"></div>
+
+      <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+
+      <div id="summary" class="end"></div>
     </div>
+
+    <footer>Tip: Gunakan ayat ringkas 1–2 ayat. Contoh kata kunci mungkin: padi, sungai, nelayan, teres, pantai.</footer>
   </div>
 
   <script>
+    // Soalan—jenis A: Fizikal → Budaya; jenis B: Budaya → Fizikal
     const questions = [
-      {
-        q: "Soalan 1: Kawasan sawah padi luas di Kedah. Nyatakan ciri fizikal yang mempengaruhi kegiatan budaya di kawasan ini.",
-        keywords: ["tanah rata", "tanah pamah", "kesuburan tanah", "iklim", "air", "sungai", "hujan"]
-      },
-      {
-        q: "Soalan 2: Kawasan perkampungan nelayan biasanya terletak di tepi laut. Nyatakan ciri fizikal yang mempengaruhi budaya ini.",
-        keywords: ["laut", "sumber ikan", "pantai", "pinggir laut", "perairan", "aktiviti menangkap ikan"]
-      }
+      { type: 'A', text: '🌾 Pernyataan: Kawasan tanah pamah yang subur (banyak sawah padi).\nSoalan: Terangkan 1 cara ciri fizikal ini mempengaruhi budaya setempat.', keywords: ['padi','sawah','menuai','pertanian','kampung'] },
+      { type: 'B', text: '🏠 Pernyataan: Terdapat budaya rumah panggung yang tinggi (rumah tradisi).\nSoalan: Apakah ciri fizikal yang biasanya wujud di kawasan yang mempunyai rumah panggung? (nyatakan 1 ciri)', keywords: ['banjir','lembap','pantai','tasik','air','rendah'] },
+      { type: 'A', text: '🚣 Pernyataan: Sungai lebar yang boleh dilayari dan menjadi laluan utama.', keywords: ['perdagangan','pengangkutan','ikan','pelabuhan','pasar'] , ask:'Soalan: Terangkan 1 aktiviti budaya/ekonomi yang dipengaruhi oleh sungai.'},
+      { type: 'B', text: '🎎 Pernyataan: Wujudnya upacara menuai (festival padi) sebagai budaya tahunan.', keywords: ['datar','sawah','iklim','musim','pertanian'], ask:'Soalan: Apakah ciri fizikal / musim yang biasanya menyokong budaya menuai ini?' },
+      { type: 'A', text: '⛰️ Pernyataan: Kawasan berbukit dengan pertanian teres.', keywords: ['teres','lereng','bukit','padi','penduduk'], ask:'Soalan: Terangkan 1 penyesuaian budaya atau teknik pertanian di kawasan ini.' },
+      { type: 'B', text: '🏖️ Pernyataan: Komuniti yang terkenal dengan aktiviti nelayan dan upacara laut.', keywords: ['pantai','laut','gelombang','tumpuan ikan','karang'], ask:'Soalan: Nyatakan 1 ciri fizikal yang biasanya wujud di kawasan dengan budaya ini.' }
     ];
 
-    let currentQuestion = 0;
+    let idx = 0;
+    const total = questions.length;
+    const stageArea = document.getElementById('stageArea');
+    const bar = document.getElementById('bar');
+    const summary = document.getElementById('summary');
+    const answers = [];
 
-    function loadQuestion() {
-      document.getElementById("question").innerText = questions[currentQuestion].q;
-      document.getElementById("answer").value = "";
-      document.getElementById("feedback").style.display = "none";
-      document.getElementById("tryBtn").style.display = "none";
-      document.getElementById("nextBtn").style.display = "none";
+    function renderStage() {
+      const q = questions[idx];
+      bar.style.width = Math.round((idx/total)*100)+'%';
+
+      stageArea.innerHTML = `
+        <div class="question-box" id="qbox">
+          <p>${q.text.replace(/\\n/g,'<br>')}</p>
+        </div>
+        <textarea id="resp" placeholder="Tulis jawapan anda di sini (1-2 ayat)..."></textarea>
+        <div class="controls">
+          <button id="send">Hantar</button>
+          <button class="secondary" id="try" style="display:none;">Cuba Lagi</button>
+          <button class="ghost" id="skip" style="display:none;">Teruskan Soalan Lain</button>
+        </div>
+        <div id="fb" class="feedback" role="status" aria-live="polite"></div>
+      `;
+
+      document.getElementById('send').addEventListener('click', handleSubmit);
+      document.getElementById('try').addEventListener('click', ()=>{ document.getElementById('fb').style.display='none'; document.getElementById('resp').focus(); document.getElementById('try').style.display='none'; });
+      document.getElementById('skip').addEventListener('click', ()=>{ answers.push({q: q.text, a: '(Dilangkau)', fb: 'Dilangkau oleh pelajar'}); nextStage(); });
+      document.getElementById('resp').focus();
     }
 
-    function checkAnswer() {
-      const answer = document.getElementById("answer").value.toLowerCase();
-      const feedback = document.getElementById("feedback");
-      const keywords = questions[currentQuestion].keywords;
+    function normalize(s){ return s? s.toLowerCase().replace(/[.,!?;:]/g,'') : ''; }
 
-      let correct = false;
-      let partial = false;
+    function handleSubmit(){
+      const q = questions[idx];
+      const val = normalize(document.getElementById('resp').value);
+      const fb = document.getElementById('fb');
+      const kws = q.keywords.map(k=>k.toLowerCase());
 
-      for (let word of keywords) {
-        if (answer.includes(word)) {
-          correct = true;
-          break;
-        }
-      }
-      if (!correct && answer.length > 5) {
-        partial = true;
-      }
+      if(!val){ fb.className='feedback incorrect'; fb.style.display='block'; fb.textContent='Sila masukkan jawapan sebelum hantar.'; return; }
 
-      feedback.style.display = "block";
-      if (correct) {
-        feedback.className = "feedback correct";
-        feedback.innerText = "Bagus! Jawapan anda betul ✅ Ciri fizikal yang mempengaruhi ialah: " + keywords.join(", ");
-        document.getElementById("nextBtn").style.display = "inline-block";
-      } else if (partial) {
-        feedback.className = "feedback partial";
-        feedback.innerText = "Hampir betul. Cuba tambah maklumat tentang ciri fizikal kawasan tersebut.";
-        document.getElementById("tryBtn").style.display = "inline-block";
-        document.getElementById("nextBtn").style.display = "inline-block";
+      // check keywords
+      let found = kws.some(k=> val.includes(k));
+      if(found){
+        fb.className='feedback correct';
+        fb.style.display='block';
+        fb.textContent = 'Betul ✅ — anda nampak kaitan antara ciri fizikal dan budaya. Contoh ringkas: ' + kws.slice(0,3).join(', ') + '.';
+        answers.push({q:q.text,a:val,fb:fb.textContent});
+        // show skip/next
+        document.getElementById('skip').style.display='inline-block';
+        // auto-enable next after short delay
+        setTimeout(()=>{ nextStage(); },900);
+      } else if(val.length>6){
+        fb.className='feedback partial'; fb.style.display='block'; fb.textContent = 'Hampir betul ✨ — jawapan contoh yang lebih lengkap: ' + kws.join(', ') + '. Tekan "Cuba Lagi" untuk ubah jawapan atau "Teruskan Soalan Lain".';
+        document.getElementById('try').style.display='inline-block';
+        document.getElementById('skip').style.display='inline-block';
+        answers.push({q:q.text,a:val,fb:fb.textContent});
       } else {
-        feedback.className = "feedback incorrect";
-        feedback.innerText = "Kurang tepat ❌. Contoh jawapan: " + keywords.join(", ");
-        document.getElementById("tryBtn").style.display = "inline-block";
-        document.getElementById("nextBtn").style.display = "inline-block";
-      }
-
-      updateProgress();
-    }
-
-    function tryAgain() {
-      document.getElementById("feedback").style.display = "none";
-      document.getElementById("tryBtn").style.display = "none";
-    }
-
-    function nextQuestion() {
-      currentQuestion++;
-      if (currentQuestion < questions.length) {
-        loadQuestion();
-      } else {
-        document.getElementById("quiz").style.display = "none";
-        document.getElementById("endScreen").style.display = "block";
+        fb.className='feedback incorrect'; fb.style.display='block'; fb.textContent = 'Kurang tepat ❌. Contoh jawapan: ' + kws.join(', ')+'. Tekan "Cuba Lagi" atau "Teruskan Soalan Lain".';
+        document.getElementById('try').style.display='inline-block';
+        document.getElementById('skip').style.display='inline-block';
+        answers.push({q:q.text,a:val,fb:fb.textContent});
       }
     }
 
-    function updateProgress() {
-      const progress = ((currentQuestion + 1) / questions.length) * 100;
-      document.getElementById("progressBar").style.width = progress + "%";
+    function nextStage(){
+      idx++;
+      if(idx < total){ renderStage(); } else { finishQuiz(); }
     }
 
-    function restartQuiz() {
-      currentQuestion = 0;
-      document.getElementById("quiz").style.display = "block";
-      document.getElementById("endScreen").style.display = "none";
-      document.getElementById("progressBar").style.width = "0%";
-      loadQuestion();
+    function finishQuiz(){
+      bar.style.width = '100%';
+      stageArea.innerHTML = '';
+      let html = '<h3>🎉 Tamat — Ringkasan Jawapan</h3><ol>';
+      answers.forEach(a=>{ html += `<li><strong>Pernyataan:</strong> <div style="margin:6px 0;padding:8px;background:#f8fafc;border-radius:6px">${a.q.replace(/\\n/g,'<br>')}</div><strong>Jawapan murid:</strong> ${a.a}<br><em>Maklum balas:</em> ${a.fb}</li><br>`; });
+      html += '</ol><div style="margin-top:12px"><button onclick="restart()">Ulang Semula</button></div>';
+      summary.innerHTML = html; summary.style.display = 'block';
     }
 
-    loadQuestion();
+    function restart(){ idx = 0; answers.length = 0; summary.style.display='none'; renderStage(); }
+
+    // init
+    renderStage();
   </script>
 </body>
 </html>
