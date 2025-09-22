@@ -5,10 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flash Card Sistem Pengangkutan Malaysia - Geografi T2</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    screens: {
+                        'xs': '475px',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         .flip-card {
             perspective: 1000px;
-            height: 400px;
+            height: 350px;
+        }
+        @media (min-width: 640px) {
+            .flip-card {
+                height: 380px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .flip-card {
+                height: 400px;
+            }
         }
         .flip-card-inner {
             position: relative;
@@ -45,70 +66,121 @@
 <body class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen p-4">
     <div class="max-w-6xl mx-auto">
         <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-gray-800 mb-2">🚗 Pengangkutan di Malaysia</h1>
-            <p class="text-lg text-gray-600">Geografi Tingkatan 2 - Bab 5: Pengangkutan di Malaysia</p>
-            <div class="mt-4 bg-white rounded-full p-1 shadow-lg inline-block">
-                <div class="flex items-center space-x-4 px-6 py-2">
-                    <span class="text-sm font-medium text-gray-600">📊 Kemajuan Pembelajaran:</span>
-                    <div class="w-48 bg-gray-200 rounded-full h-3">
+        <div class="text-center mb-6 sm:mb-8">
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2 px-4">🚗 Pengangkutan di Malaysia</h1>
+            <p class="text-base sm:text-lg text-gray-600 px-4">Geografi Tingkatan 2 - Bab 5: Pengangkutan di Malaysia</p>
+            <div class="mt-4 bg-white rounded-full p-1 shadow-lg inline-block mx-4">
+                <div class="flex items-center space-x-2 sm:space-x-4 px-3 sm:px-6 py-2">
+                    <span class="text-xs sm:text-sm font-medium text-gray-600 hidden sm:inline">📊 Kemajuan Pembelajaran:</span>
+                    <span class="text-xs sm:text-sm font-medium text-gray-600 sm:hidden">📊 Kemajuan:</span>
+                    <div class="w-32 sm:w-48 bg-gray-200 rounded-full h-3">
                         <div id="progressBar" class="progress-bar bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full" style="width: 0%"></div>
                     </div>
-                    <span id="progressText" class="text-sm font-bold text-gray-700">0/18</span>
+                    <span id="progressText" class="text-xs sm:text-sm font-bold text-gray-700">0/18</span>
                 </div>
             </div>
-            <p class="text-xs text-gray-500 mt-2">💡 Bar kemajuan menunjukkan berapa banyak kad yang telah anda baca untuk memantau pembelajaran</p>
+            <p class="text-xs text-gray-500 mt-2 px-4">💡 Bar kemajuan menunjukkan berapa banyak kad yang telah anda baca untuk memantau pembelajaran</p>
+        </div>
+
+        <!-- Instructions Panel -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 sm:p-6 mb-6 mx-2 sm:mx-0">
+            <div class="flex items-start space-x-3">
+                <div class="text-2xl sm:text-3xl">📚</div>
+                <div class="flex-1">
+                    <h3 class="text-lg sm:text-xl font-bold text-blue-800 mb-3">Panel Arahan Flash Card</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm sm:text-base">
+                        <div class="space-y-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-blue-600">👆</span>
+                                <span class="text-gray-700"><strong>Klik kad</strong> untuk melihat maklumat terperinci</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-green-600">🔄</span>
+                                <span class="text-gray-700"><strong>Terbalik Semua</strong> untuk melihat jawapan sekaligus</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-purple-600">📈</span>
+                                <span class="text-gray-700"><strong>Lihat Statistik</strong> untuk memantau kemajuan</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-red-600">🎯</span>
+                                <span class="text-gray-700"><strong>4 Kategori:</strong> Jalan, Kereta Api, Lapangan Terbang, Pelabuhan</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-orange-600">📊</span>
+                                <span class="text-gray-700"><strong>18 Kad</strong> dengan maklumat lengkap dan terkini</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-indigo-600">🎓</span>
+                                <span class="text-gray-700"><strong>Sesuai</strong> untuk guru dan murid Tingkatan 2</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Navigation -->
-        <div class="flex justify-center mb-6 space-x-2 flex-wrap">
-            <button onclick="showCategory('jalan')" id="btn-jalan" class="category-btn bg-red-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-600 transition-colors m-1">
-                🛣️ Jaringan Jalan Raya
-            </button>
-            <button onclick="showCategory('keretapi')" id="btn-keretapi" class="category-btn bg-blue-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors m-1">
-                🚂 Landasan Kereta Api
-            </button>
-            <button onclick="showCategory('lapangan')" id="btn-lapangan" class="category-btn bg-green-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-600 transition-colors m-1">
-                ✈️ Lapangan Terbang
-            </button>
-            <button onclick="showCategory('pelabuhan')" id="btn-pelabuhan" class="category-btn bg-purple-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-purple-600 transition-colors m-1">
-                🚢 Pelabuhan Utama
-            </button>
+        <div class="flex justify-center mb-6 px-2">
+            <div class="grid grid-cols-2 gap-3 w-full max-w-2xl">
+                <!-- Baris Atas -->
+                <button onclick="showCategory('jalan')" id="btn-jalan" class="category-btn bg-red-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-red-600 transition-colors text-xs sm:text-sm">
+                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">🛣️</span>
+                    <span class="block sm:inline sm:ml-1">Jaringan Jalan Raya</span>
+                </button>
+                <button onclick="showCategory('keretapi')" id="btn-keretapi" class="category-btn bg-blue-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors text-xs sm:text-sm">
+                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">🚂</span>
+                    <span class="block sm:inline sm:ml-1">Landasan Kereta Api</span>
+                </button>
+                <!-- Baris Bawah -->
+                <button onclick="showCategory('lapangan')" id="btn-lapangan" class="category-btn bg-green-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-green-600 transition-colors text-xs sm:text-sm">
+                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">✈️</span>
+                    <span class="block sm:inline sm:ml-1">Lapangan Terbang</span>
+                </button>
+                <button onclick="showCategory('pelabuhan')" id="btn-pelabuhan" class="category-btn bg-purple-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-purple-600 transition-colors text-xs sm:text-sm">
+                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">🚢</span>
+                    <span class="block sm:inline sm:ml-1">Pelabuhan Utama</span>
+                </button>
+            </div>
         </div>
 
         <!-- Flash Cards Container -->
-        <div id="flashCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div id="flashCardsContainer" class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 px-2 sm:px-0">
             <!-- Cards will be populated by JavaScript -->
         </div>
 
         <!-- Controls -->
-        <div class="text-center mt-8">
-            <button onclick="flipAllCards()" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105 shadow-lg mr-4">
-                🔄 Terbalik Semua Kad
-            </button>
-            <button onclick="showStats()" class="bg-gradient-to-r from-indigo-500 to-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:from-indigo-600 hover:to-blue-600 transition-all transform hover:scale-105 shadow-lg mr-4">
-                📈 Lihat Statistik
-            </button>
-            <button onclick="resetProgress()" class="bg-gray-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors shadow-lg">
-                🔄 Reset Kemajuan
-            </button>
+        <div class="text-center mt-6 sm:mt-8 px-2">
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4">
+                <button onclick="flipAllCards()" class="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-3 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base">
+                    🔄 Terbalik Semua Kad
+                </button>
+                <button onclick="showStats()" class="w-full sm:w-auto bg-gradient-to-r from-indigo-500 to-blue-500 text-white px-4 sm:px-6 py-3 rounded-lg font-medium hover:from-indigo-600 hover:to-blue-600 transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base">
+                    📈 Lihat Statistik
+                </button>
+                <button onclick="resetProgress()" class="w-full sm:w-auto bg-gray-500 text-white px-4 sm:px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors shadow-lg text-sm sm:text-base">
+                    🔄 Reset Kemajuan
+                </button>
+            </div>
         </div>
 
         <!-- Statistics Modal -->
-        <div id="statsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="bg-white rounded-xl p-8 max-w-md mx-4 shadow-2xl">
-                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">📊 Statistik Pembelajaran</h3>
-                <div id="statsContent" class="space-y-4">
+        <div id="statsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-xl p-4 sm:p-8 w-full max-w-md mx-auto shadow-2xl max-h-[90vh] overflow-y-auto">
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">📊 Statistik Pembelajaran</h3>
+                <div id="statsContent" class="space-y-3 sm:space-y-4">
                     <!-- Stats will be populated by JavaScript -->
                 </div>
-                <button onclick="closeStats()" class="w-full mt-6 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                <button onclick="closeStats()" class="w-full mt-4 sm:mt-6 bg-blue-500 text-white py-2 sm:py-3 rounded-lg hover:bg-blue-600 transition-colors text-sm sm:text-base">
                     Tutup
                 </button>
             </div>
         </div>
 
         <!-- Footer -->
-        <div class="text-center mt-8 text-gray-600">
+        <div class="text-center mt-6 sm:mt-8 text-gray-600 px-4">
             <p class="text-sm">💡 Klik pada kad untuk melihat maklumat terperinci</p>
             <p class="text-xs mt-2">Untuk kegunaan pendidikan - Subjek Geografi Tingkatan 2</p>
         </div>
@@ -278,16 +350,16 @@
                 <div class="flip-card" id="card-${currentCategory}-${index}">
                     <div class="flip-card-inner">
                         <div class="flip-card-front bg-gradient-to-br ${getCardFrontColor(currentCategory)} shadow-xl border-2 border-opacity-30 cursor-pointer hover:shadow-2xl transition-all transform hover:scale-105 hover:rotate-1">
-                            <div class="text-6xl mb-4 animate-bounce">${card.icon}</div>
-                            <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">${card.title}</h3>
-                            <p class="text-gray-700 text-center font-medium">${card.front}</p>
-                            <div class="absolute bottom-4 right-4 text-2xl animate-pulse">🔄</div>
+                            <div class="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4 animate-bounce">${card.icon}</div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-800 mb-2 text-center px-2 leading-tight">${card.title}</h3>
+                            <p class="text-gray-700 text-center font-medium text-sm sm:text-base px-2 leading-snug">${card.front}</p>
+                            <div class="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 text-xl sm:text-2xl animate-pulse">🔄</div>
                         </div>
                         <div class="flip-card-back bg-gradient-to-br ${getCardBackColor(currentCategory)} text-white shadow-xl cursor-pointer">
-                            <div class="text-4xl mb-4">${card.icon}</div>
-                            <h3 class="text-lg font-bold mb-4">${card.title}</h3>
-                            <div class="text-sm leading-relaxed whitespace-pre-line text-left">${card.back}</div>
-                            <div class="absolute bottom-4 right-4 text-2xl">✅</div>
+                            <div class="text-3xl sm:text-4xl mb-3 sm:mb-4">${card.icon}</div>
+                            <h3 class="text-base sm:text-lg font-bold mb-3 sm:mb-4 px-2">${card.title}</h3>
+                            <div class="text-xs sm:text-sm leading-relaxed whitespace-pre-line text-left px-2 overflow-y-auto max-h-48 sm:max-h-56">${card.back}</div>
+                            <div class="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 text-xl sm:text-2xl">✅</div>
                         </div>
                     </div>
                 </div>
@@ -421,5 +493,5 @@
         // Initialize
         showCategory('jalan');
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9831596335d2a559',t:'MTc1ODUzOTM1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983162ffe6f79103',t:'MTc1ODUzOTc1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
