@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hubung Kait antara Ciri Pandang Darat Fizikal dan Budaya</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
       background: linear-gradient(to bottom right, #e3f2fd, #ffffff);
       margin: 0;
       padding: 0;
@@ -20,26 +21,36 @@
       margin: 20px;
       padding: 20px;
       border-radius: 15px;
-      max-width: 600px;
+      max-width: 650px;
       width: 100%;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.1);
     }
     h1 {
       text-align: center;
       color: #1565c0;
+      font-weight: 600;
     }
-    .instructions {
-      background: #f1f8e9;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #c5e1a5;
-      color: #33691e;
+    .instructions-panel {
+      background: #e8f5e9;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      border-left: 6px solid #43a047;
+    }
+    .instructions-panel h2 {
+      margin-top: 0;
+      font-size: 18px;
+      color: #2e7d32;
+      font-weight: 600;
+    }
+    .instructions-panel p {
       font-size: 14px;
+      color: #33691e;
+      margin: 5px 0;
     }
     .question {
       margin-bottom: 15px;
-      font-weight: bold;
+      font-weight: 600;
       color: #333;
     }
     textarea {
@@ -50,6 +61,7 @@
       padding: 10px;
       font-size: 14px;
       resize: none;
+      font-family: 'Poppins', sans-serif;
     }
     button {
       background: #1565c0;
@@ -60,10 +72,12 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 14px;
-      transition: background 0.3s;
+      font-family: 'Poppins', sans-serif;
+      transition: background 0.3s, transform 0.2s;
     }
     button:hover {
       background: #0d47a1;
+      transform: scale(1.05);
     }
     .feedback {
       margin-top: 10px;
@@ -71,6 +85,7 @@
       border-radius: 10px;
       display: none;
       font-size: 14px;
+      font-weight: 500;
     }
     .feedback.correct { background: #c8e6c9; color: #256029; }
     .feedback.partial { background: #fff9c4; color: #8a6d00; }
@@ -93,6 +108,10 @@
       text-align: center;
       margin-top: 20px;
     }
+    .end-screen h2 {
+      color: #2e7d32;
+      font-weight: 600;
+    }
     @media (max-width: 480px) {
       h1 { font-size: 20px; }
       button { width: 100%; margin-top: 10px; }
@@ -103,10 +122,14 @@
 <body>
   <div class="container">
     <h1>Hubung Kait antara Ciri Pandang Darat Fizikal dan Budaya</h1>
-    <div class="instructions">
-      Arahan: Baca soalan yang diberikan. Tulis jawapan anda berdasarkan hubung kait antara ciri pandang darat fizikal dan budaya.  
-      Klik <b>Hantar</b> untuk semak jawapan. Jika salah, anda boleh <b>Cuba Lagi</b> atau <b>Teruskan Soalan Lain</b>.  
-      Lengkapkan semua soalan untuk melihat keputusan akhir.
+
+    <div class="instructions-panel">
+      <h2>Arahan 📘</h2>
+      <p>1. Baca soalan yang diberikan dengan teliti.</p>
+      <p>2. Tulis jawapan anda dalam ruangan yang disediakan.</p>
+      <p>3. Klik <b>Hantar</b> untuk semak jawapan.</p>
+      <p>4. Jika jawapan kurang tepat, anda boleh pilih <b>Cuba Lagi</b> atau terus ke <b>Soalan Seterusnya</b>.</p>
+      <p>5. Lengkapkan semua soalan untuk melihat keputusan akhir.</p>
     </div>
 
     <div id="quiz">
@@ -122,7 +145,8 @@
     </div>
 
     <div class="end-screen" id="endScreen">
-      <h2>Syabas! Anda telah menamatkan kuiz 🎉</h2>
+      <h2>🎉 Syabas! Anda telah menamatkan kuiz.</h2>
+      <p>Teruskan ulang kaji untuk lebih memahami hubungan antara ciri pandang darat fizikal dan budaya.</p>
       <button onclick="restartQuiz()">Ulang Semula</button>
     </div>
   </div>
