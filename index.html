@@ -1,712 +1,573 @@
 <!doctype html>
 <html lang="ms">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Perkembangan Potensi Diri - Pendidikan Moral Tingkatan 1</title>
-  <style>
-    :root{
-      --primary:#2563eb;
-      --secondary:#10b981;
-      --accent:#f59e0b;
-      --danger:#ef4444;
-      --purple:#8b5cf6;
-      --pink:#ec4899;
-      --bg:#f8fafc;
-      --card:#ffffff;
-      --text:#1e293b;
-      --muted:#64748b;
-      --border:#e2e8f0;
-      --shadow: 0 4px 16px rgba(0,0,0,0.08);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Roda Impian: Sayangi Anggota Keluarga</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+  :root{
+    --bg:#f1f5f9; --card:#fff; --muted:#6b7280;
+    --accent:#06b6d4; --accent2:#34d399; --danger:#fb7185;
+    --primary:#8b5cf6; --secondary:#f59e0b; --success:#10b981;
+    font-family: 'Poppins', Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:linear-gradient(135deg,#667eea 0%,#764ba2 50%,#f093fb 100%);color:#0f172a;min-height:100vh}
+  .wrap{max-width:980px;margin:24px auto;padding:16px}
+  header{display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:20px;padding:24px;box-shadow:0 20px 40px rgba(0,0,0,0.1);border:1px solid rgba(255,255,255,0.2)}
+  h1{margin:0;font-size:1.8rem;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800}
+  .instructions{width:100%;max-width:600px}
+  p.lead{margin:0 0 12px 0;color:#667eea;font-size:1.1rem;font-weight:600}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px;margin:12px 0}
+  .step{background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(240,147,251,0.1));padding:8px 12px;border-radius:12px;font-size:0.9rem;font-weight:500;border:1px solid rgba(102,126,234,0.2)}
+  .target{margin:12px 0 0 0;color:#8b5cf6;font-size:0.95rem;font-weight:500}
 
-    * { box-sizing: border-box; }
-    
-    body{
-      margin:0;
-      background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height:100vh;
-      color:var(--text);
-      font-size:16px;
-      line-height:1.6;
-    }
+  .game{
+    display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:18px;
+  }
+  @media(max-width:880px){ 
+    .game{grid-template-columns:1fr;}
+    .wrap{padding:12px;margin:12px auto;}
+    header{padding:20px;}
+    h1{font-size:1.5rem;}
+    .wheelWrap{padding:20px;}
+    .panel{padding:16px;}
+    .spinBtn{padding:12px 24px;font-size:1rem;}
+  }
+  @media(max-width:480px){
+    .wrap{padding:8px;margin:8px auto;}
+    header{padding:16px;}
+    h1{font-size:1.3rem;}
+    .wheelWrap{padding:16px;}
+    .panel{padding:12px;}
+    .spinBtn{padding:10px 20px;font-size:0.95rem;}
+    .optBtn{padding:12px 14px;}
+  }
+  /* wheel area */
+  .wheelWrap{
+    background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));
+    backdrop-filter:blur(15px);border-radius:20px;padding:24px;
+    box-shadow:0 25px 50px rgba(0,0,0,0.15);
+    display:flex;flex-direction:column;align-items:center;gap:16px;
+    border:1px solid rgba(255,255,255,0.3);
+  }
+  .wheelCanvas{width:100%;max-width:520px}
+  .spinBtn{
+    background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);color:#fff;border:none;padding:14px 28px;border-radius:50px;font-weight:700;cursor:pointer;
+    box-shadow:0 15px 35px rgba(102,126,234,0.4);font-size:1.1rem;
+    transition:all 0.3s ease;position:relative;overflow:hidden;
+  }
+  .spinBtn:hover{transform:translateY(-2px);box-shadow:0 20px 40px rgba(102,126,234,0.5)}
+  .spinBtn:active{transform:translateY(0)}
+  .spinBtn:disabled{opacity:.5;cursor:not-allowed}
+  .infoRow{display:flex;gap:12px;align-items:center;font-size:1rem;color:#4b5563;background:rgba(255,255,255,0.7);padding:8px 16px;border-radius:25px;backdrop-filter:blur(10px)}
+  .score{font-weight:800;color:#667eea;font-size:1.2rem}
 
-    .container{
-      max-width:1200px;
-      margin:0 auto;
-      padding:20px;
-    }
+  /* panel kanan */
+  .panel{
+    background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));
+    backdrop-filter:blur(15px);border-radius:20px;padding:20px;
+    box-shadow:0 25px 50px rgba(0,0,0,0.15);
+    display:flex;flex-direction:column;gap:16px;
+    border:1px solid rgba(255,255,255,0.3);
+  }
+  .panel h3{margin:0;font-size:1.2rem;background:linear-gradient(135deg,#f093fb,#f5576c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700}
+  .situasiBox{min-height:120px;display:flex;flex-direction:column;gap:12px;justify-content:center;padding:16px;border-radius:15px;border:2px dashed rgba(102,126,234,0.3);background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(240,147,251,0.1));backdrop-filter:blur(5px)}
+  .options{display:flex;flex-direction:column;gap:12px}
+  .optBtn{
+    border-radius:15px;padding:14px 18px;text-align:left;border:2px solid rgba(102,126,234,0.2);
+    background:linear-gradient(135deg,rgba(255,255,255,0.9),rgba(255,255,255,0.7));
+    cursor:pointer;font-weight:600;transition:all 0.3s ease;
+    backdrop-filter:blur(10px);box-shadow:0 8px 25px rgba(0,0,0,0.1);
+  }
+  .optBtn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(102,126,234,0.2);border-color:rgba(102,126,234,0.4)}
+  .optBtn.correct{background:linear-gradient(135deg,#10b981,#34d399);border-color:#10b981;color:#fff;box-shadow:0 12px 30px rgba(16,185,129,0.4)}
+  .optBtn.wrong{background:linear-gradient(135deg,#ef4444,#f87171);border-color:#ef4444;color:#fff;box-shadow:0 12px 30px rgba(239,68,68,0.4)}
+  .optBtn:disabled{opacity:.7;cursor:not-allowed}
 
-    .header{
-      text-align:center;
-      background:rgba(255,255,255,0.95);
-      backdrop-filter:blur(10px);
-      border-radius:20px;
-      padding:30px;
-      margin-bottom:30px;
-      box-shadow:var(--shadow);
-    }
+  .feedback{min-height:40px;color:var(--muted);font-weight:600}
+  .controlsRow{display:flex;gap:8px;justify-content:space-between;align-items:center}
+  .small{font-size:.88rem;color:var(--muted)}
+  footer{margin-top:18px;text-align:center;color:var(--muted);font-size:.86rem}
 
-    .header h1{
-      margin:0 0 10px;
-      font-size:2.2rem;
-      font-weight:800;
-      background:linear-gradient(135deg, var(--primary), var(--purple));
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
-    }
+  /* pointer */
+  .pointer{
+    position:relative;width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-bottom:28px solid #667eea;border-radius:3px;
+    margin-top:-8px;
+    filter:drop-shadow(0 8px 15px rgba(102,126,234,0.4));
+    animation:pointerPulse 2s ease-in-out infinite;
+  }
+  @keyframes pointerPulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.1)}
+  }
+  @keyframes wheelShake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-3px)}
+    75%{transform:translateX(3px)}
+  }
+  @keyframes wheelComplete{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.05)}
+    100%{transform:scale(1)}
+  }
 
-    .header p{
-      margin:0;
-      color:var(--muted);
-      font-size:1.1rem;
-    }
-
-    .subject-info{
-      background:linear-gradient(135deg, var(--secondary), #059669);
-      color:white;
-      padding:15px 25px;
-      border-radius:15px;
-      margin-top:15px;
-      font-weight:600;
-    }
-
-    /* Stage Navigation */
-    .stage-nav{
-      display:grid;
-      grid-template-columns:repeat(3, 1fr);
-      gap:10px;
-      margin-bottom:30px;
-      padding:10px 0;
-    }
-
-    .stage-btn{
-      background:rgba(255,255,255,0.9);
-      border:2px solid var(--border);
-      border-radius:15px;
-      padding:12px 20px;
-      cursor:pointer;
-      transition:all 0.3s ease;
-      white-space:nowrap;
-      font-weight:600;
-      font-size:0.9rem;
-      min-width:140px;
-      text-align:center;
-    }
-
-    .stage-btn:hover{
-      transform:translateY(-2px);
-      box-shadow:0 6px 20px rgba(0,0,0,0.1);
-    }
-
-    .stage-btn.active{
-      background:var(--primary);
-      color:white;
-      border-color:var(--primary);
-      transform:translateY(-2px);
-      box-shadow:0 6px 20px rgba(37,99,235,0.3);
-    }
-
-    /* Main Content */
-    .main-content{
-      display:grid;
-      grid-template-columns:1fr 300px;
-      gap:30px;
-      align-items:start;
-    }
-
-    .stage-display{
-      background:rgba(255,255,255,0.95);
-      backdrop-filter:blur(10px);
-      border-radius:20px;
-      padding:40px;
-      box-shadow:var(--shadow);
-      min-height:500px;
-    }
-
-    .stage-icon{
-      font-size:4rem;
-      text-align:center;
-      margin-bottom:20px;
-      animation:bounce 2s infinite;
-    }
-
-    @keyframes bounce{
-      0%, 20%, 50%, 80%, 100% { transform:translateY(0); }
-      40% { transform:translateY(-10px); }
-      60% { transform:translateY(-5px); }
-    }
-
-    .stage-age{
-      background:linear-gradient(135deg, var(--accent), #d97706);
-      color:white;
-      padding:8px 20px;
-      border-radius:25px;
-      display:inline-block;
-      font-weight:700;
-      font-size:1rem;
-      margin-bottom:15px;
-    }
-
-    .stage-title{
-      font-size:2rem;
-      font-weight:800;
-      margin:0 0 20px;
-      color:var(--text);
-    }
-
-    .stage-desc{
-      font-size:1.1rem;
-      line-height:1.7;
-      color:var(--muted);
-      margin-bottom:25px;
-    }
-
-    .characteristics{
-      margin-bottom:25px;
-    }
-
-    .characteristics h3{
-      font-size:1.3rem;
-      font-weight:700;
-      margin:0 0 15px;
-      color:var(--primary);
-      display:flex;
-      align-items:center;
-      gap:8px;
-    }
-
-    .char-list{
-      display:grid;
-      gap:10px;
-    }
-
-    .char-item{
-      background:rgba(16,185,129,0.1);
-      border:1px solid rgba(16,185,129,0.2);
-      border-radius:12px;
-      padding:12px 16px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      transition:all 0.3s ease;
-      cursor:pointer;
-    }
-
-    .char-item:hover{
-      background:rgba(16,185,129,0.15);
-      transform:translateX(5px);
-    }
-
-    .char-icon{
-      font-size:1.2rem;
-    }
-
-    /* Sidebar */
-    .sidebar{
-      display:flex;
-      flex-direction:column;
-      gap:20px;
-    }
-
-    .info-card{
-      background:rgba(255,255,255,0.95);
-      backdrop-filter:blur(10px);
-      border-radius:15px;
-      padding:20px;
-      box-shadow:var(--shadow);
-    }
-
-    .info-card h3{
-      margin:0 0 15px;
-      font-size:1.2rem;
-      font-weight:700;
-      color:var(--primary);
-    }
-
-    .tips-list{
-      list-style:none;
-      padding:0;
-      margin:0;
-    }
-
-    .tips-list li{
-      padding:8px 0;
-      border-bottom:1px solid var(--border);
-      display:flex;
-      align-items:center;
-      gap:8px;
-    }
-
-    .tips-list li:last-child{
-      border-bottom:none;
-    }
-
-    .progress-ring{
-      width:120px;
-      height:120px;
-      margin:0 auto 15px;
-      position:relative;
-    }
-
-    .progress-ring svg{
-      width:100%;
-      height:100%;
-      transform:rotate(-90deg);
-    }
-
-    .progress-ring circle{
-      fill:none;
-      stroke-width:8;
-    }
-
-    .progress-bg{
-      stroke:var(--border);
-    }
-
-    .progress-fill{
-      stroke:var(--secondary);
-      stroke-linecap:round;
-      transition:stroke-dashoffset 0.5s ease;
-    }
-
-    .progress-text{
-      position:absolute;
-      top:50%;
-      left:50%;
-      transform:translate(-50%, -50%);
-      font-size:1.2rem;
-      font-weight:700;
-      color:var(--primary);
-    }
-
-    /* Controls */
-    .controls{
-      display:flex;
-      justify-content:center;
-      gap:15px;
-      margin-top:30px;
-    }
-
-    .control-btn{
-      background:linear-gradient(135deg, var(--primary), var(--purple));
-      color:white;
-      border:none;
-      border-radius:12px;
-      padding:12px 24px;
-      font-size:1rem;
-      font-weight:600;
-      cursor:pointer;
-      transition:all 0.3s ease;
-      display:flex;
-      align-items:center;
-      gap:8px;
-    }
-
-    .control-btn:hover{
-      transform:translateY(-2px);
-      box-shadow:0 6px 20px rgba(37,99,235,0.3);
-    }
-
-    .control-btn:disabled{
-      opacity:0.5;
-      cursor:not-allowed;
-      transform:none;
-    }
-
-    /* Quiz Modal */
-    .quiz-modal{
-      position:fixed;
-      top:0;left:0;right:0;bottom:0;
-      background:rgba(0,0,0,0.8);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:1000;
-    }
-
-    .quiz-content{
-      background:white;
-      border-radius:20px;
-      padding:30px;
-      max-width:500px;
-      width:90%;
-      text-align:center;
-    }
-
-    .quiz-question{
-      font-size:1.3rem;
-      font-weight:700;
-      margin-bottom:20px;
-      color:var(--text);
-    }
-
-    .quiz-options{
-      display:grid;
-      gap:10px;
-      margin-bottom:20px;
-    }
-
-    .quiz-option{
-      background:var(--bg);
-      border:2px solid var(--border);
-      border-radius:12px;
-      padding:15px;
-      cursor:pointer;
-      transition:all 0.3s ease;
-      font-weight:600;
-    }
-
-    .quiz-option:hover{
-      border-color:var(--primary);
-      background:rgba(37,99,235,0.1);
-    }
-
-    .quiz-option.correct{
-      background:rgba(16,185,129,0.2);
-      border-color:var(--secondary);
-    }
-
-    .quiz-option.wrong{
-      background:rgba(239,68,68,0.2);
-      border-color:var(--danger);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px){
-      .main-content{
-        grid-template-columns:1fr;
-      }
-      
-      .stage-display{
-        padding:25px;
-      }
-      
-      .stage-nav{
-        grid-template-columns:1fr;
-        gap:8px;
-      }
-      
-      .stage-btn{
-        min-width:auto;
-        font-size:0.8rem;
-        padding:10px 15px;
-      }
-      
-      .header h1{
-        font-size:1.8rem;
-      }
-    }
-  </style>
+  .resetBtn{
+    background:linear-gradient(135deg,#6b7280,#4b5563);color:#fff;border:none;padding:10px 16px;border-radius:25px;font-size:.9rem;cursor:pointer;
+    transition:all 0.3s ease;box-shadow:0 8px 20px rgba(107,114,128,0.3);font-weight:600;
+  }
+  .resetBtn:hover{transform:translateY(-2px);box-shadow:0 12px 25px rgba(107,114,128,0.4)}
+</style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>🚀 Panduan Kerjaya: Dari Remaja ke Kejayaan</h1>
-      <p>Panduan lengkap mengembangkan potensi diri mengikut peringkat umur untuk mencapai cita-cita dan kerjaya impian</p>
-      <div class="subject-info">
-        📚 Pendidikan Moral Tingkatan 1 - Unit 5: Serlahkan Potensi Diri
+<main class="wrap" role="main">
+  <header>
+    <h1>Roda Impian: Cara Menyayangi Anggota Keluarga</h1>
+    <div class="instructions">
+      <p class="lead">🎯 <strong>Cara Bermain:</strong></p>
+      <div class="steps">
+        <div class="step">1️⃣ Klik butang <strong>"Putar Roda"</strong> atau tekan <strong>SPACE</strong></div>
+        <div class="step">2️⃣ Baca situasi keluarga yang muncul dengan teliti</div>
+        <div class="step">3️⃣ Pilih jawapan yang menunjukkan <strong>kasih sayang terbaik</strong></div>
+        <div class="step">4️⃣ Dapatkan 10 mata untuk setiap jawapan betul! 🌟</div>
       </div>
+      <p class="target">🎓 <em>Sesuai untuk murid Pendidikan Moral - Mari belajar nilai keluarga!</em></p>
     </div>
+  </header>
 
-    <div class="stage-nav" id="stageNav">
-      <!-- Navigation buttons will be generated here -->
-    </div>
-
-    <div class="main-content">
-      <div class="stage-display" id="stageDisplay">
-        <!-- Stage content will be displayed here -->
+  <section class="game" aria-label="Permainan Roda Impian">
+    <div class="wheelWrap" aria-hidden="false">
+      <canvas id="wheel" class="wheelCanvas" width="520" height="520"></canvas>
+      <div class="pointer" aria-hidden="true"></div>
+      <div style="display:flex;gap:10px;align-items:center;margin-top:8px;">
+        <button id="spinBtn" class="spinBtn" aria-label="Putar roda">Putar Roda</button>
+        <div class="infoRow"><span class="small">Skor:</span> <span class="score" id="score">0</span></div>
       </div>
+      <div class="small" style="margin-top:6px">Petua: Gunakan kekunci ruang (space) untuk putar.</div>
+    </div>
 
-      <div class="sidebar">
-        <div class="info-card">
-          <h3>📊 Kemajuan Pembelajaran</h3>
-          <div class="progress-ring">
-            <svg>
-              <circle class="progress-bg" cx="60" cy="60" r="52"></circle>
-              <circle class="progress-fill" cx="60" cy="60" r="52" id="progressCircle"></circle>
-            </svg>
-            <div class="progress-text" id="progressText">0%</div>
-          </div>
-          <div style="text-align:center;color:var(--muted);">
-            <span id="currentStage">1</span> daripada <span id="totalStages">5</span> peringkat
-          </div>
-        </div>
-
-        <div class="info-card">
-          <h3>💡 Tips Kerjaya</h3>
-          <ul class="tips-list">
-            <li>🎯 Kenali bakat dan minat diri sejak awal</li>
-            <li>📚 Fokus pada mata pelajaran yang diminati</li>
-            <li>🏆 Sertai aktiviti yang berkaitan dengan cita-cita</li>
-            <li>👨‍🏫 Minta nasihat dari guru kerjaya</li>
-            <li>🔄 Sentiasa belajar dan tingkatkan kemahiran</li>
-          </ul>
-        </div>
-
-        <div class="info-card">
-          <h3>🎮 Aktiviti</h3>
-          <button class="control-btn" onclick="openQuiz()" style="width:100%;justify-content:center;">
-            🧠 Kuiz Pemahaman
-          </button>
-        </div>
+    <aside class="panel" aria-live="polite">
+      <h3>Situasi & Pilihan</h3>
+      <div class="situasiBox" id="situasiBox">
+        <p style="text-align:center;color:var(--muted);font-style:italic;">Putar roda untuk mendapat situasi keluarga...</p>
       </div>
+      
+      <div class="options" id="options" style="display:none;">
+        <button class="optBtn" id="opt1"></button>
+        <button class="optBtn" id="opt2"></button>
+        <button class="optBtn" id="opt3"></button>
+      </div>
+      
+      <div class="feedback" id="feedback"></div>
+      
+      <div class="controlsRow">
+        <button class="resetBtn" id="resetBtn">Mula Semula</button>
+        <div class="small">Soalan: <span id="questionCount">0</span>/10</div>
+      </div>
+    </aside>
+  </section>
+
+  <footer>
+    <p>Permainan ini membantu murid memahami nilai-nilai keluarga dan cara menunjukkan kasih sayang kepada ahli keluarga.</p>
+  </footer>
+</main>
+
+<script>
+// Data situasi dan pilihan
+const scenarios = [
+  {
+    situation: "Adik kamu menangis kerana mainannya rosak. Apa yang kamu akan buat?",
+    options: [
+      "Tolong baiki mainan atau cari mainan lain untuk adik",
+      "Biarkan sahaja adik menangis",
+      "Marah adik kerana bising"
+    ],
+    correct: 0,
+    feedback: "Betul! Membantu adik menunjukkan kasih sayang dan kepedulian dalam keluarga."
+  },
+  {
+    situation: "Ibu kelihatan penat selepas kerja. Bagaimana kamu boleh membantu?",
+    options: [
+      "Terus bermain tanpa peduli",
+      "Bantu buat kerja rumah atau urut bahu ibu",
+      "Minta ibu masak makanan kegemaran"
+    ],
+    correct: 1,
+    feedback: "Tepat sekali! Membantu ibu yang penat adalah cara terbaik menunjukkan kasih sayang."
+  },
+  {
+    situation: "Ayah sedang membaca akhbar. Kamu mahu bermain dengan ayah. Apa yang patut?",
+    options: [
+      "Tunggu ayah habis baca, kemudian minta bermain dengan sopan",
+      "Rebut akhbar dari tangan ayah",
+      "Buat bising supaya ayah perhatikan kamu"
+    ],
+    correct: 0,
+    feedback: "Bagus! Menghormati masa ayah dan meminta dengan sopan menunjukkan adab yang baik."
+  },
+  {
+    situation: "Nenek datang melawat. Dia membawa hadiah untuk kamu. Apa reaksi yang sesuai?",
+    options: [
+      "Ambil hadiah dan terus bermain",
+      "Ucap terima kasih, peluk nenek, dan tanya khabar sihat nenek",
+      "Tanya kenapa hadiah kecil sahaja"
+    ],
+    correct: 1,
+    feedback: "Hebat! Menunjukkan rasa syukur dan kasih sayang kepada nenek adalah sangat penting."
+  },
+  {
+    situation: "Kakak kamu sedang belajar untuk peperiksaan. Rumah perlu senyap. Apa yang kamu buat?",
+    options: [
+      "Main muzik kuat-kuat",
+      "Bermain dengan senyap atau keluar rumah",
+      "Ganggu kakak supaya dia bermain dengan kamu"
+    ],
+    correct: 1,
+    feedback: "Betul! Menghormati masa belajar kakak menunjukkan kamu peduli dengan kejayaannya."
+  },
+  {
+    situation: "Masa makan malam bersama keluarga. Bagaimana cara yang betul?",
+    options: [
+      "Makan sambil tengok TV atau main telefon",
+      "Makan bersama-sama, berbual, dan bantu kemas meja",
+      "Makan cepat-cepat dan pergi bermain"
+    ],
+    correct: 1,
+    feedback: "Tepat! Masa makan bersama adalah masa penting untuk berkongsi dan mengeratkan hubungan keluarga."
+  },
+  {
+    situation: "Ibu bapa kamu bergaduh. Kamu rasa sedih. Apa yang patut kamu buat?",
+    options: [
+      "Campur tangan dan pilih pihak",
+      "Berdoa supaya mereka berbaik, dan tanya jika boleh tolong apa-apa",
+      "Buat bising supaya mereka berhenti"
+    ],
+    correct: 1,
+    feedback: "Bijak! Berdoa dan menawarkan bantuan dengan cara yang sesuai menunjukkan kematangan."
+  },
+  {
+    situation: "Hari lahir ayah esok. Kamu tidak ada wang untuk beli hadiah. Apa yang boleh buat?",
+    options: [
+      "Tidak buat apa-apa kerana tiada wang",
+      "Buat kad ucapan sendiri atau tolong buat kerja rumah extra",
+      "Minta wang dari ibu untuk beli hadiah"
+    ],
+    correct: 1,
+    feedback: "Bagus sekali! Hadiah dari hati seperti kad buatan sendiri lebih bermakna daripada hadiah mahal."
+  },
+  {
+    situation: "Adik kamu selalu ikut kamu ke mana-mana. Kamu rasa terganggu. Bagaimana?",
+    options: [
+      "Marah dan halau adik pergi",
+      "Sabar dan sesekali ajak adik join aktiviti yang sesuai",
+      "Sorok dari adik supaya dia tak jumpa"
+    ],
+    correct: 1,
+    feedback: "Hebat! Bersabar dengan adik dan melibatkannya menunjukkan kasih sayang abang/kakak yang baik."
+  },
+  {
+    situation: "Keluarga kamu merancang aktiviti hujung minggu. Kamu tidak suka pilihan mereka. Apa reaksi yang betul?",
+    options: [
+      "Merajuk dan tidak mahu ikut",
+      "Berikan cadangan dengan sopan, tapi ikut keputusan keluarga",
+      "Paksa keluarga tukar rancangan"
+    ],
+    correct: 1,
+    feedback: "Betul! Memberi pendapat dengan sopan tetapi menghormati keputusan keluarga menunjukkan sikap dewasa."
+  }
+];
+
+// Game state
+let currentScore = 0;
+let currentQuestion = 0;
+let currentScenario = null;
+let isSpinning = false;
+let gameStarted = false;
+
+// Canvas setup
+const canvas = document.getElementById('wheel');
+const ctx = canvas.getContext('2d');
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+const radius = 240;
+
+// Wheel segments
+const segments = [
+  { color: '#ff6b6b', text: 'Kasih Sayang' },
+  { color: '#4ecdc4', text: 'Hormat' },
+  { color: '#667eea', text: 'Tolong Menolong' },
+  { color: '#10b981', text: 'Sabar' },
+  { color: '#f59e0b', text: 'Perhatian' },
+  { color: '#f093fb', text: 'Syukur' },
+  { color: '#06b6d4', text: 'Komunikasi' },
+  { color: '#8b5cf6', text: 'Pengorbanan' }
+];
+
+let currentRotation = 0;
+let targetRotation = 0;
+let spinSpeed = 0;
+
+// Draw wheel
+function drawWheel() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  const segmentAngle = (2 * Math.PI) / segments.length;
+  
+  // Draw outer glow
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, radius + 10, 0, 2 * Math.PI);
+  const glowGradient = ctx.createRadialGradient(centerX, centerY, radius - 20, centerX, centerY, radius + 15);
+  glowGradient.addColorStop(0, 'rgba(102,126,234,0)');
+  glowGradient.addColorStop(1, 'rgba(102,126,234,0.3)');
+  ctx.fillStyle = glowGradient;
+  ctx.fill();
+  
+  segments.forEach((segment, index) => {
+    const startAngle = (index * segmentAngle) + currentRotation;
+    const endAngle = ((index + 1) * segmentAngle) + currentRotation;
+    
+    // Draw segment with gradient
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+    ctx.closePath();
+    
+    // Create radial gradient for each segment
+    const gradient = ctx.createRadialGradient(centerX, centerY, 50, centerX, centerY, radius);
+    gradient.addColorStop(0, segment.color);
+    gradient.addColorStop(1, darkenColor(segment.color, 0.3));
+    ctx.fillStyle = gradient;
+    ctx.fill();
+    
+    // Add inner shadow
+    ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    
+    // Draw text with better styling
+    ctx.save();
+    ctx.translate(centerX, centerY);
+    ctx.rotate(startAngle + segmentAngle / 2);
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 15px Poppins';
+    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+    ctx.shadowBlur = 3;
+    ctx.shadowOffsetX = 1;
+    ctx.shadowOffsetY = 1;
+    ctx.fillText(segment.text, radius * 0.7, 5);
+    ctx.restore();
+  });
+  
+  // Draw center circle with gradient
+  const centerGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 35);
+  centerGradient.addColorStop(0, '#667eea');
+  centerGradient.addColorStop(1, '#2d3748');
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, 35, 0, 2 * Math.PI);
+  ctx.fillStyle = centerGradient;
+  ctx.fill();
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 4;
+  ctx.stroke();
+  
+  // Add center sparkle
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 20px Poppins';
+  ctx.textAlign = 'center';
+  ctx.fillText('✨', centerX, centerY + 7);
+}
+
+// Helper function to darken colors
+function darkenColor(color, factor) {
+  const hex = color.replace('#', '');
+  const r = Math.max(0, parseInt(hex.substr(0, 2), 16) * (1 - factor));
+  const g = Math.max(0, parseInt(hex.substr(2, 2), 16) * (1 - factor));
+  const b = Math.max(0, parseInt(hex.substr(4, 2), 16) * (1 - factor));
+  return `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
+}
+
+// Spin wheel
+function spinWheel() {
+  if (isSpinning) return;
+  
+  isSpinning = true;
+  gameStarted = true;
+  const spinBtn = document.getElementById('spinBtn');
+  spinBtn.disabled = true;
+  spinBtn.textContent = 'Berputar...';
+  spinBtn.style.background = 'linear-gradient(135deg,#6b7280,#4b5563)';
+  
+  // Random spin with more dramatic effect
+  const spins = 4 + Math.random() * 4;
+  targetRotation = currentRotation + (spins * 2 * Math.PI);
+  spinSpeed = 0.25;
+  
+  // Add wheel shake effect
+  const wheelWrap = document.querySelector('.wheelWrap');
+  wheelWrap.style.animation = 'wheelShake 0.5s ease-in-out';
+  
+  animateSpin();
+}
+
+function animateSpin() {
+  if (Math.abs(targetRotation - currentRotation) > 0.01) {
+    currentRotation += (targetRotation - currentRotation) * spinSpeed;
+    spinSpeed *= 0.985; // Slower deceleration for more dramatic effect
+    drawWheel();
+    requestAnimationFrame(animateSpin);
+  } else {
+    currentRotation = targetRotation;
+    drawWheel();
+    isSpinning = false;
+    
+    // Reset button
+    const spinBtn = document.getElementById('spinBtn');
+    spinBtn.disabled = false;
+    spinBtn.textContent = 'Putar Roda';
+    spinBtn.style.background = 'linear-gradient(135deg,#667eea,#764ba2,#f093fb)';
+    
+    // Remove shake animation
+    const wheelWrap = document.querySelector('.wheelWrap');
+    wheelWrap.style.animation = '';
+    
+    // Add completion effect
+    wheelWrap.style.animation = 'wheelComplete 0.6s ease-out';
+    
+    // Determine winning segment
+    const normalizedRotation = (2 * Math.PI - (currentRotation % (2 * Math.PI))) % (2 * Math.PI);
+    const segmentAngle = (2 * Math.PI) / segments.length;
+    const winningIndex = Math.floor(normalizedRotation / segmentAngle);
+    
+    setTimeout(() => {
+      wheelWrap.style.animation = '';
+      showScenario();
+    }, 600);
+  }
+}
+
+// Show scenario
+function showScenario() {
+  if (currentQuestion >= scenarios.length) {
+    showGameComplete();
+    return;
+  }
+  
+  currentScenario = scenarios[currentQuestion];
+  
+  document.getElementById('situasiBox').innerHTML = `<p><strong>Situasi:</strong> ${currentScenario.situation}</p>`;
+  
+  const optionsDiv = document.getElementById('options');
+  optionsDiv.style.display = 'flex';
+  
+  currentScenario.options.forEach((option, index) => {
+    const btn = document.getElementById(`opt${index + 1}`);
+    btn.textContent = option;
+    btn.className = 'optBtn';
+    btn.disabled = false;
+    btn.onclick = () => selectAnswer(index);
+  });
+  
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('questionCount').textContent = currentQuestion + 1;
+}
+
+// Select answer
+function selectAnswer(selectedIndex) {
+  const buttons = document.querySelectorAll('.optBtn');
+  buttons.forEach(btn => btn.disabled = true);
+  
+  if (selectedIndex === currentScenario.correct) {
+    document.getElementById(`opt${selectedIndex + 1}`).classList.add('correct');
+    document.getElementById('feedback').innerHTML = `<span style="color: #059669;">✓ ${currentScenario.feedback}</span>`;
+    currentScore += 10;
+  } else {
+    document.getElementById(`opt${selectedIndex + 1}`).classList.add('wrong');
+    document.getElementById(`opt${currentScenario.correct + 1}`).classList.add('correct');
+    document.getElementById('feedback').innerHTML = `<span style="color: #dc2626;">✗ Jawapan betul: ${currentScenario.options[currentScenario.correct]}</span><br><span style="color: #059669;">${currentScenario.feedback}</span>`;
+  }
+  
+  document.getElementById('score').textContent = currentScore;
+  currentQuestion++;
+  
+  setTimeout(() => {
+    if (currentQuestion < scenarios.length) {
+      resetForNextQuestion();
+    } else {
+      showGameComplete();
+    }
+  }, 3000);
+}
+
+// Reset for next question
+function resetForNextQuestion() {
+  document.getElementById('situasiBox').innerHTML = '<p style="text-align:center;color:var(--muted);font-style:italic;">Putar roda untuk soalan seterusnya...</p>';
+  document.getElementById('options').style.display = 'none';
+  document.getElementById('feedback').textContent = '';
+}
+
+// Show game complete
+function showGameComplete() {
+  const percentage = (currentScore / (scenarios.length * 10)) * 100;
+  let message = '';
+  
+  if (percentage >= 80) {
+    message = 'Cemerlang! Kamu sangat memahami cara menyayangi keluarga! 🌟';
+  } else if (percentage >= 60) {
+    message = 'Bagus! Kamu faham konsep asas kasih sayang dalam keluarga. 👍';
+  } else {
+    message = 'Teruskan usaha! Cuba lagi untuk lebih memahami nilai keluarga. 💪';
+  }
+  
+  document.getElementById('situasiBox').innerHTML = `
+    <div style="text-align:center;">
+      <h4 style="margin:0 0 10px 0;">Permainan Selesai!</h4>
+      <p><strong>Skor Akhir: ${currentScore}/${scenarios.length * 10}</strong></p>
+      <p>${message}</p>
     </div>
+  `;
+  document.getElementById('options').style.display = 'none';
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('spinBtn').disabled = true;
+}
 
-    <div class="controls">
-      <button class="control-btn" id="prevBtn" onclick="previousStage()">
-        ⬅️ Sebelumnya
-      </button>
-      <button class="control-btn" id="nextBtn" onclick="nextStage()">
-        Seterusnya ➡️
-      </button>
-    </div>
-  </div>
+// Reset game
+function resetGame() {
+  currentScore = 0;
+  currentQuestion = 0;
+  currentScenario = null;
+  gameStarted = false;
+  
+  document.getElementById('score').textContent = '0';
+  document.getElementById('questionCount').textContent = '0';
+  document.getElementById('situasiBox').innerHTML = '<p style="text-align:center;color:var(--muted);font-style:italic;">Putar roda untuk mendapat situasi keluarga...</p>';
+  document.getElementById('options').style.display = 'none';
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('spinBtn').disabled = false;
+  
+  // Shuffle scenarios
+  for (let i = scenarios.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [scenarios[i], scenarios[j]] = [scenarios[j], scenarios[i]];
+  }
+}
 
-  <!-- Quiz Modal -->
-  <div class="quiz-modal" id="quizModal">
-    <div class="quiz-content">
-      <h3>🧠 Kuiz Pemahaman</h3>
-      <div class="quiz-question" id="quizQuestion"></div>
-      <div class="quiz-options" id="quizOptions"></div>
-      <button class="control-btn" onclick="closeQuiz()">Tutup</button>
-    </div>
-  </div>
+// Event listeners
+document.getElementById('spinBtn').addEventListener('click', spinWheel);
+document.getElementById('resetBtn').addEventListener('click', resetGame);
 
-  <script>
-    const stages = [
-      {
-        id: 'remaja',
-        age: '13-17 Tahun',
-        title: 'Remaja: Kenali Bakat & Minat',
-        icon: '🧑‍🎓',
-        desc: 'Masa penting untuk mengenali bakat, minat dan cita-cita. Ini adalah asas untuk merancang kerjaya masa hadapan yang sesuai dengan potensi diri.',
-        characteristics: [
-          { icon: '🔍', text: 'Kenali bakat dan kekuatan diri melalui aktiviti sekolah' },
-          { icon: '🎯', text: 'Tentukan bidang minat (Sains, Sastera, Teknikal, Seni)' },
-          { icon: '📚', text: 'Fokus pada mata pelajaran yang diminati' },
-          { icon: '🏆', text: 'Sertai pertandingan dan aktiviti kokurikulum' },
-          { icon: '💭', text: 'Mula berfikir tentang kerjaya impian' }
-        ]
-      },
-      {
-        id: 'dewasa-muda',
-        age: '18-22 Tahun',
-        title: 'Dewasa Muda: Pilih Bidang & Kembangkan Kemahiran',
-        icon: '🎓',
-        desc: 'Masa untuk membuat pilihan penting tentang pendidikan tinggi atau latihan kemahiran. Kembangkan kemahiran asas yang diperlukan untuk kerjaya pilihan.',
-        characteristics: [
-          { icon: '🏫', text: 'Pilih kursus/program yang selaras dengan minat' },
-          { icon: '📖', text: 'Belajar dengan tekun dan capai keputusan cemerlang' },
-          { icon: '💼', text: 'Cari pengalaman melalui internship atau kerja sambilan' },
-          { icon: '🌐', text: 'Kembangkan kemahiran digital dan bahasa' },
-          { icon: '🤝', text: 'Bina rangkaian dengan rakan dan pensyarah' }
-        ]
-      },
-      {
-        id: 'dewasa-awal',
-        age: '23-30 Tahun',
-        title: 'Dewasa Awal: Mulakan Kerjaya & Bina Pengalaman',
-        icon: '💼',
-        desc: 'Masa untuk memulakan kerjaya dan membina pengalaman kerja. Fokus kepada pembelajaran dan pembangunan kemahiran profesional.',
-        characteristics: [
-          { icon: '🚀', text: 'Mulakan kerjaya di bidang yang diminati' },
-          { icon: '📈', text: 'Tetapkan matlamat kerjaya jangka pendek' },
-          { icon: '🎯', text: 'Fokus pada pembelajaran dan peningkatan prestasi' },
-          { icon: '👥', text: 'Bina hubungan baik dengan rakan sekerja' },
-          { icon: '💡', text: 'Cari mentor untuk bimbingan kerjaya' }
-        ]
-      },
-      {
-        id: 'dewasa-pertengahan',
-        age: '31-40 Tahun',
-        title: 'Dewasa Pertengahan: Capai Kemahiran Pakar',
-        icon: '🏆',
-        desc: 'Masa untuk menjadi pakar dalam bidang dan mengambil peranan kepimpinan. Fokus kepada pencapaian dan pengiktirafan profesional.',
-        characteristics: [
-          { icon: '⭐', text: 'Jadi pakar dan rujukan dalam bidang' },
-          { icon: '👨‍💼', text: 'Ambil peranan kepimpinan dan pengurusan' },
-          { icon: '🎖️', text: 'Capai pengiktirafan dan anugerah profesional' },
-          { icon: '📊', text: 'Buat keputusan strategik dan inovasi' },
-          { icon: '🌟', text: 'Bina reputasi dan jenama peribadi' }
-        ]
-      },
-      {
-        id: 'dewasa-matang',
-        age: '41+ Tahun',
-        title: 'Dewasa Matang: Jadi Mentor & Capai Kejayaan',
-        icon: '👨‍🏫',
-        desc: 'Masa untuk berkongsi pengalaman dan menjadi mentor. Capai kejayaan penuh dalam kerjaya dan sumbang kepada masyarakat.',
-        characteristics: [
-          { icon: '🎓', text: 'Jadi mentor dan guru kepada generasi muda' },
-          { icon: '🏢', text: 'Capai jawatan tertinggi atau tubuhkan syarikat' },
-          { icon: '🌍', text: 'Sumbang kepada industri dan masyarakat' },
-          { icon: '📚', text: 'Kongsi ilmu melalui penulisan atau ceramah' },
-          { icon: '🏅', text: 'Tinggalkan legasi dan warisan yang bermakna' }
-        ]
-      }
-    ];
+// Keyboard support
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' && !isSpinning && !document.getElementById('spinBtn').disabled) {
+    e.preventDefault();
+    spinWheel();
+  }
+});
 
-    const quizQuestions = [
-      {
-        question: "Apakah yang perlu dilakukan remaja untuk mengenali bakat mereka?",
-        options: ["Tidur sepanjang hari", "Sertai aktiviti sekolah dan kokurikulum", "Hanya bermain games", "Tidak perlu buat apa-apa"],
-        correct: 1
-      },
-      {
-        question: "Pada umur 18-22 tahun, apakah pilihan terpenting yang perlu dibuat?",
-        options: ["Pilih kawan", "Pilih kursus/program selaras dengan minat", "Pilih makanan", "Pilih pakaian"],
-        correct: 1
-      },
-      {
-        question: "Mengapakah pengalaman kerja penting pada peringkat dewasa awal?",
-        options: ["Untuk dapat gaji", "Untuk membina kemahiran profesional", "Untuk bergaya", "Untuk mengisi masa"],
-        correct: 1
-      },
-      {
-        question: "Apakah matlamat utama pada peringkat dewasa pertengahan (31-40 tahun)?",
-        options: ["Bermain sahaja", "Menjadi pakar dalam bidang", "Berhenti kerja", "Tidur banyak"],
-        correct: 1
-      },
-      {
-        question: "Bagaimanakah seseorang boleh menyumbang pada peringkat dewasa matang?",
-        options: ["Menjadi mentor kepada generasi muda", "Berhenti belajar", "Tidak peduli orang lain", "Simpan ilmu untuk diri sendiri"],
-        correct: 0
-      },
-      {
-        question: "Apakah kepentingan menetapkan cita-cita sejak remaja?",
-        options: ["Tiada kepentingan", "Membantu merancang langkah untuk capai kerjaya impian", "Untuk bergaya", "Supaya nampak pandai"],
-        correct: 1
-      }
-    ];
-
-    let currentStageIndex = 0;
-    let quizScore = 0;
-
-    function initializeApp() {
-      renderStageNavigation();
-      displayStage(0);
-      updateProgress();
-    }
-
-    function renderStageNavigation() {
-      const nav = document.getElementById('stageNav');
-      nav.innerHTML = stages.map((stage, index) => 
-        `<button class="stage-btn ${index === 0 ? 'active' : ''}" onclick="displayStage(${index})">
-          ${stage.icon} ${stage.age}
-        </button>`
-      ).join('');
-    }
-
-    function displayStage(index) {
-      currentStageIndex = index;
-      const stage = stages[index];
-      
-      // Update navigation
-      document.querySelectorAll('.stage-btn').forEach((btn, i) => {
-        btn.classList.toggle('active', i === index);
-      });
-      
-      // Display stage content
-      const display = document.getElementById('stageDisplay');
-      display.innerHTML = `
-        <div class="stage-icon">${stage.icon}</div>
-        <div class="stage-age">${stage.age}</div>
-        <h2 class="stage-title">${stage.title}</h2>
-        <p class="stage-desc">${stage.desc}</p>
-        
-        <div class="characteristics">
-          <h3>🔍 Ciri-ciri Utama:</h3>
-          <div class="char-list">
-            ${stage.characteristics.map(char => 
-              `<div class="char-item">
-                <span class="char-icon">${char.icon}</span>
-                <span>${char.text}</span>
-              </div>`
-            ).join('')}
-          </div>
-        </div>
-      `;
-      
-      updateProgress();
-      updateControls();
-    }
-
-    function updateProgress() {
-      const progress = ((currentStageIndex + 1) / stages.length) * 100;
-      const circle = document.getElementById('progressCircle');
-      const text = document.getElementById('progressText');
-      const circumference = 2 * Math.PI * 52;
-      
-      circle.style.strokeDasharray = circumference;
-      circle.style.strokeDashoffset = circumference - (progress / 100) * circumference;
-      
-      text.textContent = Math.round(progress) + '%';
-      document.getElementById('currentStage').textContent = currentStageIndex + 1;
-      document.getElementById('totalStages').textContent = stages.length;
-    }
-
-    function updateControls() {
-      document.getElementById('prevBtn').disabled = currentStageIndex === 0;
-      document.getElementById('nextBtn').disabled = currentStageIndex === stages.length - 1;
-    }
-
-    function nextStage() {
-      if (currentStageIndex < stages.length - 1) {
-        displayStage(currentStageIndex + 1);
-      }
-    }
-
-    function previousStage() {
-      if (currentStageIndex > 0) {
-        displayStage(currentStageIndex - 1);
-      }
-    }
-
-    function openQuiz() {
-      const modal = document.getElementById('quizModal');
-      const randomQuestion = quizQuestions[Math.floor(Math.random() * quizQuestions.length)];
-      
-      document.getElementById('quizQuestion').textContent = randomQuestion.question;
-      
-      const optionsHtml = randomQuestion.options.map((option, index) => 
-        `<div class="quiz-option" onclick="selectAnswer(${index}, ${randomQuestion.correct})">${option}</div>`
-      ).join('');
-      
-      document.getElementById('quizOptions').innerHTML = optionsHtml;
-      modal.style.display = 'flex';
-    }
-
-    function selectAnswer(selected, correct) {
-      const options = document.querySelectorAll('.quiz-option');
-      options.forEach((option, index) => {
-        if (index === correct) {
-          option.classList.add('correct');
-        } else if (index === selected && selected !== correct) {
-          option.classList.add('wrong');
-        }
-      });
-      
-      setTimeout(() => {
-        closeQuiz();
-      }, 2000);
-    }
-
-    function closeQuiz() {
-      document.getElementById('quizModal').style.display = 'none';
-    }
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') previousStage();
-      if (e.key === 'ArrowRight') nextStage();
-      if (e.key === 'Escape') closeQuiz();
-    });
-
-    // Initialize the app
-    initializeApp();
-  </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9839d7a0e7451be4',t:'MTc1ODYyODQxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+// Initialize
+drawWheel();
+resetGame();
+</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9839ffa280b1ace9',t:'MTc1ODYzMDA1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
