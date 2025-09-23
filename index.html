@@ -1,80 +1,366 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { motion } from "framer-motion";
-import { GraduationCap, Briefcase, Rocket, Target, BookOpen, Lightbulb } from "lucide-react";
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simulasi Perkembangan Potensi Diri</title>
+  <style>
+    :root{
+      --bg:#f7fafc;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent1:#38bdf8; /* blue */
+      --accent2:#34d399; /* green */
+      --accent3:#f59e0b; /* amber */
+      --accent4:#a78bfa; /* purple */
+      --accent5:#fb7185; /* pink/red */
+      --accent6:#60a5fa; /* light */
+      --shadow: 0 6px 18px rgba(15,23,42,0.08);
+      --glass: rgba(255,255,255,0.6);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      background:linear-gradient(180deg, #f1f5f9 0%, var(--bg) 40%);
+      color:#0f172a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    .wrap{
+      max-width:980px;
+      margin:28px auto;
+      padding:20px;
+    }
 
-export default function PotensiDiriFlow() {
-  const steps = [
-    {
-      age: "13 – 17 tahun",
-      title: "Menyertai Pertandingan",
-      desc: "Mengambil bahagian dalam pertandingan berkaitan cita-cita untuk mengasah bakat, keyakinan, dan kemahiran kepimpinan.",
-      icon: <Target className="w-10 h-10 text-blue-500" />,
-    },
-    {
-      age: "18 – 19 tahun",
-      title: "Pilih Program Asasi",
-      desc: "Memilih program asas yang selari dengan jurusan yang diinginkan sambil membina kemahiran komunikasi dan pemikiran kritis.",
-      icon: <BookOpen className="w-10 h-10 text-green-500" />,
-    },
-    {
-      age: "20 – 23 tahun",
-      title: "Ijazah Sarjana Muda",
-      desc: "Melanjutkan pelajaran dalam bidang khusus yang diminati serta melibatkan diri dalam penyelidikan dan aktiviti universiti.",
-      icon: <GraduationCap className="w-10 h-10 text-yellow-500" />,
-    },
-    {
-      age: "24 – 34 tahun",
-      title: "Bekerja dari Peringkat Bawah",
-      desc: "Memulakan kerjaya dengan pengalaman asas, membina rangkaian profesional, dan mengembangkan kemahiran praktikal.",
-      icon: <Briefcase className="w-10 h-10 text-purple-500" />,
-    },
-    {
-      age: "35 tahun",
-      title: "Mengembangkan Kerjaya",
-      desc: "Mencapai kejayaan dengan memperluaskan peranan, menjadi pemimpin, dan memberi sumbangan kepada masyarakat.",
-      icon: <Rocket className="w-10 h-10 text-red-500" />,
-    },
-    {
-      age: "Sepanjang Hayat",
-      title: "Pembelajaran Berterusan",
-      desc: "Sentiasa meningkatkan ilmu dan kemahiran melalui kursus, seminar, atau pembelajaran kendiri.",
-      icon: <Lightbulb className="w-10 h-10 text-indigo-500" />,
-    },
-  ];
+    header{
+      text-align:center;
+      margin-bottom:18px;
+    }
+    h1{
+      margin:0;
+      font-size:1.6rem;
+      letter-spacing:-0.2px;
+    }
+    p.lead{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:0.95rem;
+    }
 
-  return (
-    <div className="p-6 max-w-5xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
-        Simulasi Perkembangan Potensi Diri
-      </h1>
-      <div className="relative flex flex-col items-center">
-        <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gradient-to-b from-blue-400 via-green-400 to-red-400 h-full"></div>
-        {steps.map((step, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.2 }}
-            className={`w-full md:w-1/2 p-4 ${
-              index % 2 === 0 ? "self-start" : "self-end"
-            }`}
-          >
-            <Card className="shadow-xl rounded-2xl border border-gray-200 bg-white hover:shadow-2xl transition-all duration-300">
-              <CardContent className="flex flex-col items-center p-6 text-center">
-                {step.icon}
-                <h2 className="text-lg font-semibold mt-3 text-gray-700">
-                  {step.age}
-                </h2>
-                <h3 className="text-xl font-bold mt-1 text-gray-900">
-                  {step.title}
-                </h3>
-                <p className="text-gray-600 mt-2 leading-relaxed">{step.desc}</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
+    /* timeline container */
+    .timeline{
+      position:relative;
+      margin-top:28px;
+      display:flex;
+      gap:20px;
+      align-items:flex-start;
+      justify-content:center;
+      flex-direction:column;
+    }
+
+    /* vertical line */
+    .timeline::before{
+      content:'';
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      width:6px;
+      height:100%;
+      max-height:100%;
+      border-radius:999px;
+      background:linear-gradient(180deg,var(--accent1),var(--accent2),var(--accent3),var(--accent4));
+      z-index:0;
+    }
+
+    .card{
+      position:relative;
+      width:100%;
+      background:var(--card);
+      box-shadow:var(--shadow);
+      border-radius:14px;
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      z-index:2;
+      transform-origin:center;
+      transition:transform .36s ease, box-shadow .36s;
+    }
+    .card.hidden{ display:none; }
+
+    .icon{
+      width:64px;height:64px;border-radius:999px;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg, rgba(255,255,255,0.55), rgba(255,255,255,0.25));
+      box-shadow:0 6px 18px rgba(2,6,23,0.06) inset;
+      flex-shrink:0;
+    }
+    .age{
+      font-weight:600;
+      color:var(--muted);
+      font-size:.95rem;
+    }
+    .title{
+      font-size:1.15rem;
+      font-weight:700;
+      color:#0f172a;
+      text-align:center;
+    }
+    .desc{
+      color:var(--muted);
+      text-align:center;
+      line-height:1.45;
+      font-size:.95rem;
+    }
+
+    /* controls */
+    .controls{
+      display:flex;
+      gap:10px;
+      justify-content:space-between;
+      margin-top:18px;
+      align-items:center;
+    }
+    .btn{
+      background:linear-gradient(90deg,#111827,#1f2937);
+      color:#fff;border:none;padding:10px 14px;border-radius:10px;
+      cursor:pointer;font-weight:600;font-size:0.95rem;
+      box-shadow:0 6px 20px rgba(2,6,23,0.12);
+      transition:transform .14s ease, opacity .14s;
+    }
+    .btn:active{ transform:translateY(1px); }
+    .btn[disabled]{
+      opacity:.45;cursor:not-allowed;transform:none;
+    }
+
+    .step-indicator{
+      text-align:center;
+      font-size:.88rem;
+      color:var(--muted);
+    }
+
+    /* small devices: stack, center timeline line to left of cards */
+    @media (max-width:720px){
+      .wrap{ padding:14px; }
+      .timeline::before{ left:20px; transform:none; }
+      .card{
+        margin-left:42px;
+        border-radius:12px;
+        padding:14px;
+        text-align:left;
+        align-items:flex-start;
+      }
+      .icon{ width:48px;height:48px; }
+      .controls{ flex-direction:column; gap:8px; align-items:stretch; }
+      .btn{ width:100%; }
+    }
+
+    /* desktop: card size limit */
+    @media (min-width:721px){
+      .card{
+        width:70%;
+        margin-left:auto;margin-right:auto;
+      }
+      .card.left{ transform: translateX(-40px); }
+      .card.right{ transform: translateX(40px); }
+    }
+
+    /* subtle appear animation */
+    .animate-in{
+      animation: popIn .42s ease both;
+    }
+    @keyframes popIn{
+      0%{ opacity:0; transform:translateY(18px) scale(.98); }
+      100%{ opacity:1; transform:translateY(0) scale(1); }
+    }
+
+    /* progress bar */
+    .progressWrap{
+      margin-top:14px;
+      display:flex; gap:8px; justify-content:center;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background:rgba(0,0,0,0.08);
+      transition:transform .22s ease, background .22s;
+    }
+    .dot.active{ transform:scale(1.4); background:linear-gradient(90deg,var(--accent1),var(--accent5)); box-shadow:0 6px 20px rgba(99,102,241,0.12); }
+
+    /* keyboard hint */
+    .hint{ margin-top:10px; color:var(--muted); font-size:0.86rem; text-align:center;}
+    /* focus outlines */
+    .btn:focus{ outline:3px solid rgba(56,189,248,0.14); outline-offset:3px; }
+  </style>
+</head>
+<body>
+  <main class="wrap" role="main">
+    <header>
+      <h1>Simulasi Perkembangan Potensi Diri</h1>
+      <p class="lead">Alur usia dan tindakan untuk mengembangkan potensi diri — direka untuk murid 13–17 tahun dan sesuai untuk pembelajaran Pendidikan Moral Tingkatan 1, Unit 5.</p>
+    </header>
+
+    <section aria-label="Timeline simulasi" class="timeline" id="timeline">
+      <!-- Cards will be injected by JS -->
+    </section>
+
+    <div class="controls" style="max-width:980px;margin:18px auto 0;">
+      <button class="btn" id="prevBtn" aria-label="Sebelumnya (tombol kiri)" disabled>← Sebelumnya</button>
+      <div style="flex:1 1 auto;text-align:center;">
+        <div class="step-indicator" id="stepText">Langkah 1 daripada 6</div>
+        <div class="progressWrap" id="dots"></div>
+        <div class="hint">Gunakan butang, atau kekunci ⬅️ ⮕ untuk bergerak.</div>
       </div>
+      <button class="btn" id="nextBtn" aria-label="Seterusnya (tombol kanan)">Seterusnya →</button>
     </div>
-  );
-}
+
+  <script>
+    // DATA: langkah-langkah simulasi
+    const steps = [
+      {
+        age: '13 – 17 tahun',
+        title: 'Menyertai Pertandingan',
+        desc: 'Mengambil bahagian dalam pertandingan berkaitan cita-cita untuk mengasah bakat, keyakinan, dan kemahiran kepimpinan.',
+        color: getComputedStyle(document.documentElement).getPropertyValue('--accent1').trim()
+      },
+      {
+        age: '18 – 19 tahun',
+        title: 'Pilih Program Asasi',
+        desc: 'Memilih program asas yang selari dengan jurusan yang diinginkan sambil membina kemahiran komunikasi dan pemikiran kritis.',
+        color: getComputedStyle(document.documentElement).getPropertyValue('--accent2').trim()
+      },
+      {
+        age: '20 – 23 tahun',
+        title: 'Ijazah Sarjana Muda',
+        desc: 'Melanjutkan pelajaran dalam bidang khusus yang diminati serta melibatkan diri dalam penyelidikan dan aktiviti universiti.',
+        color: getComputedStyle(document.documentElement).getPropertyValue('--accent3').trim()
+      },
+      {
+        age: '24 – 34 tahun',
+        title: 'Bekerja dari Peringkat Bawah',
+        desc: 'Memulakan kerjaya dengan pengalaman asas, membina rangkaian profesional, dan mengembangkan kemahiran praktikal.',
+        color: getComputedStyle(document.documentElement).getPropertyValue('--accent4').trim()
+      },
+      {
+        age: '35 tahun',
+        title: 'Mengembangkan Kerjaya',
+        desc: 'Mencapai kejayaan dengan memperluaskan peranan, menjadi pemimpin, dan memberi sumbangan kepada masyarakat.',
+        color: getComputedStyle(document.documentElement).getPropertyValue('--accent5').trim()
+      },
+      {
+        age: 'Sepanjang Hayat',
+        title: 'Pembelajaran Berterusan',
+        desc: 'Sentiasa meningkatkan ilmu dan kemahiran melalui kursus, seminar, atau pembelajaran kendiri.',
+        color: getComputedStyle(document.documentElement).getPropertyValue('--accent6').trim()
+      }
+    ];
+
+    // create card markup
+    const timeline = document.getElementById('timeline');
+    steps.forEach((s, idx) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'card animate-in' + ((idx % 2 === 0) ? ' left' : ' right');
+      wrapper.setAttribute('data-index', idx);
+      // SVG icon simple circle with letter initials
+      wrapper.innerHTML = `
+        <div class="icon" aria-hidden="true" style="background: linear-gradient(135deg, ${s.color}, rgba(255,255,255,0.08));">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="9" fill="white" opacity="0.12"/>
+            <text x="12" y="16" text-anchor="middle" font-size="10" font-family="Inter, Arial" fill="#fff">${(s.age.split(' ')[0] || 'A').replace(/\D/g,'') || '✓'}</text>
+          </svg>
+        </div>
+        <div class="age">${escapeHtml(s.age)}</div>
+        <div class="title">${escapeHtml(s.title)}</div>
+        <div class="desc">${escapeHtml(s.desc)}</div>
+      `;
+      // start hidden except first
+      if(idx !== 0) wrapper.classList.add('hidden');
+      timeline.appendChild(wrapper);
+    });
+
+    // controls
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const stepText = document.getElementById('stepText');
+    const dotsWrap = document.getElementById('dots');
+    const cards = Array.from(document.querySelectorAll('.card'));
+
+    // build dots
+    steps.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.title = 'Langkah ' + (i+1);
+      d.setAttribute('data-index', i);
+      d.style.cursor = 'pointer';
+      d.addEventListener('click', ()=>goTo(i));
+      dotsWrap.appendChild(d);
+    });
+
+    let current = 0;
+    updateControls();
+
+    prevBtn.addEventListener('click', ()=>{ if(current>0) goTo(current-1); });
+    nextBtn.addEventListener('click', ()=>{ if(current < steps.length-1) goTo(current+1); });
+
+    // keyboard navigation
+    window.addEventListener('keydown', (e)=>{
+      if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){ if(current < steps.length-1) goTo(current+1); }
+      if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){ if(current > 0) goTo(current-1); }
+    });
+
+    // core function to move
+    function goTo(index){
+      if(index === current) return;
+      // hide old
+      const oldCard = cards[current];
+      oldCard.classList.add('hidden');
+      oldCard.classList.remove('animate-in');
+
+      // show new
+      const newCard = cards[index];
+      newCard.classList.remove('hidden');
+      // re-trigger animation
+      newCard.classList.remove('animate-in');
+      void newCard.offsetWidth;
+      newCard.classList.add('animate-in');
+
+      // update dots
+      dotsWrap.querySelectorAll('.dot').forEach((d,i)=> d.classList.toggle('active', i===index));
+
+      current = index;
+      updateControls();
+      // scroll into view on small devices
+      if(window.innerWidth <= 720) {
+        newCard.scrollIntoView({behavior:'smooth',block:'center'});
+      }
+    }
+
+    function updateControls(){
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === (steps.length - 1);
+      stepText.textContent = `Langkah ${current+1} daripada ${steps.length}`;
+    }
+
+    // small helper to escape text
+    function escapeHtml(str){
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // Accessibility: focus first button on load for keyboard users
+    document.addEventListener('DOMContentLoaded', ()=>{ nextBtn.focus(); });
+
+    // Optional: auto-resize timeline height to fit cards on desktop
+    function adjustLineHeight(){
+      // nothing needed: CSS covers it. kept for possible future enhancement.
+    }
+    window.addEventListener('resize', adjustLineHeight);
+  </script>
+</main>
+</body>
+</html>
