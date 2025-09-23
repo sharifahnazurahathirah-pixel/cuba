@@ -3,640 +3,495 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Permainan Pulau Haba - Geografi Tingkatan 2</title>
+    <title>Flash Card Sistem Pengangkutan Malaysia - Geografi T2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    screens: {
+                        'xs': '475px',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .flip-card {
+            perspective: 1000px;
+            height: 350px;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+        @media (min-width: 640px) {
+            .flip-card {
+                height: 380px;
+            }
         }
-
-        .game-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
+        @media (min-width: 1024px) {
+            .flip-card {
+                height: 400px;
+            }
         }
-
-        .header {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .game-board {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .board-area {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
+        .flip-card-inner {
             position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
         }
-
-        .city-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
         }
-
-        .city-cell {
-            aspect-ratio: 1;
-            border: 2px solid #ddd;
-            border-radius: 10px;
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.5rem;
-            background: #fff;
-        }
-
-        .city-cell:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .city-cell.building {
-            background: #95a5a6;
-            border-color: #7f8c8d;
-        }
-
-        .city-cell.park {
-            background: #2ecc71;
-            border-color: #27ae60;
-        }
-
-        .city-cell.water {
-            background: #3498db;
-            border-color: #2980b9;
-        }
-
-        .city-cell.road {
-            background: #34495e;
-            border-color: #2c3e50;
-        }
-
-        .temperature-display {
-            text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            background: linear-gradient(135deg, #ff9a9e, #fecfef);
-            border-radius: 10px;
-        }
-
-        .temp-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #e74c3c;
-        }
-
-        .control-panel {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
-        }
-
-        .tool-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .tool-btn {
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
+            padding: 24px;
         }
-
-        .tool-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        .flip-card-back {
+            transform: rotateY(180deg);
         }
-
-        .tool-btn.active {
-            transform: scale(0.95);
-            box-shadow: inset 0 3px 10px rgba(0,0,0,0.2);
-        }
-
-        .building-btn {
-            background: #95a5a6;
-            color: white;
-        }
-
-        .park-btn {
-            background: #2ecc71;
-            color: white;
-        }
-
-        .water-btn {
-            background: #3498db;
-            color: white;
-        }
-
-        .road-btn {
-            background: #34495e;
-            color: white;
-        }
-
-        .info-panel {
-            background: #ecf0f1;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .info-panel h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .effects-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .effects-list li {
-            padding: 8px;
-            margin: 5px 0;
-            border-radius: 5px;
-            font-size: 0.9rem;
-        }
-
-        .positive {
-            background: #d5f4e6;
-            color: #27ae60;
-        }
-
-        .negative {
-            background: #fadbd8;
-            color: #e74c3c;
-        }
-
-        .score-panel {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .score-value {
-            font-size: 2rem;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .reset-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .reset-btn:hover {
-            background: #c0392b;
-            transform: translateY(-2px);
-        }
-
-        .legend {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-        }
-
-        .legend-color {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
-        }
-
-        .instructions-panel {
-            background: linear-gradient(135deg, #74b9ff, #0984e3);
-            color: white;
-            padding: 20px;
-            margin: 0;
-        }
-
-        .instructions-panel h3 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        .instructions-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .instruction-step {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-        }
-
-        .step-number {
-            background: #fff;
-            color: #0984e3;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        .learning-objectives {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 15px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-        }
-
-        @media (max-width: 768px) {
-            .game-board {
-                grid-template-columns: 1fr;
-            }
-            
-            .city-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-
-            .instructions-content {
-                grid-template-columns: 1fr;
-            }
-
-            .instruction-step {
-                flex-direction: column;
-                text-align: center;
-                gap: 8px;
-            }
-
-            .instructions-panel h3 {
-                font-size: 1.3rem;
-            }
+        .progress-bar {
+            transition: width 0.3s ease;
         }
     </style>
 </head>
-<body>
-    <div class="game-container">
-        <div class="header">
-            <h1>🏙️ Permainan Pulau Haba 🌡️</h1>
-            <p>Belajar tentang fenomena pulau haba dan kesannya terhadap persekitaran bandar</p>
+<body class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen p-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-6 sm:mb-8">
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2 px-4">🚗 Pengangkutan di Malaysia</h1>
+            <p class="text-base sm:text-lg text-gray-600 px-4">Geografi Tingkatan 2 - Bab 5: Pengangkutan di Malaysia</p>
+            <div class="mt-4 bg-white rounded-full p-1 shadow-lg inline-block mx-4">
+                <div class="flex items-center space-x-2 sm:space-x-4 px-3 sm:px-6 py-2">
+                    <span class="text-xs sm:text-sm font-medium text-gray-600 hidden sm:inline">📊 Kemajuan Pembelajaran:</span>
+                    <span class="text-xs sm:text-sm font-medium text-gray-600 sm:hidden">📊 Kemajuan:</span>
+                    <div class="w-32 sm:w-48 bg-gray-200 rounded-full h-3">
+                        <div id="progressBar" class="progress-bar bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <span id="progressText" class="text-xs sm:text-sm font-bold text-gray-700">0/18</span>
+                </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-2 px-4">💡 Bar kemajuan menunjukkan berapa banyak kad yang telah anda baca untuk memantau pembelajaran</p>
         </div>
 
-        <div class="instructions-panel">
-            <h3>📋 Arahan Permainan</h3>
-            <div class="instructions-content">
-                <div class="instruction-step">
-                    <span class="step-number">1</span>
-                    <span>Pilih jenis pembangunan dari panel kawalan (Bangunan, Taman, Air, atau Jalan)</span>
+        <!-- Instructions Panel -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 sm:p-6 mb-6 mx-2 sm:mx-0">
+            <div class="flex items-start space-x-3">
+                <div class="text-2xl sm:text-3xl">📚</div>
+                <div class="flex-1">
+                    <h3 class="text-lg sm:text-xl font-bold text-blue-800 mb-3">Panel Arahan Flash Card</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm sm:text-base">
+                        <div class="space-y-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-blue-600">👆</span>
+                                <span class="text-gray-700"><strong>Klik kad</strong> untuk melihat maklumat terperinci</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-green-600">🔄</span>
+                                <span class="text-gray-700"><strong>Terbalik Semua</strong> untuk melihat jawapan sekaligus</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-purple-600">📈</span>
+                                <span class="text-gray-700"><strong>Lihat Statistik</strong> untuk memantau kemajuan</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-red-600">🎯</span>
+                                <span class="text-gray-700"><strong>4 Kategori:</strong> Jalan, Kereta Api, Lapangan Terbang, Pelabuhan</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-orange-600">📊</span>
+                                <span class="text-gray-700"><strong>18 Kad</strong> dengan maklumat lengkap dan terkini</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-indigo-600">🎓</span>
+                                <span class="text-gray-700"><strong>Sesuai</strong> untuk guru dan murid Tingkatan 2</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="instruction-step">
-                    <span class="step-number">2</span>
-                    <span>Klik pada kotak kosong di grid bandar untuk meletakkan pilihan anda</span>
-                </div>
-                <div class="instruction-step">
-                    <span class="step-number">3</span>
-                    <span>Perhatikan bagaimana suhu bandar berubah dengan setiap pembangunan</span>
-                </div>
-                <div class="instruction-step">
-                    <span class="step-number">4</span>
-                    <span>Cuba bina bandar yang seimbang untuk mengelakkan pulau haba teruk!</span>
-                </div>
-            </div>
-            <div class="learning-objectives">
-                <strong>🎯 Objektif Pembelajaran:</strong> Memahami bagaimana pembangunan bandar mempengaruhi suhu dan cara mengurangkan kesan pulau haba
             </div>
         </div>
 
-        <div class="game-board">
-            <div class="board-area">
-                <h2 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">Bandar Anda</h2>
-                
-                <div class="city-grid" id="cityGrid">
-                    <!-- Grid akan dihasilkan oleh JavaScript -->
-                </div>
-
-                <div class="temperature-display">
-                    <div>Suhu Purata Bandar</div>
-                    <div class="temp-value" id="temperature">25°C</div>
-                    <div style="font-size: 0.9rem; margin-top: 5px;" id="tempStatus">Suhu Normal</div>
-                </div>
-
-                <div class="legend">
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #95a5a6;"></div>
-                        <span>🏢 Bangunan (+2°C)</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #2ecc71;"></div>
-                        <span>🌳 Taman (-1°C)</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #3498db;"></div>
-                        <span>💧 Air (-2°C)</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #34495e;"></div>
-                        <span>🛣️ Jalan (+1°C)</span>
-                    </div>
-                </div>
+        <!-- Navigation -->
+        <div class="flex justify-center mb-6 px-2">
+            <div class="grid grid-cols-2 gap-3 w-full max-w-2xl">
+                <!-- Baris Atas -->
+                <button onclick="showCategory('jalan')" id="btn-jalan" class="category-btn bg-red-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-red-600 transition-colors text-xs sm:text-sm">
+                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">🛣️</span>
+                    <span class="block sm:inline sm:ml-1">Jaringan Jalan Raya</span>
+                </button>
+                <button onclick="showCategory('keretapi')" id="btn-keretapi" class="category-btn bg-blue-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors text-xs sm:text-sm">
+                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">🚂</span>
+                    <span class="block sm:inline sm:ml-1">Landasan Kereta Api</span>
+                </button>
+                <!-- Baris Bawah -->
+                <button onclick="showCategory('lapangan')" id="btn-lapangan" class="category-btn bg-green-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-green-600 transition-colors text-xs sm:text-sm">
+                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">✈️</span>
+                    <span class="block sm:inline sm:ml-1">Lapangan Terbang</span>
+                </button>
+                <button onclick="showCategory('pelabuhan')" id="btn-pelabuhan" class="category-btn bg-purple-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-purple-600 transition-colors text-xs sm:text-sm">
+                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">🚢</span>
+                    <span class="block sm:inline sm:ml-1">Pelabuhan Utama</span>
+                </button>
             </div>
+        </div>
 
-            <div class="control-panel">
-                <h3 style="text-align: center; margin-bottom: 15px; color: #2c3e50;">Panel Kawalan</h3>
-                
-                <div class="tool-buttons">
-                    <button class="tool-btn building-btn" onclick="selectTool('building')">
-                        🏢 Bangunan
-                    </button>
-                    <button class="tool-btn park-btn" onclick="selectTool('park')">
-                        🌳 Taman
-                    </button>
-                    <button class="tool-btn water-btn" onclick="selectTool('water')">
-                        💧 Air
-                    </button>
-                    <button class="tool-btn road-btn" onclick="selectTool('road')">
-                        🛣️ Jalan
-                    </button>
-                </div>
+        <!-- Flash Cards Container -->
+        <div id="flashCardsContainer" class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 px-2 sm:px-0">
+            <!-- Cards will be populated by JavaScript -->
+        </div>
 
-                <div class="info-panel">
-                    <h3>Kesan Pulau Haba</h3>
-                    <ul class="effects-list" id="effectsList">
-                        <li class="positive">Suhu bandar masih dalam tahap normal</li>
-                    </ul>
-                </div>
-
-                <div class="score-panel">
-                    <div>Skor Kelestarian</div>
-                    <div class="score-value" id="score">100</div>
-                    <div style="font-size: 0.9rem;">Skor tinggi = Bandar lestari</div>
-                </div>
-
-                <button class="reset-btn" onclick="resetGame()">🔄 Mula Semula</button>
+        <!-- Controls -->
+        <div class="text-center mt-6 sm:mt-8 px-2">
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4">
+                <button onclick="flipAllCards()" class="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-3 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base">
+                    🔄 Terbalik Semua Kad
+                </button>
+                <button onclick="showStats()" class="w-full sm:w-auto bg-gradient-to-r from-indigo-500 to-blue-500 text-white px-4 sm:px-6 py-3 rounded-lg font-medium hover:from-indigo-600 hover:to-blue-600 transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base">
+                    📈 Lihat Statistik
+                </button>
+                <button onclick="resetProgress()" class="w-full sm:w-auto bg-gray-500 text-white px-4 sm:px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors shadow-lg text-sm sm:text-base">
+                    🔄 Reset Kemajuan
+                </button>
             </div>
+        </div>
+
+        <!-- Statistics Modal -->
+        <div id="statsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-xl p-4 sm:p-8 w-full max-w-md mx-auto shadow-2xl max-h-[90vh] overflow-y-auto">
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">📊 Statistik Pembelajaran</h3>
+                <div id="statsContent" class="space-y-3 sm:space-y-4">
+                    <!-- Stats will be populated by JavaScript -->
+                </div>
+                <button onclick="closeStats()" class="w-full mt-4 sm:mt-6 bg-blue-500 text-white py-2 sm:py-3 rounded-lg hover:bg-blue-600 transition-colors text-sm sm:text-base">
+                    Tutup
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-6 sm:mt-8 text-gray-600 px-4">
+            <p class="text-sm">💡 Klik pada kad untuk melihat maklumat terperinci</p>
+            <p class="text-xs mt-2">Untuk kegunaan pendidikan - Subjek Geografi Tingkatan 2</p>
         </div>
     </div>
 
     <script>
-        let selectedTool = 'building';
-        let cityData = [];
-        let baseTemperature = 25;
-
-        // Inisialisasi grid bandar
-        function initializeCity() {
-            const grid = document.getElementById('cityGrid');
-            grid.innerHTML = '';
-            cityData = [];
-
-            for (let i = 0; i < 36; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'city-cell';
-                cell.onclick = () => placeTile(i);
-                grid.appendChild(cell);
-                cityData.push('empty');
-            }
-            updateTemperature();
-            updateEffects();
-            updateScore();
-        }
-
-        // Pilih alat pembinaan
-        function selectTool(tool) {
-            selectedTool = tool;
-            
-            // Update tampilan butang aktif
-            document.querySelectorAll('.tool-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            const toolButtons = {
-                'building': '.building-btn',
-                'park': '.park-btn',
-                'water': '.water-btn',
-                'road': '.road-btn'
-            };
-            
-            document.querySelector(toolButtons[tool]).classList.add('active');
-        }
-
-        // Letakkan tile di grid
-        function placeTile(index) {
-            if (cityData[index] === selectedTool) return;
-            
-            cityData[index] = selectedTool;
-            const cell = document.querySelectorAll('.city-cell')[index];
-            
-            // Update tampilan sel
-            cell.className = `city-cell ${selectedTool}`;
-            
-            const icons = {
-                'building': '🏢',
-                'park': '🌳',
-                'water': '💧',
-                'road': '🛣️',
-                'empty': ''
-            };
-            
-            cell.textContent = icons[selectedTool];
-            
-            updateTemperature();
-            updateEffects();
-            updateScore();
-        }
-
-        // Kira dan update suhu
-        function updateTemperature() {
-            let tempChange = 0;
-            
-            cityData.forEach(tile => {
-                switch(tile) {
-                    case 'building':
-                        tempChange += 2;
-                        break;
-                    case 'road':
-                        tempChange += 1;
-                        break;
-                    case 'park':
-                        tempChange -= 1;
-                        break;
-                    case 'water':
-                        tempChange -= 2;
-                        break;
+        const flashCardsData = {
+            jalan: [
+                {
+                    title: "Lebuhraya Utara-Selatan (PLUS)",
+                    icon: "🛣️",
+                    front: "Lebuhraya Terpanjang Malaysia",
+                    back: "• Panjang: 966 km\n• Menghubungkan: Bukit Kayu Hitam - Johor Bahru\n• Melalui: 9 negeri\n• Dibuka: 1994\n• Operator: PLUS Malaysia Berhad\n• Kepentingan: Tulang belakang ekonomi negara"
+                },
+                {
+                    title: "Lebuhraya Pantai Timur (LPT)",
+                    icon: "🌊",
+                    front: "Menghubungkan Pantai Timur",
+                    back: "• Panjang: 433 km\n• Menghubungkan: Karak - Kuala Terengganu\n• Melalui: Pahang, Terengganu\n• Dibuka: 2015\n• Kepentingan: Membangunkan pantai timur\n• Mengurangkan masa perjalanan 2 jam"
+                },
+                {
+                    title: "Lebuhraya Lingkaran Tengah (MRR2)",
+                    icon: "🔄",
+                    front: "Lingkaran Kuala Lumpur",
+                    back: "• Panjang: 35.7 km\n• Lokasi: Sekitar Kuala Lumpur\n• Fungsi: Mengurangkan kesesakan\n• Menghubungkan: 8 lebuhraya utama\n• Kepentingan: Sistem pengangkutan bandar\n• Status: Percuma (tanpa tol)"
+                },
+                {
+                    title: "Lebuhraya Borneo (Pan Borneo)",
+                    icon: "🌴",
+                    front: "Projek Terbesar Sabah & Sarawak",
+                    back: "• Panjang: 2,239 km\n• Menghubungkan: Semanjung - Sabah - Sarawak\n• Fasa 1: 2015-2023\n• Kos: RM27 bilion\n• Kepentingan: Integrasi Borneo\n• Status: Dalam pembinaan"
                 }
-            });
-            
-            const currentTemp = baseTemperature + tempChange;
-            document.getElementById('temperature').textContent = `${currentTemp}°C`;
-            
-            // Update status suhu
-            const tempStatus = document.getElementById('tempStatus');
-            if (currentTemp <= 26) {
-                tempStatus.textContent = 'Suhu Normal';
-                tempStatus.style.color = '#27ae60';
-            } else if (currentTemp <= 30) {
-                tempStatus.textContent = 'Pulau Haba Sederhana';
-                tempStatus.style.color = '#f39c12';
-            } else {
-                tempStatus.textContent = 'Pulau Haba Teruk!';
-                tempStatus.style.color = '#e74c3c';
-            }
-        }
-
-        // Update kesan-kesan
-        function updateEffects() {
-            const effectsList = document.getElementById('effectsList');
-            const currentTemp = baseTemperature + getTempChange();
-            const effects = [];
-            
-            if (currentTemp <= 26) {
-                effects.push({text: 'Suhu bandar dalam tahap normal', type: 'positive'});
-                effects.push({text: 'Penggunaan tenaga untuk penyaman udara rendah', type: 'positive'});
-            } else if (currentTemp <= 30) {
-                effects.push({text: 'Berlaku fenomena pulau haba sederhana', type: 'negative'});
-                effects.push({text: 'Penggunaan tenaga elektrik meningkat', type: 'negative'});
-                effects.push({text: 'Kualiti udara mula terjejas', type: 'negative'});
-            } else {
-                effects.push({text: 'Pulau haba teruk - suhu terlalu tinggi!', type: 'negative'});
-                effects.push({text: 'Penggunaan tenaga elektrik sangat tinggi', type: 'negative'});
-                effects.push({text: 'Kualiti udara buruk', type: 'negative'});
-                effects.push({text: 'Kesihatan penduduk terancam', type: 'negative'});
-            }
-            
-            // Tambah kesan berdasarkan jenis tile
-            const parkCount = cityData.filter(tile => tile === 'park').length;
-            const waterCount = cityData.filter(tile => tile === 'water').length;
-            
-            if (parkCount >= 8) {
-                effects.push({text: 'Banyak ruang hijau - udara segar!', type: 'positive'});
-            }
-            
-            if (waterCount >= 4) {
-                effects.push({text: 'Cukup sumber air untuk penyejukan', type: 'positive'});
-            }
-            
-            effectsList.innerHTML = effects.map(effect => 
-                `<li class="${effect.type}">${effect.text}</li>`
-            ).join('');
-        }
-
-        // Kira perubahan suhu
-        function getTempChange() {
-            let tempChange = 0;
-            cityData.forEach(tile => {
-                switch(tile) {
-                    case 'building': tempChange += 2; break;
-                    case 'road': tempChange += 1; break;
-                    case 'park': tempChange -= 1; break;
-                    case 'water': tempChange -= 2; break;
+            ],
+            keretapi: [
+                {
+                    title: "KTM Komuter",
+                    icon: "🚊",
+                    front: "Perkhidmatan Komuter Lembah Klang",
+                    back: "• Laluan: 6 laluan utama\n• Stesen: 53 stesen\n• Kawasan: Lembah Klang\n• Penumpang: 120,000 harian\n• Operator: KTM Berhad\n• Kepentingan: Pengangkutan awam bandar"
+                },
+                {
+                    title: "ETS (Electric Train Service)",
+                    icon: "⚡",
+                    front: "Kereta Api Elektrik Berkelajuan Tinggi",
+                    back: "• Kelajuan: Sehingga 160 km/j\n• Laluan: KL Sentral - Padang Besar\n• Stesen: 8 stesen utama\n• Masa: KL-Ipoh (2 jam)\n• Dibuka: 2010\n• Kepentingan: Pengangkutan pantas"
+                },
+                {
+                    title: "LRT (Light Rail Transit)",
+                    icon: "🚇",
+                    front: "Sistem Rail Ringan KL",
+                    back: "• Laluan: 3 laluan (Ampang, Kelana Jaya, Sri Petaling)\n• Stesen: 74 stesen\n• Penumpang: 240,000 harian\n• Operator: Rapid Rail\n• Kepentingan: Mengurangkan kesesakan\n• Integrasi dengan MRT"
+                },
+                {
+                    title: "MRT (Mass Rapid Transit)",
+                    icon: "🚄",
+                    front: "Sistem Transit Massa Terkini",
+                    back: "• Laluan: 2 laluan (SBK, SSP)\n• Stesen: 62 stesen\n• Kapasiti: 1.2 juta penumpang\n• Teknologi: Tanpa pemandu\n• Dibuka: 2017\n• Kepentingan: Tulang belakang pengangkutan awam"
+                },
+                {
+                    title: "Sabah State Railway",
+                    icon: "🚂",
+                    front: "Kereta Api Bersejarah Sabah",
+                    back: "• Laluan: Tanjung Aru - Papar (134 km)\n• Dibina: 1896 (zaman British)\n• Lebar trek: 1000mm (meter gauge)\n• Stesen: 16 stesen\n• Kepentingan: Pelancongan & sejarah\n• Status: Kereta api tertua Malaysia"
+                },
+                {
+                    title: "North Borneo Railway",
+                    icon: "🚃",
+                    front: "Kereta Api Pelancongan Sabah",
+                    back: "• Laluan: Kota Kinabalu - Papar\n• Jarak: 134 km\n• Lokomotif: Steam engine 1954\n• Pengalaman: Nostalgia kolonial\n• Pemandangan: Pantai & kampung\n• Operator: Sutera Harbour Resort"
                 }
-            });
-            return tempChange;
-        }
-
-        // Update skor kelestarian
-        function updateScore() {
-            const currentTemp = baseTemperature + getTempChange();
-            const buildingCount = cityData.filter(tile => tile === 'building').length;
-            const parkCount = cityData.filter(tile => tile === 'park').length;
-            const waterCount = cityData.filter(tile => tile === 'water').length;
-            
-            let score = 100;
-            
-            // Penalti untuk suhu tinggi
-            if (currentTemp > 26) {
-                score -= (currentTemp - 26) * 10;
-            }
-            
-            // Bonus untuk keseimbangan
-            const greenSpaces = parkCount + waterCount;
-            const developedSpaces = buildingCount;
-            
-            if (greenSpaces >= developedSpaces * 0.3) {
-                score += 20;
-            }
-            
-            // Pastikan skor tidak negatif
-            score = Math.max(0, Math.round(score));
-            
-            document.getElementById('score').textContent = score;
-        }
-
-        // Reset permainan
-        function resetGame() {
-            initializeCity();
-            selectTool('building');
-        }
-
-        // Mulakan permainan
-        window.onload = function() {
-            initializeCity();
-            selectTool('building');
+            ],
+            lapangan: [
+                {
+                    title: "KLIA (Kuala Lumpur International Airport)",
+                    icon: "✈️",
+                    front: "Lapangan Terbang Utama Malaysia",
+                    back: "• Lokasi: Sepang, Selangor\n• Dibuka: 1998\n• Penumpang: 25 juta setahun\n• Terminal: 2 terminal utama\n• Landasan: 4 landasan\n• Status: Hub antarabangsa Asia"
+                },
+                {
+                    title: "Lapangan Terbang Senai",
+                    icon: "🛬",
+                    front: "Pintu Masuk Selatan Malaysia",
+                    back: "• Lokasi: Johor Bahru, Johor\n• Penumpang: 4 juta setahun\n• Kepentingan: Hubungan dengan Singapura\n• Syarikat: AirAsia, Malaysia Airlines\n• Status: Lapangan terbang antarabangsa\n• Kod: JHB"
+                },
+                {
+                    title: "Lapangan Terbang Kota Kinabalu",
+                    icon: "🏔️",
+                    front: "Hub Utama Sabah",
+                    back: "• Lokasi: Kota Kinabalu, Sabah\n• Penumpang: 8 juta setahun\n• Terminal: 2 terminal\n• Kepentingan: Pelancongan Borneo\n• Destinasi: 20+ negara\n• Kod: BKI"
+                },
+                {
+                    title: "Lapangan Terbang Kuching",
+                    icon: "🐱",
+                    front: "Pintu Masuk Sarawak",
+                    back: "• Lokasi: Kuching, Sarawak\n• Penumpang: 5 juta setahun\n• Kepentingan: Hub Sarawak\n• Destinasi: Asia Tenggara\n• Terminal: 1 terminal utama\n• Kod: KCH"
+                }
+            ],
+            pelabuhan: [
+                {
+                    title: "Pelabuhan Klang",
+                    icon: "🚢",
+                    front: "Pelabuhan Terbesar Malaysia",
+                    back: "• Lokasi: Selangor\n• Ranking: Top 12 dunia\n• Kontena: 13 juta TEU\n• Kepentingan: Hub perdagangan Asia\n• Kemudahan: 19 terminal\n• Operator: Westports, Northport"
+                },
+                {
+                    title: "Pelabuhan Tanjung Pelepas (PTP)",
+                    icon: "⚓",
+                    front: "Pelabuhan Kontena Terkini",
+                    back: "• Lokasi: Johor\n• Dibuka: 1999\n• Kontena: 9 juta TEU\n• Kedalaman: 17 meter\n• Kepentingan: Pelabuhan dalam air\n• Teknologi: Automasi tinggi"
+                },
+                {
+                    title: "Pelabuhan Bintulu",
+                    icon: "⛽",
+                    front: "Hub Gas Asli Cecair (LNG)",
+                    back: "• Lokasi: Sarawak\n• Kepentingan: Eksport LNG terbesar\n• Kemudahan: Terminal LNG\n• Industri: Petrokimia\n• Status: Pelabuhan industri\n• Operator: Bintulu Port"
+                },
+                {
+                    title: "Pelabuhan Kuantan",
+                    icon: "🏭",
+                    front: "Pelabuhan Pantai Timur Utama",
+                    back: "• Lokasi: Pahang\n• Kepentingan: ECRL terminus\n• Kemudahan: Multipurpose terminal\n• Industri: Kelapa sawit, getah\n• Projek: Malaysia-China Kuantan Industrial Park\n• Status: Pelabuhan dalam pembangunan"
+                }
+            ]
         };
+
+        let currentCategory = 'jalan';
+        let flippedCards = new Set();
+        let viewedCards = new Set();
+
+        function getCardFrontColor(category) {
+            const colors = {
+                'jalan': 'from-red-100 to-orange-100 border-red-300',
+                'keretapi': 'from-blue-100 to-cyan-100 border-blue-300',
+                'lapangan': 'from-green-100 to-emerald-100 border-green-300',
+                'pelabuhan': 'from-purple-100 to-pink-100 border-purple-300'
+            };
+            return colors[category] || 'from-white to-gray-50 border-gray-200';
+        }
+
+        function getCardBackColor(category) {
+            const colors = {
+                'jalan': 'from-red-500 to-orange-600',
+                'keretapi': 'from-blue-500 to-cyan-600',
+                'lapangan': 'from-green-500 to-emerald-600',
+                'pelabuhan': 'from-purple-500 to-pink-600'
+            };
+            return colors[category] || 'from-blue-500 to-purple-600';
+        }
+
+        function showCategory(category) {
+            currentCategory = category;
+            
+            // Update button styles
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('ring-4', 'ring-white', 'ring-opacity-50');
+            });
+            document.getElementById(`btn-${category}`).classList.add('ring-4', 'ring-white', 'ring-opacity-50');
+            
+            renderCards();
+        }
+
+        function renderCards() {
+            const container = document.getElementById('flashCardsContainer');
+            const cards = flashCardsData[currentCategory];
+            
+            container.innerHTML = cards.map((card, index) => `
+                <div class="flip-card" id="card-${currentCategory}-${index}">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front bg-gradient-to-br ${getCardFrontColor(currentCategory)} shadow-xl border-2 border-opacity-30 cursor-pointer hover:shadow-2xl transition-all transform hover:scale-105 hover:rotate-1">
+                            <div class="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4 animate-bounce">${card.icon}</div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-800 mb-2 text-center px-2 leading-tight">${card.title}</h3>
+                            <p class="text-gray-700 text-center font-medium text-sm sm:text-base px-2 leading-snug">${card.front}</p>
+                            <div class="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 text-xl sm:text-2xl animate-pulse">🔄</div>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br ${getCardBackColor(currentCategory)} text-white shadow-xl cursor-pointer">
+                            <div class="text-3xl sm:text-4xl mb-3 sm:mb-4">${card.icon}</div>
+                            <h3 class="text-base sm:text-lg font-bold mb-3 sm:mb-4 px-2">${card.title}</h3>
+                            <div class="text-xs sm:text-sm leading-relaxed whitespace-pre-line text-left px-2 overflow-y-auto max-h-48 sm:max-h-56">${card.back}</div>
+                            <div class="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 text-xl sm:text-2xl">✅</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add click handlers
+            cards.forEach((card, index) => {
+                const cardElement = document.getElementById(`card-${currentCategory}-${index}`);
+                cardElement.addEventListener('click', () => flipCard(currentCategory, index));
+            });
+        }
+
+        function flipCard(category, index) {
+            const cardId = `card-${category}-${index}`;
+            const cardElement = document.getElementById(cardId);
+            
+            cardElement.classList.toggle('flipped');
+            
+            const cardKey = `${category}-${index}`;
+            if (cardElement.classList.contains('flipped')) {
+                flippedCards.add(cardKey);
+                viewedCards.add(cardKey);
+            } else {
+                flippedCards.delete(cardKey);
+            }
+            
+            updateProgress();
+        }
+
+        function flipAllCards() {
+            const cards = flashCardsData[currentCategory];
+            cards.forEach((card, index) => {
+                const cardId = `card-${currentCategory}-${index}`;
+                const cardElement = document.getElementById(cardId);
+                const cardKey = `${currentCategory}-${index}`;
+                
+                if (!cardElement.classList.contains('flipped')) {
+                    cardElement.classList.add('flipped');
+                    flippedCards.add(cardKey);
+                    viewedCards.add(cardKey);
+                }
+            });
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const totalCards = Object.values(flashCardsData).flat().length;
+            const viewedCount = viewedCards.size;
+            const percentage = (viewedCount / totalCards) * 100;
+            
+            document.getElementById('progressBar').style.width = `${percentage}%`;
+            document.getElementById('progressText').textContent = `${viewedCount}/${totalCards}`;
+        }
+
+        function resetProgress() {
+            flippedCards.clear();
+            viewedCards.clear();
+            
+            document.querySelectorAll('.flip-card').forEach(card => {
+                card.classList.remove('flipped');
+            });
+            
+            updateProgress();
+        }
+
+        function showStats() {
+            const totalCards = Object.values(flashCardsData).flat().length;
+            const viewedCount = viewedCards.size;
+            const percentage = Math.round((viewedCount / totalCards) * 100);
+            
+            // Calculate category progress
+            const categoryStats = {};
+            Object.keys(flashCardsData).forEach(category => {
+                const categoryCards = flashCardsData[category].length;
+                const categoryViewed = Array.from(viewedCards).filter(card => card.startsWith(category)).length;
+                const categoryPercentage = Math.round((categoryViewed / categoryCards) * 100);
+                
+                const categoryNames = {
+                    'jalan': 'Jaringan Jalan Raya',
+                    'keretapi': 'Landasan Kereta Api',
+                    'lapangan': 'Lapangan Terbang',
+                    'pelabuhan': 'Pelabuhan Utama'
+                };
+                
+                categoryStats[categoryNames[category]] = {
+                    viewed: categoryViewed,
+                    total: categoryCards,
+                    percentage: categoryPercentage
+                };
+            });
+
+            const statsContent = document.getElementById('statsContent');
+            statsContent.innerHTML = `
+                <div class="text-center mb-4">
+                    <div class="text-4xl font-bold text-blue-600">${percentage}%</div>
+                    <div class="text-gray-600">Kemajuan Keseluruhan</div>
+                    <div class="text-sm text-gray-500">${viewedCount} daripada ${totalCards} kad</div>
+                </div>
+                
+                <div class="space-y-3">
+                    ${Object.entries(categoryStats).map(([name, stats]) => `
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="font-medium text-gray-700">${name}</span>
+                            <div class="text-right">
+                                <div class="font-bold text-gray-800">${stats.percentage}%</div>
+                                <div class="text-xs text-gray-500">${stats.viewed}/${stats.total}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="mt-4 p-3 bg-blue-50 rounded-lg text-center">
+                    <div class="text-sm text-blue-700">
+                        ${viewedCount === totalCards ? 
+                            '🎉 Tahniah! Anda telah menyelesaikan semua kad!' : 
+                            `💪 Teruskan usaha! ${totalCards - viewedCount} kad lagi untuk diselesaikan.`
+                        }
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('statsModal').classList.remove('hidden');
+            document.getElementById('statsModal').classList.add('flex');
+        }
+
+        function closeStats() {
+            document.getElementById('statsModal').classList.add('hidden');
+            document.getElementById('statsModal').classList.remove('flex');
+        }
+
+        // Initialize
+        showCategory('jalan');
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9836b836e0f25348',t:'MTc1ODU5NTY2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983162ffe6f79103',t:'MTc1ODUzOTc1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
