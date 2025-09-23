@@ -3,495 +3,2023 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flash Card Sistem Pengangkutan Malaysia - Geografi T2</title>
+    <title>Simulasi Pengembangan Potensi Diri - Panduan Lengkap</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    screens: {
-                        'xs': '475px',
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        .flip-card {
-            perspective: 1000px;
-            height: 350px;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
         }
-        @media (min-width: 640px) {
-            .flip-card {
-                height: 380px;
-            }
+        
+        .timeline-line {
+            background: linear-gradient(to bottom, #3b82f6, #8b5cf6, #ec4899, #f59e0b, #10b981);
+            width: 6px;
         }
-        @media (min-width: 1024px) {
-            .flip-card {
-                height: 400px;
-            }
-        }
-        .flip-card-inner {
+        
+        .age-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
             position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
+            overflow: hidden;
         }
-        .flip-card.flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-        .flip-card-front, .flip-card-back {
+        
+        .age-card::before {
+            content: '';
             position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 24px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
         }
-        .flip-card-back {
-            transform: rotateY(180deg);
+        
+        .age-card:hover::before {
+            left: 100%;
         }
+        
+        .age-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .age-card.completed {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px solid #0ea5e9;
+        }
+        
         .progress-bar {
-            transition: width 0.3s ease;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.8); }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .option-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .option-btn:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .celebration {
+            animation: celebration 0.6s ease-in-out;
+        }
+        
+        @keyframes celebration {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-5deg); }
+            75% { transform: scale(1.1) rotate(5deg); }
+        }
+        
+        .modal-content {
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        
+        .modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .modal-content::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 3px;
+        }
+        
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen p-4">
-    <div class="max-w-6xl mx-auto">
-        <!-- Header -->
-        <div class="text-center mb-6 sm:mb-8">
-            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2 px-4">🚗 Pengangkutan di Malaysia</h1>
-            <p class="text-base sm:text-lg text-gray-600 px-4">Geografi Tingkatan 2 - Bab 5: Pengangkutan di Malaysia</p>
-            <div class="mt-4 bg-white rounded-full p-1 shadow-lg inline-block mx-4">
-                <div class="flex items-center space-x-2 sm:space-x-4 px-3 sm:px-6 py-2">
-                    <span class="text-xs sm:text-sm font-medium text-gray-600 hidden sm:inline">📊 Kemajuan Pembelajaran:</span>
-                    <span class="text-xs sm:text-sm font-medium text-gray-600 sm:hidden">📊 Kemajuan:</span>
-                    <div class="w-32 sm:w-48 bg-gray-200 rounded-full h-3">
-                        <div id="progressBar" class="progress-bar bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full" style="width: 0%"></div>
-                    </div>
-                    <span id="progressText" class="text-xs sm:text-sm font-bold text-gray-700">0/18</span>
+<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 min-h-screen">
+    <!-- Animated Header -->
+    <div class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 shadow-2xl relative overflow-hidden">
+        <div class="absolute inset-0 bg-white opacity-10"></div>
+        <div class="max-w-6xl mx-auto px-4 py-8 relative z-10">
+            <div class="text-center">
+                <div class="text-6xl mb-4 floating">🌟</div>
+                <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
+                    Simulasi Pengembangan Potensi Diri
+                </h1>
+                <p class="text-blue-100 text-lg mb-4">
+                    Panduan Lengkap Perancangan Masa Hadapan
+                </p>
+                <div class="bg-white bg-opacity-20 rounded-full px-6 py-2 inline-block">
+                    <span class="text-white font-medium">📚 Pendidikan Moral Tingkatan 1 - Unit 5</span>
                 </div>
             </div>
-            <p class="text-xs text-gray-500 mt-2 px-4">💡 Bar kemajuan menunjukkan berapa banyak kad yang telah anda baca untuk memantau pembelajaran</p>
         </div>
+    </div>
 
-        <!-- Instructions Panel -->
-        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 sm:p-6 mb-6 mx-2 sm:mx-0">
-            <div class="flex items-start space-x-3">
-                <div class="text-2xl sm:text-3xl">📚</div>
-                <div class="flex-1">
-                    <h3 class="text-lg sm:text-xl font-bold text-blue-800 mb-3">Panel Arahan Flash Card</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm sm:text-base">
-                        <div class="space-y-2">
-                            <div class="flex items-center space-x-2">
-                                <span class="text-blue-600">👆</span>
-                                <span class="text-gray-700"><strong>Klik kad</strong> untuk melihat maklumat terperinci</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <span class="text-green-600">🔄</span>
-                                <span class="text-gray-700"><strong>Terbalik Semua</strong> untuk melihat jawapan sekaligus</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <span class="text-purple-600">📈</span>
-                                <span class="text-gray-700"><strong>Lihat Statistik</strong> untuk memantau kemajuan</span>
-                            </div>
-                        </div>
-                        <div class="space-y-2">
-                            <div class="flex items-center space-x-2">
-                                <span class="text-red-600">🎯</span>
-                                <span class="text-gray-700"><strong>4 Kategori:</strong> Jalan, Kereta Api, Lapangan Terbang, Pelabuhan</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <span class="text-orange-600">📊</span>
-                                <span class="text-gray-700"><strong>18 Kad</strong> dengan maklumat lengkap dan terkini</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <span class="text-indigo-600">🎓</span>
-                                <span class="text-gray-700"><strong>Sesuai</strong> untuk guru dan murid Tingkatan 2</span>
-                            </div>
-                        </div>
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <!-- Enhanced Progress Overview -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8 border border-gray-100">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">🎯 Kemajuan Perjalanan Anda</h2>
+                <p class="text-gray-600">Jejaki kemajuan anda melalui setiap peringkat kehidupan</p>
+            </div>
+            
+            <div class="relative">
+                <div class="bg-gray-200 rounded-full h-6 mb-4 overflow-hidden">
+                    <div id="overallProgress" class="progress-bar bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-6 rounded-full relative" style="width: 0%">
+                        <div class="absolute inset-0 bg-white opacity-30 animate-pulse"></div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Navigation -->
-        <div class="flex justify-center mb-6 px-2">
-            <div class="grid grid-cols-2 gap-3 w-full max-w-2xl">
-                <!-- Baris Atas -->
-                <button onclick="showCategory('jalan')" id="btn-jalan" class="category-btn bg-red-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-red-600 transition-colors text-xs sm:text-sm">
-                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">🛣️</span>
-                    <span class="block sm:inline sm:ml-1">Jaringan Jalan Raya</span>
-                </button>
-                <button onclick="showCategory('keretapi')" id="btn-keretapi" class="category-btn bg-blue-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors text-xs sm:text-sm">
-                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">🚂</span>
-                    <span class="block sm:inline sm:ml-1">Landasan Kereta Api</span>
-                </button>
-                <!-- Baris Bawah -->
-                <button onclick="showCategory('lapangan')" id="btn-lapangan" class="category-btn bg-green-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-green-600 transition-colors text-xs sm:text-sm">
-                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">✈️</span>
-                    <span class="block sm:inline sm:ml-1">Lapangan Terbang</span>
-                </button>
-                <button onclick="showCategory('pelabuhan')" id="btn-pelabuhan" class="category-btn bg-purple-500 text-white px-3 sm:px-4 py-3 rounded-lg font-medium hover:bg-purple-600 transition-colors text-xs sm:text-sm">
-                    <span class="block sm:inline text-lg sm:text-xl mb-1 sm:mb-0">🚢</span>
-                    <span class="block sm:inline sm:ml-1">Pelabuhan Utama</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Flash Cards Container -->
-        <div id="flashCardsContainer" class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 px-2 sm:px-0">
-            <!-- Cards will be populated by JavaScript -->
-        </div>
-
-        <!-- Controls -->
-        <div class="text-center mt-6 sm:mt-8 px-2">
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4">
-                <button onclick="flipAllCards()" class="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-3 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base">
-                    🔄 Terbalik Semua Kad
-                </button>
-                <button onclick="showStats()" class="w-full sm:w-auto bg-gradient-to-r from-indigo-500 to-blue-500 text-white px-4 sm:px-6 py-3 rounded-lg font-medium hover:from-indigo-600 hover:to-blue-600 transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base">
-                    📈 Lihat Statistik
-                </button>
-                <button onclick="resetProgress()" class="w-full sm:w-auto bg-gray-500 text-white px-4 sm:px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors shadow-lg text-sm sm:text-base">
-                    🔄 Reset Kemajuan
-                </button>
-            </div>
-        </div>
-
-        <!-- Statistics Modal -->
-        <div id="statsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
-            <div class="bg-white rounded-xl p-4 sm:p-8 w-full max-w-md mx-auto shadow-2xl max-h-[90vh] overflow-y-auto">
-                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">📊 Statistik Pembelajaran</h3>
-                <div id="statsContent" class="space-y-3 sm:space-y-4">
-                    <!-- Stats will be populated by JavaScript -->
+                <div class="flex justify-between text-xs text-gray-500 mb-2">
+                    <span>Mula</span>
+                    <span>Separuh Jalan</span>
+                    <span>Selesai</span>
                 </div>
-                <button onclick="closeStats()" class="w-full mt-4 sm:mt-6 bg-blue-500 text-white py-2 sm:py-3 rounded-lg hover:bg-blue-600 transition-colors text-sm sm:text-base">
-                    Tutup
-                </button>
+            </div>
+            
+            <div class="text-center">
+                <p id="progressText" class="text-lg font-medium text-gray-700 mb-4">
+                    🚀 Mulakan perjalanan anda menuju kejayaan!
+                </p>
+                <div id="scoreDisplay" class="hidden bg-gradient-to-r from-yellow-100 to-orange-100 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-orange-600">
+                        <span id="currentScore">0</span>/<span id="maxScore">50</span> ⭐
+                    </div>
+                    <p class="text-orange-700 text-sm">Mata Pencapaian</p>
+                </div>
             </div>
         </div>
 
-        <!-- Footer -->
-        <div class="text-center mt-6 sm:mt-8 text-gray-600 px-4">
-            <p class="text-sm">💡 Klik pada kad untuk melihat maklumat terperinci</p>
-            <p class="text-xs mt-2">Untuk kegunaan pendidikan - Subjek Geografi Tingkatan 2</p>
+        <!-- Enhanced Timeline Container -->
+        <div class="relative">
+            <!-- Animated Timeline Line -->
+            <div class="timeline-line absolute left-6 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 z-0 rounded-full shadow-lg"></div>
+
+            <!-- Age Stages with Enhanced Content -->
+            <div class="space-y-12">
+                <!-- Ages 13-17 -->
+                <div class="age-card relative bg-white rounded-2xl shadow-xl p-8 ml-16 md:ml-0 md:w-5/12 border border-gray-100" data-age="13-17">
+                    <div class="absolute -left-12 md:-left-8 top-8 w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold shadow-xl z-10 border-4 border-white">
+                        <div class="text-center">
+                            <div class="text-xs">13-17</div>
+                        </div>
+                    </div>
+                    <div class="md:absolute md:right-full md:mr-12 md:top-0 md:w-full">
+                        <div class="flex items-center mb-4">
+                            <span class="text-3xl mr-3">🏆</span>
+                            <h3 class="text-xl font-bold text-blue-600">Peringkat Remaja Awal</h3>
+                        </div>
+                        <p class="text-gray-700 mb-6 text-lg">Masa untuk meneroka bakat dan menyertai pelbagai pertandingan yang berkaitan dengan cita-cita anda.</p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                                <div class="text-blue-600 font-semibold mb-2">🔬 Bidang Sains</div>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• Pertandingan Sains</li>
+                                    <li>• Olimpiad Matematik</li>
+                                    <li>• Projek Inovasi</li>
+                                </ul>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-xl border border-green-100">
+                                <div class="text-green-600 font-semibold mb-2">🎨 Bidang Kreatif</div>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• Pertandingan Seni</li>
+                                    <li>• Penulisan Kreatif</li>
+                                    <li>• Persembahan</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <button class="explore-btn bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            🚀 Terokai Peringkat Ini
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ages 18-19 -->
+                <div class="age-card relative bg-white rounded-2xl shadow-xl p-8 ml-16 md:ml-auto md:w-5/12 border border-gray-100" data-age="18-19">
+                    <div class="absolute -left-12 md:-right-8 top-8 w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow-xl z-10 border-4 border-white">
+                        <div class="text-center">
+                            <div class="text-xs">18-19</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl mr-3">🎓</span>
+                        <h3 class="text-xl font-bold text-purple-600">Peringkat Pra-Universiti</h3>
+                    </div>
+                    <p class="text-gray-700 mb-6 text-lg">Masa kritikal untuk membuat keputusan bijak mengenai program asasi yang akan menentukan hala tuju universiti.</p>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="bg-purple-50 p-4 rounded-xl border border-purple-100">
+                            <div class="font-semibold text-purple-800 mb-3">📋 Pilihan Program Tersedia:</div>
+                            <div class="grid grid-cols-1 gap-3">
+                                <div class="flex items-center p-2 bg-white rounded-lg">
+                                    <span class="text-purple-500 mr-2">🔬</span>
+                                    <span class="text-sm">Program Asasi Sains (Perubatan, Kejuruteraan)</span>
+                                </div>
+                                <div class="flex items-center p-2 bg-white rounded-lg">
+                                    <span class="text-purple-500 mr-2">📚</span>
+                                    <span class="text-sm">Program Asasi Sastera (Undang-undang, Pendidikan)</span>
+                                </div>
+                                <div class="flex items-center p-2 bg-white rounded-lg">
+                                    <span class="text-purple-500 mr-2">🏛️</span>
+                                    <span class="text-sm">Matrikulasi/STPM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="explore-btn bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                        🎯 Terokai Peringkat Ini
+                    </button>
+                </div>
+
+                <!-- Ages 20-23 -->
+                <div class="age-card relative bg-white rounded-2xl shadow-xl p-8 ml-16 md:ml-0 md:w-5/12 border border-gray-100" data-age="20-23">
+                    <div class="absolute -left-12 md:-left-8 top-8 w-16 h-16 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold shadow-xl z-10 border-4 border-white">
+                        <div class="text-center">
+                            <div class="text-xs">20-23</div>
+                        </div>
+                    </div>
+                    <div class="md:absolute md:right-full md:mr-12 md:top-0 md:w-full">
+                        <div class="flex items-center mb-4">
+                            <span class="text-3xl mr-3">📚</span>
+                            <h3 class="text-xl font-bold text-pink-600">Peringkat Universiti</h3>
+                        </div>
+                        <p class="text-gray-700 mb-6 text-lg">Peringkat paling penting untuk membangunkan kepakaran mendalam dalam bidang yang dipilih.</p>
+                        
+                        <div class="bg-pink-50 p-6 rounded-xl border border-pink-100 mb-6">
+                            <h4 class="font-bold text-pink-800 mb-4">🎯 Fokus Utama di Universiti:</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <span class="w-3 h-3 bg-pink-400 rounded-full mr-3"></span>
+                                        <span class="text-sm">Pencapaian akademik cemerlang</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="w-3 h-3 bg-pink-400 rounded-full mr-3"></span>
+                                        <span class="text-sm">Latihan industri praktikal</span>
+                                    </div>
+                                </div>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <span class="w-3 h-3 bg-pink-400 rounded-full mr-3"></span>
+                                        <span class="text-sm">Projek penyelidikan inovatif</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="w-3 h-3 bg-pink-400 rounded-full mr-3"></span>
+                                        <span class="text-sm">Pembinaan rangkaian profesional</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="explore-btn bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            📖 Terokai Peringkat Ini
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ages 24-34 -->
+                <div class="age-card relative bg-white rounded-2xl shadow-xl p-8 ml-16 md:ml-auto md:w-5/12 border border-gray-100" data-age="24-34">
+                    <div class="absolute -left-12 md:-right-8 top-8 w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white font-bold shadow-xl z-10 border-4 border-white">
+                        <div class="text-center">
+                            <div class="text-xs">24-34</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl mr-3">💼</span>
+                        <h3 class="text-xl font-bold text-orange-600">Peringkat Kerjaya Awal</h3>
+                    </div>
+                    <p class="text-gray-700 mb-6 text-lg">Dekad emas untuk membangunkan kemahiran profesional dan menaiki tangga kerjaya.</p>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="bg-orange-50 p-4 rounded-xl border border-orange-100">
+                            <div class="font-semibold text-orange-800 mb-3">🚀 Strategi Pembangunan Kerjaya:</div>
+                            <div class="space-y-2">
+                                <div class="flex items-start">
+                                    <span class="text-orange-500 mr-2 mt-1">📈</span>
+                                    <div>
+                                        <div class="font-medium text-sm">Permulaan Strategik</div>
+                                        <div class="text-xs text-gray-600">Pilih syarikat dengan potensi pertumbuhan</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <span class="text-orange-500 mr-2 mt-1">🎓</span>
+                                    <div>
+                                        <div class="font-medium text-sm">Pembelajaran Berterusan</div>
+                                        <div class="text-xs text-gray-600">Sijil profesional dan kemahiran baru</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <span class="text-orange-500 mr-2 mt-1">🤝</span>
+                                    <div>
+                                        <div class="font-medium text-sm">Rangkaian Profesional</div>
+                                        <div class="text-xs text-gray-600">Hubungan industri yang kukuh</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="explore-btn bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                        💪 Terokai Peringkat Ini
+                    </button>
+                </div>
+
+                <!-- Age 35+ -->
+                <div class="age-card relative bg-white rounded-2xl shadow-xl p-8 ml-16 md:ml-0 md:w-5/12 border border-gray-100" data-age="35+">
+                    <div class="absolute -left-12 md:-left-8 top-8 w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center text-white font-bold shadow-xl z-10 border-4 border-white">
+                        <div class="text-center">
+                            <div class="text-xs">35+</div>
+                        </div>
+                    </div>
+                    <div class="md:absolute md:right-full md:mr-12 md:top-0 md:w-full">
+                        <div class="flex items-center mb-4">
+                            <span class="text-3xl mr-3">🌟</span>
+                            <h3 class="text-xl font-bold text-green-600">Peringkat Kejayaan & Sumbangan</h3>
+                        </div>
+                        <p class="text-gray-700 mb-6 text-lg">Puncak kerjaya di mana anda menjadi pemimpin dan memberi sumbangan bermakna kepada masyarakat.</p>
+                        
+                        <div class="bg-green-50 p-6 rounded-xl border border-green-100 mb-6">
+                            <h4 class="font-bold text-green-800 mb-4">👑 Pencapaian Peringkat Ini:</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <span class="text-2xl mr-2">🏢</span>
+                                        <span class="text-sm">Jawatan kepimpinan senior</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-2xl mr-2">👨‍🏫</span>
+                                        <span class="text-sm">Mentor generasi muda</span>
+                                    </div>
+                                </div>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <span class="text-2xl mr-2">🏆</span>
+                                        <span class="text-sm">Pengiktirafan industri</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-2xl mr-2">❤️</span>
+                                        <span class="text-sm">Sumbangan komuniti</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="explore-btn bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            👑 Terokai Peringkat Ini
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Interactive Modal -->
+        <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-2xl max-w-4xl w-full shadow-2xl border border-gray-200">
+                <div class="modal-content max-h-[85vh] overflow-y-auto">
+                    <div class="sticky top-0 bg-white border-b border-gray-200 p-6 rounded-t-2xl">
+                        <div class="flex justify-between items-center">
+                            <h3 id="modalTitle" class="text-2xl font-bold text-gray-800"></h3>
+                            <button id="closeModal" class="text-gray-400 hover:text-gray-600 text-3xl font-light transition-colors">&times;</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div id="modalContent" class="space-y-6"></div>
+                        <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                            <button id="simulateBtn" class="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white py-4 px-8 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                                🎮 Mulakan Simulasi Interaktif
+                            </button>
+                            <button id="nextStageBtn" class="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-4 px-8 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 hidden">
+                                ➡️ Ke Peringkat Seterusnya
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Simulation Results -->
+        <div id="simulationResults" class="hidden bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-2xl p-8 mt-8 border border-blue-100">
+            <div class="text-center mb-6">
+                <div class="text-6xl mb-4 celebration">🎉</div>
+                <h3 class="text-3xl font-bold text-gray-800 mb-2">Keputusan Simulasi</h3>
+                <p class="text-gray-600">Analisis lengkap perjalanan anda</p>
+            </div>
+            <div id="resultsContent" class="space-y-6"></div>
+        </div>
+
+        <!-- Enhanced Control Panel -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 mt-8 text-center border border-gray-100">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">🎛️ Panel Kawalan</h3>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button id="resetBtn" class="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-8 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    🔄 Mula Semula Perjalanan
+                </button>
+                <button id="summaryBtn" class="bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white px-8 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    📊 Lihat Ringkasan
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        const flashCardsData = {
-            jalan: [
-                {
-                    title: "Lebuhraya Utara-Selatan (PLUS)",
-                    icon: "🛣️",
-                    front: "Lebuhraya Terpanjang Malaysia",
-                    back: "• Panjang: 966 km\n• Menghubungkan: Bukit Kayu Hitam - Johor Bahru\n• Melalui: 9 negeri\n• Dibuka: 1994\n• Operator: PLUS Malaysia Berhad\n• Kepentingan: Tulang belakang ekonomi negara"
-                },
-                {
-                    title: "Lebuhraya Pantai Timur (LPT)",
-                    icon: "🌊",
-                    front: "Menghubungkan Pantai Timur",
-                    back: "• Panjang: 433 km\n• Menghubungkan: Karak - Kuala Terengganu\n• Melalui: Pahang, Terengganu\n• Dibuka: 2015\n• Kepentingan: Membangunkan pantai timur\n• Mengurangkan masa perjalanan 2 jam"
-                },
-                {
-                    title: "Lebuhraya Lingkaran Tengah (MRR2)",
-                    icon: "🔄",
-                    front: "Lingkaran Kuala Lumpur",
-                    back: "• Panjang: 35.7 km\n• Lokasi: Sekitar Kuala Lumpur\n• Fungsi: Mengurangkan kesesakan\n• Menghubungkan: 8 lebuhraya utama\n• Kepentingan: Sistem pengangkutan bandar\n• Status: Percuma (tanpa tol)"
-                },
-                {
-                    title: "Lebuhraya Borneo (Pan Borneo)",
-                    icon: "🌴",
-                    front: "Projek Terbesar Sabah & Sarawak",
-                    back: "• Panjang: 2,239 km\n• Menghubungkan: Semanjung - Sabah - Sarawak\n• Fasa 1: 2015-2023\n• Kos: RM27 bilion\n• Kepentingan: Integrasi Borneo\n• Status: Dalam pembinaan"
-                }
-            ],
-            keretapi: [
-                {
-                    title: "KTM Komuter",
-                    icon: "🚊",
-                    front: "Perkhidmatan Komuter Lembah Klang",
-                    back: "• Laluan: 6 laluan utama\n• Stesen: 53 stesen\n• Kawasan: Lembah Klang\n• Penumpang: 120,000 harian\n• Operator: KTM Berhad\n• Kepentingan: Pengangkutan awam bandar"
-                },
-                {
-                    title: "ETS (Electric Train Service)",
-                    icon: "⚡",
-                    front: "Kereta Api Elektrik Berkelajuan Tinggi",
-                    back: "• Kelajuan: Sehingga 160 km/j\n• Laluan: KL Sentral - Padang Besar\n• Stesen: 8 stesen utama\n• Masa: KL-Ipoh (2 jam)\n• Dibuka: 2010\n• Kepentingan: Pengangkutan pantas"
-                },
-                {
-                    title: "LRT (Light Rail Transit)",
-                    icon: "🚇",
-                    front: "Sistem Rail Ringan KL",
-                    back: "• Laluan: 3 laluan (Ampang, Kelana Jaya, Sri Petaling)\n• Stesen: 74 stesen\n• Penumpang: 240,000 harian\n• Operator: Rapid Rail\n• Kepentingan: Mengurangkan kesesakan\n• Integrasi dengan MRT"
-                },
-                {
-                    title: "MRT (Mass Rapid Transit)",
-                    icon: "🚄",
-                    front: "Sistem Transit Massa Terkini",
-                    back: "• Laluan: 2 laluan (SBK, SSP)\n• Stesen: 62 stesen\n• Kapasiti: 1.2 juta penumpang\n• Teknologi: Tanpa pemandu\n• Dibuka: 2017\n• Kepentingan: Tulang belakang pengangkutan awam"
-                },
-                {
-                    title: "Sabah State Railway",
-                    icon: "🚂",
-                    front: "Kereta Api Bersejarah Sabah",
-                    back: "• Laluan: Tanjung Aru - Papar (134 km)\n• Dibina: 1896 (zaman British)\n• Lebar trek: 1000mm (meter gauge)\n• Stesen: 16 stesen\n• Kepentingan: Pelancongan & sejarah\n• Status: Kereta api tertua Malaysia"
-                },
-                {
-                    title: "North Borneo Railway",
-                    icon: "🚃",
-                    front: "Kereta Api Pelancongan Sabah",
-                    back: "• Laluan: Kota Kinabalu - Papar\n• Jarak: 134 km\n• Lokomotif: Steam engine 1954\n• Pengalaman: Nostalgia kolonial\n• Pemandangan: Pantai & kampung\n• Operator: Sutera Harbour Resort"
-                }
-            ],
-            lapangan: [
-                {
-                    title: "KLIA (Kuala Lumpur International Airport)",
-                    icon: "✈️",
-                    front: "Lapangan Terbang Utama Malaysia",
-                    back: "• Lokasi: Sepang, Selangor\n• Dibuka: 1998\n• Penumpang: 25 juta setahun\n• Terminal: 2 terminal utama\n• Landasan: 4 landasan\n• Status: Hub antarabangsa Asia"
-                },
-                {
-                    title: "Lapangan Terbang Senai",
-                    icon: "🛬",
-                    front: "Pintu Masuk Selatan Malaysia",
-                    back: "• Lokasi: Johor Bahru, Johor\n• Penumpang: 4 juta setahun\n• Kepentingan: Hubungan dengan Singapura\n• Syarikat: AirAsia, Malaysia Airlines\n• Status: Lapangan terbang antarabangsa\n• Kod: JHB"
-                },
-                {
-                    title: "Lapangan Terbang Kota Kinabalu",
-                    icon: "🏔️",
-                    front: "Hub Utama Sabah",
-                    back: "• Lokasi: Kota Kinabalu, Sabah\n• Penumpang: 8 juta setahun\n• Terminal: 2 terminal\n• Kepentingan: Pelancongan Borneo\n• Destinasi: 20+ negara\n• Kod: BKI"
-                },
-                {
-                    title: "Lapangan Terbang Kuching",
-                    icon: "🐱",
-                    front: "Pintu Masuk Sarawak",
-                    back: "• Lokasi: Kuching, Sarawak\n• Penumpang: 5 juta setahun\n• Kepentingan: Hub Sarawak\n• Destinasi: Asia Tenggara\n• Terminal: 1 terminal utama\n• Kod: KCH"
-                }
-            ],
-            pelabuhan: [
-                {
-                    title: "Pelabuhan Klang",
-                    icon: "🚢",
-                    front: "Pelabuhan Terbesar Malaysia",
-                    back: "• Lokasi: Selangor\n• Ranking: Top 12 dunia\n• Kontena: 13 juta TEU\n• Kepentingan: Hub perdagangan Asia\n• Kemudahan: 19 terminal\n• Operator: Westports, Northport"
-                },
-                {
-                    title: "Pelabuhan Tanjung Pelepas (PTP)",
-                    icon: "⚓",
-                    front: "Pelabuhan Kontena Terkini",
-                    back: "• Lokasi: Johor\n• Dibuka: 1999\n• Kontena: 9 juta TEU\n• Kedalaman: 17 meter\n• Kepentingan: Pelabuhan dalam air\n• Teknologi: Automasi tinggi"
-                },
-                {
-                    title: "Pelabuhan Bintulu",
-                    icon: "⛽",
-                    front: "Hub Gas Asli Cecair (LNG)",
-                    back: "• Lokasi: Sarawak\n• Kepentingan: Eksport LNG terbesar\n• Kemudahan: Terminal LNG\n• Industri: Petrokimia\n• Status: Pelabuhan industri\n• Operator: Bintulu Port"
-                },
-                {
-                    title: "Pelabuhan Kuantan",
-                    icon: "🏭",
-                    front: "Pelabuhan Pantai Timur Utama",
-                    back: "• Lokasi: Pahang\n• Kepentingan: ECRL terminus\n• Kemudahan: Multipurpose terminal\n• Industri: Kelapa sawit, getah\n• Projek: Malaysia-China Kuantan Industrial Park\n• Status: Pelabuhan dalam pembangunan"
-                }
-            ]
-        };
-
-        let currentCategory = 'jalan';
-        let flippedCards = new Set();
-        let viewedCards = new Set();
-
-        function getCardFrontColor(category) {
-            const colors = {
-                'jalan': 'from-red-100 to-orange-100 border-red-300',
-                'keretapi': 'from-blue-100 to-cyan-100 border-blue-300',
-                'lapangan': 'from-green-100 to-emerald-100 border-green-300',
-                'pelabuhan': 'from-purple-100 to-pink-100 border-purple-300'
-            };
-            return colors[category] || 'from-white to-gray-50 border-gray-200';
-        }
-
-        function getCardBackColor(category) {
-            const colors = {
-                'jalan': 'from-red-500 to-orange-600',
-                'keretapi': 'from-blue-500 to-cyan-600',
-                'lapangan': 'from-green-500 to-emerald-600',
-                'pelabuhan': 'from-purple-500 to-pink-600'
-            };
-            return colors[category] || 'from-blue-500 to-purple-600';
-        }
-
-        function showCategory(category) {
-            currentCategory = category;
-            
-            // Update button styles
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('ring-4', 'ring-white', 'ring-opacity-50');
-            });
-            document.getElementById(`btn-${category}`).classList.add('ring-4', 'ring-white', 'ring-opacity-50');
-            
-            renderCards();
-        }
-
-        function renderCards() {
-            const container = document.getElementById('flashCardsContainer');
-            const cards = flashCardsData[currentCategory];
-            
-            container.innerHTML = cards.map((card, index) => `
-                <div class="flip-card" id="card-${currentCategory}-${index}">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front bg-gradient-to-br ${getCardFrontColor(currentCategory)} shadow-xl border-2 border-opacity-30 cursor-pointer hover:shadow-2xl transition-all transform hover:scale-105 hover:rotate-1">
-                            <div class="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4 animate-bounce">${card.icon}</div>
-                            <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-800 mb-2 text-center px-2 leading-tight">${card.title}</h3>
-                            <p class="text-gray-700 text-center font-medium text-sm sm:text-base px-2 leading-snug">${card.front}</p>
-                            <div class="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 text-xl sm:text-2xl animate-pulse">🔄</div>
-                        </div>
-                        <div class="flip-card-back bg-gradient-to-br ${getCardBackColor(currentCategory)} text-white shadow-xl cursor-pointer">
-                            <div class="text-3xl sm:text-4xl mb-3 sm:mb-4">${card.icon}</div>
-                            <h3 class="text-base sm:text-lg font-bold mb-3 sm:mb-4 px-2">${card.title}</h3>
-                            <div class="text-xs sm:text-sm leading-relaxed whitespace-pre-line text-left px-2 overflow-y-auto max-h-48 sm:max-h-56">${card.back}</div>
-                            <div class="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 text-xl sm:text-2xl">✅</div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-
-            // Add click handlers
-            cards.forEach((card, index) => {
-                const cardElement = document.getElementById(`card-${currentCategory}-${index}`);
-                cardElement.addEventListener('click', () => flipCard(currentCategory, index));
-            });
-        }
-
-        function flipCard(category, index) {
-            const cardId = `card-${category}-${index}`;
-            const cardElement = document.getElementById(cardId);
-            
-            cardElement.classList.toggle('flipped');
-            
-            const cardKey = `${category}-${index}`;
-            if (cardElement.classList.contains('flipped')) {
-                flippedCards.add(cardKey);
-                viewedCards.add(cardKey);
-            } else {
-                flippedCards.delete(cardKey);
-            }
-            
-            updateProgress();
-        }
-
-        function flipAllCards() {
-            const cards = flashCardsData[currentCategory];
-            cards.forEach((card, index) => {
-                const cardId = `card-${currentCategory}-${index}`;
-                const cardElement = document.getElementById(cardId);
-                const cardKey = `${currentCategory}-${index}`;
-                
-                if (!cardElement.classList.contains('flipped')) {
-                    cardElement.classList.add('flipped');
-                    flippedCards.add(cardKey);
-                    viewedCards.add(cardKey);
-                }
-            });
-            updateProgress();
-        }
-
-        function updateProgress() {
-            const totalCards = Object.values(flashCardsData).flat().length;
-            const viewedCount = viewedCards.size;
-            const percentage = (viewedCount / totalCards) * 100;
-            
-            document.getElementById('progressBar').style.width = `${percentage}%`;
-            document.getElementById('progressText').textContent = `${viewedCount}/${totalCards}`;
-        }
-
-        function resetProgress() {
-            flippedCards.clear();
-            viewedCards.clear();
-            
-            document.querySelectorAll('.flip-card').forEach(card => {
-                card.classList.remove('flipped');
-            });
-            
-            updateProgress();
-        }
-
-        function showStats() {
-            const totalCards = Object.values(flashCardsData).flat().length;
-            const viewedCount = viewedCards.size;
-            const percentage = Math.round((viewedCount / totalCards) * 100);
-            
-            // Calculate category progress
-            const categoryStats = {};
-            Object.keys(flashCardsData).forEach(category => {
-                const categoryCards = flashCardsData[category].length;
-                const categoryViewed = Array.from(viewedCards).filter(card => card.startsWith(category)).length;
-                const categoryPercentage = Math.round((categoryViewed / categoryCards) * 100);
-                
-                const categoryNames = {
-                    'jalan': 'Jaringan Jalan Raya',
-                    'keretapi': 'Landasan Kereta Api',
-                    'lapangan': 'Lapangan Terbang',
-                    'pelabuhan': 'Pelabuhan Utama'
-                };
-                
-                categoryStats[categoryNames[category]] = {
-                    viewed: categoryViewed,
-                    total: categoryCards,
-                    percentage: categoryPercentage
-                };
-            });
-
-            const statsContent = document.getElementById('statsContent');
-            statsContent.innerHTML = `
-                <div class="text-center mb-4">
-                    <div class="text-4xl font-bold text-blue-600">${percentage}%</div>
-                    <div class="text-gray-600">Kemajuan Keseluruhan</div>
-                    <div class="text-sm text-gray-500">${viewedCount} daripada ${totalCards} kad</div>
-                </div>
-                
-                <div class="space-y-3">
-                    ${Object.entries(categoryStats).map(([name, stats]) => `
-                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                            <span class="font-medium text-gray-700">${name}</span>
-                            <div class="text-right">
-                                <div class="font-bold text-gray-800">${stats.percentage}%</div>
-                                <div class="text-xs text-gray-500">${stats.viewed}/${stats.total}</div>
+        let currentStage = 0;
+        const stages = ['13-17', '18-19', '20-23', '24-34', '35+'];
+        const maxScorePerStage = 10;
+        const totalMaxScore = stages.length * maxScorePerStage;
+        
+        const stageData = {
+            '13-17': {
+                title: '🏆 Peringkat Remaja Awal (13-17 tahun)',
+                content: `
+                    <div class="space-y-6">
+                        <!-- Flow Chart Peringkat -->
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
+                            <h4 class="text-xl font-bold text-blue-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">🗺️</span>
+                                Flow Perjalanan Peringkat 13-17 Tahun
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+                                <div class="bg-white p-4 rounded-lg text-center border-2 border-blue-200">
+                                    <div class="text-2xl mb-2">🔍</div>
+                                    <div class="font-semibold text-sm text-blue-800">EKSPLORASI</div>
+                                    <div class="text-xs text-gray-600 mt-1">Terokai minat & bakat</div>
+                                </div>
+                                <div class="hidden md:flex items-center justify-center">
+                                    <div class="w-full h-1 bg-blue-300 rounded"></div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center border-2 border-green-200">
+                                    <div class="text-2xl mb-2">🎯</div>
+                                    <div class="font-semibold text-sm text-green-800">FOKUS</div>
+                                    <div class="text-xs text-gray-600 mt-1">Pilih 2-3 bidang utama</div>
+                                </div>
+                                <div class="hidden md:flex items-center justify-center">
+                                    <div class="w-full h-1 bg-green-300 rounded"></div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg text-center border-2 border-purple-200">
+                                    <div class="text-2xl mb-2">🏆</div>
+                                    <div class="font-semibold text-sm text-purple-800">PENCAPAIAN</div>
+                                    <div class="text-xs text-gray-600 mt-1">Sertai pertandingan</div>
+                                </div>
                             </div>
                         </div>
-                    `).join('')}
-                </div>
-                
-                <div class="mt-4 p-3 bg-blue-50 rounded-lg text-center">
-                    <div class="text-sm text-blue-700">
-                        ${viewedCount === totalCards ? 
-                            '🎉 Tahniah! Anda telah menyelesaikan semua kad!' : 
-                            `💪 Teruskan usaha! ${totalCards - viewedCount} kad lagi untuk diselesaikan.`
-                        }
+
+                        <!-- Objektif Utama -->
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
+                            <h4 class="text-xl font-bold text-blue-800 mb-4">🎯 Objektif Utama Peringkat Ini</h4>
+                            <p class="text-gray-700 mb-4">Pada peringkat remaja awal, fokus utama adalah untuk meneroka pelbagai bidang dan mengenal pasti bakat serta minat yang sebenar. Ini adalah masa terbaik untuk mencuba pelbagai aktiviti tanpa tekanan yang besar.</p>
+                            
+                            <!-- Checklist Pencapaian -->
+                            <div class="bg-white p-4 rounded-lg mt-4">
+                                <h5 class="font-bold text-blue-700 mb-3">📋 Checklist Pencapaian Wajib:</h5>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div class="flex items-center p-2 bg-blue-50 rounded">
+                                        <input type="checkbox" class="mr-2" id="check1">
+                                        <label for="check1" class="text-sm">Sertai sekurang-kurangnya 3 aktiviti berbeza</label>
+                                    </div>
+                                    <div class="flex items-center p-2 bg-blue-50 rounded">
+                                        <input type="checkbox" class="mr-2" id="check2">
+                                        <label for="check2" class="text-sm">Kekalkan prestasi akademik 80% ke atas</label>
+                                    </div>
+                                    <div class="flex items-center p-2 bg-blue-50 rounded">
+                                        <input type="checkbox" class="mr-2" id="check3">
+                                        <label for="check3" class="text-sm">Sertai 1 pertandingan setiap tahun</label>
+                                    </div>
+                                    <div class="flex items-center p-2 bg-blue-50 rounded">
+                                        <input type="checkbox" class="mr-2" id="check4">
+                                        <label for="check4" class="text-sm">Bina portfolio pencapaian</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                <h5 class="font-bold text-blue-600 mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">🔬</span>
+                                    Bidang Akademik & Sains
+                                </h5>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Pertandingan Sains Sekolah</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Olimpiad Matematik</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Projek Sains Fair</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Kelab Robotik</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Program STEM</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                <h5 class="font-bold text-purple-600 mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">🎨</span>
+                                    Bidang Kreatif & Seni
+                                </h5>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Pertandingan Lukisan</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Penulisan Kreatif</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Persembahan Teater</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Kelab Muzik</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Fotografi Digital</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                <h5 class="font-bold text-green-600 mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">🏃‍♂️</span>
+                                    Bidang Sukan & Kesihatan
+                                </h5>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Sukan Sekolah</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Pertandingan Atletik</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Kelab Kesihatan</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Program Fitness</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Sukan Air</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                <h5 class="font-bold text-orange-600 mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">👥</span>
+                                    Bidang Kepimpinan & Sosial
+                                </h5>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Pengawas Sekolah</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Kelab Khidmat Masyarakat</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Program Sukarelawan</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Debat & Pidato</li>
+                                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Model United Nations</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Timeline Tahunan -->
+                        <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-xl border border-purple-200">
+                            <h5 class="font-bold text-purple-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">📅</span>
+                                Timeline Perancangan 5 Tahun (13-17)
+                            </h5>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg border-l-4 border-blue-400">
+                                    <div class="flex items-center mb-2">
+                                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Tingkatan 1</span>
+                                        <span class="text-gray-600 text-sm">Umur 13 tahun</span>
+                                    </div>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Adaptasi dengan persekitaran sekolah menengah</li>
+                                        <li>• Sertai 3-4 kelab/persatuan untuk eksplorasi</li>
+                                        <li>• Kenal pasti kekuatan dalam subjek akademik</li>
+                                        <li>• Bina kemahiran asas komunikasi dan sosial</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-white p-4 rounded-lg border-l-4 border-green-400">
+                                    <div class="flex items-center mb-2">
+                                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Tingkatan 2</span>
+                                        <span class="text-gray-600 text-sm">Umur 14 tahun</span>
+                                    </div>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Fokus pada 2-3 bidang yang paling diminati</li>
+                                        <li>• Sertai pertandingan peringkat sekolah</li>
+                                        <li>• Ambil jawatan kecil dalam kelab/persatuan</li>
+                                        <li>• Mulakan portfolio pencapaian</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-white p-4 rounded-lg border-l-4 border-yellow-400">
+                                    <div class="flex items-center mb-2">
+                                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Tingkatan 3</span>
+                                        <span class="text-gray-600 text-sm">Umur 15 tahun</span>
+                                    </div>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Persiapan intensif untuk PMR/PT3</li>
+                                        <li>• Sertai pertandingan peringkat daerah/negeri</li>
+                                        <li>• Pilih aliran untuk tingkatan 4 (Sains/Sastera/Teknikal)</li>
+                                        <li>• Kembangkan kemahiran kepimpinan</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-white p-4 rounded-lg border-l-4 border-orange-400">
+                                    <div class="flex items-center mb-2">
+                                        <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Tingkatan 4</span>
+                                        <span class="text-gray-600 text-sm">Umur 16 tahun</span>
+                                    </div>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Adaptasi dengan subjek aliran yang dipilih</li>
+                                        <li>• Sertai pertandingan peringkat kebangsaan</li>
+                                        <li>• Mulakan penyelidikan atau projek inovasi</li>
+                                        <li>• Cari mentor dalam bidang yang diminati</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-white p-4 rounded-lg border-l-4 border-red-400">
+                                    <div class="flex items-center mb-2">
+                                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Tingkatan 5</span>
+                                        <span class="text-gray-600 text-sm">Umur 17 tahun</span>
+                                    </div>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Fokus pada persiapan SPM</li>
+                                        <li>• Kekalkan aktiviti kokurikulum untuk portfolio</li>
+                                        <li>• Mulakan penyelidikan tentang pilihan kerjaya</li>
+                                        <li>• Persiapan untuk peringkat pra-universiti</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panduan Rujukan Lengkap -->
+                        <div class="bg-gradient-to-r from-indigo-50 to-blue-50 p-6 rounded-xl border border-indigo-200">
+                            <h5 class="font-bold text-indigo-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">📚</span>
+                                Panduan Rujukan & Sumber Maklumat
+                            </h5>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <h6 class="font-semibold text-blue-700 mb-2">🌐 Portal & Laman Web</h6>
+                                        <ul class="text-sm text-gray-700 space-y-1">
+                                            <li>• Portal MyFuture (myfuture.edu.my)</li>
+                                            <li>• Laman web Kementerian Pendidikan</li>
+                                            <li>• Portal Kerjaya Malaysia</li>
+                                            <li>• Laman web universiti tempatan</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <h6 class="font-semibold text-green-700 mb-2">📖 Buku & Majalah</h6>
+                                        <ul class="text-sm text-gray-700 space-y-1">
+                                            <li>• "Panduan Kerjaya Malaysia"</li>
+                                            <li>• Majalah Pendidikan</li>
+                                            <li>• Buku motivasi remaja</li>
+                                            <li>• Biografi tokoh berjaya</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-4">
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <h6 class="font-semibold text-purple-700 mb-2">👥 Sumber Manusia</h6>
+                                        <ul class="text-sm text-gray-700 space-y-1">
+                                            <li>• Guru Kaunseling sekolah</li>
+                                            <li>• Guru mata pelajaran</li>
+                                            <li>• Alumni sekolah yang berjaya</li>
+                                            <li>• Profesional dalam bidang berkaitan</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <h6 class="font-semibold text-orange-700 mb-2">🎯 Program & Aktiviti</h6>
+                                        <ul class="text-sm text-gray-700 space-y-1">
+                                            <li>• Hari Kerjaya sekolah</li>
+                                            <li>• Lawatan industri</li>
+                                            <li>• Program mentorship</li>
+                                            <li>• Kamp motivasi dan kepimpinan</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-yellow-50 p-6 rounded-xl border border-yellow-200">
+                            <h5 class="font-bold text-yellow-800 mb-3 flex items-center">
+                                <span class="text-2xl mr-2">💡</span>
+                                Tips Kejayaan di Peringkat Ini
+                            </h5>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-yellow-700">
+                                <div>
+                                    <p class="font-medium mb-2">🎯 Strategi Pemilihan:</p>
+                                    <ul class="space-y-1">
+                                        <li>• Pilih 2-3 bidang yang paling diminati</li>
+                                        <li>• Jangan terlalu banyak aktiviti sekaligus</li>
+                                        <li>• Fokus pada kualiti, bukan kuantiti</li>
+                                        <li>• Seimbangkan akademik dan kokurikulum</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p class="font-medium mb-2">📈 Pembangunan Diri:</p>
+                                    <ul class="space-y-1">
+                                        <li>• Belajar dari kegagalan</li>
+                                        <li>• Minta feedback dari guru</li>
+                                        <li>• Dokumentasikan pencapaian</li>
+                                        <li>• Bina kemahiran komunikasi</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p class="font-medium mb-2">🤝 Rangkaian:</p>
+                                    <ul class="space-y-1">
+                                        <li>• Bina hubungan dengan guru</li>
+                                        <li>• Kenali rakan sebaya yang positif</li>
+                                        <li>• Sertai komuniti online yang sihat</li>
+                                        <li>• Cari mentor dalam bidang minat</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                simulations: [
+                    {
+                        question: 'Anda berminat menjadi doktor. Manakah aktiviti TERBAIK untuk anda sertai pada peringkat ini?',
+                        options: [
+                            { text: '🔬 Pertandingan Sains Biologi + Program Sukarelawan Hospital', points: 10, feedback: 'Pilihan cemerlang! Kombinasi pengetahuan sains dan pengalaman praktikal dalam bidang perubatan akan membina asas yang kukuh untuk cita-cita anda.' },
+                            { text: '🎭 Kelab Drama + Kelab Muzik', points: 4, feedback: 'Aktiviti kreatif ini baik untuk kemahiran komunikasi, tetapi kurang berkaitan langsung dengan bidang perubatan yang anda impikan.' },
+                            { text: '🏃‍♂️ Sukan Sekolah + Kelab Fotografi', points: 6, feedback: 'Aktiviti yang sihat dan kreatif, tetapi tidak memberi asas yang diperlukan untuk bidang perubatan. Pertimbangkan aktiviti yang lebih berkaitan dengan sains.' }
+                        ]
+                    },
+                    {
+                        question: 'Anda ingin menjadi jurutera. Apakah kombinasi aktiviti yang paling sesuai?',
+                        options: [
+                            { text: '🤖 Kelab Robotik + Olimpiad Matematik + Projek Sains Fair', points: 10, feedback: 'Pilihan terbaik! Kombinasi teknologi, matematik, dan sains akan memberi anda asas yang sangat kukuh untuk bidang kejuruteraan.' },
+                            { text: '📚 Kelab Bahasa + Debat + Penulisan Kreatif', points: 3, feedback: 'Kemahiran komunikasi penting, tetapi untuk kejuruteraan, anda perlu lebih fokus pada matematik, sains, dan teknologi.' },
+                            { text: '🎨 Kelab Seni + Muzik + Teater', points: 2, feedback: 'Kreativiti penting dalam kejuruteraan, tetapi anda perlu asas teknikal yang kuat. Pertimbangkan aktiviti STEM.' }
+                        ]
+                    }
+                ]
+            },
+            '18-19': {
+                title: '🎓 Peringkat Pra-Universiti (18-19 tahun)',
+                content: `
+                    <div class="space-y-6">
+                        <!-- Flow Chart Peringkat -->
+                        <div class="bg-gradient-to-r from-purple-50 to-indigo-50 p-6 rounded-xl border border-purple-200">
+                            <h4 class="text-xl font-bold text-purple-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">🗺️</span>
+                                Flow Perjalanan Peringkat 18-19 Tahun
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-7 gap-2 mb-6">
+                                <div class="bg-white p-3 rounded-lg text-center border-2 border-purple-200">
+                                    <div class="text-xl mb-1">📊</div>
+                                    <div class="font-semibold text-xs text-purple-800">ANALISIS SPM</div>
+                                </div>
+                                <div class="hidden md:flex items-center justify-center">
+                                    <div class="w-full h-1 bg-purple-300 rounded"></div>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg text-center border-2 border-blue-200">
+                                    <div class="text-xl mb-1">🎯</div>
+                                    <div class="font-semibold text-xs text-blue-800">PILIH PROGRAM</div>
+                                </div>
+                                <div class="hidden md:flex items-center justify-center">
+                                    <div class="w-full h-1 bg-blue-300 rounded"></div>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg text-center border-2 border-green-200">
+                                    <div class="text-xl mb-1">📝</div>
+                                    <div class="font-semibold text-xs text-green-800">MOHON</div>
+                                </div>
+                                <div class="hidden md:flex items-center justify-center">
+                                    <div class="w-full h-1 bg-green-300 rounded"></div>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg text-center border-2 border-orange-200">
+                                    <div class="text-xl mb-1">🎓</div>
+                                    <div class="font-semibold text-xs text-orange-800">MULA BELAJAR</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-purple-50 to-indigo-50 p-6 rounded-xl border border-purple-200">
+                            <h4 class="text-xl font-bold text-purple-800 mb-4">🎯 Kepentingan Kritikal Peringkat Ini</h4>
+                            <p class="text-gray-700 mb-4">Peringkat 18-19 tahun adalah masa paling kritikal dalam menentukan hala tuju pendidikan tinggi. Keputusan yang dibuat di sini akan mempengaruhi 4-6 tahun akan datang dan membentuk asas kerjaya anda.</p>
+                            
+                            <!-- Checklist Keputusan Penting -->
+                            <div class="bg-white p-4 rounded-lg mt-4">
+                                <h5 class="font-bold text-purple-700 mb-3">✅ Checklist Keputusan Penting:</h5>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div class="flex items-center p-2 bg-purple-50 rounded">
+                                        <input type="checkbox" class="mr-2" id="check5">
+                                        <label for="check5" class="text-sm">Analisis keputusan SPM dengan teliti</label>
+                                    </div>
+                                    <div class="flex items-center p-2 bg-purple-50 rounded">
+                                        <input type="checkbox" class="mr-2" id="check6">
+                                        <label for="check6" class="text-sm">Kenalpasti bidang kerjaya yang diminati</label>
+                                    </div>
+                                    <div class="flex items-center p-2 bg-purple-50 rounded">
+                                        <input type="checkbox" class="mr-2" id="check7">
+                                        <label for="check7" class="text-sm">Kaji syarat kemasukan universiti</label>
+                                    </div>
+                                    <div class="flex items-center p-2 bg-purple-50 rounded">
+                                        <input type="checkbox" class="mr-2" id="check8">
+                                        <label for="check8" class="text-sm">Buat perancangan kewangan</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-blue-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">🔬</span>
+                                        Program Asasi Sains
+                                    </h5>
+                                    <div class="space-y-3">
+                                        <div class="bg-blue-50 p-3 rounded-lg">
+                                            <p class="font-medium text-blue-800 mb-1">Sesuai untuk:</p>
+                                            <ul class="text-sm text-blue-700 space-y-1">
+                                                <li>• Perubatan & Pergigian</li>
+                                                <li>• Kejuruteraan</li>
+                                                <li>• Sains Tulen</li>
+                                                <li>• Farmasi</li>
+                                                <li>• Sains Komputer</li>
+                                            </ul>
+                                        </div>
+                                        <div class="text-sm text-gray-600">
+                                            <p><strong>Tempoh:</strong> 1-2 tahun</p>
+                                            <p><strong>Fokus:</strong> Matematik, Fizik, Kimia, Biologi</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-green-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">📚</span>
+                                        Program Asasi Sastera
+                                    </h5>
+                                    <div class="space-y-3">
+                                        <div class="bg-green-50 p-3 rounded-lg">
+                                            <p class="font-medium text-green-800 mb-1">Sesuai untuk:</p>
+                                            <ul class="text-sm text-green-700 space-y-1">
+                                                <li>• Undang-undang</li>
+                                                <li>• Pendidikan</li>
+                                                <li>• Sastera & Bahasa</li>
+                                                <li>• Sains Sosial</li>
+                                                <li>• Komunikasi</li>
+                                            </ul>
+                                        </div>
+                                        <div class="text-sm text-gray-600">
+                                            <p><strong>Tempoh:</strong> 1-2 tahun</p>
+                                            <p><strong>Fokus:</strong> Bahasa, Sejarah, Geografi, Ekonomi</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-orange-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">🏛️</span>
+                                        Matrikulasi
+                                    </h5>
+                                    <div class="space-y-3">
+                                        <div class="bg-orange-50 p-3 rounded-lg">
+                                            <p class="font-medium text-orange-800 mb-2">Kelebihan:</p>
+                                            <ul class="text-sm text-orange-700 space-y-1">
+                                                <li>• Program kerajaan (percuma)</li>
+                                                <li>• Tempoh singkat (1 tahun)</li>
+                                                <li>• Pengiktirafan universiti tempatan</li>
+                                                <li>• Sistem markah yang kompetitif</li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-red-50 p-3 rounded-lg">
+                                            <p class="font-medium text-red-800 mb-2">Cabaran:</p>
+                                            <ul class="text-sm text-red-700 space-y-1">
+                                                <li>• Sangat kompetitif</li>
+                                                <li>• Tempat terhad</li>
+                                                <li>• Tekanan akademik tinggi</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-purple-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">📖</span>
+                                        STPM
+                                    </h5>
+                                    <div class="space-y-3">
+                                        <div class="bg-purple-50 p-3 rounded-lg">
+                                            <p class="font-medium text-purple-800 mb-2">Kelebihan:</p>
+                                            <ul class="text-sm text-purple-700 space-y-1">
+                                                <li>• Pengiktirafan antarabangsa</li>
+                                                <li>• Fleksibiliti subjek</li>
+                                                <li>• Pembelajaran mendalam</li>
+                                                <li>• Persediaan universiti yang baik</li>
+                                            </ul>
+                                        </div>
+                                        <div class="text-sm text-gray-600">
+                                            <p><strong>Tempoh:</strong> 1.5 tahun</p>
+                                            <p><strong>Format:</strong> 3 penggal, peperiksaan berperingkat</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Timeline Keputusan -->
+                        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-xl border border-indigo-200">
+                            <h5 class="font-bold text-indigo-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">📅</span>
+                                Timeline Keputusan Kritikal (18-19 Tahun)
+                            </h5>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-lg border-l-4 border-red-400">
+                                    <div class="flex items-center mb-2">
+                                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Mac - April</span>
+                                        <span class="text-gray-600 text-sm">Keputusan SPM</span>
+                                    </div>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Analisis keputusan SPM dengan teliti</li>
+                                        <li>• Kenalpasti kekuatan dan kelemahan</li>
+                                        <li>• Berbincang dengan keluarga dan guru</li>
+                                        <li>• Mulakan penyelidikan pilihan program</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-white p-4 rounded-lg border-l-4 border-orange-400">
+                                    <div class="flex items-center mb-2">
+                                        <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Mei - Jun</span>
+                                        <span class="text-gray-600 text-sm">Penyelidikan & Permohonan</span>
+                                    </div>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Kaji syarat kemasukan setiap program</li>
+                                        <li>• Hadiri ekspo pendidikan dan hari terbuka</li>
+                                        <li>• Mohon program asasi/matrikulasi</li>
+                                        <li>• Sediakan dokumen yang diperlukan</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-white p-4 rounded-lg border-l-4 border-yellow-400">
+                                    <div class="flex items-center mb-2">
+                                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Jul - Ogos</span>
+                                        <span class="text-gray-600 text-sm">Keputusan & Persiapan</span>
+                                    </div>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Terima keputusan permohonan</li>
+                                        <li>• Buat keputusan akhir program</li>
+                                        <li>• Urus pendaftaran dan yuran</li>
+                                        <li>• Persiapan mental dan fizikal</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-white p-4 rounded-lg border-l-4 border-green-400">
+                                    <div class="flex items-center mb-2">
+                                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Sep - Okt</span>
+                                        <span class="text-gray-600 text-sm">Mula Program</span>
+                                    </div>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Orientasi dan adaptasi</li>
+                                        <li>• Kenali rakan dan pensyarah</li>
+                                        <li>• Sertai aktiviti dan kelab</li>
+                                        <li>• Tetapkan matlamat akademik</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panduan Rujukan -->
+                        <div class="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-xl border border-blue-200">
+                            <h5 class="font-bold text-blue-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">📚</span>
+                                Panduan Rujukan & Sumber Maklumat
+                            </h5>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <h6 class="font-semibold text-blue-700 mb-2">🌐 Portal Rasmi</h6>
+                                        <ul class="text-sm text-gray-700 space-y-1">
+                                            <li>• Portal UPU (upu.edu.my)</li>
+                                            <li>• Portal Matrikulasi KPM</li>
+                                            <li>• Laman web universiti awam</li>
+                                            <li>• Portal MyFuture</li>
+                                            <li>• Laman web PTPTN</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <h6 class="font-semibold text-green-700 mb-2">📊 Maklumat Kerjaya</h6>
+                                        <ul class="text-sm text-gray-700 space-y-1">
+                                            <li>• JobStreet Career Guide</li>
+                                            <li>• Portal Kerjaya Malaysia</li>
+                                            <li>• LinkedIn Industry Insights</li>
+                                            <li>• Laporan gaji industri</li>
+                                            <li>• Statistik pekerjaan DOSM</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-4">
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <h6 class="font-semibold text-purple-700 mb-2">💰 Bantuan Kewangan</h6>
+                                        <ul class="text-sm text-gray-700 space-y-1">
+                                            <li>• PTPTN (pinjaman pendidikan)</li>
+                                            <li>• Biasiswa JPA</li>
+                                            <li>• Biasiswa Yayasan</li>
+                                            <li>• Biasiswa korporat</li>
+                                            <li>• Bantuan Zakat</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <h6 class="font-semibold text-orange-700 mb-2">🎯 Ujian Psikometrik</h6>
+                                        <ul class="text-sm text-gray-700 space-y-1">
+                                            <li>• MBTI (Myers-Briggs)</li>
+                                            <li>• Holland Code (RIASEC)</li>
+                                            <li>• Ujian minat kerjaya online</li>
+                                            <li>• Konsultasi kaunselor kerjaya</li>
+                                            <li>• Assessment center</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-xl border border-yellow-200">
+                            <h5 class="font-bold text-yellow-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">🎯</span>
+                                Panduan Membuat Keputusan Bijak
+                            </h5>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white p-4 rounded-lg">
+                                    <h6 class="font-semibold text-blue-600 mb-2">1️⃣ Kenali Diri</h6>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Kekuatan akademik</li>
+                                        <li>• Minat sebenar</li>
+                                        <li>• Gaya pembelajaran</li>
+                                        <li>• Matlamat jangka panjang</li>
+                                        <li>• Nilai dan personaliti</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg">
+                                    <h6 class="font-semibold text-green-600 mb-2">2️⃣ Kaji Pilihan</h6>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Syarat kemasukan universiti</li>
+                                        <li>• Kos dan tempoh program</li>
+                                        <li>• Kadar kejayaan graduan</li>
+                                        <li>• Peluang kerjaya</li>
+                                        <li>• Prospek gaji masa depan</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg">
+                                    <h6 class="font-semibold text-purple-600 mb-2">3️⃣ Buat Keputusan</h6>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Berbincang dengan keluarga</li>
+                                        <li>• Dapatkan nasihat guru</li>
+                                        <li>• Pertimbang faktor kewangan</li>
+                                        <li>• Buat pilihan backup</li>
+                                        <li>• Tetapkan matlamat jelas</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                simulations: [
+                    {
+                        question: 'Anda cemerlang dalam Matematik dan Fizik, dan bercita-cita menjadi jurutera. Manakah pilihan program yang PALING strategik?',
+                        options: [
+                            { text: '🔬 Program Asasi Sains di universiti terkemuka dengan fokus kejuruteraan', points: 10, feedback: 'Pilihan terbaik! Program asasi sains akan memberi anda asas matematik dan fizik yang kukuh, serta akses langsung ke program kejuruteraan yang berkualiti.' },
+                            { text: '📚 Program Asasi Sastera kerana lebih mudah', points: 2, feedback: 'Pilihan ini tidak selaras dengan cita-cita dan kekuatan anda. Kejuruteraan memerlukan asas sains dan matematik yang kuat.' },
+                            { text: '🏛️ Matrikulasi kerana percuma, walaupun sangat kompetitif', points: 7, feedback: 'Pilihan yang baik dari segi kewangan, tetapi persaingan yang tinggi mungkin menjejaskan peluang anda. Pertimbangkan juga pilihan backup.' }
+                        ]
+                    },
+                    {
+                        question: 'Keluarga anda menghadapi masalah kewangan, tetapi anda ingin melanjutkan pelajaran ke universiti. Apakah strategi terbaik?',
+                        options: [
+                            { text: '🎯 Mohon Matrikulasi (percuma) + cari biasiswa untuk universiti', points: 10, feedback: 'Strategi cemerlang! Matrikulasi percuma akan menjimatkan kos, dan prestasi baik akan membuka peluang biasiswa untuk universiti.' },
+                            { text: '💼 Bekerja dahulu, simpan wang, baru sambung belajar kemudian', points: 5, feedback: 'Pilihan praktikal tetapi mungkin kehilangan momentum akademik. Lebih baik cari cara untuk terus belajar sambil menguruskan kewangan.' },
+                            { text: '🏦 Ambil pinjaman pendidikan untuk program swasta', points: 3, feedback: 'Berisiko tinggi dari segi kewangan. Lebih baik manfaatkan program kerajaan yang lebih murah dahulu.' }
+                        ]
+                    }
+                ]
+            },
+            '20-23': {
+                title: '📚 Peringkat Universiti (20-23 tahun)',
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-pink-50 to-rose-50 p-6 rounded-xl border border-pink-200">
+                            <h4 class="text-xl font-bold text-pink-800 mb-4">🎯 Peringkat Pembentukan Kepakaran</h4>
+                            <p class="text-gray-700 mb-4">Universiti bukan sekadar tempat untuk mendapat ijazah, tetapi tempat untuk membangunkan kepakaran, kemahiran insaniah, dan rangkaian profesional yang akan menentukan trajektori kerjaya anda.</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-blue-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">📖</span>
+                                        Kecemerlangan Akademik
+                                    </h5>
+                                    <div class="space-y-3">
+                                        <div class="bg-blue-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-blue-800 mb-2">Strategi Pembelajaran:</h6>
+                                            <ul class="text-sm text-blue-700 space-y-1">
+                                                <li>• Hadiri semua kuliah dan tutorial</li>
+                                                <li>• Bentuk kumpulan belajar yang produktif</li>
+                                                <li>• Manfaatkan waktu pejabat pensyarah</li>
+                                                <li>• Gunakan perpustakaan dan sumber digital</li>
+                                                <li>• Praktik pembelajaran aktif</li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-green-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-green-800 mb-2">Sasaran Pencapaian:</h6>
+                                            <ul class="text-sm text-green-700 space-y-1">
+                                                <li>• CGPA 3.5 ke atas (First Class)</li>
+                                                <li>• Senarai Dekan setiap semester</li>
+                                                <li>• Projek tahun akhir yang cemerlang</li>
+                                                <li>• Penerbitan atau persembahan penyelidikan</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-purple-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">🔬</span>
+                                        Penyelidikan & Inovasi
+                                    </h5>
+                                    <div class="space-y-3">
+                                        <div class="bg-purple-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-purple-800 mb-2">Peluang Penyelidikan:</h6>
+                                            <ul class="text-sm text-purple-700 space-y-1">
+                                                <li>• Projek penyelidikan dengan pensyarah</li>
+                                                <li>• Program penyelidikan sarjana muda</li>
+                                                <li>• Pertandingan inovasi dan ciptaan</li>
+                                                <li>• Kolaborasi dengan industri</li>
+                                                <li>• Penerbitan jurnal pelajar</li>
+                                            </ul>
+                                        </div>
+                                        <div class="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
+                                            <p><strong>💡 Tip:</strong> Penyelidikan membezakan anda daripada graduan lain dan membuka peluang untuk melanjutkan pelajaran atau kerjaya dalam R&D.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-orange-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">💼</span>
+                                        Pengalaman Industri
+                                    </h5>
+                                    <div class="space-y-3">
+                                        <div class="bg-orange-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-orange-800 mb-2">Program Latihan:</h6>
+                                            <ul class="text-sm text-orange-700 space-y-1">
+                                                <li>• Latihan industri (3-6 bulan)</li>
+                                                <li>• Program koperasi (co-op)</li>
+                                                <li>• Internship musim cuti</li>
+                                                <li>• Projek kolaborasi universiti-industri</li>
+                                                <li>• Program mentorship profesional</li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-yellow-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-yellow-800 mb-2">Manfaat Latihan Industri:</h6>
+                                            <ul class="text-sm text-yellow-700 space-y-1">
+                                                <li>• Pengalaman kerja sebenar</li>
+                                                <li>• Rangkaian profesional</li>
+                                                <li>• Kemahiran praktikal</li>
+                                                <li>• Peluang tawaran kerja</li>
+                                                <li>• Pemahaman industri</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-green-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">🤝</span>
+                                        Kemahiran Insaniah & Kepimpinan
+                                    </h5>
+                                    <div class="space-y-3">
+                                        <div class="bg-green-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-green-800 mb-2">Aktiviti Pembangunan:</h6>
+                                            <ul class="text-sm text-green-700 space-y-1">
+                                                <li>• Jawatan dalam persatuan pelajar</li>
+                                                <li>• Penganjuran acara dan program</li>
+                                                <li>• Program sukarelawan komuniti</li>
+                                                <li>• Kelab dan persatuan profesional</li>
+                                                <li>• Program pertukaran pelajar</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-indigo-50 to-blue-50 p-6 rounded-xl border border-indigo-200">
+                            <h5 class="font-bold text-indigo-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">🎯</span>
+                                Perancangan Strategik 4 Tahun
+                            </h5>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                <div class="bg-white p-4 rounded-lg border border-indigo-100">
+                                    <h6 class="font-semibold text-indigo-600 mb-2">📚 Tahun 1</h6>
+                                    <ul class="text-xs text-gray-700 space-y-1">
+                                        <li>• Adaptasi kehidupan universiti</li>
+                                        <li>• Asas akademik yang kukuh</li>
+                                        <li>• Sertai kelab/persatuan</li>
+                                        <li>• Bina rangkaian rakan</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg border border-indigo-100">
+                                    <h6 class="font-semibold text-indigo-600 mb-2">🔍 Tahun 2</h6>
+                                    <ul class="text-xs text-gray-700 space-y-1">
+                                        <li>• Terlibat dalam penyelidikan</li>
+                                        <li>• Ambil jawatan kepimpinan</li>
+                                        <li>• Internship pertama</li>
+                                        <li>• Kembangkan kemahiran teknikal</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg border border-indigo-100">
+                                    <h6 class="font-semibold text-indigo-600 mb-2">💼 Tahun 3</h6>
+                                    <ul class="text-xs text-gray-700 space-y-1">
+                                        <li>• Latihan industri utama</li>
+                                        <li>• Projek penyelidikan serius</li>
+                                        <li>• Bina portfolio profesional</li>
+                                        <li>• Rangkaian industri</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg border border-indigo-100">
+                                    <h6 class="font-semibold text-indigo-600 mb-2">🎓 Tahun 4</h6>
+                                    <ul class="text-xs text-gray-700 space-y-1">
+                                        <li>• Projek tahun akhir cemerlang</li>
+                                        <li>• Mohon kerja/sambung belajar</li>
+                                        <li>• Persediaan graduan</li>
+                                        <li>• Peralihan ke dunia kerja</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                simulations: [
+                    {
+                        question: 'Anda pelajar tahun 2 kejuruteraan dengan CGPA 3.2. Syarikat teknologi terkenal menawarkan internship bergaji tinggi, tetapi akan menjejaskan semester ini. Apakah keputusan terbaik?',
+                        options: [
+                            { text: '📚 Tolak internship, fokus tingkatkan CGPA ke 3.5+, cari internship yang lebih sesuai', points: 9, feedback: 'Keputusan bijak! CGPA yang tinggi akan membuka lebih banyak peluang jangka panjang. Internship yang baik akan datang lagi jika prestasi akademik cemerlang.' },
+                            { text: '💰 Terima internship kerana gaji tinggi dan nama syarikat terkenal', points: 5, feedback: 'Nama syarikat memang menarik, tetapi mengorbankan akademik boleh menjejaskan peluang masa depan. CGPA rendah sukar dipulihkan.' },
+                            { text: '⚖️ Terima internship tetapi cuba seimbangkan dengan kuliah secara part-time', points: 7, feedback: 'Kompromi yang baik, tetapi berisiko kedua-duanya tidak optimal. Pastikan anda benar-benar mampu menguruskan kedua-duanya dengan baik.' }
+                        ]
+                    },
+                    {
+                        question: 'Pensyarah menawarkan anda menyertai projek penyelidikan yang menarik tetapi sangat mencabar. Ini akan mengambil banyak masa dan mungkin menjejaskan markah subjek lain. Bagaimana?',
+                        options: [
+                            { text: '🔬 Sertai projek penyelidikan - pengalaman ini sangat berharga untuk masa depan', points: 10, feedback: 'Pilihan cemerlang! Pengalaman penyelidikan akan membezakan anda daripada graduan lain dan membuka peluang kerjaya yang lebih luas. Kemahiran yang dipelajari sangat berharga.' },
+                            { text: '📖 Fokus pada markah subjek sahaja - CGPA lebih penting', points: 6, feedback: 'CGPA memang penting, tetapi pengalaman penyelidikan memberikan nilai tambah yang besar. Cuba cari keseimbangan atau pertimbangkan pengurusan masa yang lebih baik.' },
+                            { text: '🤔 Tanya pensyarah boleh kurangkan beban kerja projek', points: 8, feedback: 'Pendekatan yang baik! Komunikasi terbuka dengan pensyarah boleh membantu mencari penyelesaian yang win-win untuk kedua-dua pihak.' }
+                        ]
+                    }
+                ]
+            },
+            '24-34': {
+                title: '💼 Peringkat Kerjaya Awal (24-34 tahun)',
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200">
+                            <h4 class="text-xl font-bold text-orange-800 mb-4">🎯 Dekad Pembinaan Kerjaya</h4>
+                            <p class="text-gray-700 mb-4">Peringkat 24-34 tahun adalah dekad emas untuk membina asas kerjaya yang kukuh. Keputusan dan usaha pada peringkat ini akan menentukan trajektori kerjaya untuk 20-30 tahun akan datang.</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-blue-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">🚀</span>
+                                        Strategi Permulaan Kerjaya
+                                    </h5>
+                                    <div class="space-y-4">
+                                        <div class="bg-blue-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-blue-800 mb-2">Pemilihan Kerja Pertama:</h6>
+                                            <ul class="text-sm text-blue-700 space-y-1">
+                                                <li>• Prioriti pembelajaran vs gaji tinggi</li>
+                                                <li>• Syarikat dengan program mentorship</li>
+                                                <li>• Peluang pertumbuhan dan kenaikan pangkat</li>
+                                                <li>• Budaya kerja yang positif</li>
+                                                <li>• Industri dengan prospek masa depan</li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-green-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-green-800 mb-2">Tahun 1-3 (24-27 tahun):</h6>
+                                            <ul class="text-sm text-green-700 space-y-1">
+                                                <li>• Kuasai kemahiran asas dengan cepat</li>
+                                                <li>• Bina reputasi sebagai pekerja yang boleh dipercayai</li>
+                                                <li>• Cari mentor dalam organisasi</li>
+                                                <li>• Ambil inisiatif dalam projek</li>
+                                                <li>• Dokumentasikan pencapaian</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-purple-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">📈</span>
+                                        Pembangunan Kemahiran
+                                    </h5>
+                                    <div class="space-y-4">
+                                        <div class="bg-purple-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-purple-800 mb-2">Kemahiran Teknikal:</h6>
+                                            <ul class="text-sm text-purple-700 space-y-1">
+                                                <li>• Kemahiran khusus bidang (domain expertise)</li>
+                                                <li>• Teknologi dan alatan terkini</li>
+                                                <li>• Sijil profesional yang diiktiraf</li>
+                                                <li>• Kemahiran digital dan automasi</li>
+                                                <li>• Analisis data dan laporan</li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-pink-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-pink-800 mb-2">Kemahiran Insaniah:</h6>
+                                            <ul class="text-sm text-pink-700 space-y-1">
+                                                <li>• Komunikasi berkesan (lisan & bertulis)</li>
+                                                <li>• Kepimpinan dan pengurusan tim</li>
+                                                <li>• Penyelesaian masalah kreatif</li>
+                                                <li>• Pengurusan masa dan projek</li>
+                                                <li>• Kemahiran berunding dan diplomasi</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-green-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">🤝</span>
+                                        Rangkaian Profesional
+                                    </h5>
+                                    <div class="space-y-4">
+                                        <div class="bg-green-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-green-800 mb-2">Strategi Networking:</h6>
+                                            <ul class="text-sm text-green-700 space-y-1">
+                                                <li>• Sertai persatuan profesional</li>
+                                                <li>• Hadiri konferensi dan seminar industri</li>
+                                                <li>• Aktif dalam platform LinkedIn</li>
+                                                <li>• Volunteer dalam projek komuniti</li>
+                                                <li>• Jadi mentor kepada junior</li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-yellow-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-yellow-800 mb-2">Jenis Rangkaian Penting:</h6>
+                                            <ul class="text-sm text-yellow-700 space-y-1">
+                                                <li>• Rakan sekerja dan bekas rakan sekerja</li>
+                                                <li>• Profesional dalam industri yang sama</li>
+                                                <li>• Alumni universiti</li>
+                                                <li>• Mentor dan sponsor kerjaya</li>
+                                                <li>• Klien dan vendor</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-orange-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">🎯</span>
+                                        Perancangan Kerjaya Jangka Sederhana
+                                    </h5>
+                                    <div class="space-y-4">
+                                        <div class="bg-orange-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-orange-800 mb-2">Tahun 4-7 (28-31 tahun):</h6>
+                                            <ul class="text-sm text-orange-700 space-y-1">
+                                                <li>• Sasarkan kenaikan pangkat atau tukar kerja</li>
+                                                <li>• Ambil tanggungjawab yang lebih besar</li>
+                                                <li>• Pertimbang MBA atau sijil lanjutan</li>
+                                                <li>• Mulai bina jenama peribadi</li>
+                                                <li>• Diversifikasi kemahiran</li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-red-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-red-800 mb-2">Tahun 8-10 (32-34 tahun):</h6>
+                                            <ul class="text-sm text-red-700 space-y-1">
+                                                <li>• Sasarkan jawatan pengurusan pertengahan</li>
+                                                <li>• Jadi pakar dalam bidang khusus</li>
+                                                <li>• Pertimbang peluang keusahawanan</li>
+                                                <li>• Bina portfolio pelaburan</li>
+                                                <li>• Persiap untuk peringkat seterusnya</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-xl border border-indigo-200">
+                            <h5 class="font-bold text-indigo-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">⚖️</span>
+                                Keseimbangan Kehidupan & Kerjaya
+                            </h5>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white p-4 rounded-lg border border-indigo-100">
+                                    <h6 class="font-semibold text-indigo-600 mb-2">💪 Kesihatan & Kesejahteraan</h6>
+                                    <ul class="text-xs text-gray-700 space-y-1">
+                                        <li>• Rutin senaman yang konsisten</li>
+                                        <li>• Pengurusan stress yang berkesan</li>
+                                        <li>• Pemeriksaan kesihatan berkala</li>
+                                        <li>• Tidur yang mencukupi</li>
+                                        <li>• Hobi dan aktiviti rekreasi</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg border border-indigo-100">
+                                    <h6 class="font-semibold text-indigo-600 mb-2">👨‍👩‍👧‍👦 Hubungan & Keluarga</h6>
+                                    <ul class="text-xs text-gray-700 space-y-1">
+                                        <li>• Masa berkualiti dengan keluarga</li>
+                                        <li>• Komunikasi yang berkesan</li>
+                                        <li>• Sokongan pasangan dalam kerjaya</li>
+                                        <li>• Perancangan kewangan keluarga</li>
+                                        <li>• Tradisi dan nilai keluarga</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg border border-indigo-100">
+                                    <h6 class="font-semibold text-indigo-600 mb-2">💰 Kewangan & Pelaburan</h6>
+                                    <ul class="text-xs text-gray-700 space-y-1">
+                                        <li>• Dana kecemasan 6-12 bulan</li>
+                                        <li>• Pelaburan jangka panjang</li>
+                                        <li>• Insurans yang mencukupi</li>
+                                        <li>• Perancangan persaraan awal</li>
+                                        <li>• Diversifikasi sumber pendapatan</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                simulations: [
+                    {
+                        question: 'Anda baru tamat universiti dengan ijazah kejuruteraan. Dua tawaran kerja: Syarikat multinasional (gaji RM4500, kerja rutin) vs Startup teknologi (gaji RM3200, banyak pembelajaran, equity). Pilihan anda?',
+                        options: [
+                            { text: '🚀 Startup teknologi - pengalaman dan pembelajaran lebih berharga pada peringkat awal', points: 10, feedback: 'Pilihan cemerlang! Pada usia muda, pengalaman dan kemahiran yang dipelajari lebih berharga daripada gaji tinggi. Startup akan memberikan exposure yang luas dan peluang pertumbuhan yang cepat.' },
+                            { text: '🏢 Syarikat multinasional - gaji tinggi dan kestabilan lebih penting', points: 6, feedback: 'Pilihan yang selamat tetapi mungkin terhad dari segi pembelajaran. Gaji tinggi memang menarik, tetapi pertimbangkan juga peluang pertumbuhan jangka panjang.' },
+                            { text: '🤔 Terima multinasional dahulu, kemudian tukar ke startup selepas 2 tahun', points: 7, feedback: 'Strategi yang baik untuk mendapat pengalaman korporat dahulu. Pastikan anda tidak terlalu selesa sehingga hilang semangat untuk mencuba cabaran baru.' }
+                        ]
+                    },
+                    {
+                        question: 'Selepas 3 tahun bekerja, anda ditawarkan kenaikan pangkat dengan gaji 40% lebih tinggi, tetapi perlu pindah ke negara lain dan berjauhan dengan keluarga. Bagaimana?',
+                        options: [
+                            { text: '✈️ Terima tawaran - peluang kerjaya seperti ini jarang datang', points: 8, feedback: 'Keputusan berani yang boleh membuka peluang besar! Pengalaman antarabangsa sangat berharga. Pastikan anda ada rancangan untuk mengekalkan hubungan keluarga.' },
+                            { text: '🏠 Tolak tawaran - keluarga lebih penting daripada kerjaya', points: 7, feedback: 'Nilai keluarga yang mulia! Tetapi pertimbangkan juga sama ada ada cara untuk mencapai keseimbangan atau peluang serupa di tempat lain.' },
+                            { text: '⏰ Minta masa 6 bulan untuk berunding dengan keluarga dan cari penyelesaian', points: 10, feedback: 'Pendekatan yang sangat matang! Keputusan besar memerlukan perancangan yang teliti dan persetujuan semua pihak yang terlibat.' }
+                        ]
+                    }
+                ]
+            },
+            '35+': {
+                title: '🌟 Peringkat Kejayaan & Sumbangan (35+ tahun)',
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl border border-green-200">
+                            <h4 class="text-xl font-bold text-green-800 mb-4">🎯 Puncak Kerjaya & Sumbangan Bermakna</h4>
+                            <p class="text-gray-700 mb-4">Pada peringkat ini, anda telah mencapai kematangan profesional dan mempunyai tanggungjawab untuk memimpin, membimbing, dan memberi sumbangan bermakna kepada organisasi dan masyarakat.</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-blue-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">👑</span>
+                                        Kepimpinan Senior
+                                    </h5>
+                                    <div class="space-y-4">
+                                        <div class="bg-blue-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-blue-800 mb-2">Jawatan Kepimpinan:</h6>
+                                            <ul class="text-sm text-blue-700 space-y-1">
+                                                <li>• Pengarah/General Manager</li>
+                                                <li>• Vice President/Senior VP</li>
+                                                <li>• Chief Executive Officer (CEO)</li>
+                                                <li>• Chief Technology Officer (CTO)</li>
+                                                <li>• Managing Director</li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-green-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-green-800 mb-2">Tanggungjawab Utama:</h6>
+                                            <ul class="text-sm text-green-700 space-y-1">
+                                                <li>• Visi strategik organisasi</li>
+                                                <li>• Pembangunan talent dan succession planning</li>
+                                                <li>• Hubungan stakeholder dan pelabur</li>
+                                                <li>• Inovasi dan transformasi digital</li>
+                                                <li>• Budaya organisasi dan nilai</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-purple-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">🎓</span>
+                                        Mentor & Pembangunan Talent
+                                    </h5>
+                                    <div class="space-y-4">
+                                        <div class="bg-purple-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-purple-800 mb-2">Program Mentorship:</h6>
+                                            <ul class="text-sm text-purple-700 space-y-1">
+                                                <li>• Mentor kepada eksekutif muda</li>
+                                                <li>• Program graduate trainee</li>
+                                                <li>• Coaching untuk high-potential employees</li>
+                                                <li>• Guest lecturer di universiti</li>
+                                                <li>• Industry advisory board member</li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-pink-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-pink-800 mb-2">Knowledge Sharing:</h6>
+                                            <ul class="text-sm text-pink-700 space-y-1">
+                                                <li>• Keynote speaker di konferensi</li>
+                                                <li>• Penulisan artikel dan buku</li>
+                                                <li>• Podcast dan webinar industri</li>
+                                                <li>• Panel discussion dan forum</li>
+                                                <li>• Thought leadership content</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-green-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">🏆</span>
+                                        Pengiktirafan & Pencapaian
+                                    </h5>
+                                    <div class="space-y-4">
+                                        <div class="bg-green-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-green-800 mb-2">Anugerah Profesional:</h6>
+                                            <ul class="text-sm text-green-700 space-y-1">
+                                                <li>• Industry Leader of the Year</li>
+                                                <li>• Excellence in Innovation Award</li>
+                                                <li>• Outstanding CEO/Executive Award</li>
+                                                <li>• Lifetime Achievement Recognition</li>
+                                                <li>• Professional Hall of Fame</li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-yellow-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-yellow-800 mb-2">Sumbangan Masyarakat:</h6>
+                                            <ul class="text-sm text-yellow-700 space-y-1">
+                                                <li>• Ahli lembaga pengarah NGO</li>
+                                                <li>• Pengerusi yayasan amal</li>
+                                                <li>• Penasihat kerajaan dalam bidang kepakaran</li>
+                                                <li>• Duta goodwill untuk isu sosial</li>
+                                                <li>• Philanthropist dan social entrepreneur</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                    <h5 class="font-bold text-orange-600 mb-4 flex items-center">
+                                        <span class="text-2xl mr-2">💼</span>
+                                        Diversifikasi & Keusahawanan
+                                    </h5>
+                                    <div class="space-y-4">
+                                        <div class="bg-orange-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-orange-800 mb-2">Peluang Perniagaan:</h6>
+                                            <ul class="text-sm text-orange-700 space-y-1">
+                                                <li>• Memulakan syarikat sendiri</li>
+                                                <li>• Angel investor untuk startup</li>
+                                                <li>• Konsultan strategik untuk industri</li>
+                                                <li>• Franchise dan partnership</li>
+                                                <li>• Portfolio investment dan property</li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-red-50 p-4 rounded-lg">
+                                            <h6 class="font-semibold text-red-800 mb-2">Legacy Building:</h6>
+                                            <ul class="text-sm text-red-700 space-y-1">
+                                                <li>• Membangunkan industri tempatan</li>
+                                                <li>• Mencipta peluang pekerjaan</li>
+                                                <li>• Transfer teknologi dan knowledge</li>
+                                                <li>• Sustainable business practices</li>
+                                                <li>• Inspirasi untuk generasi akan datang</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-xl border border-indigo-200">
+                            <h5 class="font-bold text-indigo-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">🌍</span>
+                                Warisan & Impak Jangka Panjang
+                            </h5>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white p-4 rounded-lg border border-indigo-100">
+                                    <h6 class="font-semibold text-indigo-600 mb-2">🏢 Organisasi</h6>
+                                    <ul class="text-xs text-gray-700 space-y-1">
+                                        <li>• Transformasi budaya kerja</li>
+                                        <li>• Sistem dan proses yang berkekalan</li>
+                                        <li>• Pembangunan talent pipeline</li>
+                                        <li>• Innovation dan R&D legacy</li>
+                                        <li>• Sustainable growth strategy</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg border border-indigo-100">
+                                    <h6 class="font-semibold text-indigo-600 mb-2">🎓 Pendidikan</h6>
+                                    <ul class="text-xs text-gray-700 space-y-1">
+                                        <li>• Scholarship dan education fund</li>
+                                        <li>• Curriculum development</li>
+                                        <li>• Research collaboration</li>
+                                        <li>• Industry-academia partnership</li>
+                                        <li>• Knowledge repository</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg border border-indigo-100">
+                                    <h6 class="font-semibold text-indigo-600 mb-2">🌱 Masyarakat</h6>
+                                    <ul class="text-xs text-gray-700 space-y-1">
+                                        <li>• Community development programs</li>
+                                        <li>• Environmental sustainability</li>
+                                        <li>• Social enterprise initiatives</li>
+                                        <li>• Cultural preservation</li>
+                                        <li>• Next generation inspiration</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-xl border border-yellow-200">
+                            <h5 class="font-bold text-yellow-800 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">⚖️</span>
+                                Keseimbangan Hidup di Puncak Kerjaya
+                            </h5>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white p-4 rounded-lg">
+                                    <h6 class="font-semibold text-yellow-600 mb-2">👨‍👩‍👧‍👦 Keluarga & Hubungan</h6>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Quality time dengan keluarga</li>
+                                        <li>• Sokongan untuk pencapaian anak-anak</li>
+                                        <li>• Perancangan warisan keluarga</li>
+                                        <li>• Tradisi dan nilai keluarga</li>
+                                        <li>• Hubungan yang bermakna</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg">
+                                    <h6 class="font-semibold text-yellow-600 mb-2">🧘‍♂️ Kesihatan & Kesejahteraan</h6>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Pengurusan stress eksekutif</li>
+                                        <li>• Pemeriksaan kesihatan comprehensive</li>
+                                        <li>• Aktiviti rekreasi dan hobi</li>
+                                        <li>• Spiritual dan mindfulness</li>
+                                        <li>• Work-life integration</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                simulations: [
+                    {
+                        question: 'Anda kini CEO syarikat berjaya. Startup muda meminta anda jadi mentor dan angel investor. Ini akan mengambil masa dan wang, tetapi boleh membantu generasi muda. Keputusan anda?',
+                        options: [
+                            { text: '🌟 Terima - memberi kembali kepada masyarakat adalah tanggungjawab pemimpin', points: 10, feedback: 'Pilihan yang mulia dan bijak! Sebagai pemimpin berjaya, membimbing generasi muda adalah sumbangan terbaik. Ini akan mencipta legacy yang berkekalan dan memberi impak positif yang besar.' },
+                            { text: '💼 Fokus pada syarikat sendiri - masih banyak yang perlu dicapai', points: 5, feedback: 'Fokus pada syarikat sendiri memang penting, tetapi pada peringkat ini, memberi kembali kepada masyarakat akan memberikan kepuasan dan makna yang lebih mendalam.' },
+                            { text: '⏰ Terima secara terhad - mentor sahaja tanpa pelaburan wang', points: 7, feedback: 'Kompromi yang baik! Masa dan pengalaman anda sudah sangat berharga. Mentorship tanpa komitmen kewangan tetap memberikan nilai yang besar.' }
+                        ]
+                    },
+                    {
+                        question: 'Kerajaan menawarkan anda jawatan sebagai penasihat dalam bidang kepakaran anda untuk membantu dasar negara. Gaji rendah tetapi impak besar untuk masyarakat. Bagaimana?',
+                        options: [
+                            { text: '🇲🇾 Terima - peluang untuk memberi sumbangan kepada negara sangat bermakna', points: 10, feedback: 'Keputusan yang sangat mulia! Menggunakan kepakaran untuk membantu negara adalah sumbangan yang paling bermakna. Ini adalah definisi sebenar kejayaan - bukan hanya untuk diri sendiri tetapi untuk rakyat.' },
+                            { text: '💰 Tolak - sudah berjaya dalam sektor swasta, tidak perlu korban gaji', points: 3, feedback: 'Pada peringkat ini, wang sepatutnya bukan motivasi utama. Peluang untuk memberi impak kepada jutaan rakyat adalah lebih berharga daripada gaji tinggi.' },
+                            { text: '🤝 Terima secara part-time sambil kekalkan jawatan utama', points: 8, feedback: 'Pendekatan yang praktikal! Ini membolehkan anda memberi sumbangan sambil mengekalkan kestabilan kewangan dan tanggungjawab sedia ada.' }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        let totalScore = 0;
+        let completedStages = [];
+        let currentSimulationIndex = 0;
+
+        // Event listeners
+        document.querySelectorAll('.explore-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = this.closest('.age-card');
+                const age = card.dataset.age;
+                openModal(age);
+            });
+        });
+
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        document.getElementById('simulateBtn').addEventListener('click', startSimulation);
+        document.getElementById('nextStageBtn').addEventListener('click', nextStage);
+        document.getElementById('resetBtn').addEventListener('click', resetSimulation);
+        document.getElementById('summaryBtn').addEventListener('click', showSummary);
+
+        function openModal(age) {
+            const modal = document.getElementById('modal');
+            const data = stageData[age];
+            
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalContent').innerHTML = data.content;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Store current age for simulation
+            modal.dataset.currentAge = age;
+            currentSimulationIndex = 0;
+            
+            // Reset buttons
+            document.getElementById('simulateBtn').classList.remove('hidden');
+            document.getElementById('nextStageBtn').classList.add('hidden');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function startSimulation() {
+            const modal = document.getElementById('modal');
+            const age = modal.dataset.currentAge;
+            const data = stageData[age];
+            const simulation = data.simulations[currentSimulationIndex];
+            
+            const simulationHTML = `
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl border border-blue-200 fade-in">
+                    <h4 class="font-bold text-blue-800 mb-4 flex items-center">
+                        <span class="text-2xl mr-2">🎮</span>
+                        Simulasi Interaktif ${currentSimulationIndex + 1}/${data.simulations.length}
+                    </h4>
+                    <div class="bg-white p-4 rounded-lg mb-4">
+                        <p class="text-gray-800 font-medium mb-4">${simulation.question}</p>
+                        <div class="space-y-3">
+                            ${simulation.options.map((option, index) => `
+                                <button class="option-btn w-full text-left p-4 bg-gradient-to-r from-white to-gray-50 border-2 border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-lg transition-all duration-300" 
+                                        data-points="${option.points}" data-feedback="${option.feedback}">
+                                    <div class="flex items-center">
+                                        <span class="text-2xl mr-3">${String.fromCharCode(65 + index)}</span>
+                                        <span class="font-medium">${option.text}</span>
+                                    </div>
+                                </button>
+                            `).join('')}
+                        </div>
                     </div>
                 </div>
             `;
             
-            document.getElementById('statsModal').classList.remove('hidden');
-            document.getElementById('statsModal').classList.add('flex');
+            document.getElementById('modalContent').innerHTML = stageData[age].content + simulationHTML;
+            document.getElementById('simulateBtn').style.display = 'none';
+            
+            // Add event listeners to option buttons
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    selectOption(this, age);
+                });
+            });
         }
 
-        function closeStats() {
-            document.getElementById('statsModal').classList.add('hidden');
-            document.getElementById('statsModal').classList.remove('flex');
+        function selectOption(button, age) {
+            const points = parseInt(button.dataset.points);
+            const feedback = button.dataset.feedback;
+            
+            // Disable all option buttons
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            });
+            
+            // Highlight selected option
+            button.classList.remove('opacity-50');
+            button.classList.add('bg-gradient-to-r', 'from-green-100', 'to-emerald-100', 'border-green-400', 'celebration');
+            
+            // Show feedback with animation
+            const feedbackHTML = `
+                <div class="mt-6 p-6 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl bounce-in">
+                    <div class="flex items-start">
+                        <span class="text-3xl mr-3">📝</span>
+                        <div class="flex-1">
+                            <h5 class="font-bold text-green-800 mb-2">Maklum Balas & Analisis</h5>
+                            <p class="text-green-700 mb-3">${feedback}</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <span class="text-2xl mr-2">⭐</span>
+                                    <span class="font-bold text-green-600">Mata: ${points}/10</span>
+                                </div>
+                                <div class="text-sm text-green-600">
+                                    ${points >= 8 ? '🌟 Cemerlang!' : points >= 6 ? '👍 Baik!' : '📚 Boleh diperbaiki'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            button.parentElement.parentElement.insertAdjacentHTML('afterend', feedbackHTML);
+            
+            // Update score
+            totalScore += points;
+            updateScore();
+            
+            // Check if there are more simulations for this stage
+            const data = stageData[age];
+            currentSimulationIndex++;
+            
+            if (currentSimulationIndex < data.simulations.length) {
+                // Show button for next simulation
+                setTimeout(() => {
+                    const nextSimBtn = document.createElement('button');
+                    nextSimBtn.className = 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 mt-4';
+                    nextSimBtn.textContent = '🎯 Simulasi Seterusnya';
+                    nextSimBtn.onclick = startSimulation;
+                    
+                    document.querySelector('.bounce-in').appendChild(nextSimBtn);
+                }, 1000);
+            } else {
+                // Mark stage as completed and show next stage button
+                if (!completedStages.includes(age)) {
+                    completedStages.push(age);
+                    updateProgress();
+                }
+                
+                setTimeout(() => {
+                    document.getElementById('nextStageBtn').classList.remove('hidden');
+                }, 1000);
+            }
         }
 
-        // Initialize
-        showCategory('jalan');
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983162ffe6f79103',t:'MTc1ODUzOTc1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
+        function nextStage() {
+            const currentIndex = stages.indexOf(document.getElementById('modal').dataset.currentAge);
+            if (currentIndex < stages.length - 1) {
+                closeModal();
+                const nextAge = stages[currentIndex + 1];
+                setTimeout(() => {
+                    openModal(nextAge);
+                    // Add pulse effect to next stage
+                    const nextCard = document.querySelector(`[data-age="${nextAge}"]`);
+                    nextCard.classList.add('pulse-glow');
+                    setTimeout(() => nextCard.classList.remove('pulse-glow'), 3000);
+                }, 500);
+            } else {
+                showFinalResults();
+            }
+        }
+
+        function updateProgress() {
+            const progress = (completedStages.length / stages.length) * 100;
+            document.getElementById('overallProgress').style.width = progress + '%';
+            
+            let progressText = '';
+            if (progress === 0) {
+                progressText = '🚀 Mulakan perjalanan anda menuju kejayaan!';
+            } else if (progress < 100) {
+                progressText = `🎯 ${completedStages.length}/${stages.length} peringkat selesai - Teruskan usaha cemerlang!`;
+            } else {
+                progressText = '🎉 Tahniah! Anda telah menyelesaikan semua peringkat dengan jayanya!';
+            }
+            
+            document.getElementById('progressText').textContent = progressText;
+            
+            // Highlight completed stages with animation
+            completedStages.forEach(age => {
+                const card = document.querySelector(`[data-age="${age}"]`);
+                if (!card.classList.contains('completed')) {
+                    card.classList.add('completed', 'bounce-in');
+                }
+            });
+        }
+
+        function updateScore() {
+            document.getElementById('scoreDisplay').classList.remove('hidden');
+            document.getElementById('currentScore').textContent = totalScore;
+            document.getElementById('maxScore').textContent = totalMaxScore;
+        }
+
+        function showFinalResults() {
+            closeModal();
+            
+            const averageScore = Math.round(totalScore / (completedStages.length * 2)); // 2 simulations per stage
+            let performance = '';
+            let performanceColor = '';
+            let advice = '';
+            let emoji = '';
+            
+            if (averageScore >= 8) {
+                performance = 'CEMERLANG';
+                performanceColor = 'text-green-600';
+                advice = 'Anda menunjukkan pemahaman yang luar biasa tentang perancangan strategik masa hadapan! Keputusan-keputusan bijak yang anda buat menunjukkan kematangan dan visi yang jelas. Teruskan dengan pendekatan yang holistik ini.';
+                emoji = '🌟';
+            } else if (averageScore >= 6) {
+                performance = 'BAIK';
+                performanceColor = 'text-blue-600';
+                advice = 'Anda berada pada landasan yang betul untuk mencapai kejayaan! Terdapat beberapa aspek yang boleh diperbaiki, terutama dalam membuat keputusan strategik jangka panjang. Terus belajar dan pertimbangkan impak setiap keputusan dengan lebih mendalam.';
+                emoji = '👍';
+            } else {
+                performance = 'PERLU DIPERBAIKI';
+                performanceColor = 'text-orange-600';
+                advice = 'Anda perlu lebih memahami kepentingan perancangan strategik dan membuat keputusan yang lebih bijak. Fokus pada pembelajaran berterusan dan jangan takut untuk meminta nasihat daripada mentor. Setiap kegagalan adalah peluang untuk belajar!';
+                emoji = '📚';
+            }
+            
+            const resultsHTML = `
+                <div class="text-center mb-8">
+                    <div class="text-8xl mb-6 floating">${emoji}</div>
+                    <h4 class="text-4xl font-bold ${performanceColor} mb-4">${performance}</h4>
+                    <div class="bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl p-6 mb-6">
+                        <div class="text-3xl font-bold text-gray-800 mb-2">
+                            ${totalScore}/${totalMaxScore} ⭐
+                        </div>
+                        <p class="text-gray-600">Jumlah Mata Pencapaian</p>
+                    </div>
+                    <p class="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">${advice}</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-200">
+                        <h5 class="font-bold text-blue-800 mb-4 flex items-center">
+                            <span class="text-2xl mr-2">📊</span>
+                            Analisis Prestasi Mengikut Peringkat
+                        </h5>
+                        <div class="space-y-3">
+                            ${stages.map(stage => {
+                                const isCompleted = completedStages.includes(stage);
+                                const stageTitle = stageData[stage].title.split('(')[0].trim();
+                                return `
+                                    <div class="flex items-center justify-between p-3 bg-white rounded-lg">
+                                        <span class="text-sm font-medium">${stageTitle}</span>
+                                        <span class="text-lg">${isCompleted ? '✅' : '⏳'}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-200">
+                        <h5 class="font-bold text-green-800 mb-4 flex items-center">
+                            <span class="text-2xl mr-2">🎯</span>
+                            Pengajaran Utama
+                        </h5>
+                        <ul class="space-y-3 text-sm text-green-700">
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2 mt-1">✓</span>
+                                <span>Perancangan awal adalah kunci kejayaan jangka panjang</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2 mt-1">✓</span>
+                                <span>Setiap peringkat umur mempunyai fokus dan cabaran unik</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2 mt-1">✓</span>
+                                <span>Pembelajaran berterusan adalah penting sepanjang hayat</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2 mt-1">✓</span>
+                                <span>Pengalaman praktikal sama penting dengan pencapaian akademik</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2 mt-1">✓</span>
+                                <span>Memberi kembali kepada masyarakat adalah matlamat akhir kejayaan</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-8 rounded-2xl border border-yellow-200">
+                    <h5 class="font-bold text-yellow-800 mb-4 text-center flex items-center justify-center">
+                        <span class="text-2xl mr-2">💡</span>
+                        Langkah Seterusnya untuk Anda
+                    </h5>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-white p-4 rounded-xl text-center">
+                            <div class="text-3xl mb-2">📝</div>
+                            <h6 class="font-semibold text-gray-800 mb-2">Buat Pelan Tindakan</h6>
+                            <p class="text-sm text-gray-600">Tulis matlamat jangka pendek dan panjang berdasarkan simulasi ini</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl text-center">
+                            <div class="text-3xl mb-2">👥</div>
+                            <h6 class="font-semibold text-gray-800 mb-2">Berbincang dengan Mentor</h6>
+                            <p class="text-sm text-gray-600">Kongsi hasil dengan guru, ibu bapa, atau mentor untuk mendapat pandangan</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl text-center">
+                            <div class="text-3xl mb-2">🔄</div>
+                            <h6 class="font-semibold text-gray-800 mb-2">Kaji Semula Berkala</h6>
+                            <p class="text-sm text-gray-600">Ulang simulasi ini setiap 6 bulan untuk melihat perkembangan pemikiran anda</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('resultsContent').innerHTML = resultsHTML;
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9839675125de3cd8',t:'MTc1ODYyMzgxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
