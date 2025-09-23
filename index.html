@@ -3,472 +3,697 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Praktis Pengangkutan Awam Malaysia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Simulasi Gerhana - Geografi Tingkatan 2</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .fade-in { animation: fadeIn 0.5s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .bounce { animation: bounce 0.6s ease-in-out; }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
-        .pulse-ring { animation: pulse-ring 2s infinite; }
-        @keyframes pulse-ring { 0% { transform: scale(0.33); } 40%, 50% { opacity: 1; } 100% { opacity: 0; transform: scale(1.2); } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-solar {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+        }
+        
+        .btn-lunar {
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: white;
+        }
+        
+        .btn-reset {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .simulation-area {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .space-scene {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 15px;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #000 100%);
+        }
+        
+        .celestial-body {
+            position: absolute;
+            border-radius: 50%;
+            transition: all 2s ease-in-out;
+        }
+        
+        .sun {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ffd700, #ff8c00);
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 30px #ffd700, 0 0 60px #ffd700;
+            animation: pulse 3s infinite;
+        }
+        
+        .earth {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #4a90e2, #2171b5);
+            left: 400px;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 15px rgba(74, 144, 226, 0.5);
+        }
+        
+        .moon {
+            width: 25px;
+            height: 25px;
+            background: radial-gradient(circle, #e6e6e6, #cccccc);
+            left: 500px;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 10px rgba(230, 230, 230, 0.3);
+        }
+        
+        .shadow {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            transition: all 2s ease-in-out;
+            border-radius: 50%;
+        }
+        
+        .light-ray {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, #ffd700, transparent);
+            opacity: 0.6;
+            transition: all 2s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.1); }
+        }
+        
+        .info-panel {
+            background: rgba(255,255,255,0.08);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        
+        .eclipse-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .eclipse-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+        
+        .eclipse-info p {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .phases {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .phase {
+            background: rgba(255,255,255,0.08);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .phase:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateY(-2px);
+        }
+        
+        .phase h4 {
+            color: #ffd700;
+            margin-bottom: 8px;
+        }
+        
+        .phase p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .space-scene {
+                height: 350px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+                margin-bottom: 8px;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .btn {
+                width: 250px;
+                padding: 14px 20px;
+                font-size: 0.95rem;
+            }
+            
+            .simulation-area {
+                padding: 20px 15px;
+            }
+            
+            .space-scene {
+                height: 280px;
+            }
+            
+            .sun {
+                width: 60px;
+                height: 60px;
+                left: 30px;
+            }
+            
+            .earth {
+                width: 45px;
+                height: 45px;
+                left: 200px;
+            }
+            
+            .moon {
+                width: 20px;
+                height: 20px;
+                left: 260px;
+            }
+            
+            .info-panel {
+                padding: 20px 15px;
+                margin-bottom: 20px;
+            }
+            
+            .eclipse-info h3 {
+                font-size: 1.3rem;
+            }
+            
+            .eclipse-info p {
+                font-size: 0.95rem;
+            }
+            
+            .phases {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .phase {
+                padding: 12px;
+            }
+            
+            .phase h4 {
+                font-size: 0.95rem;
+            }
+            
+            .phase p {
+                font-size: 0.85rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .header p {
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                width: 200px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .simulation-area {
+                padding: 15px 10px;
+            }
+            
+            .space-scene {
+                height: 220px;
+            }
+            
+            .sun {
+                width: 50px;
+                height: 50px;
+                left: 20px;
+            }
+            
+            .earth {
+                width: 35px;
+                height: 35px;
+                left: 150px;
+            }
+            
+            .moon {
+                width: 15px;
+                height: 15px;
+                left: 200px;
+            }
+            
+            .info-panel {
+                padding: 15px 10px;
+                margin-bottom: 15px;
+            }
+            
+            .eclipse-info h3 {
+                font-size: 1.2rem;
+            }
+            
+            .eclipse-info p {
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen">
-    <!-- Header -->
-    <div class="bg-gradient-to-r from-blue-600 to-green-600 text-white p-4 shadow-lg">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-2xl md:text-3xl font-bold text-center">🚌 Praktis: Pengangkutan Awam di Malaysia</h1>
-            <p class="text-center mt-2 text-blue-100">Geografi Tingkatan 2 - Bab 5</p>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌞 Simulasi Gerhana 🌙</h1>
+            <p>Pelajari fenomena gerhana matahari dan bulan - Geografi Tingkatan 2</p>
         </div>
-    </div>
-
-    <!-- Control Panel -->
-    <div class="max-w-4xl mx-auto p-4">
-        <div class="bg-white bg-opacity-95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 mb-6 sparkle border-4 border-pink-200">
-            <h2 class="text-2xl font-bold mb-6 text-center gradient-text">🎯 Panel Kawalan Pembelajaran 🎯</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-                <button onclick="resetQuiz()" class="bg-gradient-to-r from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 text-white px-3 py-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:rotate-3 text-sm font-bold shadow-lg">
-                    🔄 Mula Semula
-                </button>
-                <button onclick="showHint()" class="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white px-3 py-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:rotate-3 text-sm font-bold shadow-lg">
-                    💡 Petunjuk
-                </button>
-                <button onclick="showStats()" class="bg-gradient-to-r from-purple-400 to-purple-600 hover:from-purple-500 hover:to-purple-700 text-white px-3 py-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:rotate-3 text-sm font-bold shadow-lg">
-                    📈 Statistik
-                </button>
-                <button onclick="toggleSound()" class="bg-gradient-to-r from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 text-white px-3 py-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:rotate-3 text-sm font-bold shadow-lg">
-                    🔊 Bunyi
-                </button>
-                <button onclick="showProgress()" class="bg-gradient-to-r from-indigo-400 to-blue-600 hover:from-indigo-500 hover:to-blue-700 text-white px-3 py-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:rotate-3 text-sm font-bold shadow-lg">
-                    📊 Kemajuan
-                </button>
-                <button onclick="showNotes()" class="bg-gradient-to-r from-teal-400 to-green-600 hover:from-teal-500 hover:to-green-700 text-white px-3 py-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:rotate-3 text-sm font-bold shadow-lg">
-                    📝 Nota
-                </button>
+        
+        <div class="info-panel">
+            <div class="eclipse-info" id="eclipseInfo">
+                <h3>Pilih jenis gerhana untuk melihat simulasi</h3>
+                <p>Klik butang di bawah untuk melihat bagaimana gerhana matahari dan bulan berlaku.</p>
+            </div>
+            
+            <div class="phases" id="phases" style="display: none;">
+                <!-- Phases will be populated by JavaScript -->
             </div>
         </div>
-
-        <!-- Score Display -->
-        <div class="bg-gradient-to-r from-pink-100 to-purple-100 rounded-2xl shadow-2xl p-6 mb-6 border-4 border-yellow-300">
-            <div class="grid grid-cols-3 gap-4">
-                <div class="text-center bg-white rounded-xl p-4 shadow-lg transform hover:scale-105 transition-all duration-300">
-                    <div class="text-3xl mb-2">🏆</div>
-                    <div class="text-3xl font-bold text-green-600" id="score">0</div>
-                    <div class="text-sm font-semibold text-gray-700">Markah</div>
-                </div>
-                <div class="text-center bg-white rounded-xl p-4 shadow-lg transform hover:scale-105 transition-all duration-300">
-                    <div class="text-3xl mb-2">📝</div>
-                    <div class="text-3xl font-bold text-blue-600" id="question-count">1/10</div>
-                    <div class="text-sm font-semibold text-gray-700">Soalan</div>
-                </div>
-                <div class="text-center bg-white rounded-xl p-4 shadow-lg transform hover:scale-105 transition-all duration-300">
-                    <div class="text-3xl mb-2">🔥</div>
-                    <div class="text-3xl font-bold text-purple-600" id="streak">0</div>
-                    <div class="text-sm font-semibold text-gray-700">Berturut</div>
-                </div>
+        
+        <div class="controls">
+            <button class="btn btn-solar" onclick="showSolarEclipse()">Gerhana Matahari</button>
+            <button class="btn btn-lunar" onclick="showLunarEclipse()">Gerhana Bulan</button>
+            <button class="btn btn-reset" onclick="resetSimulation()">Reset</button>
+        </div>
+        
+        <div class="simulation-area">
+            <div class="space-scene" id="spaceScene">
+                <div class="celestial-body sun" id="sun"></div>
+                <div class="celestial-body earth" id="earth"></div>
+                <div class="celestial-body moon" id="moon"></div>
+                <div class="shadow" id="shadow"></div>
+                
+                <!-- Light rays -->
+                <div class="light-ray" id="ray1"></div>
+                <div class="light-ray" id="ray2"></div>
+                <div class="light-ray" id="ray3"></div>
             </div>
         </div>
+        
 
-        <!-- Quiz Container -->
-        <div id="quiz-container" class="bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-2xl p-8 fade-in border-4 border-blue-200 sparkle">
-            <!-- Question will be loaded here -->
-        </div>
-
-        <!-- Results Container -->
-        <div id="results-container" class="bg-white rounded-xl shadow-lg p-6 hidden">
-            <div class="text-center">
-                <div class="text-6xl mb-4" id="result-emoji">🎉</div>
-                <h2 class="text-2xl font-bold mb-4" id="result-title">Tahniah!</h2>
-                <p class="text-lg mb-6" id="result-message"></p>
-                <button onclick="resetQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105">
-                    Cuba Lagi
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Hint Modal -->
-    <div id="hint-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl p-6 m-4 max-w-md">
-            <h3 class="text-lg font-semibold mb-4">💡 Petunjuk</h3>
-            <p id="hint-text" class="text-gray-700 mb-4"></p>
-            <button onclick="closeHint()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Tutup</button>
-        </div>
-    </div>
-
-    <!-- Progress Modal -->
-    <div id="progress-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl p-6 m-4 max-w-lg">
-            <h3 class="text-lg font-semibold mb-4">📊 Kemajuan Pembelajaran</h3>
-            <div id="progress-content" class="text-gray-700 mb-4"></div>
-            <button onclick="closeProgress()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Tutup</button>
-        </div>
-    </div>
-
-    <!-- Notes Modal -->
-    <div id="notes-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl p-6 m-4 max-w-2xl max-h-96 overflow-y-auto">
-            <h3 class="text-lg font-semibold mb-4">📝 Nota Pembelajaran: Pengangkutan Awam Malaysia</h3>
-            <div class="text-gray-700 mb-4 space-y-4">
-                <div class="bg-blue-50 p-4 rounded-lg">
-                    <h4 class="font-semibold text-blue-800 mb-2">🚇 Pengangkutan Rel</h4>
-                    <ul class="text-sm space-y-1">
-                        <li>• <strong>LRT:</strong> Menghubungkan kawasan bandar (Ampang, Kelana Jaya)</li>
-                        <li>• <strong>MRT:</strong> Sistem terbaru, laluan Sungai Buloh-Kajang</li>
-                        <li>• <strong>KTM Komuter:</strong> Perkhidmatan kereta api tempatan</li>
-                        <li>• <strong>KLIA Ekspres:</strong> Terus ke lapangan terbang</li>
-                    </ul>
-                </div>
-                <div class="bg-green-50 p-4 rounded-lg">
-                    <h4 class="font-semibold text-green-800 mb-2">🚌 Pengangkutan Jalan Raya</h4>
-                    <ul class="text-sm space-y-1">
-                        <li>• <strong>Bas Ekspres:</strong> Perjalanan jarak jauh antara negeri</li>
-                        <li>• <strong>Bas Bandar:</strong> Perkhidmatan dalam bandar (RapidKL)</li>
-                        <li>• <strong>Bas Nadi Putra:</strong> Khusus Putrajaya & Cyberjaya</li>
-                    </ul>
-                </div>
-                <div class="bg-cyan-50 p-4 rounded-lg">
-                    <h4 class="font-semibold text-cyan-800 mb-2">🚢 Pengangkutan Air</h4>
-                    <ul class="text-sm space-y-1">
-                        <li>• <strong>Feri Pulau Pinang:</strong> Butterworth ↔ Georgetown</li>
-                        <li>• <strong>Feri Langkawi:</strong> Kuala Perlis/Kuala Kedah ↔ Langkawi</li>
-                        <li>• <strong>Bot Sungai:</strong> Perkhidmatan tempatan di Sarawak</li>
-                    </ul>
-                </div>
-            </div>
-            <button onclick="closeNotes()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Tutup</button>
-        </div>
     </div>
 
     <script>
-        let currentQuestion = 0;
-        let score = 0;
-        let streak = 0;
-        let soundEnabled = true;
-
-        const questions = [
-            {
-                situation: "Ahmad ingin pergi dari Kuala Lumpur ke Johor Bahru untuk melawat keluarga. Perjalanan ini mengambil masa kira-kira 4-5 jam.",
-                question: "Apakah pengangkutan awam yang paling sesuai untuk Ahmad?",
-                options: ["🚌 Bas Ekspres", "🚇 LRT", "🚕 Teksi", "🛵 Motosikal"],
-                correct: 0,
-                hint: "Fikirkan tentang jarak yang jauh dan masa perjalanan yang lama. Pengangkutan manakah yang sesuai untuk perjalanan antara negeri?"
-            },
-            {
-                situation: "Siti bekerja di KLCC dan tinggal di Ampang. Dia perlu pergi bekerja setiap hari pada waktu pagi yang sibuk.",
-                question: "Pengangkutan awam manakah yang paling praktikal untuk Siti?",
-                options: ["🚇 LRT", "🚌 Bas Bandar", "🚕 Teksi", "🚲 Basikal"],
-                correct: 0,
-                hint: "Pertimbangkan kesesakan lalu lintas pada waktu pagi dan keperluan untuk sampai tepat pada masa."
-            },
-            {
-                situation: "Keluarga Pak Ali ingin pergi bercuti ke Pulau Langkawi dari Kuala Perlis.",
-                question: "Bagaimanakah mereka boleh sampai ke Pulau Langkawi?",
-                options: ["🚢 Feri", "🚌 Bas", "🚇 MRT", "🚕 Teksi"],
-                correct: 0,
-                hint: "Pulau Langkawi dikelilingi oleh laut. Fikirkan pengangkutan yang boleh merentasi air."
-            },
-            {
-                situation: "Aminah seorang pelajar universiti di Putrajaya. Dia perlu pergi ke perpustakaan yang terletak 2 stesen jauhnya.",
-                question: "Apakah pilihan pengangkutan yang paling ekonomik untuk Aminah?",
-                options: ["🚇 MRT", "🚕 Teksi", "🚗 Kereta Sewa", "🚁 Helikopter"],
-                correct: 0,
-                hint: "Sebagai pelajar, Aminah perlu pilihan yang murah dan cekap untuk jarak yang pendek."
-            },
-            {
-                situation: "Encik Lim perlu pergi ke lapangan terbang KLIA dari KL Sentral dengan bagasi yang banyak.",
-                question: "Pengangkutan manakah yang paling sesuai?",
-                options: ["🚄 KLIA Ekspres", "🚌 Bas Bandar", "🚇 LRT", "🚲 Basikal"],
-                correct: 0,
-                hint: "Fikirkan tentang kelajuan, keselesaan, dan kemudahan untuk membawa bagasi berat."
-            },
-            {
-                situation: "Puan Sarah tinggal di Klang dan bekerja di Shah Alam. Dia perlu pengangkutan harian yang boleh dipercayai.",
-                question: "Apakah pilihan terbaik untuk Puan Sarah?",
-                options: ["🚇 KTM Komuter", "🚢 Bot", "🚁 Helikopter", "🛵 Motosikal"],
-                correct: 0,
-                hint: "KTM Komuter menghubungkan bandar-bandar di Lembah Klang dengan jadual yang tetap."
-            },
-            {
-                situation: "Sekumpulan pelancong dari Singapura ingin melawat Melaka untuk sehari.",
-                question: "Bagaimanakah cara yang paling praktikal untuk mereka?",
-                options: ["🚌 Bas Ekspres", "🚇 MRT", "🚢 Kapal Terbang", "🚲 Basikal"],
-                correct: 0,
-                hint: "Pertimbangkan jarak antara Singapura dan Melaka, serta keperluan untuk perjalanan sehari."
-            },
-            {
-                situation: "Azman perlu pergi dari Gombak ke Bukit Bintang untuk membeli-belah pada hujung minggu.",
-                question: "Pengangkutan awam manakah yang menghubungkan kedua-dua tempat ini?",
-                options: ["🚇 LRT", "🚢 Feri", "🚁 Helikopter", "🚂 Kereta Api Laju"],
-                correct: 0,
-                hint: "LRT mempunyai laluan yang menghubungkan Gombak dengan pusat bandar Kuala Lumpur."
-            },
-            {
-                situation: "Keluarga Cik Ros ingin pergi dari Butterworth ke Pulau Pinang untuk makan malam.",
-                question: "Bagaimanakah mereka boleh menyeberang ke Pulau Pinang?",
-                options: ["🚢 Feri Pulau Pinang", "🚌 Bas", "🚇 LRT", "🚲 Basikal"],
-                correct: 0,
-                hint: "Pulau Pinang dan Butterworth dipisahkan oleh selat. Apa pengangkutan yang menghubungkan kedua-duanya?"
-            },
-            {
-                situation: "Hafiz seorang pekerja di Cyberjaya yang perlu pergi ke mesyuarat di Putrajaya Sentral.",
-                question: "Apakah pengangkutan awam yang tersedia di kawasan ini?",
-                options: ["🚌 Bas Nadi Putra", "🚇 LRT", "🚢 Bot", "🚂 KTM Intercity"],
-                correct: 0,
-                hint: "Cyberjaya dan Putrajaya mempunyai sistem bas tempatan yang menghubungkan kedua-dua bandar."
-            }
-        ];
-
-        function loadQuestion() {
-            const question = questions[currentQuestion];
-            const container = document.getElementById('quiz-container');
+        let currentEclipse = null;
+        
+        function showSolarEclipse() {
+            currentEclipse = 'solar';
             
-            container.innerHTML = `
-                <div class="fade-in">
-                    <div class="mb-6">
-                        <div class="bg-gradient-to-r from-yellow-100 to-orange-100 border-4 border-yellow-400 p-6 mb-6 rounded-2xl shadow-lg">
-                            <h3 class="font-bold text-orange-800 mb-3 text-lg">📍 Situasi Menarik:</h3>
-                            <p class="text-orange-700 text-lg leading-relaxed">${question.situation}</p>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded-xl border-2 border-purple-300">${question.question}</h3>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        ${question.options.map((option, index) => `
-                            <button onclick="selectAnswer(${index})" 
-                                    class="option-btn bg-gradient-to-r from-white to-blue-50 hover:from-blue-100 hover:to-purple-100 border-3 border-blue-200 hover:border-purple-400 p-6 rounded-2xl text-left transition-all duration-300 transform hover:scale-110 hover:rotate-1 shadow-lg hover:shadow-2xl">
-                                <span class="text-xl font-semibold text-gray-800">${option}</span>
-                            </button>
-                        `).join('')}
-                    </div>
+            // Reset positions first
+            resetPositions();
+            
+            // Update info
+            document.getElementById('eclipseInfo').innerHTML = `
+                <h3>🌞 Gerhana Matahari</h3>
+                <p>Gerhana matahari berlaku apabila bulan berada di antara matahari dan bumi, menghalang cahaya matahari daripada sampai ke bumi.</p>
+            `;
+            
+            // Show phases
+            document.getElementById('phases').style.display = 'grid';
+            document.getElementById('phases').innerHTML = `
+                <div class="phase">
+                    <h4>Fasa Pertama</h4>
+                    <p>Bulan mula menutupi matahari</p>
+                </div>
+                <div class="phase">
+                    <h4>Fasa Penuh</h4>
+                    <p>Bulan menutupi matahari sepenuhnya</p>
+                </div>
+                <div class="phase">
+                    <h4>Fasa Akhir</h4>
+                    <p>Bulan bergerak keluar dari hadapan matahari</p>
                 </div>
             `;
             
-            updateQuestionCount();
-        }
-
-        function selectAnswer(selectedIndex) {
-            const question = questions[currentQuestion];
-            const buttons = document.querySelectorAll('.option-btn');
-            
-            buttons.forEach((btn, index) => {
-                btn.disabled = true;
-                if (index === question.correct) {
-                    btn.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
-                    btn.classList.remove('hover:bg-blue-50', 'hover:border-blue-300');
-                } else if (index === selectedIndex && index !== question.correct) {
-                    btn.classList.add('bg-red-100', 'border-red-500', 'text-red-800');
-                    btn.classList.remove('hover:bg-blue-50', 'hover:border-blue-300');
-                }
-            });
-
-            if (selectedIndex === question.correct) {
-                score += 10;
-                streak++;
-                if (soundEnabled) playSuccessSound();
-                showFeedback("Betul! 🎉", "success");
-            } else {
-                streak = 0;
-                if (soundEnabled) playErrorSound();
-                showFeedback("Tidak tepat 😔", "error");
-            }
-
-            updateScore();
-            
+            // Animate solar eclipse
             setTimeout(() => {
-                currentQuestion++;
-                if (currentQuestion < questions.length) {
-                    loadQuestion();
+                const moon = document.getElementById('moon');
+                const shadow = document.getElementById('shadow');
+                const earth = document.getElementById('earth');
+                
+                // Responsive positioning based on screen size
+                const isMobile = window.innerWidth <= 768;
+                const isSmallMobile = window.innerWidth <= 480;
+                
+                if (isSmallMobile) {
+                    // Small mobile positioning
+                    moon.style.left = '120px';
+                    shadow.style.left = '155px';
+                    shadow.style.width = '25px';
+                    shadow.style.height = '25px';
+                } else if (isMobile) {
+                    // Mobile positioning
+                    moon.style.left = '150px';
+                    shadow.style.left = '205px';
+                    shadow.style.width = '30px';
+                    shadow.style.height = '30px';
                 } else {
-                    showResults();
+                    // Desktop positioning
+                    moon.style.left = '280px';
+                    shadow.style.left = '420px';
+                    shadow.style.width = '40px';
+                    shadow.style.height = '40px';
                 }
-            }, 2000);
+                
+                moon.style.top = '50%';
+                moon.style.transform = 'translateY(-50%)';
+                
+                // Create shadow on earth
+                shadow.style.top = '50%';
+                shadow.style.transform = 'translateY(-50%)';
+                shadow.style.opacity = '0.8';
+                
+                // Dim light rays
+                document.getElementById('ray1').style.opacity = '0.2';
+                document.getElementById('ray2').style.opacity = '0.2';
+                document.getElementById('ray3').style.opacity = '0.2';
+            }, 500);
         }
-
-        function showFeedback(message, type) {
-            const feedback = document.createElement('div');
-            feedback.className = `fixed top-4 right-4 p-4 rounded-lg text-white font-semibold z-50 bounce ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
-            feedback.textContent = message;
-            document.body.appendChild(feedback);
+        
+        function showLunarEclipse() {
+            currentEclipse = 'lunar';
             
-            setTimeout(() => {
-                feedback.remove();
-            }, 2000);
-        }
-
-        function updateScore() {
-            document.getElementById('score').textContent = score;
-            document.getElementById('streak').textContent = streak;
-        }
-
-        function updateQuestionCount() {
-            document.getElementById('question-count').textContent = `${currentQuestion + 1}/${questions.length}`;
-        }
-
-        function showResults() {
-            document.getElementById('quiz-container').classList.add('hidden');
-            const resultsContainer = document.getElementById('results-container');
-            resultsContainer.classList.remove('hidden');
+            // Reset positions first
+            resetPositions();
             
-            const percentage = (score / (questions.length * 10)) * 100;
-            let emoji, title, message;
+            // Update info
+            document.getElementById('eclipseInfo').innerHTML = `
+                <h3>🌙 Gerhana Bulan</h3>
+                <p>Gerhana bulan berlaku apabila bumi berada di antara matahari dan bulan, menyebabkan bayang-bayang bumi menutupi bulan.</p>
+            `;
             
-            if (percentage >= 90) {
-                emoji = "🏆";
-                title = "Cemerlang!";
-                message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Pengetahuan anda tentang pengangkutan awam Malaysia sangat baik!`;
-            } else if (percentage >= 80) {
-                emoji = "🎉";
-                title = "Bagus!";
-                message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Prestasi yang baik!`;
-            } else if (percentage >= 60) {
-                emoji = "😊";
-                title = "Memuaskan";
-                message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Teruskan usaha yang baik!`;
-            } else if (percentage >= 40) {
-                emoji = "👍";
-                title = "Baik";
-                message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Masih ada ruang untuk diperbaiki!`;
-            } else {
-                emoji = "💪";
-                title = "Tidak Memuaskan";
-                message = `Anda mendapat ${score}/${questions.length * 10} markah (${percentage.toFixed(0)}%). Jangan putus asa, cuba lagi!`;
-            }
-            
-            document.getElementById('result-emoji').textContent = emoji;
-            document.getElementById('result-title').textContent = title;
-            document.getElementById('result-message').textContent = message;
-        }
-
-        function resetQuiz() {
-            currentQuestion = 0;
-            score = 0;
-            streak = 0;
-            updateScore();
-            document.getElementById('results-container').classList.add('hidden');
-            document.getElementById('quiz-container').classList.remove('hidden');
-            loadQuestion();
-        }
-
-        function showHint() {
-            const question = questions[currentQuestion];
-            document.getElementById('hint-text').textContent = question.hint;
-            document.getElementById('hint-modal').classList.remove('hidden');
-            document.getElementById('hint-modal').classList.add('flex');
-        }
-
-        function closeHint() {
-            document.getElementById('hint-modal').classList.add('hidden');
-            document.getElementById('hint-modal').classList.remove('flex');
-        }
-
-        function showStats() {
-            const percentage = currentQuestion > 0 ? (score / (currentQuestion * 10)) * 100 : 0;
-            alert(`📊 Statistik Semasa:\n\n✅ Soalan Dijawab: ${currentQuestion}/${questions.length}\n🎯 Markah: ${score}/${questions.length * 10}\n📈 Peratusan: ${percentage.toFixed(1)}%\n🔥 Streak: ${streak}`);
-        }
-
-        function showProgress() {
-            const percentage = currentQuestion > 0 ? (score / (currentQuestion * 10)) * 100 : 0;
-            const progressBar = `
-                <div class="mb-4">
-                    <div class="flex justify-between text-sm mb-2">
-                        <span>Kemajuan Keseluruhan</span>
-                        <span>${currentQuestion}/${questions.length}</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-3">
-                        <div class="bg-blue-600 h-3 rounded-full transition-all duration-500" style="width: ${(currentQuestion/questions.length)*100}%"></div>
-                    </div>
+            // Show phases
+            document.getElementById('phases').style.display = 'grid';
+            document.getElementById('phases').innerHTML = `
+                <div class="phase">
+                    <h4>Fasa Penumbra</h4>
+                    <p>Bulan memasuki bayang-bayang separa bumi</p>
                 </div>
-                <div class="mb-4">
-                    <div class="flex justify-between text-sm mb-2">
-                        <span>Prestasi</span>
-                        <span>${percentage.toFixed(1)}%</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-3">
-                        <div class="bg-green-600 h-3 rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
-                    </div>
+                <div class="phase">
+                    <h4>Fasa Umbra</h4>
+                    <p>Bulan berada dalam bayang-bayang penuh bumi</p>
                 </div>
-                <div class="grid grid-cols-2 gap-4 text-center">
-                    <div class="bg-blue-50 p-3 rounded-lg">
-                        <div class="text-2xl font-bold text-blue-600">${score}</div>
-                        <div class="text-sm text-gray-600">Markah</div>
-                    </div>
-                    <div class="bg-orange-50 p-3 rounded-lg">
-                        <div class="text-2xl font-bold text-orange-600">${streak}</div>
-                        <div class="text-sm text-gray-600">Streak</div>
-                    </div>
+                <div class="phase">
+                    <h4>Bulan Merah</h4>
+                    <p>Bulan kelihatan merah kerana pembiasan cahaya</p>
                 </div>
             `;
             
-            document.getElementById('progress-content').innerHTML = progressBar;
-            document.getElementById('progress-modal').classList.remove('hidden');
-            document.getElementById('progress-modal').classList.add('flex');
+            // Animate lunar eclipse
+            setTimeout(() => {
+                const moon = document.getElementById('moon');
+                const shadow = document.getElementById('shadow');
+                const earth = document.getElementById('earth');
+                
+                // Responsive positioning based on screen size
+                const isMobile = window.innerWidth <= 768;
+                const isSmallMobile = window.innerWidth <= 480;
+                
+                if (isSmallMobile) {
+                    // Small mobile positioning
+                    moon.style.left = '250px';
+                    shadow.style.left = '250px';
+                    shadow.style.width = '18px';
+                    shadow.style.height = '18px';
+                } else if (isMobile) {
+                    // Mobile positioning
+                    moon.style.left = '320px';
+                    shadow.style.left = '320px';
+                    shadow.style.width = '22px';
+                    shadow.style.height = '22px';
+                } else {
+                    // Desktop positioning
+                    moon.style.left = '600px';
+                    shadow.style.left = '600px';
+                    shadow.style.width = '30px';
+                    shadow.style.height = '30px';
+                }
+                
+                // Position moon behind earth (from sun's perspective)
+                moon.style.top = '50%';
+                moon.style.transform = 'translateY(-50%)';
+                
+                // Create earth's shadow on moon
+                shadow.style.top = '50%';
+                shadow.style.transform = 'translateY(-50%)';
+                shadow.style.opacity = '0.7';
+                
+                // Change moon color to reddish
+                setTimeout(() => {
+                    moon.style.background = 'radial-gradient(circle, #cc4125, #8b2500)';
+                    moon.style.boxShadow = '0 0 15px rgba(204, 65, 37, 0.5)';
+                }, 1000);
+                
+            }, 500);
         }
-
-        function closeProgress() {
-            document.getElementById('progress-modal').classList.add('hidden');
-            document.getElementById('progress-modal').classList.remove('flex');
+        
+        function resetSimulation() {
+            currentEclipse = null;
+            resetPositions();
+            
+            // Reset info
+            document.getElementById('eclipseInfo').innerHTML = `
+                <h3>Pilih jenis gerhana untuk melihat simulasi</h3>
+                <p>Klik butang di atas untuk melihat bagaimana gerhana matahari dan bulan berlaku.</p>
+            `;
+            
+            // Hide phases
+            document.getElementById('phases').style.display = 'none';
+            
+            // Reset light rays
+            document.getElementById('ray1').style.opacity = '0.6';
+            document.getElementById('ray2').style.opacity = '0.6';
+            document.getElementById('ray3').style.opacity = '0.6';
         }
-
-        function showNotes() {
-            document.getElementById('notes-modal').classList.remove('hidden');
-            document.getElementById('notes-modal').classList.add('flex');
+        
+        function resetPositions() {
+            const sun = document.getElementById('sun');
+            const earth = document.getElementById('earth');
+            const moon = document.getElementById('moon');
+            const shadow = document.getElementById('shadow');
+            
+            // Responsive positioning based on screen size
+            const isMobile = window.innerWidth <= 768;
+            const isSmallMobile = window.innerWidth <= 480;
+            
+            if (isSmallMobile) {
+                // Small mobile positions
+                sun.style.left = '20px';
+                earth.style.left = '150px';
+                moon.style.left = '200px';
+            } else if (isMobile) {
+                // Mobile positions
+                sun.style.left = '30px';
+                earth.style.left = '200px';
+                moon.style.left = '260px';
+            } else {
+                // Desktop positions
+                sun.style.left = '50px';
+                earth.style.left = '400px';
+                moon.style.left = '500px';
+            }
+            
+            // Reset to original positions
+            sun.style.top = '50%';
+            sun.style.transform = 'translateY(-50%)';
+            
+            earth.style.top = '50%';
+            earth.style.transform = 'translateY(-50%)';
+            
+            moon.style.top = '50%';
+            moon.style.transform = 'translateY(-50%)';
+            moon.style.background = 'radial-gradient(circle, #e6e6e6, #cccccc)';
+            moon.style.boxShadow = '0 0 10px rgba(230, 230, 230, 0.3)';
+            
+            // Hide shadow
+            shadow.style.opacity = '0';
         }
-
-        function closeNotes() {
-            document.getElementById('notes-modal').classList.add('hidden');
-            document.getElementById('notes-modal').classList.remove('flex');
+        
+        // Add some twinkling stars
+        function createStars() {
+            const scene = document.getElementById('spaceScene');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.width = '2px';
+                star.style.height = '2px';
+                star.style.backgroundColor = 'white';
+                star.style.borderRadius = '50%';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.opacity = Math.random() * 0.8 + 0.2;
+                star.style.animation = `twinkle ${Math.random() * 3 + 2}s infinite`;
+                scene.appendChild(star);
+            }
         }
-
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            const btn = event.target;
-            btn.textContent = soundEnabled ? '🔊 Bunyi' : '🔇 Bunyi';
+        
+        // Add twinkle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes twinkle {
+                0%, 100% { opacity: 0.2; }
+                50% { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Position light rays responsively
+        function positionLightRays() {
+            const isMobile = window.innerWidth <= 768;
+            const isSmallMobile = window.innerWidth <= 480;
+            
+            const ray1 = document.getElementById('ray1');
+            const ray2 = document.getElementById('ray2');
+            const ray3 = document.getElementById('ray3');
+            
+            if (isSmallMobile) {
+                // Small mobile light rays
+                ray1.style.cssText = 'top: 100px; left: 70px; width: 120px;';
+                ray2.style.cssText = 'top: 110px; left: 70px; width: 120px;';
+                ray3.style.cssText = 'top: 120px; left: 70px; width: 120px;';
+            } else if (isMobile) {
+                // Mobile light rays
+                ray1.style.cssText = 'top: 130px; left: 90px; width: 150px;';
+                ray2.style.cssText = 'top: 140px; left: 90px; width: 150px;';
+                ray3.style.cssText = 'top: 150px; left: 90px; width: 150px;';
+            } else {
+                // Desktop light rays
+                ray1.style.cssText = 'top: 180px; left: 130px; width: 250px;';
+                ray2.style.cssText = 'top: 200px; left: 130px; width: 250px;';
+                ray3.style.cssText = 'top: 220px; left: 130px; width: 250px;';
+            }
         }
-
-        function playSuccessSound() {
-            // Simple audio feedback using Web Audio API
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
-            oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
-            oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
-            
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.3);
-        }
-
-        function playErrorSound() {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
-            oscillator.frequency.setValueAtTime(150, audioContext.currentTime + 0.1);
-            
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.2);
-        }
-
-        // Initialize the quiz
-        loadQuestion();
+        
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            createStars();
+            positionLightRays();
+        });
+        
+        // Reposition on window resize
+        window.addEventListener('resize', () => {
+            positionLightRays();
+            resetPositions();
+        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9831be57f1948e0c',t:'MTc1ODU0MzQ5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9836ad20f2145348',t:'MTc1ODU5NTIxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
