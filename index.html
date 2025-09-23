@@ -1,366 +1,375 @@
 <!doctype html>
 <html lang="ms">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Simulasi Perkembangan Potensi Diri</title>
-  <style>
-    :root{
-      --bg:#f7fafc;
-      --card:#ffffff;
-      --muted:#6b7280;
-      --accent1:#38bdf8; /* blue */
-      --accent2:#34d399; /* green */
-      --accent3:#f59e0b; /* amber */
-      --accent4:#a78bfa; /* purple */
-      --accent5:#fb7185; /* pink/red */
-      --accent6:#60a5fa; /* light */
-      --shadow: 0 6px 18px rgba(15,23,42,0.08);
-      --glass: rgba(255,255,255,0.6);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    html,body{
-      height:100%;
-      margin:0;
-      background:linear-gradient(180deg, #f1f5f9 0%, var(--bg) 40%);
-      color:#0f172a;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-    .wrap{
-      max-width:980px;
-      margin:28px auto;
-      padding:20px;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Roda Impian: Sayangi Anggota Keluarga</title>
+<style>
+  :root{
+    --bg:#f1f5f9; --card:#fff; --muted:#6b7280;
+    --accent:#06b6d4; --accent2:#34d399; --danger:#fb7185;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,#f8fafc,#eef2ff);color:#0f172a}
+  .wrap{max-width:980px;margin:24px auto;padding:16px}
+  header{display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center}
+  h1{margin:0;font-size:1.4rem}
+  p.lead{margin:0;color:var(--muted);font-size:.95rem}
 
-    header{
-      text-align:center;
-      margin-bottom:18px;
-    }
-    h1{
-      margin:0;
-      font-size:1.6rem;
-      letter-spacing:-0.2px;
-    }
-    p.lead{
-      margin:8px 0 0;
-      color:var(--muted);
-      font-size:0.95rem;
-    }
+  .game{
+    display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:18px;
+  }
+  @media(max-width:880px){ .game{grid-template-columns:1fr;}}
+  /* wheel area */
+  .wheelWrap{
+    background:var(--card);border-radius:14px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.08);
+    display:flex;flex-direction:column;align-items:center;gap:12px;
+  }
+  .wheelCanvas{width:100%;max-width:520px}
+  .spinBtn{
+    background:linear-gradient(90deg,var(--accent),#3b82f6);color:#fff;border:none;padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;
+    box-shadow:0 8px 18px rgba(3,7,18,0.12);
+  }
+  .spinBtn:disabled{opacity:.5;cursor:not-allowed}
+  .infoRow{display:flex;gap:8px;align-items:center;font-size:.95rem;color:var(--muted)}
+  .score{font-weight:800;color:#0b1220}
 
-    /* timeline container */
-    .timeline{
-      position:relative;
-      margin-top:28px;
-      display:flex;
-      gap:20px;
-      align-items:flex-start;
-      justify-content:center;
-      flex-direction:column;
-    }
+  /* panel kanan */
+  .panel{
+    background:var(--card);border-radius:14px;padding:14px;box-shadow:0 10px 30px rgba(2,6,23,0.06);
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .panel h3{margin:0;font-size:1rem}
+  .situasiBox{min-height:120px;display:flex;flex-direction:column;gap:8px;justify-content:center;padding:10px;border-radius:10px;border:1px dashed #e6edf3;background:linear-gradient(180deg,rgba(255,255,255,0.6),transparent)}
+  .options{display:flex;flex-direction:column;gap:8px}
+  .optBtn{
+    border-radius:10px;padding:10px;text-align:left;border:1px solid #e6eef6;background:#fff;cursor:pointer;font-weight:600;
+  }
+  .optBtn.correct{background:linear-gradient(90deg,#bbf7d0,#86efac);border-color:#34d399}
+  .optBtn.wrong{background:linear-gradient(90deg,#fee2e2,#fca5a5);border-color:#fb7185;color:#750000}
+  .optBtn:disabled{opacity:.7;cursor:not-allowed}
 
-    /* vertical line */
-    .timeline::before{
-      content:'';
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      width:6px;
-      height:100%;
-      max-height:100%;
-      border-radius:999px;
-      background:linear-gradient(180deg,var(--accent1),var(--accent2),var(--accent3),var(--accent4));
-      z-index:0;
-    }
+  .feedback{min-height:40px;color:var(--muted);font-weight:600}
+  .controlsRow{display:flex;gap:8px;justify-content:space-between;align-items:center}
+  .small{font-size:.88rem;color:var(--muted)}
+  footer{margin-top:18px;text-align:center;color:var(--muted);font-size:.86rem}
 
-    .card{
-      position:relative;
-      width:100%;
-      background:var(--card);
-      box-shadow:var(--shadow);
-      border-radius:14px;
-      padding:18px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:10px;
-      z-index:2;
-      transform-origin:center;
-      transition:transform .36s ease, box-shadow .36s;
-    }
-    .card.hidden{ display:none; }
-
-    .icon{
-      width:64px;height:64px;border-radius:999px;
-      display:flex;align-items:center;justify-content:center;
-      background:linear-gradient(135deg, rgba(255,255,255,0.55), rgba(255,255,255,0.25));
-      box-shadow:0 6px 18px rgba(2,6,23,0.06) inset;
-      flex-shrink:0;
-    }
-    .age{
-      font-weight:600;
-      color:var(--muted);
-      font-size:.95rem;
-    }
-    .title{
-      font-size:1.15rem;
-      font-weight:700;
-      color:#0f172a;
-      text-align:center;
-    }
-    .desc{
-      color:var(--muted);
-      text-align:center;
-      line-height:1.45;
-      font-size:.95rem;
-    }
-
-    /* controls */
-    .controls{
-      display:flex;
-      gap:10px;
-      justify-content:space-between;
-      margin-top:18px;
-      align-items:center;
-    }
-    .btn{
-      background:linear-gradient(90deg,#111827,#1f2937);
-      color:#fff;border:none;padding:10px 14px;border-radius:10px;
-      cursor:pointer;font-weight:600;font-size:0.95rem;
-      box-shadow:0 6px 20px rgba(2,6,23,0.12);
-      transition:transform .14s ease, opacity .14s;
-    }
-    .btn:active{ transform:translateY(1px); }
-    .btn[disabled]{
-      opacity:.45;cursor:not-allowed;transform:none;
-    }
-
-    .step-indicator{
-      text-align:center;
-      font-size:.88rem;
-      color:var(--muted);
-    }
-
-    /* small devices: stack, center timeline line to left of cards */
-    @media (max-width:720px){
-      .wrap{ padding:14px; }
-      .timeline::before{ left:20px; transform:none; }
-      .card{
-        margin-left:42px;
-        border-radius:12px;
-        padding:14px;
-        text-align:left;
-        align-items:flex-start;
-      }
-      .icon{ width:48px;height:48px; }
-      .controls{ flex-direction:column; gap:8px; align-items:stretch; }
-      .btn{ width:100%; }
-    }
-
-    /* desktop: card size limit */
-    @media (min-width:721px){
-      .card{
-        width:70%;
-        margin-left:auto;margin-right:auto;
-      }
-      .card.left{ transform: translateX(-40px); }
-      .card.right{ transform: translateX(40px); }
-    }
-
-    /* subtle appear animation */
-    .animate-in{
-      animation: popIn .42s ease both;
-    }
-    @keyframes popIn{
-      0%{ opacity:0; transform:translateY(18px) scale(.98); }
-      100%{ opacity:1; transform:translateY(0) scale(1); }
-    }
-
-    /* progress bar */
-    .progressWrap{
-      margin-top:14px;
-      display:flex; gap:8px; justify-content:center;
-    }
-    .dot{
-      width:10px;height:10px;border-radius:50%;
-      background:rgba(0,0,0,0.08);
-      transition:transform .22s ease, background .22s;
-    }
-    .dot.active{ transform:scale(1.4); background:linear-gradient(90deg,var(--accent1),var(--accent5)); box-shadow:0 6px 20px rgba(99,102,241,0.12); }
-
-    /* keyboard hint */
-    .hint{ margin-top:10px; color:var(--muted); font-size:0.86rem; text-align:center;}
-    /* focus outlines */
-    .btn:focus{ outline:3px solid rgba(56,189,248,0.14); outline-offset:3px; }
-  </style>
+  /* pointer */
+  .pointer{
+    position:relative;width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:22px solid #111827;border-radius:2px;
+    margin-top:-6px;
+    filter:drop-shadow(0 6px 10px rgba(2,6,23,0.12));
+  }
+</style>
 </head>
 <body>
-  <main class="wrap" role="main">
-    <header>
-      <h1>Simulasi Perkembangan Potensi Diri</h1>
-      <p class="lead">Alur usia dan tindakan untuk mengembangkan potensi diri — direka untuk murid 13–17 tahun dan sesuai untuk pembelajaran Pendidikan Moral Tingkatan 1, Unit 5.</p>
-    </header>
+<main class="wrap" role="main">
+  <header>
+    <h1>Roda Impian: Cara Menyayangi Anggota Keluarga</h1>
+    <p class="lead">Klik 'Putar Roda' → jawab tindakan yang betul untuk situasi keluarga. Sesuai untuk aktiviti kelas Pendidikan Moral.</p>
+  </header>
 
-    <section aria-label="Timeline simulasi" class="timeline" id="timeline">
-      <!-- Cards will be injected by JS -->
-    </section>
-
-    <div class="controls" style="max-width:980px;margin:18px auto 0;">
-      <button class="btn" id="prevBtn" aria-label="Sebelumnya (tombol kiri)" disabled>← Sebelumnya</button>
-      <div style="flex:1 1 auto;text-align:center;">
-        <div class="step-indicator" id="stepText">Langkah 1 daripada 6</div>
-        <div class="progressWrap" id="dots"></div>
-        <div class="hint">Gunakan butang, atau kekunci ⬅️ ⮕ untuk bergerak.</div>
+  <section class="game" aria-label="Permainan Roda Impian">
+    <div class="wheelWrap" aria-hidden="false">
+      <canvas id="wheel" class="wheelCanvas" width="520" height="520"></canvas>
+      <div class="pointer" aria-hidden="true"></div>
+      <div style="display:flex;gap:10px;align-items:center;margin-top:8px;">
+        <button id="spinBtn" class="spinBtn" aria-label="Putar roda">Putar Roda</button>
+        <div class="infoRow"><span class="small">Skor:</span> <span class="score" id="score">0</span></div>
       </div>
-      <button class="btn" id="nextBtn" aria-label="Seterusnya (tombol kanan)">Seterusnya →</button>
+      <div class="small" style="margin-top:6px">Petua: Gunakan kekunci ruang (space) untuk putar.</div>
     </div>
 
-  <script>
-    // DATA: langkah-langkah simulasi
-    const steps = [
-      {
-        age: '13 – 17 tahun',
-        title: 'Menyertai Pertandingan',
-        desc: 'Mengambil bahagian dalam pertandingan berkaitan cita-cita untuk mengasah bakat, keyakinan, dan kemahiran kepimpinan.',
-        color: getComputedStyle(document.documentElement).getPropertyValue('--accent1').trim()
-      },
-      {
-        age: '18 – 19 tahun',
-        title: 'Pilih Program Asasi',
-        desc: 'Memilih program asas yang selari dengan jurusan yang diinginkan sambil membina kemahiran komunikasi dan pemikiran kritis.',
-        color: getComputedStyle(document.documentElement).getPropertyValue('--accent2').trim()
-      },
-      {
-        age: '20 – 23 tahun',
-        title: 'Ijazah Sarjana Muda',
-        desc: 'Melanjutkan pelajaran dalam bidang khusus yang diminati serta melibatkan diri dalam penyelidikan dan aktiviti universiti.',
-        color: getComputedStyle(document.documentElement).getPropertyValue('--accent3').trim()
-      },
-      {
-        age: '24 – 34 tahun',
-        title: 'Bekerja dari Peringkat Bawah',
-        desc: 'Memulakan kerjaya dengan pengalaman asas, membina rangkaian profesional, dan mengembangkan kemahiran praktikal.',
-        color: getComputedStyle(document.documentElement).getPropertyValue('--accent4').trim()
-      },
-      {
-        age: '35 tahun',
-        title: 'Mengembangkan Kerjaya',
-        desc: 'Mencapai kejayaan dengan memperluaskan peranan, menjadi pemimpin, dan memberi sumbangan kepada masyarakat.',
-        color: getComputedStyle(document.documentElement).getPropertyValue('--accent5').trim()
-      },
-      {
-        age: 'Sepanjang Hayat',
-        title: 'Pembelajaran Berterusan',
-        desc: 'Sentiasa meningkatkan ilmu dan kemahiran melalui kursus, seminar, atau pembelajaran kendiri.',
-        color: getComputedStyle(document.documentElement).getPropertyValue('--accent6').trim()
-      }
-    ];
+    <aside class="panel" aria-live="polite">
+      <h3>Situasi & Pilihan</h3>
+      <div class="situasiBox" id="situasiBox">Putarkan roda untuk melihat situasi.</div>
 
-    // create card markup
-    const timeline = document.getElementById('timeline');
-    steps.forEach((s, idx) => {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'card animate-in' + ((idx % 2 === 0) ? ' left' : ' right');
-      wrapper.setAttribute('data-index', idx);
-      // SVG icon simple circle with letter initials
-      wrapper.innerHTML = `
-        <div class="icon" aria-hidden="true" style="background: linear-gradient(135deg, ${s.color}, rgba(255,255,255,0.08));">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-            <circle cx="12" cy="12" r="9" fill="white" opacity="0.12"/>
-            <text x="12" y="16" text-anchor="middle" font-size="10" font-family="Inter, Arial" fill="#fff">${(s.age.split(' ')[0] || 'A').replace(/\D/g,'') || '✓'}</text>
-          </svg>
+      <div class="options" id="options"></div>
+
+      <div class="feedback" id="feedback"></div>
+
+      <div class="controlsRow">
+        <div class="small">Langkah: <span id="round">0</span>/<span id="totalRounds">6</span></div>
+        <div style="display:flex;gap:8px">
+          <button id="resetBtn" class="spinBtn" style="background:linear-gradient(90deg,#ef4444,#f97316);">Reset</button>
         </div>
-        <div class="age">${escapeHtml(s.age)}</div>
-        <div class="title">${escapeHtml(s.title)}</div>
-        <div class="desc">${escapeHtml(s.desc)}</div>
-      `;
-      // start hidden except first
-      if(idx !== 0) wrapper.classList.add('hidden');
-      timeline.appendChild(wrapper);
-    });
+      </div>
+    </aside>
+  </section>
 
-    // controls
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const stepText = document.getElementById('stepText');
-    const dotsWrap = document.getElementById('dots');
-    const cards = Array.from(document.querySelectorAll('.card'));
-
-    // build dots
-    steps.forEach((_, i) => {
-      const d = document.createElement('div');
-      d.className = 'dot' + (i === 0 ? ' active' : '');
-      d.title = 'Langkah ' + (i+1);
-      d.setAttribute('data-index', i);
-      d.style.cursor = 'pointer';
-      d.addEventListener('click', ()=>goTo(i));
-      dotsWrap.appendChild(d);
-    });
-
-    let current = 0;
-    updateControls();
-
-    prevBtn.addEventListener('click', ()=>{ if(current>0) goTo(current-1); });
-    nextBtn.addEventListener('click', ()=>{ if(current < steps.length-1) goTo(current+1); });
-
-    // keyboard navigation
-    window.addEventListener('keydown', (e)=>{
-      if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){ if(current < steps.length-1) goTo(current+1); }
-      if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){ if(current > 0) goTo(current-1); }
-    });
-
-    // core function to move
-    function goTo(index){
-      if(index === current) return;
-      // hide old
-      const oldCard = cards[current];
-      oldCard.classList.add('hidden');
-      oldCard.classList.remove('animate-in');
-
-      // show new
-      const newCard = cards[index];
-      newCard.classList.remove('hidden');
-      // re-trigger animation
-      newCard.classList.remove('animate-in');
-      void newCard.offsetWidth;
-      newCard.classList.add('animate-in');
-
-      // update dots
-      dotsWrap.querySelectorAll('.dot').forEach((d,i)=> d.classList.toggle('active', i===index));
-
-      current = index;
-      updateControls();
-      // scroll into view on small devices
-      if(window.innerWidth <= 720) {
-        newCard.scrollIntoView({behavior:'smooth',block:'center'});
-      }
-    }
-
-    function updateControls(){
-      prevBtn.disabled = current === 0;
-      nextBtn.disabled = current === (steps.length - 1);
-      stepText.textContent = `Langkah ${current+1} daripada ${steps.length}`;
-    }
-
-    // small helper to escape text
-    function escapeHtml(str){
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-
-    // Accessibility: focus first button on load for keyboard users
-    document.addEventListener('DOMContentLoaded', ()=>{ nextBtn.focus(); });
-
-    // Optional: auto-resize timeline height to fit cards on desktop
-    function adjustLineHeight(){
-      // nothing needed: CSS covers it. kept for possible future enhancement.
-    }
-    window.addEventListener('resize', adjustLineHeight);
-  </script>
+  <footer>
+    Guru boleh edit senarai situasi terus dalam kod JavaScript (bahagian DATA) untuk sesuaikan kelas.
+  </footer>
 </main>
+
+<script>
+/*
+  Roda Impian (versi mudah)
+  - 6 sektor (boleh ubah dataSteps array)
+  - Selepas putaran, paparkan situasi dan pilihan
+  - Murid memilih; markah +1 untuk jawapan betul
+*/
+
+// DATA: senarai situasi (boleh edit/luaskan)
+const dataSteps = [
+  {
+    label: 'Adik menangis kerana terjatuh',
+    question: 'Apakah tindakan paling sesuai?',
+    options: [
+      { t: 'Menolong dan memberi perhatian', correct: true },
+      { t: 'Ketawa dan pergi', correct: false },
+      { t: 'Tinggalkan adik sendirian', correct: false }
+    ]
+  },
+  {
+    label: 'Ibu sibuk memasak dan perlukan bantuan',
+    question: 'Apakah tindakan paling sesuai?',
+    options: [
+      { t: 'Tawarkan bantuan sekurang-kurangnya ambil piring', correct: true },
+      { t: 'Tunggu sehingga ibu panggil sahaja', correct: false },
+      { t: 'Tinggalkan dapur kerana bau masakan', correct: false }
+    ]
+  },
+  {
+    label: 'Ayah pulang letih dari kerja',
+    question: 'Apakah yang boleh dibuat untuk tunjuk sayang?',
+    options: [
+      { t: 'Sambut dengan senyuman dan tanya khabar', correct: true },
+      { t: 'Terus minta duit', correct: false },
+      { t: 'Terapkan muzik kuat supaya ayah tidak rehat', correct: false }
+    ]
+  },
+  {
+    label: 'Kakak perlukan tunjuk ajar untuk ulangkaji',
+    question: 'Apa tindakan yang sesuai?',
+    options: [
+      { t: 'Sediakan masa untuk membantu ulangkaji', correct: true },
+      { t: 'Mengalihkan perhatian dengan main telefon', correct: false },
+      { t: 'Mengejek kesusahan kakak', correct: false }
+    ]
+  },
+  {
+    label: 'Ahli keluarga ada pertelingkahan kecil',
+    question: 'Bagaimanakah cara menunjukkan kasih sayang?',
+    options: [
+      { t: 'Bercakap elok dan cuba berdamai', correct: true },
+      { t: 'Mengambil peluang memperbesar isu', correct: false },
+      { t: 'Berdiam diri tanpa cuba selesaikan', correct: false }
+    ]
+  },
+  {
+    label: 'Rumah perlu dibersihkan sebagai tanggungjawab bersama',
+    question: 'Tindakan paling wajar?',
+    options: [
+      { t: 'Ambil bahagian dan tolong kemas', correct: true },
+      { t: 'Biarkan sahaja orang lain buat', correct: false },
+      { t: 'Buat kerja separuh hati sahaja', correct: false }
+    ]
+  }
+];
+
+// Config
+const totalRounds = dataSteps.length;
+
+// Canvas & wheel
+const canvas = document.getElementById('wheel');
+const ctx = canvas.getContext('2d');
+const centerX = canvas.width/2;
+const centerY = canvas.height/2;
+const radius = Math.min(centerX, centerY) - 10;
+
+let currentAngle = 0;
+let spinTimeout = null;
+let isSpinning = false;
+
+// UI refs
+const spinBtn = document.getElementById('spinBtn');
+const scoreEl = document.getElementById('score');
+const situasiBox = document.getElementById('situasiBox');
+const optionsEl = document.getElementById('options');
+const feedbackEl = document.getElementById('feedback');
+const roundEl = document.getElementById('round');
+const totalRoundsEl = document.getElementById('totalRounds');
+const resetBtn = document.getElementById('resetBtn');
+
+let score = 0;
+let round = 0;
+let lastIndex = -1;
+
+totalRoundsEl.textContent = totalRounds;
+
+// draw wheel sectors
+function drawWheel(){
+  const sectors = dataSteps.length;
+  const arc = Math.PI * 2 / sectors;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  for(let i=0;i<sectors;i++){
+    const start = currentAngle + i * arc;
+    const end = start + arc;
+    // color palette
+    const colors = ['#06b6d4','#34d399','#f59e0b','#a78bfa','#fb7185','#60a5fa'];
+    ctx.beginPath();
+    ctx.moveTo(centerX,centerY);
+    ctx.arc(centerX, centerY, radius, start, end, false);
+    ctx.closePath();
+    ctx.fillStyle = colors[i % colors.length];
+    ctx.fill();
+
+    // text
+    ctx.save();
+    ctx.translate(centerX, centerY);
+    ctx.rotate(start + arc/2);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = 'rgba(255,255,255,0.95)';
+    ctx.font = 'bold 16px sans-serif';
+    ctx.fillText(dataSteps[i].label, radius - 12, 6);
+    ctx.restore();
+  }
+
+  // center circle
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, 44, 0, Math.PI*2);
+  ctx.fillStyle = '#111827';
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.font = '700 14px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('PUTAR', centerX, centerY+6);
+}
+drawWheel();
+
+// spin logic
+function spinWheel(){
+  if(isSpinning) return;
+  isSpinning = true;
+  spinBtn.disabled = true;
+  feedbackEl.textContent = '';
+  optionsEl.innerHTML = '';
+  situasiBox.textContent = '...' ;
+
+  // random full rotations and target sector
+  const sectors = dataSteps.length;
+  const rndSector = Math.floor(Math.random() * sectors);
+  // ensure not same as last to vary
+  const targetSector = (rndSector === lastIndex) ? (rndSector + 1) % sectors : rndSector;
+  lastIndex = targetSector;
+
+  const arc = Math.PI * 2 / sectors;
+  // compute random angle within target sector
+  const randomOffset = (Math.random() * (arc - 0.1)) + 0.05; // avoid exact edge
+  const targetAngle = (Math.PI * 6) + ( (sectors - targetSector) * arc ) - (arc/2) + randomOffset; // 3 full rotations + sector offset
+
+  const duration = 3800 + Math.random()*900; // ms
+  const start = performance.now();
+  const from = currentAngle;
+  const to = currentAngle + targetAngle;
+
+  function animate(now){
+    const elapsed = now - start;
+    const t = Math.min(1, elapsed / duration);
+    // easeOutCubic
+    const ease = 1 - Math.pow(1 - t, 3);
+    currentAngle = from + (to - from) * ease;
+    drawWheel();
+    // draw pointer highlight
+    if(t < 1){
+      spinTimeout = requestAnimationFrame(animate);
+    } else {
+      isSpinning = false;
+      spinBtn.disabled = false;
+      // determine landed sector
+      const landed = Math.floor( ((currentAngle % (Math.PI*2)) / (Math.PI*2)) * sectors );
+      // convert to index (reverse mapping due to text rotation)
+      let index = (sectors - landed) % sectors;
+      // safety
+      index = (index + sectors) % sectors;
+      showSituation(index);
+    }
+  }
+  spinTimeout = requestAnimationFrame(animate);
+}
+
+// show situation and options
+function showSituation(index){
+  round++;
+  roundEl.textContent = round;
+  const data = dataSteps[index];
+  situasiBox.innerHTML = `<strong>${escapeHtml(data.label)}</strong><div style="margin-top:6px;color:var(--muted)">${escapeHtml(data.question)}</div>`;
+  optionsEl.innerHTML = '';
+  feedbackEl.textContent = '';
+
+  data.options.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'optBtn';
+    b.textContent = opt.t;
+    b.disabled = false;
+    b.addEventListener('click', ()=> onChooseOption(b, opt.correct, data.options));
+    optionsEl.appendChild(b);
+  });
+
+  if(round >= totalRounds){
+    // final round: disable spin until reset to end game
+    spinBtn.disabled = true;
+  }
+}
+
+// option chosen
+function onChooseOption(button, correct, allOptions){
+  // disable all options
+  Array.from(optionsEl.children).forEach(x => x.disabled = true);
+  if(correct){
+    button.classList.add('correct');
+    feedbackEl.textContent = 'Betul! Tindakan ini menunjukkan kasih sayang.';
+    score++;
+    scoreEl.textContent = score;
+  } else {
+    button.classList.add('wrong');
+    // highlight correct one
+    const nodes = Array.from(optionsEl.children);
+    nodes.forEach((n, idx) => {
+      if(allOptions[idx].correct) n.classList.add('correct');
+    });
+    feedbackEl.textContent = 'Maaf, itu bukan tindakan terbaik. Cuba lagi!';
+  }
+
+  // if not final round, allow next spin after short delay
+  if(round < totalRounds){
+    spinBtn.disabled = false;
+  } else {
+    // game over
+    setTimeout(()=> {
+      feedbackEl.innerHTML += `<div style="margin-top:8px;font-weight:800">Permainan tamat. Skor anda: ${score}/${totalRounds}</div>`;
+      spinBtn.disabled = true;
+    }, 400);
+  }
+}
+
+// helpers & events
+spinBtn.addEventListener('click', ()=> {
+  // start only if rounds remaining
+  if(round >= totalRounds) return;
+  spinWheel();
+});
+document.addEventListener('keydown', (e)=> { if(e.code === 'Space'){ e.preventDefault(); spinBtn.click(); } });
+
+resetBtn.addEventListener('click', ()=> {
+  // reset game state
+  score = 0; round = 0; lastIndex = -1;
+  scoreEl.textContent = score;
+  roundEl.textContent = round;
+  situasiBox.textContent = 'Putarkan roda untuk melihat situasi.';
+  optionsEl.innerHTML = '';
+  feedbackEl.textContent = '';
+  spinBtn.disabled = false;
+});
+
+// small helpers
+function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// draw initially
+drawWheel();
+</script>
 </body>
 </html>
