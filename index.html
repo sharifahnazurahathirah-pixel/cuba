@@ -3,628 +3,518 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flashcard Ciri-ciri Insan Bermoral</title>
+    <title>Menghormati Amalan Keagamaan & Kepercayaan - Unit 4</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .flip-card {
-            perspective: 1000px;
-            height: 400px;
-        }
-        
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.8s;
-            transform-style: preserve-3d;
-        }
-        
-        .flip-card.flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-        
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .flip-card-back {
-            transform: rotateY(180deg);
-        }
-        
-        .progress-bar {
-            transition: width 0.5s ease-in-out;
-        }
-        
-        .bounce-in {
-            animation: bounceIn 0.6s ease-out;
-        }
-        
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .star {
-            color: #fbbf24;
-            font-size: 1.5rem;
-            margin: 0 2px;
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .gradient-bg-2 {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-        
-        .gradient-bg-3 {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-        
-        .gradient-bg-4 {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        }
-        
-        .gradient-bg-5 {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        .fade-in { animation: fadeIn 0.6s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .pulse-animation { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .slide-in { animation: slideIn 0.5s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        .bounce-in { animation: bounceIn 0.6s ease-out; }
+        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 50% { transform: scale(1.05); } 70% { transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
+        .glass-effect { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .religion-card { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .respect-card { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .practice-card { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .quiz-card { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 p-4">
-    <div class="max-w-6xl mx-auto">
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-                🌟 Ciri-ciri Insan Bermoral 🌟
-            </h1>
-            <p class="text-xl text-white/90 mb-6">Pendidikan Moral Tingkatan 1 - Unit 2</p>
-            
-            <!-- Instructions Panel -->
-            <div class="bg-white/15 backdrop-blur-sm rounded-2xl p-6 mb-6 text-left max-w-4xl mx-auto">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-2xl font-bold text-white flex items-center">
-                        📖 Cara Menggunakan Flashcard
-                    </h3>
-                    <button onclick="toggleInstructions()" id="toggleBtn" class="bg-white/20 text-white px-4 py-2 rounded-lg hover:bg-white/30 transition-all duration-200">
-                        Sembunyi
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white py-12 px-4 relative overflow-hidden">
+        <div class="absolute inset-0 bg-black/10"></div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h1 class="text-4xl md:text-5xl font-bold mb-3 pulse-animation">🕌 Agama dan Kepercayaan Rakyat Malaysia</h1>
+            <p class="text-xl opacity-90 mb-4">Pendidikan Moral Tingkatan 1 - Unit 4</p>
+            <div class="mt-6 inline-flex items-center glass-effect rounded-full px-6 py-3 shadow-lg">
+                <span class="text-sm font-medium">📚 Nota Rujukan Interaktif</span>
+            </div>
+        </div>
+        <!-- Decorative elements -->
+        <div class="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
+        <div class="absolute bottom-10 right-10 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
+    </header>
+
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <!-- Navigation -->
+        <nav class="mb-12 -mt-6">
+            <div class="bg-white rounded-2xl shadow-xl p-4 mx-4 md:mx-0">
+                <div class="flex flex-wrap justify-center gap-3 md:gap-4">
+                    <button onclick="showSection('overview')" class="nav-btn bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+                        📋 Pengenalan
+                    </button>
+                    <button onclick="showSection('religions')" class="nav-btn bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+                        🕊️ Agama di Malaysia
+                    </button>
+                    <button onclick="showSection('respect')" class="nav-btn bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+                        🤝 Cara Menghormati
+                    </button>
+                    <button onclick="showSection('practices')" class="nav-btn bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+                        ✨ Amalan Baik
+                    </button>
+                    <button onclick="showSection('quiz')" class="nav-btn bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+                        🧠 Kuiz
                     </button>
                 </div>
-                
-                <div id="instructionsContent" class="grid md:grid-cols-2 gap-6 text-white">
-                    <div>
-                        <h4 class="text-lg font-semibold mb-3 text-yellow-300">🎯 Cara Pembelajaran:</h4>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-start">
-                                <span class="text-green-400 mr-2">1️⃣</span>
-                                <span>Klik kad untuk melihat definisi ciri-ciri insan bermoral</span>
+            </div>
+        </nav>
+
+        <!-- Overview Section -->
+        <section id="overview" class="section-content">
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 card-hover">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">🎯 Objektif Pembelajaran</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">📖 Apa yang akan dipelajari:</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1">✓</span>
+                                <span>Memahami kepelbagaian agama di Malaysia</span>
                             </li>
-                            <li class="flex items-start">
-                                <span class="text-green-400 mr-2">2️⃣</span>
-                                <span>Baca dan fahami makna setiap ciri</span>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1">✓</span>
+                                <span>Menghormati amalan keagamaan orang lain</span>
                             </li>
-                            <li class="flex items-start">
-                                <span class="text-green-400 mr-2">3️⃣</span>
-                                <span>Lihat contoh dalam kehidupan harian</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-green-400 mr-2">4️⃣</span>
-                                <span>Tekan "Faham" jika sudah memahami, "Ulang" untuk belajar lagi</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-green-400 mr-2">5️⃣</span>
-                                <span>Gunakan kategori untuk fokus pada aspek tertentu</span>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1">✓</span>
+                                <span>Mengamalkan sikap toleransi dan hormat</span>
                             </li>
                         </ul>
                     </div>
-                    
-                    <div>
-                        <h4 class="text-lg font-semibold mb-3 text-yellow-300">💡 Tips Pembelajaran:</h4>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-start">
-                                <span class="text-green-400 mr-2">📚</span>
-                                <span>Pilih kategori untuk fokus pembelajaran - Perlakuan, Perasaan atau Pemikiran</span>
+                    <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-xl">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">🌟 Mengapa penting:</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start gap-2">
+                                <span class="text-orange-500 mt-1">🤝</span>
+                                <span>Mewujudkan keharmonian dalam masyarakat</span>
                             </li>
-                            <li class="flex items-start">
-                                <span class="text-green-400 mr-2">🎯</span>
-                                <span>Gunakan butang "Faham" dan "Ulang" untuk menilai pemahaman</span>
+                            <li class="flex items-start gap-2">
+                                <span class="text-orange-500 mt-1">🌈</span>
+                                <span>Menghargai kepelbagaian budaya</span>
                             </li>
-                            <li class="flex items-start">
-                                <span class="text-green-400 mr-2">⭐</span>
-                                <span>Lihat pencapaian anda di bahagian bawah</span>
+                            <li class="flex items-start gap-2">
+                                <span class="text-orange-500 mt-1">❤️</span>
+                                <span>Membina persahabatan yang kukuh</span>
                             </li>
                         </ul>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Religions Section -->
+        <section id="religions" class="section-content hidden">
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">🕊️ Agama-Agama di Malaysia</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    <div class="religion-card text-white p-8 rounded-2xl card-hover shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
+                        <div class="text-center relative z-10">
+                            <div class="text-5xl mb-4 bounce-in">☪️</div>
+                            <h3 class="text-2xl font-bold mb-3">Islam</h3>
+                            <p class="text-sm opacity-90 leading-relaxed">Agama rasmi Malaysia. Tempat ibadat: Masjid</p>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-orange-400 to-red-500 text-white p-8 rounded-2xl card-hover shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
+                        <div class="text-center relative z-10">
+                            <div class="text-5xl mb-4 bounce-in">🕉️</div>
+                            <h3 class="text-2xl font-bold mb-3">Hindu</h3>
+                            <p class="text-sm opacity-90 leading-relaxed">Tempat ibadat: Kuil. Festival: Deepavali</p>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-yellow-400 to-orange-500 text-white p-8 rounded-2xl card-hover shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
+                        <div class="text-center relative z-10">
+                            <div class="text-5xl mb-4 bounce-in">☸️</div>
+                            <h3 class="text-2xl font-bold mb-3">Buddha</h3>
+                            <p class="text-sm opacity-90 leading-relaxed">Tempat ibadat: Tokong. Festival: Wesak</p>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-blue-400 to-purple-500 text-white p-8 rounded-2xl card-hover shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
+                        <div class="text-center relative z-10">
+                            <div class="text-5xl mb-4 bounce-in">✝️</div>
+                            <h3 class="text-2xl font-bold mb-3">Kristian</h3>
+                            <p class="text-sm opacity-90 leading-relaxed">Tempat ibadat: Gereja. Festival: Krismas</p>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-teal-400 to-blue-500 text-white p-8 rounded-2xl card-hover shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
+                        <div class="text-center relative z-10">
+                            <div class="text-5xl mb-4 bounce-in">🪯</div>
+                            <h3 class="text-2xl font-bold mb-3">Sikh</h3>
+                            <p class="text-sm opacity-90 leading-relaxed">Tempat ibadat: Gurdwara</p>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-indigo-400 to-purple-500 text-white p-8 rounded-2xl card-hover shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
+                        <div class="text-center relative z-10">
+                            <div class="text-5xl mb-4 bounce-in">🏮</div>
+                            <h3 class="text-2xl font-bold mb-3">Taoisme</h3>
+                            <p class="text-sm opacity-90 leading-relaxed">Tempat ibadat: Kuil Tao</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Respect Section -->
+        <section id="respect" class="section-content hidden">
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">🤝 Cara-Cara Menghormati</h2>
+                <div class="space-y-6">
+                    <div class="respect-card text-white p-6 rounded-xl card-hover">
+                        <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                            <span>🔇</span> Tidak Mengganggu Ibadat
+                        </h3>
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <h4 class="font-semibold mb-2">✅ Yang Perlu Dilakukan:</h4>
+                                <ul class="space-y-1 opacity-90">
+                                    <li>• Berbisik atau senyap ketika orang lain beribadat</li>
+                                    <li>• Menghormati waktu solat rakan Muslim</li>
+                                    <li>• Tidak bermain bising di kawasan tempat ibadat</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-2">❌ Yang Tidak Boleh:</h4>
+                                <ul class="space-y-1 opacity-90">
+                                    <li>• Membuat bising semasa orang beribadat</li>
+                                    <li>• Mengejek cara ibadat orang lain</li>
+                                    <li>• Mengganggu upacara keagamaan</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white p-6 rounded-xl card-hover">
+                        <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                            <span>👗</span> Menghormati Pakaian & Simbol
+                        </h3>
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <h4 class="font-semibold mb-2">✅ Sikap Positif:</h4>
+                                <ul class="space-y-1 opacity-90">
+                                    <li>• Menghormati pakaian tradisional</li>
+                                    <li>• Tidak menyentuh simbol keagamaan tanpa izin</li>
+                                    <li>• Berpakaian sopan di tempat ibadat</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-2">❌ Elakkan:</h4>
+                                <ul class="space-y-1 opacity-90">
+                                    <li>• Mengejek pakaian keagamaan</li>
+                                    <li>• Bermain dengan simbol suci</li>
+                                    <li>• Berpakaian tidak sesuai di tempat ibadat</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-purple-400 to-pink-500 text-white p-6 rounded-xl card-hover">
+                        <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                            <span>🍽️</span> Menghormati Pantang Larang Makanan
+                        </h3>
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <h4 class="font-semibold mb-2">✅ Cara Menghormati:</h4>
+                                <ul class="space-y-1 opacity-90">
+                                    <li>• Tidak memaksa rakan makan makanan terlarang</li>
+                                    <li>• Memahami pantang larang setiap agama</li>
+                                    <li>• Pilih restoran yang sesuai untuk semua</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-2">📝 Contoh Pantang Larang:</h4>
+                                <ul class="space-y-1 opacity-90">
+                                    <li>• Islam: Tidak makan babi, minum arak</li>
+                                    <li>• Hindu: Tidak makan daging lembu</li>
+                                    <li>• Buddha: Ramai vegetarian</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practices Section -->
+        <section id="practices" class="section-content hidden">
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">✨ Amalan Baik Harian</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="practice-card text-white p-6 rounded-xl card-hover">
+                        <h3 class="text-xl font-bold mb-4">🏫 Di Sekolah</h3>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-300 mt-1">⭐</span>
+                                <span>Tidak mengejek rakan yang berpuasa atau berdiet</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-300 mt-1">⭐</span>
+                                <span>Menghormati rakan yang perlu solat</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-300 mt-1">⭐</span>
+                                <span>Tidak bermain bising semasa waktu ibadat</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-300 mt-1">⭐</span>
+                                <span>Bertanya dengan sopan tentang agama lain</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-orange-400 to-red-500 text-white p-6 rounded-xl card-hover">
+                        <h3 class="text-xl font-bold mb-4">🏠 Di Rumah & Komuniti</h3>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-300 mt-1">⭐</span>
+                                <span>Mengucapkan selamat hari raya kepada jiran</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-300 mt-1">⭐</span>
+                                <span>Tidak membuat bising semasa waktu ibadat</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-300 mt-1">⭐</span>
+                                <span>Menghormati upacara keagamaan jiran</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-yellow-300 mt-1">⭐</span>
+                                <span>Belajar tentang festival agama lain</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-xl">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">💡 Tips Mudah Diingat</h3>
+                    <div class="grid md:grid-cols-3 gap-4 text-center">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="text-2xl mb-2">👂</div>
+                            <h4 class="font-semibold text-gray-800">Dengar</h4>
+                            <p class="text-sm text-gray-600">Dengar dan belajar tentang agama lain</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="text-2xl mb-2">🤝</div>
+                            <h4 class="font-semibold text-gray-800">Hormati</h4>
+                            <p class="text-sm text-gray-600">Hormati perbezaan dengan hati terbuka</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="text-2xl mb-2">❤️</div>
+                            <h4 class="font-semibold text-gray-800">Sayangi</h4>
+                            <p class="text-sm text-gray-600">Sayangi semua rakan tanpa mengira agama</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="section-content hidden">
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">🧠 Kuiz Interaktif</h2>
                 
-                <div class="mt-4 p-4 bg-blue-400/20 rounded-lg border-l-4 border-blue-400">
-                    <p class="text-blue-100 text-sm">
-                        💡 <strong>Petua:</strong> Gunakan kategori untuk memahami ciri-ciri dari sudut yang berbeza - bagaimana kita berfikir, berasa, dan bertindak!
-                    </p>
-                </div>
-            </div>
-            
-            <!-- Progress Bar -->
-            <div class="bg-white/20 rounded-full h-4 mb-4 backdrop-blur-sm">
-                <div id="progressBar" class="progress-bar bg-yellow-400 h-4 rounded-full flex items-center justify-end pr-2" style="width: 0%">
-                    <span id="progressText" class="text-xs font-bold text-purple-800">0/10</span>
-                </div>
-            </div>
-            
-            <!-- Stats -->
-            <div class="flex justify-center space-x-6 text-white">
-                <div class="text-center">
-                    <div class="text-2xl font-bold" id="currentCard">1</div>
-                    <div class="text-sm opacity-80">Kad Semasa</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold" id="correctAnswers">0</div>
-                    <div class="text-sm opacity-80">Faham</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold" id="totalCards">10</div>
-                    <div class="text-sm opacity-80">Jumlah Kad</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Content Area -->
-        <div class="flex flex-col lg:flex-row gap-8 mb-8">
-            <!-- Category Panel -->
-            <div class="lg:w-64 flex-shrink-0">
-                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 sticky top-4">
-                    <h4 class="text-white text-center mb-4 font-semibold text-lg">📚 Kategori</h4>
-                    
-                    <!-- Category Buttons in 2 rows -->
-                    <div class="grid grid-cols-2 gap-2 mb-4">
-                        <!-- All Categories Button -->
-                        <button onclick="filterCategory('all')" id="filter-all" class="category-btn bg-purple-500 text-white p-3 rounded-lg font-medium hover:bg-purple-600 transition-all duration-200 active">
-                            <div class="text-center">
-                                <div class="text-xl mb-1">🌟</div>
-                                <div class="text-xs font-bold">Semua</div>
-                                <div class="text-xs opacity-80">(10)</div>
+                <div id="quiz-container" class="space-y-6">
+                    <div class="quiz-card text-white p-8 rounded-2xl shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16"></div>
+                        <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full -ml-12 -mb-12"></div>
+                        <div class="relative z-10">
+                            <div id="question-counter" class="text-center mb-6 text-lg font-medium bg-white/20 rounded-full px-4 py-2 inline-block">Soalan 1 daripada 5</div>
+                            <div id="question" class="text-2xl font-bold mb-8 text-center leading-relaxed">Apakah tempat ibadat bagi agama Islam?</div>
+                            <div id="options" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <button onclick="selectAnswer(0)" class="option-btn bg-white/20 hover:bg-white/30 p-5 rounded-xl text-left transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                                    A) Gereja
+                                </button>
+                                <button onclick="selectAnswer(1)" class="option-btn bg-white/20 hover:bg-white/30 p-5 rounded-xl text-left transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                                    B) Masjid
+                                </button>
+                                <button onclick="selectAnswer(2)" class="option-btn bg-white/20 hover:bg-white/30 p-5 rounded-xl text-left transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                                    C) Kuil
+                                </button>
+                                <button onclick="selectAnswer(3)" class="option-btn bg-white/20 hover:bg-white/30 p-5 rounded-xl text-left transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                                    D) Tokong
+                                </button>
                             </div>
-                        </button>
-                        
-                        <!-- Perlakuan Category -->
-                        <button onclick="filterCategory('perlakuan')" id="filter-perlakuan" class="category-btn bg-green-500 text-white p-3 rounded-lg font-medium hover:bg-green-600 transition-all duration-200">
-                            <div class="text-center">
-                                <div class="text-xl mb-1">🤝</div>
-                                <div class="text-xs font-bold">Perlakuan</div>
-                                <div class="text-xs opacity-80">(3)</div>
-                            </div>
-                        </button>
-                        
-                        <!-- Perasaan Category -->
-                        <button onclick="filterCategory('perasaan')" id="filter-perasaan" class="category-btn bg-pink-500 text-white p-3 rounded-lg font-medium hover:bg-pink-600 transition-all duration-200">
-                            <div class="text-center">
-                                <div class="text-xl mb-1">❤️</div>
-                                <div class="text-xs font-bold">Perasaan</div>
-                                <div class="text-xs opacity-80">(3)</div>
-                            </div>
-                        </button>
-                        
-                        <!-- Pemikiran Category -->
-                        <button onclick="filterCategory('pemikiran')" id="filter-pemikiran" class="category-btn bg-blue-500 text-white p-3 rounded-lg font-medium hover:bg-blue-600 transition-all duration-200">
-                            <div class="text-center">
-                                <div class="text-xl mb-1">🧠</div>
-                                <div class="text-xs font-bold">Pemikiran</div>
-                                <div class="text-xs opacity-80">(4)</div>
-                            </div>
-                        </button>
-                    </div>
-                    
-                    <!-- Current Category Info -->
-                    <div class="bg-white/10 rounded-lg p-3 text-center text-white">
-                        <div class="text-xs opacity-80 mb-1">Aktif:</div>
-                        <div class="font-bold text-sm" id="currentCategoryName">Semua Ciri</div>
-                        <div class="text-xs opacity-80" id="currentCategoryCount">10/10</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Main Flashcard -->
-            <div class="flex-1 flex justify-center">
-                <div class="flip-card w-full max-w-md cursor-pointer" id="flashcard" onclick="flipCard()">
-                    <div class="flip-card-inner" id="flipCardInner">
-                        <!-- Front of card -->
-                        <div class="flip-card-front gradient-bg text-white" id="cardFront">
-                            <div class="text-6xl mb-4" id="cardEmoji">⚖️</div>
-                            <h2 class="text-2xl font-bold mb-4" id="cardTitle">Adil</h2>
-                            <p class="text-lg opacity-90 mb-6" id="cardHint">Klik untuk melihat definisi</p>
-                            <div class="text-sm opacity-70">💡 Kategori: Perlakuan</div>
-                        </div>
-                        
-                        <!-- Back of card -->
-                        <div class="flip-card-back bg-white text-gray-800" id="cardBack">
-                            <div class="text-5xl mb-4" id="backEmoji">🏛️</div>
-                            <h3 class="text-2xl font-bold mb-4 text-purple-600" id="backTitle">Adil</h3>
-                            <p class="text-lg mb-4 leading-relaxed" id="backDescription">Membuat keputusan berdasarkan kebenaran tanpa berat sebelah dan memberikan hak kepada setiap orang.</p>
-                            <div class="bg-purple-100 p-4 rounded-lg mb-4">
-                                <p class="text-sm font-medium text-purple-800" id="backExample">Contoh: Membahagi tugas kumpulan secara sama rata</p>
-                            </div>
+                            <div id="feedback" class="mt-6 text-center hidden slide-in"></div>
+                            <button id="next-btn" onclick="nextQuestion()" class="mt-6 bg-white text-purple-600 px-8 py-3 rounded-full font-bold mx-auto block hidden hover:bg-gray-100 transition-all duration-300 hover:scale-105 shadow-lg">
+                                Soalan Seterusnya
+                            </button>
                         </div>
                     </div>
                 </div>
+
+                <div id="quiz-result" class="hidden text-center">
+                    <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white p-8 rounded-xl">
+                        <div class="text-6xl mb-4">🎉</div>
+                        <h3 class="text-2xl font-bold mb-2">Tahniah!</h3>
+                        <p id="score-text" class="text-lg mb-4">Anda mendapat 0/5 jawapan betul!</p>
+                        <button onclick="restartQuiz()" class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+                            Cuba Lagi
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <!-- Control Buttons -->
-        <div class="flex justify-center space-x-4 mb-8">
-            <button onclick="flipCard()" class="bg-white text-purple-600 px-6 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
-                🔄 Balik Kad
-            </button>
-            <button onclick="markUnderstood()" class="bg-green-500 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
-                ✅ Faham
-            </button>
-            <button onclick="markNeedReview()" class="bg-orange-500 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
-                🔄 Ulang
-            </button>
-        </div>
-
-
-
-        <!-- Navigation -->
-        <div class="flex justify-center space-x-4 mb-8">
-            <button onclick="previousCard()" class="bg-white/20 text-white px-6 py-3 rounded-full font-bold backdrop-blur-sm hover:bg-white/30 transition-all duration-200">
-                ⬅️ Sebelum
-            </button>
-            <button onclick="nextCard()" class="bg-white/20 text-white px-6 py-3 rounded-full font-bold backdrop-blur-sm hover:bg-white/30 transition-all duration-200">
-                Seterusnya ➡️
-            </button>
-        </div>
-
-
-
-        <!-- Achievement Section -->
-        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center text-white">
-            <h3 class="text-2xl font-bold mb-4">🏆 Pencapaian Anda</h3>
-            <div id="achievementStars" class="mb-4">
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
-            </div>
-            <p id="achievementText" class="text-lg">Teruskan usaha! Anda sedang belajar dengan baik! 💪</p>
-        </div>
+        </section>
     </div>
 
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 px-4 mt-12">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-lg font-semibold mb-2">📚 Pendidikan Moral Tingkatan 1</h3>
+            <p class="text-gray-300 mb-4">Unit 4: Menghormati Amalan Keagamaan & Kepercayaan</p>
+            <div class="text-sm text-gray-400">
+                <p>Nota interaktif untuk membantu pembelajaran yang lebih menyeronokkan! 🌟</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        const flashcards = [
-            // PERLAKUAN
+        // Navigation functionality
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section-content');
+            sections.forEach(section => section.classList.add('hidden'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.remove('hidden');
+            document.getElementById(sectionId).classList.add('fade-in');
+            
+            // Update nav buttons
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-white');
+            });
+            event.target.classList.add('ring-2', 'ring-white');
+        }
+
+        // Quiz functionality
+        const quizData = [
             {
-                emoji: "⚖️",
-                title: "Adil",
-                hint: "Klik untuk melihat definisi",
-                backEmoji: "🏛️",
-                backTitle: "Adil",
-                description: "Membuat keputusan berdasarkan kebenaran tanpa berat sebelah dan memberikan hak kepada setiap orang.",
-                example: "Contoh: Membahagi tugas kumpulan secara sama rata",
-                gradient: "gradient-bg",
-                category: "perlakuan"
+                question: "Apakah tempat ibadat bagi agama Islam?",
+                options: ["Gereja", "Masjid", "Kuil", "Tokong"],
+                correct: 1
             },
             {
-                emoji: "🌸",
-                title: "Berbudi Pekerti",
-                hint: "Klik untuk melihat definisi",
-                backEmoji: "✨",
-                backTitle: "Berbudi Pekerti",
-                description: "Menunjukkan akhlak yang baik, sopan santun, dan tingkah laku yang mulia dalam kehidupan seharian.",
-                example: "Contoh: Bertutur kata dengan lemah lembut dan bersikap baik",
-                gradient: "gradient-bg-2",
-                category: "perlakuan"
+                question: "Festival apakah yang disambut oleh penganut agama Hindu?",
+                options: ["Krismas", "Wesak", "Deepavali", "Hari Raya"],
+                correct: 2
             },
             {
-                emoji: "🙏",
-                title: "Hormat",
-                hint: "Klik untuk melihat definisi",
-                backEmoji: "👑",
-                backTitle: "Hormat",
-                description: "Menunjukkan penghargaan dan kesopanan kepada orang lain, terutama kepada ibu bapa, guru, dan orang yang lebih tua.",
-                example: "Contoh: Berdiri apabila guru masuk ke kelas",
-                gradient: "gradient-bg-3",
-                category: "perlakuan"
-            },
-            // PERASAAN
-            {
-                emoji: "🤗",
-                title: "Empati",
-                hint: "Klik untuk melihat definisi",
-                backEmoji: "💝",
-                backTitle: "Empati",
-                description: "Kemampuan untuk memahami dan merasai perasaan orang lain seolah-olah mengalami sendiri situasi tersebut.",
-                example: "Contoh: Turut bersedih apabila rakan menghadapi masalah",
-                gradient: "gradient-bg-4",
-                category: "perasaan"
+                question: "Bagaimanakah cara menghormati rakan yang sedang berpuasa?",
+                options: ["Memaksa mereka makan", "Makan di hadapan mereka", "Tidak mengejek mereka", "Mengabaikan mereka"],
+                correct: 2
             },
             {
-                emoji: "❤️",
-                title: "Simpati",
-                hint: "Klik untuk melihat definisi",
-                backEmoji: "🤲",
-                backTitle: "Simpati",
-                description: "Perasaan kasihan dan prihatin terhadap penderitaan atau kesusahan yang dialami orang lain.",
-                example: "Contoh: Merasa kasihan dan ingin membantu orang yang kesusahan",
-                gradient: "gradient-bg-5",
-                category: "perasaan"
+                question: "Apakah yang TIDAK boleh dilakukan semasa orang lain beribadat?",
+                options: ["Berbisik perlahan", "Membuat bising", "Menunggu dengan sabar", "Menghormati mereka"],
+                correct: 1
             },
             {
-                emoji: "😊",
-                title: "Gembira",
-                hint: "Klik untuk melihat definisi",
-                backEmoji: "🌟",
-                backTitle: "Gembira",
-                description: "Perasaan bahagia dan ceria yang ditunjukkan dengan sikap positif dan optimis dalam kehidupan.",
-                example: "Contoh: Tersenyum dan bersikap ceria walaupun menghadapi cabaran",
-                gradient: "gradient-bg",
-                category: "perasaan"
-            },
-            // PEMIKIRAN
-            {
-                emoji: "🧠",
-                title: "Rasional",
-                hint: "Klik untuk melihat definisi",
-                backEmoji: "🔍",
-                backTitle: "Rasional",
-                description: "Berfikir secara logik dan berasas, menggunakan akal untuk menilai sesuatu dengan objektif.",
-                example: "Contoh: Menilai situasi berdasarkan fakta bukan emosi semata-mata",
-                gradient: "gradient-bg-2",
-                category: "pemikiran"
-            },
-            {
-                emoji: "🎯",
-                title: "Boleh Membuat Keputusan",
-                hint: "Klik untuk melihat definisi",
-                backEmoji: "⚡",
-                backTitle: "Boleh Membuat Keputusan",
-                description: "Kemampuan untuk memilih tindakan yang terbaik setelah mempertimbangkan semua pilihan yang ada.",
-                example: "Contoh: Memilih aktiviti yang bermanfaat daripada yang merugikan",
-                gradient: "gradient-bg-3",
-                category: "pemikiran"
-            },
-            {
-                emoji: "🔧",
-                title: "Dapat Menyelesaikan Masalah",
-                hint: "Klik untuk melihat definisi",
-                backEmoji: "💡",
-                backTitle: "Dapat Menyelesaikan Masalah",
-                description: "Kemahiran untuk mencari jalan keluar dan penyelesaian terhadap masalah yang dihadapi.",
-                example: "Contoh: Mencari cara kreatif untuk menyelesaikan konflik antara rakan",
-                gradient: "gradient-bg-4",
-                category: "pemikiran"
-            },
-            {
-                emoji: "⚖️",
-                title: "Tahu Membezakan Betul atau Salah",
-                hint: "Klik untuk melihat definisi",
-                backEmoji: "🎭",
-                backTitle: "Tahu Membezakan Betul atau Salah",
-                description: "Kemampuan untuk menilai dan membezakan antara perkara yang baik dan buruk, betul dan salah.",
-                example: "Contoh: Menolak ajakan untuk menipu dalam peperiksaan",
-                gradient: "gradient-bg-5",
-                category: "pemikiran"
+                question: "Mengapakah kita perlu menghormati agama lain?",
+                options: ["Untuk mendapat markah", "Untuk mewujudkan keharmonian", "Kerana dipaksa", "Kerana takut"],
+                correct: 1
             }
         ];
 
-        let currentCardIndex = 0;
-        let understoodCount = 0;
-        let isFlipped = false;
-        let currentFilter = 'all';
-        let filteredCards = [...flashcards];
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
 
-        function updateCard() {
-            const card = filteredCards[currentCardIndex];
-            const cardFront = document.getElementById('cardFront');
-            const cardBack = document.getElementById('cardBack');
+        function selectAnswer(selectedIndex) {
+            if (answered) return;
             
-            // Update front
-            document.getElementById('cardEmoji').textContent = card.emoji;
-            document.getElementById('cardTitle').textContent = card.title;
-            document.getElementById('cardHint').textContent = card.hint;
+            answered = true;
+            const options = document.querySelectorAll('.option-btn');
+            const feedback = document.getElementById('feedback');
+            const nextBtn = document.getElementById('next-btn');
             
-            // Update back
-            document.getElementById('backEmoji').textContent = card.backEmoji;
-            document.getElementById('backTitle').textContent = card.backTitle;
-            document.getElementById('backDescription').textContent = card.description;
-            document.getElementById('backExample').textContent = card.example;
-            
-            // Update gradient
-            cardFront.className = `flip-card-front ${card.gradient} text-white`;
-            
-            // Update stats
-            document.getElementById('currentCard').textContent = currentCardIndex + 1;
-            
-            // Update progress
-            const progress = ((currentCardIndex + 1) / filteredCards.length) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-            document.getElementById('progressText').textContent = `${currentCardIndex + 1}/${filteredCards.length}`;
-            
-            // Update total cards display
-            document.getElementById('totalCards').textContent = filteredCards.length;
-            
-            // Update navigation buttons
-            updateNavButtons();
-            
-            // Reset flip state
-            if (isFlipped) {
-                flipCard();
-            }
-            
-            // Add bounce animation
-            document.getElementById('flashcard').classList.add('bounce-in');
-            setTimeout(() => {
-                document.getElementById('flashcard').classList.remove('bounce-in');
-            }, 600);
-        }
-
-        function flipCard() {
-            const flashcard = document.getElementById('flashcard');
-            flashcard.classList.toggle('flipped');
-            isFlipped = !isFlipped;
-        }
-
-        function nextCard() {
-            if (currentCardIndex < filteredCards.length - 1) {
-                currentCardIndex++;
-                updateCard();
-            }
-        }
-
-        function previousCard() {
-            if (currentCardIndex > 0) {
-                currentCardIndex--;
-                updateCard();
-            }
-        }
-
-        function showCard(index) {
-            currentCardIndex = index;
-            updateCard();
-        }
-
-        function markUnderstood() {
-            understoodCount++;
-            document.getElementById('correctAnswers').textContent = understoodCount;
-            updateAchievement();
-            nextCard();
-        }
-
-        function markNeedReview() {
-            nextCard();
-        }
-
-        function filterCategory(category) {
-            currentFilter = category;
-            
-            // Update filter buttons
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('active');
-                btn.style.transform = 'scale(1)';
+            options.forEach((option, index) => {
+                if (index === quizData[currentQuestion].correct) {
+                    option.classList.add('bg-green-500');
+                } else if (index === selectedIndex && index !== quizData[currentQuestion].correct) {
+                    option.classList.add('bg-red-500');
+                }
+                option.disabled = true;
             });
             
-            const activeBtn = document.getElementById(`filter-${category}`);
-            activeBtn.classList.add('active');
-            activeBtn.style.transform = 'scale(1.05)';
-            
-            // Filter cards
-            if (category === 'all') {
-                filteredCards = [...flashcards];
+            if (selectedIndex === quizData[currentQuestion].correct) {
+                score++;
+                feedback.innerHTML = '<div class="bg-green-100 text-green-800 p-3 rounded-lg font-semibold">✅ Betul! Jawapan yang tepat!</div>';
             } else {
-                filteredCards = flashcards.filter(card => card.category === category);
+                feedback.innerHTML = '<div class="bg-red-100 text-red-800 p-3 rounded-lg font-semibold">❌ Tidak tepat. Jawapan yang betul adalah: ' + quizData[currentQuestion].options[quizData[currentQuestion].correct] + '</div>';
             }
             
-            // Update category info
-            const categoryNames = {
-                'all': 'Semua Ciri',
-                'perlakuan': 'Perlakuan',
-                'perasaan': 'Perasaan', 
-                'pemikiran': 'Pemikiran'
-            };
-            
-            document.getElementById('currentCategoryName').textContent = categoryNames[category];
-            document.getElementById('currentCategoryCount').textContent = `${filteredCards.length}/${flashcards.length}`;
-            
-            // Quick menu removed for cleaner interface
-            
-            // Reset to first card of filtered set
-            currentCardIndex = 0;
-            updateCard();
+            feedback.classList.remove('hidden');
+            feedback.classList.add('slide-in');
+            nextBtn.classList.remove('hidden');
+            nextBtn.classList.add('bounce-in');
         }
 
-        function updateNavButtons() {
-            // Function kept for compatibility but no longer needed
+        function nextQuestion() {
+            currentQuestion++;
+            answered = false;
+            
+            if (currentQuestion >= quizData.length) {
+                showQuizResult();
+                return;
+            }
+            
+            updateQuizDisplay();
         }
 
-        function updateAchievement() {
-            const percentage = (understoodCount / flashcards.length) * 100;
-            const achievementText = document.getElementById('achievementText');
-            const stars = document.getElementById('achievementStars');
+        function updateQuizDisplay() {
+            const questionCounter = document.getElementById('question-counter');
+            const question = document.getElementById('question');
+            const options = document.getElementById('options');
+            const feedback = document.getElementById('feedback');
+            const nextBtn = document.getElementById('next-btn');
             
-            if (percentage >= 90) {
-                achievementText.textContent = "Cemerlang! Anda telah memahami hampir semua ciri! 🌟";
-                stars.innerHTML = '⭐⭐⭐⭐⭐';
-            } else if (percentage >= 70) {
-                achievementText.textContent = "Bagus sekali! Pemahaman anda semakin baik! 🎉";
-                stars.innerHTML = '⭐⭐⭐⭐☆';
-            } else if (percentage >= 50) {
-                achievementText.textContent = "Baik! Anda sedang belajar dengan tekun! 👍";
-                stars.innerHTML = '⭐⭐⭐☆☆';
-            } else if (percentage >= 30) {
-                achievementText.textContent = "Teruskan usaha! Anda semakin memahami! 💪";
-                stars.innerHTML = '⭐⭐☆☆☆';
-            } else {
-                achievementText.textContent = "Terus belajar! Setiap langkah membawa kemajuan! 🌱";
-                stars.innerHTML = '⭐☆☆☆☆';
-            }
+            questionCounter.textContent = `Soalan ${currentQuestion + 1} daripada ${quizData.length}`;
+            question.textContent = quizData[currentQuestion].question;
+            
+            options.innerHTML = '';
+            quizData[currentQuestion].options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.onclick = () => selectAnswer(index);
+                button.className = 'option-btn bg-white/20 hover:bg-white/30 p-4 rounded-lg text-left transition-colors';
+                button.textContent = `${String.fromCharCode(65 + index)}) ${option}`;
+                options.appendChild(button);
+            });
+            
+            feedback.classList.add('hidden');
+            nextBtn.classList.add('hidden');
         }
 
-        // Keyboard navigation
-        document.addEventListener('keydown', function(event) {
-            switch(event.key) {
-                case 'ArrowLeft':
-                    previousCard();
-                    break;
-                case 'ArrowRight':
-                    nextCard();
-                    break;
-                case ' ':
-                    event.preventDefault();
-                    flipCard();
-                    break;
-                case 'Enter':
-                    markUnderstood();
-                    break;
-            }
-        });
+        function showQuizResult() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+            document.getElementById('score-text').textContent = `Anda mendapat ${score}/${quizData.length} jawapan betul!`;
+        }
 
-        // Toggle instructions panel
-        function toggleInstructions() {
-            const content = document.getElementById('instructionsContent');
-            const btn = document.getElementById('toggleBtn');
-            
-            if (content.style.display === 'none') {
-                content.style.display = 'grid';
-                btn.textContent = 'Sembunyi';
-            } else {
-                content.style.display = 'none';
-                btn.textContent = 'Tunjuk Arahan';
-            }
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('quiz-result').classList.add('hidden');
+            updateQuizDisplay();
         }
 
         // Initialize
-        updateCard();
-        updateAchievement();
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('overview');
+            updateQuizDisplay();
+        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9840b95567c4dac0',t:'MTc1ODcwMDU3My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9840d9416694f50a',t:'MTc1ODcwMTg4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
