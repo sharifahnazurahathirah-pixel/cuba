@@ -3,518 +3,503 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menghormati Amalan Keagamaan & Kepercayaan - Unit 4</title>
+    <title>Game Potensi Diri & Kerjaya</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
-        .fade-in { animation: fadeIn 0.6s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .pulse-animation { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        .slide-in { animation: slideIn 0.5s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
-        .bounce-in { animation: bounceIn 0.6s ease-out; }
-        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 50% { transform: scale(1.05); } 70% { transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
-        .glass-effect { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .religion-card { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-        .respect-card { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-        .practice-card { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-        .quiz-card { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+            40%, 43% { transform: translate3d(0,-30px,0); }
+            70% { transform: translate3d(0,-15px,0); }
+            90% { transform: translate3d(0,-4px,0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes sparkle {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        
+        .fade-in { animation: fadeIn 0.6s ease-out; }
+        .bounce { animation: bounce 1s; }
+        .pulse { animation: pulse 2s infinite; }
+        .sparkle { animation: sparkle 2s infinite; }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .success-bg {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        
+        .warning-bg {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <!-- Header -->
-    <header class="gradient-bg text-white py-12 px-4 relative overflow-hidden">
-        <div class="absolute inset-0 bg-black/10"></div>
-        <div class="max-w-4xl mx-auto text-center relative z-10">
-            <h1 class="text-4xl md:text-5xl font-bold mb-3 pulse-animation">🕌 Agama dan Kepercayaan Rakyat Malaysia</h1>
-            <p class="text-xl opacity-90 mb-4">Pendidikan Moral Tingkatan 1 - Unit 4</p>
-            <div class="mt-6 inline-flex items-center glass-effect rounded-full px-6 py-3 shadow-lg">
-                <span class="text-sm font-medium">📚 Nota Rujukan Interaktif</span>
+<body class="gradient-bg min-h-screen p-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8 fade-in">
+            <h1 class="text-5xl font-bold text-white mb-4 drop-shadow-lg">
+                ✨ Jelajah Potensi Diri ✨
+            </h1>
+            <p class="text-white text-xl mb-2">Pendidikan Moral Tingkatan 1 - Unit 5</p>
+            <p class="text-white text-lg opacity-90">Temui potensi tersembunyi dan kerjaya impian anda!</p>
+        </div>
+
+        <!-- Game Selection Menu -->
+        <div id="gameMenu" class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="card-hover bg-white rounded-2xl shadow-xl p-8 text-center cursor-pointer" onclick="startGame('personality')">
+                <div class="text-6xl mb-4 sparkle">🧠</div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Ujian Personaliti</h3>
+                <p class="text-gray-600 mb-6">Kenali jenis personaliti dan kekuatan diri anda melalui soalan menarik</p>
+                <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg font-bold inline-block">
+                    🚀 Mula Ujian
+                </div>
+            </div>
+            
+            <div class="card-hover bg-white rounded-2xl shadow-xl p-8 text-center cursor-pointer" onclick="startGame('matching')">
+                <div class="text-6xl mb-4 sparkle">🎯</div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Padankan Potensi</h3>
+                <p class="text-gray-600 mb-6">Padankan bakat dan minat dengan kerjaya yang sesuai</p>
+                <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white px-6 py-3 rounded-lg font-bold inline-block">
+                    🎮 Main Sekarang
+                </div>
             </div>
         </div>
-        <!-- Decorative elements -->
-        <div class="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
-        <div class="absolute bottom-10 right-10 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
-    </header>
 
-    <div class="max-w-6xl mx-auto px-4 py-8">
-        <!-- Navigation -->
-        <nav class="mb-12 -mt-6">
-            <div class="bg-white rounded-2xl shadow-xl p-4 mx-4 md:mx-0">
-                <div class="flex flex-wrap justify-center gap-3 md:gap-4">
-                    <button onclick="showSection('overview')" class="nav-btn bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
-                        📋 Pengenalan
-                    </button>
-                    <button onclick="showSection('religions')" class="nav-btn bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
-                        🕊️ Agama di Malaysia
-                    </button>
-                    <button onclick="showSection('respect')" class="nav-btn bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
-                        🤝 Cara Menghormati
-                    </button>
-                    <button onclick="showSection('practices')" class="nav-btn bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
-                        ✨ Amalan Baik
-                    </button>
-                    <button onclick="showSection('quiz')" class="nav-btn bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
-                        🧠 Kuiz
-                    </button>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Overview Section -->
-        <section id="overview" class="section-content">
-            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 card-hover">
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">🎯 Objektif Pembelajaran</h2>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-3">📖 Apa yang akan dipelajari:</h3>
-                        <ul class="space-y-2 text-gray-700">
-                            <li class="flex items-start gap-2">
-                                <span class="text-green-500 mt-1">✓</span>
-                                <span>Memahami kepelbagaian agama di Malaysia</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-green-500 mt-1">✓</span>
-                                <span>Menghormati amalan keagamaan orang lain</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-green-500 mt-1">✓</span>
-                                <span>Mengamalkan sikap toleransi dan hormat</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-xl">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-3">🌟 Mengapa penting:</h3>
-                        <ul class="space-y-2 text-gray-700">
-                            <li class="flex items-start gap-2">
-                                <span class="text-orange-500 mt-1">🤝</span>
-                                <span>Mewujudkan keharmonian dalam masyarakat</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-orange-500 mt-1">🌈</span>
-                                <span>Menghargai kepelbagaian budaya</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-orange-500 mt-1">❤️</span>
-                                <span>Membina persahabatan yang kukuh</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Religions Section -->
-        <section id="religions" class="section-content hidden">
-            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">🕊️ Agama-Agama di Malaysia</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                    <div class="religion-card text-white p-8 rounded-2xl card-hover shadow-2xl relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
-                        <div class="text-center relative z-10">
-                            <div class="text-5xl mb-4 bounce-in">☪️</div>
-                            <h3 class="text-2xl font-bold mb-3">Islam</h3>
-                            <p class="text-sm opacity-90 leading-relaxed">Agama rasmi Malaysia. Tempat ibadat: Masjid</p>
-                        </div>
-                    </div>
-                    <div class="bg-gradient-to-br from-orange-400 to-red-500 text-white p-8 rounded-2xl card-hover shadow-2xl relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
-                        <div class="text-center relative z-10">
-                            <div class="text-5xl mb-4 bounce-in">🕉️</div>
-                            <h3 class="text-2xl font-bold mb-3">Hindu</h3>
-                            <p class="text-sm opacity-90 leading-relaxed">Tempat ibadat: Kuil. Festival: Deepavali</p>
-                        </div>
-                    </div>
-                    <div class="bg-gradient-to-br from-yellow-400 to-orange-500 text-white p-8 rounded-2xl card-hover shadow-2xl relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
-                        <div class="text-center relative z-10">
-                            <div class="text-5xl mb-4 bounce-in">☸️</div>
-                            <h3 class="text-2xl font-bold mb-3">Buddha</h3>
-                            <p class="text-sm opacity-90 leading-relaxed">Tempat ibadat: Tokong. Festival: Wesak</p>
-                        </div>
-                    </div>
-                    <div class="bg-gradient-to-br from-blue-400 to-purple-500 text-white p-8 rounded-2xl card-hover shadow-2xl relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
-                        <div class="text-center relative z-10">
-                            <div class="text-5xl mb-4 bounce-in">✝️</div>
-                            <h3 class="text-2xl font-bold mb-3">Kristian</h3>
-                            <p class="text-sm opacity-90 leading-relaxed">Tempat ibadat: Gereja. Festival: Krismas</p>
-                        </div>
-                    </div>
-                    <div class="bg-gradient-to-br from-teal-400 to-blue-500 text-white p-8 rounded-2xl card-hover shadow-2xl relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
-                        <div class="text-center relative z-10">
-                            <div class="text-5xl mb-4 bounce-in">🪯</div>
-                            <h3 class="text-2xl font-bold mb-3">Sikh</h3>
-                            <p class="text-sm opacity-90 leading-relaxed">Tempat ibadat: Gurdwara</p>
-                        </div>
-                    </div>
-                    <div class="bg-gradient-to-br from-indigo-400 to-purple-500 text-white p-8 rounded-2xl card-hover shadow-2xl relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
-                        <div class="text-center relative z-10">
-                            <div class="text-5xl mb-4 bounce-in">🏮</div>
-                            <h3 class="text-2xl font-bold mb-3">Taoisme</h3>
-                            <p class="text-sm opacity-90 leading-relaxed">Tempat ibadat: Kuil Tao</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Respect Section -->
-        <section id="respect" class="section-content hidden">
-            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">🤝 Cara-Cara Menghormati</h2>
-                <div class="space-y-6">
-                    <div class="respect-card text-white p-6 rounded-xl card-hover">
-                        <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                            <span>🔇</span> Tidak Mengganggu Ibadat
-                        </h3>
-                        <div class="grid md:grid-cols-2 gap-4 text-sm">
-                            <div>
-                                <h4 class="font-semibold mb-2">✅ Yang Perlu Dilakukan:</h4>
-                                <ul class="space-y-1 opacity-90">
-                                    <li>• Berbisik atau senyap ketika orang lain beribadat</li>
-                                    <li>• Menghormati waktu solat rakan Muslim</li>
-                                    <li>• Tidak bermain bising di kawasan tempat ibadat</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold mb-2">❌ Yang Tidak Boleh:</h4>
-                                <ul class="space-y-1 opacity-90">
-                                    <li>• Membuat bising semasa orang beribadat</li>
-                                    <li>• Mengejek cara ibadat orang lain</li>
-                                    <li>• Mengganggu upacara keagamaan</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white p-6 rounded-xl card-hover">
-                        <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                            <span>👗</span> Menghormati Pakaian & Simbol
-                        </h3>
-                        <div class="grid md:grid-cols-2 gap-4 text-sm">
-                            <div>
-                                <h4 class="font-semibold mb-2">✅ Sikap Positif:</h4>
-                                <ul class="space-y-1 opacity-90">
-                                    <li>• Menghormati pakaian tradisional</li>
-                                    <li>• Tidak menyentuh simbol keagamaan tanpa izin</li>
-                                    <li>• Berpakaian sopan di tempat ibadat</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold mb-2">❌ Elakkan:</h4>
-                                <ul class="space-y-1 opacity-90">
-                                    <li>• Mengejek pakaian keagamaan</li>
-                                    <li>• Bermain dengan simbol suci</li>
-                                    <li>• Berpakaian tidak sesuai di tempat ibadat</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-gradient-to-r from-purple-400 to-pink-500 text-white p-6 rounded-xl card-hover">
-                        <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                            <span>🍽️</span> Menghormati Pantang Larang Makanan
-                        </h3>
-                        <div class="grid md:grid-cols-2 gap-4 text-sm">
-                            <div>
-                                <h4 class="font-semibold mb-2">✅ Cara Menghormati:</h4>
-                                <ul class="space-y-1 opacity-90">
-                                    <li>• Tidak memaksa rakan makan makanan terlarang</li>
-                                    <li>• Memahami pantang larang setiap agama</li>
-                                    <li>• Pilih restoran yang sesuai untuk semua</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold mb-2">📝 Contoh Pantang Larang:</h4>
-                                <ul class="space-y-1 opacity-90">
-                                    <li>• Islam: Tidak makan babi, minum arak</li>
-                                    <li>• Hindu: Tidak makan daging lembu</li>
-                                    <li>• Buddha: Ramai vegetarian</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Practices Section -->
-        <section id="practices" class="section-content hidden">
-            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">✨ Amalan Baik Harian</h2>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="practice-card text-white p-6 rounded-xl card-hover">
-                        <h3 class="text-xl font-bold mb-4">🏫 Di Sekolah</h3>
-                        <ul class="space-y-3 text-sm">
-                            <li class="flex items-start gap-2">
-                                <span class="text-yellow-300 mt-1">⭐</span>
-                                <span>Tidak mengejek rakan yang berpuasa atau berdiet</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-yellow-300 mt-1">⭐</span>
-                                <span>Menghormati rakan yang perlu solat</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-yellow-300 mt-1">⭐</span>
-                                <span>Tidak bermain bising semasa waktu ibadat</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-yellow-300 mt-1">⭐</span>
-                                <span>Bertanya dengan sopan tentang agama lain</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="bg-gradient-to-br from-orange-400 to-red-500 text-white p-6 rounded-xl card-hover">
-                        <h3 class="text-xl font-bold mb-4">🏠 Di Rumah & Komuniti</h3>
-                        <ul class="space-y-3 text-sm">
-                            <li class="flex items-start gap-2">
-                                <span class="text-yellow-300 mt-1">⭐</span>
-                                <span>Mengucapkan selamat hari raya kepada jiran</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-yellow-300 mt-1">⭐</span>
-                                <span>Tidak membuat bising semasa waktu ibadat</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-yellow-300 mt-1">⭐</span>
-                                <span>Menghormati upacara keagamaan jiran</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-yellow-300 mt-1">⭐</span>
-                                <span>Belajar tentang festival agama lain</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="mt-8 bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-xl">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">💡 Tips Mudah Diingat</h3>
-                    <div class="grid md:grid-cols-3 gap-4 text-center">
-                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                            <div class="text-2xl mb-2">👂</div>
-                            <h4 class="font-semibold text-gray-800">Dengar</h4>
-                            <p class="text-sm text-gray-600">Dengar dan belajar tentang agama lain</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                            <div class="text-2xl mb-2">🤝</div>
-                            <h4 class="font-semibold text-gray-800">Hormati</h4>
-                            <p class="text-sm text-gray-600">Hormati perbezaan dengan hati terbuka</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                            <div class="text-2xl mb-2">❤️</div>
-                            <h4 class="font-semibold text-gray-800">Sayangi</h4>
-                            <p class="text-sm text-gray-600">Sayangi semua rakan tanpa mengira agama</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Quiz Section -->
-        <section id="quiz" class="section-content hidden">
-            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">🧠 Kuiz Interaktif</h2>
-                
-                <div id="quiz-container" class="space-y-6">
-                    <div class="quiz-card text-white p-8 rounded-2xl shadow-2xl relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16"></div>
-                        <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full -ml-12 -mb-12"></div>
-                        <div class="relative z-10">
-                            <div id="question-counter" class="text-center mb-6 text-lg font-medium bg-white/20 rounded-full px-4 py-2 inline-block">Soalan 1 daripada 5</div>
-                            <div id="question" class="text-2xl font-bold mb-8 text-center leading-relaxed">Apakah tempat ibadat bagi agama Islam?</div>
-                            <div id="options" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <button onclick="selectAnswer(0)" class="option-btn bg-white/20 hover:bg-white/30 p-5 rounded-xl text-left transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                                    A) Gereja
-                                </button>
-                                <button onclick="selectAnswer(1)" class="option-btn bg-white/20 hover:bg-white/30 p-5 rounded-xl text-left transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                                    B) Masjid
-                                </button>
-                                <button onclick="selectAnswer(2)" class="option-btn bg-white/20 hover:bg-white/30 p-5 rounded-xl text-left transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                                    C) Kuil
-                                </button>
-                                <button onclick="selectAnswer(3)" class="option-btn bg-white/20 hover:bg-white/30 p-5 rounded-xl text-left transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                                    D) Tokong
-                                </button>
-                            </div>
-                            <div id="feedback" class="mt-6 text-center hidden slide-in"></div>
-                            <button id="next-btn" onclick="nextQuestion()" class="mt-6 bg-white text-purple-600 px-8 py-3 rounded-full font-bold mx-auto block hidden hover:bg-gray-100 transition-all duration-300 hover:scale-105 shadow-lg">
-                                Soalan Seterusnya
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="quiz-result" class="hidden text-center">
-                    <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white p-8 rounded-xl">
-                        <div class="text-6xl mb-4">🎉</div>
-                        <h3 class="text-2xl font-bold mb-2">Tahniah!</h3>
-                        <p id="score-text" class="text-lg mb-4">Anda mendapat 0/5 jawapan betul!</p>
-                        <button onclick="restartQuiz()" class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
-                            Cuba Lagi
+        <!-- Personality Test Game -->
+        <div id="personalityGame" class="hidden">
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800">🧠 Ujian Personaliti</h2>
+                    <div class="flex items-center space-x-4">
+                        <div class="text-lg">Soalan: <span id="questionNumber" class="font-bold text-blue-600">1</span>/10</div>
+                        <button onclick="backToMenu()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
+                            ← Kembali
                         </button>
                     </div>
                 </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 px-4 mt-12">
-        <div class="max-w-4xl mx-auto text-center">
-            <h3 class="text-lg font-semibold mb-2">📚 Pendidikan Moral Tingkatan 1</h3>
-            <p class="text-gray-300 mb-4">Unit 4: Menghormati Amalan Keagamaan & Kepercayaan</p>
-            <div class="text-sm text-gray-400">
-                <p>Nota interaktif untuk membantu pembelajaran yang lebih menyeronokkan! 🌟</p>
+                
+                <div class="progress-bar bg-gray-200 rounded-full h-3 mb-8">
+                    <div id="progressBar" class="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full transition-all duration-500" style="width: 10%"></div>
+                </div>
+                
+                <div id="questionContainer" class="text-center">
+                    <div class="text-4xl mb-6" id="questionIcon">🤔</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6" id="questionText"></h3>
+                    <div id="answerOptions" class="space-y-4 max-w-2xl mx-auto">
+                        <!-- Options will be generated by JavaScript -->
+                    </div>
+                </div>
             </div>
         </div>
-    </footer>
+
+        <!-- Matching Game -->
+        <div id="matchingGame" class="hidden">
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800">🎯 Padankan Potensi & Kerjaya</h2>
+                    <div class="flex items-center space-x-4">
+                        <div class="text-lg">Skor: <span id="matchingScore" class="font-bold text-green-600">0</span></div>
+                        <button onclick="backToMenu()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
+                            ← Kembali
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-700 mb-4 text-center">🌟 Bakat & Minat</h3>
+                        <div id="talentCards" class="space-y-3">
+                            <!-- Talent cards will be generated -->
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-700 mb-4 text-center">💼 Kerjaya</h3>
+                        <div id="careerCards" class="space-y-3">
+                            <!-- Career cards will be generated -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <button onclick="resetMatching()" class="bg-gradient-to-r from-orange-500 to-red-600 text-white px-6 py-3 rounded-lg font-bold hover:from-orange-600 hover:to-red-700">
+                        🔄 Main Semula
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Modal -->
+        <div id="resultsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-lg mx-4 text-center">
+                <div class="text-6xl mb-6" id="resultIcon">🎉</div>
+                <h3 class="text-3xl font-bold mb-4" id="resultTitle"></h3>
+                <div class="text-lg text-gray-600 mb-6" id="resultDescription"></div>
+                <div class="bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl p-6 mb-6">
+                    <h4 class="font-bold text-gray-800 mb-3">💡 Kerjaya Yang Sesuai:</h4>
+                    <div id="suggestedCareers" class="text-gray-700"></div>
+                </div>
+                <div class="space-y-3">
+                    <button onclick="restartPersonalityTest()" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-bold hover:from-blue-600 hover:to-purple-700">
+                        🔄 Ulang Ujian
+                    </button>
+                    <button onclick="backToMenu()" class="w-full bg-gray-500 text-white py-3 rounded-lg font-bold hover:bg-gray-600">
+                        🏠 Menu Utama
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Animation -->
+        <div id="successAnimation" class="fixed inset-0 pointer-events-none z-40 hidden">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-8xl bounce">🎉</div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Navigation functionality
-        function showSection(sectionId) {
-            // Hide all sections
-            const sections = document.querySelectorAll('.section-content');
-            sections.forEach(section => section.classList.add('hidden'));
-            
-            // Show selected section
-            document.getElementById(sectionId).classList.remove('hidden');
-            document.getElementById(sectionId).classList.add('fade-in');
-            
-            // Update nav buttons
-            const navButtons = document.querySelectorAll('.nav-btn');
-            navButtons.forEach(btn => {
-                btn.classList.remove('ring-2', 'ring-white');
-            });
-            event.target.classList.add('ring-2', 'ring-white');
-        }
+        let currentQuestion = 0;
+        let personalityScores = { analytical: 0, creative: 0, social: 0, practical: 0 };
+        let matchingScore = 0;
+        let selectedTalent = null;
 
-        // Quiz functionality
-        const quizData = [
+        const personalityQuestions = [
             {
-                question: "Apakah tempat ibadat bagi agama Islam?",
-                options: ["Gereja", "Masjid", "Kuil", "Tokong"],
-                correct: 1
+                icon: "📚",
+                question: "Apakah aktiviti yang paling anda gemari?",
+                options: [
+                    { text: "Membaca buku dan menyelidik", type: "analytical" },
+                    { text: "Melukis dan berkarya seni", type: "creative" },
+                    { text: "Bermain dengan kawan-kawan", type: "social" },
+                    { text: "Membuat sesuatu dengan tangan", type: "practical" }
+                ]
             },
             {
-                question: "Festival apakah yang disambut oleh penganut agama Hindu?",
-                options: ["Krismas", "Wesak", "Deepavali", "Hari Raya"],
-                correct: 2
+                icon: "🎯",
+                question: "Dalam kumpulan, anda lebih suka...",
+                options: [
+                    { text: "Merancang dan menganalisis", type: "analytical" },
+                    { text: "Memberikan idea kreatif", type: "creative" },
+                    { text: "Memimpin dan berkomunikasi", type: "social" },
+                    { text: "Melaksanakan tugas dengan praktikal", type: "practical" }
+                ]
             },
             {
-                question: "Bagaimanakah cara menghormati rakan yang sedang berpuasa?",
-                options: ["Memaksa mereka makan", "Makan di hadapan mereka", "Tidak mengejek mereka", "Mengabaikan mereka"],
-                correct: 2
+                icon: "🧩",
+                question: "Cara anda menyelesaikan masalah:",
+                options: [
+                    { text: "Mengkaji data dan fakta", type: "analytical" },
+                    { text: "Mencari penyelesaian unik", type: "creative" },
+                    { text: "Berbincang dengan orang lain", type: "social" },
+                    { text: "Mencuba cara yang terbukti berkesan", type: "practical" }
+                ]
             },
             {
-                question: "Apakah yang TIDAK boleh dilakukan semasa orang lain beribadat?",
-                options: ["Berbisik perlahan", "Membuat bising", "Menunggu dengan sabar", "Menghormati mereka"],
-                correct: 1
+                icon: "🌟",
+                question: "Apa yang membuatkan anda bangga?",
+                options: [
+                    { text: "Memahami konsep yang rumit", type: "analytical" },
+                    { text: "Menghasilkan karya yang indah", type: "creative" },
+                    { text: "Membantu orang lain", type: "social" },
+                    { text: "Menyelesaikan tugas dengan sempurna", type: "practical" }
+                ]
             },
             {
-                question: "Mengapakah kita perlu menghormati agama lain?",
-                options: ["Untuk mendapat markah", "Untuk mewujudkan keharmonian", "Kerana dipaksa", "Kerana takut"],
-                correct: 1
+                icon: "🎨",
+                question: "Subjek kegemaran anda di sekolah:",
+                options: [
+                    { text: "Matematik dan Sains", type: "analytical" },
+                    { text: "Seni dan Muzik", type: "creative" },
+                    { text: "Sejarah dan Bahasa", type: "social" },
+                    { text: "Kemahiran Hidup dan Sukan", type: "practical" }
+                ]
+            },
+            {
+                icon: "💭",
+                question: "Apabila mempelajari sesuatu yang baru:",
+                options: [
+                    { text: "Saya suka memahami teori dahulu", type: "analytical" },
+                    { text: "Saya suka bereksperimen sendiri", type: "creative" },
+                    { text: "Saya suka belajar dalam kumpulan", type: "social" },
+                    { text: "Saya suka praktikal langsung", type: "practical" }
+                ]
+            },
+            {
+                icon: "🏆",
+                question: "Kejayaan bagi saya bermaksud:",
+                options: [
+                    { text: "Menemui kebenaran atau penyelesaian", type: "analytical" },
+                    { text: "Menghasilkan sesuatu yang original", type: "creative" },
+                    { text: "Memberi impak positif kepada orang lain", type: "social" },
+                    { text: "Mencapai matlamat yang ditetapkan", type: "practical" }
+                ]
+            },
+            {
+                icon: "🔍",
+                question: "Dalam masa lapang, saya suka:",
+                options: [
+                    { text: "Menonton dokumentari atau membaca", type: "analytical" },
+                    { text: "Berkarya atau mendengar muzik", type: "creative" },
+                    { text: "Bersosial dan aktiviti berkumpulan", type: "social" },
+                    { text: "Sukan atau aktiviti fizikal", type: "practical" }
+                ]
+            },
+            {
+                icon: "💡",
+                question: "Idea terbaik datang kepada saya ketika:",
+                options: [
+                    { text: "Berfikir secara sistematik", type: "analytical" },
+                    { text: "Dalam keadaan santai dan bebas", type: "creative" },
+                    { text: "Berbincang dengan orang lain", type: "social" },
+                    { text: "Sedang melakukan sesuatu", type: "practical" }
+                ]
+            },
+            {
+                icon: "🎪",
+                question: "Persekitaran kerja yang ideal:",
+                options: [
+                    { text: "Tenang dan teratur", type: "analytical" },
+                    { text: "Fleksibel dan penuh inspirasi", type: "creative" },
+                    { text: "Dinamik dan banyak interaksi", type: "social" },
+                    { text: "Praktikal dan berorientasikan hasil", type: "practical" }
+                ]
             }
         ];
 
-        let currentQuestion = 0;
-        let score = 0;
-        let answered = false;
-
-        function selectAnswer(selectedIndex) {
-            if (answered) return;
-            
-            answered = true;
-            const options = document.querySelectorAll('.option-btn');
-            const feedback = document.getElementById('feedback');
-            const nextBtn = document.getElementById('next-btn');
-            
-            options.forEach((option, index) => {
-                if (index === quizData[currentQuestion].correct) {
-                    option.classList.add('bg-green-500');
-                } else if (index === selectedIndex && index !== quizData[currentQuestion].correct) {
-                    option.classList.add('bg-red-500');
-                }
-                option.disabled = true;
-            });
-            
-            if (selectedIndex === quizData[currentQuestion].correct) {
-                score++;
-                feedback.innerHTML = '<div class="bg-green-100 text-green-800 p-3 rounded-lg font-semibold">✅ Betul! Jawapan yang tepat!</div>';
-            } else {
-                feedback.innerHTML = '<div class="bg-red-100 text-red-800 p-3 rounded-lg font-semibold">❌ Tidak tepat. Jawapan yang betul adalah: ' + quizData[currentQuestion].options[quizData[currentQuestion].correct] + '</div>';
+        const personalityTypes = {
+            analytical: {
+                title: "🔬 Pemikir Analitikal",
+                description: "Anda seorang yang logik, sistematik dan suka menganalisis. Anda pandai menyelesaikan masalah dengan pendekatan saintifik.",
+                careers: ["Saintis", "Jurutera", "Akauntan", "Pengaturcara", "Penyelidik", "Doktor"]
+            },
+            creative: {
+                title: "🎨 Pencipta Kreatif",
+                description: "Anda mempunyai imaginasi yang tinggi dan suka berkarya. Anda pandai melihat sesuatu dari perspektif yang unik.",
+                careers: ["Pelukis", "Arkitek", "Pereka Grafik", "Penulis", "Pemuzik", "Pelakon"]
+            },
+            social: {
+                title: "🤝 Pemimpin Sosial",
+                description: "Anda seorang yang mesra, suka berkomunikasi dan membantu orang lain. Anda pandai bekerja dalam pasukan.",
+                careers: ["Guru", "Peguam", "Ahli Politik", "Kaunselor", "Wartawan", "Pekerja Sosial"]
+            },
+            practical: {
+                title: "🔧 Pelaksana Praktikal",
+                description: "Anda seorang yang praktikal, suka bekerja dengan tangan dan menyelesaikan tugas dengan cekap.",
+                careers: ["Mekanik", "Chef", "Atlet", "Polis", "Bomba", "Tukang Kayu"]
             }
+        };
+
+        const matchingPairs = [
+            { talent: "🎨 Seni & Kreativiti", career: "🖌️ Pelukis/Pereka", id: 1 },
+            { talent: "🔬 Sains & Penyelidikan", career: "👩‍🔬 Saintis", id: 2 },
+            { talent: "💻 Teknologi & Komputer", career: "👨‍💻 Pengaturcara", id: 3 },
+            { talent: "🏥 Kesihatan & Rawatan", career: "👩‍⚕️ Doktor/Jururawat", id: 4 },
+            { talent: "📚 Pendidikan & Mengajar", career: "👨‍🏫 Guru", id: 5 },
+            { talent: "⚖️ Keadilan & Undang-undang", career: "👩‍⚖️ Peguam/Hakim", id: 6 },
+            { talent: "🏗️ Pembinaan & Kejuruteraan", career: "👷‍♂️ Jurutera/Arkitek", id: 7 },
+            { talent: "🎵 Muzik & Persembahan", career: "🎤 Pemuzik/Pelakon", id: 8 }
+        ];
+
+        function startGame(gameType) {
+            document.getElementById('gameMenu').classList.add('hidden');
             
-            feedback.classList.remove('hidden');
-            feedback.classList.add('slide-in');
-            nextBtn.classList.remove('hidden');
-            nextBtn.classList.add('bounce-in');
+            if (gameType === 'personality') {
+                document.getElementById('personalityGame').classList.remove('hidden');
+                currentQuestion = 0;
+                personalityScores = { analytical: 0, creative: 0, social: 0, practical: 0 };
+                showQuestion();
+            } else if (gameType === 'matching') {
+                document.getElementById('matchingGame').classList.remove('hidden');
+                setupMatchingGame();
+            }
         }
 
-        function nextQuestion() {
-            currentQuestion++;
-            answered = false;
+        function showQuestion() {
+            const question = personalityQuestions[currentQuestion];
+            document.getElementById('questionNumber').textContent = currentQuestion + 1;
+            document.getElementById('progressBar').style.width = ((currentQuestion + 1) / personalityQuestions.length * 100) + '%';
+            document.getElementById('questionIcon').textContent = question.icon;
+            document.getElementById('questionText').textContent = question.question;
             
-            if (currentQuestion >= quizData.length) {
-                showQuizResult();
-                return;
-            }
+            const optionsContainer = document.getElementById('answerOptions');
+            optionsContainer.innerHTML = '';
             
-            updateQuizDisplay();
-        }
-
-        function updateQuizDisplay() {
-            const questionCounter = document.getElementById('question-counter');
-            const question = document.getElementById('question');
-            const options = document.getElementById('options');
-            const feedback = document.getElementById('feedback');
-            const nextBtn = document.getElementById('next-btn');
-            
-            questionCounter.textContent = `Soalan ${currentQuestion + 1} daripada ${quizData.length}`;
-            question.textContent = quizData[currentQuestion].question;
-            
-            options.innerHTML = '';
-            quizData[currentQuestion].options.forEach((option, index) => {
+            question.options.forEach((option, index) => {
                 const button = document.createElement('button');
-                button.onclick = () => selectAnswer(index);
-                button.className = 'option-btn bg-white/20 hover:bg-white/30 p-4 rounded-lg text-left transition-colors';
-                button.textContent = `${String.fromCharCode(65 + index)}) ${option}`;
-                options.appendChild(button);
+                button.className = 'w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 rounded-xl font-medium hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 text-left';
+                button.textContent = option.text;
+                button.onclick = () => selectAnswer(option.type);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectAnswer(type) {
+            personalityScores[type]++;
+            currentQuestion++;
+            
+            if (currentQuestion < personalityQuestions.length) {
+                setTimeout(showQuestion, 300);
+            } else {
+                showPersonalityResults();
+            }
+        }
+
+        function showPersonalityResults() {
+            const maxScore = Math.max(...Object.values(personalityScores));
+            const dominantType = Object.keys(personalityScores).find(key => personalityScores[key] === maxScore);
+            const result = personalityTypes[dominantType];
+            
+            document.getElementById('resultIcon').textContent = result.title.split(' ')[0];
+            document.getElementById('resultTitle').textContent = result.title;
+            document.getElementById('resultDescription').textContent = result.description;
+            document.getElementById('suggestedCareers').textContent = result.careers.join(', ');
+            
+            document.getElementById('personalityGame').classList.add('hidden');
+            document.getElementById('resultsModal').classList.remove('hidden');
+            document.getElementById('resultsModal').classList.add('flex');
+            
+            showSuccessAnimation();
+        }
+
+        function setupMatchingGame() {
+            matchingScore = 0;
+            selectedTalent = null;
+            document.getElementById('matchingScore').textContent = matchingScore;
+            
+            const shuffledPairs = [...matchingPairs].sort(() => Math.random() - 0.5);
+            const talents = shuffledPairs.map(pair => ({ text: pair.talent, id: pair.id }));
+            const careers = shuffledPairs.map(pair => ({ text: pair.career, id: pair.id })).sort(() => Math.random() - 0.5);
+            
+            createMatchingCards('talentCards', talents, 'talent');
+            createMatchingCards('careerCards', careers, 'career');
+        }
+
+        function createMatchingCards(containerId, items, type) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = `card-hover bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded-xl cursor-pointer border-2 border-transparent transition-all duration-200`;
+                card.textContent = item.text;
+                card.dataset.id = item.id;
+                card.dataset.type = type;
+                card.onclick = () => selectCard(card, item.id, type);
+                container.appendChild(card);
+            });
+        }
+
+        function selectCard(cardElement, id, type) {
+            // Remove previous selections of the same type
+            document.querySelectorAll(`[data-type="${type}"]`).forEach(card => {
+                card.classList.remove('border-blue-500', 'bg-blue-100');
+                card.classList.add('border-transparent');
             });
             
-            feedback.classList.add('hidden');
-            nextBtn.classList.add('hidden');
+            // Highlight selected card
+            cardElement.classList.add('border-blue-500', 'bg-blue-100');
+            cardElement.classList.remove('border-transparent');
+            
+            if (type === 'talent') {
+                selectedTalent = id;
+            } else if (type === 'career' && selectedTalent) {
+                checkMatch(selectedTalent, id);
+            }
         }
 
-        function showQuizResult() {
-            document.getElementById('quiz-container').classList.add('hidden');
-            document.getElementById('quiz-result').classList.remove('hidden');
-            document.getElementById('score-text').textContent = `Anda mendapat ${score}/${quizData.length} jawapan betul!`;
+        function checkMatch(talentId, careerId) {
+            if (talentId === careerId) {
+                // Correct match
+                matchingScore += 10;
+                document.getElementById('matchingScore').textContent = matchingScore;
+                
+                // Remove matched cards
+                document.querySelectorAll(`[data-id="${talentId}"]`).forEach(card => {
+                    card.classList.add('success-bg', 'text-white');
+                    card.textContent += ' ✅';
+                    card.onclick = null;
+                    setTimeout(() => {
+                        card.style.opacity = '0.5';
+                        card.style.pointerEvents = 'none';
+                    }, 1000);
+                });
+                
+                showSuccessAnimation();
+                
+                // Check if all matches are found
+                setTimeout(() => {
+                    const remainingCards = document.querySelectorAll('[data-type="talent"]:not([style*="opacity"])').length;
+                    if (remainingCards === 0) {
+                        alert(`🎉 Tahniah! Anda telah berjaya padankan semua! Skor akhir: ${matchingScore}`);
+                    }
+                }, 1500);
+            } else {
+                // Wrong match
+                document.querySelectorAll('.border-blue-500').forEach(card => {
+                    card.classList.add('warning-bg', 'text-white');
+                    setTimeout(() => {
+                        card.classList.remove('warning-bg', 'text-white', 'border-blue-500', 'bg-blue-100');
+                        card.classList.add('border-transparent');
+                    }, 1000);
+                });
+            }
+            
+            selectedTalent = null;
         }
 
-        function restartQuiz() {
+        function resetMatching() {
+            setupMatchingGame();
+        }
+
+        function restartPersonalityTest() {
+            document.getElementById('resultsModal').classList.add('hidden');
+            document.getElementById('resultsModal').classList.remove('flex');
             currentQuestion = 0;
-            score = 0;
-            answered = false;
-            document.getElementById('quiz-container').classList.remove('hidden');
-            document.getElementById('quiz-result').classList.add('hidden');
-            updateQuizDisplay();
+            personalityScores = { analytical: 0, creative: 0, social: 0, practical: 0 };
+            document.getElementById('personalityGame').classList.remove('hidden');
+            showQuestion();
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            showSection('overview');
-            updateQuizDisplay();
-        });
+        function backToMenu() {
+            document.getElementById('personalityGame').classList.add('hidden');
+            document.getElementById('matchingGame').classList.add('hidden');
+            document.getElementById('resultsModal').classList.add('hidden');
+            document.getElementById('resultsModal').classList.remove('flex');
+            document.getElementById('gameMenu').classList.remove('hidden');
+        }
+
+        function showSuccessAnimation() {
+            const animation = document.getElementById('successAnimation');
+            animation.classList.remove('hidden');
+            setTimeout(() => {
+                animation.classList.add('hidden');
+            }, 2000);
+        }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9840d9416694f50a',t:'MTc1ODcwMTg4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'984100d2d261068e',t:'MTc1ODcwMzUwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
