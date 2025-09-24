@@ -60,13 +60,33 @@
         .progress-bar {
             transition: width 0.5s ease-in-out;
         }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f39c12;
+            animation: confetti-fall 3s linear infinite;
+            z-index: 1000;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body class="gradient-bg min-h-screen">
     <div class="container mx-auto px-4 py-6">
         <!-- Header -->
         <div class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">🎯 Praktis Perlakuan</h1>
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">🎯 Praktis: Perlakuan Baik, Benar dan Patut</h1>
             <p class="text-lg text-purple-100">Pendidikan Moral Tingkatan 1 - Unit 1</p>
             <div class="mt-4 bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 inline-block">
                 <span class="text-white font-medium">Skor: <span id="score">0</span>/10</span>
@@ -139,14 +159,11 @@
                 <span id="resultEmoji" class="text-6xl mb-4 block"></span>
                 <h2 id="resultTitle" class="text-2xl md:text-3xl font-bold mb-4"></h2>
                 <p id="resultText" class="text-lg text-gray-700 mb-6"></p>
-                <div class="grid md:grid-cols-3 gap-3">
-                    <button id="restartButton" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-purple-600 transition-all duration-300 text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
-                        🔄 Cuba Lagi
-                    </button>
-                    <button id="reviewButton" class="bg-gradient-to-r from-green-500 to-teal-500 text-white px-4 py-3 rounded-lg font-medium hover:from-green-600 hover:to-teal-600 transition-all duration-300 text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
+                <div class="grid md:grid-cols-2 gap-4 max-w-md mx-auto">
+                    <button id="reviewButton" class="bg-gradient-to-r from-green-500 to-teal-500 text-white px-6 py-4 rounded-lg font-medium hover:from-green-600 hover:to-teal-600 transition-all duration-300 text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
                         📚 Semak Jawapan
                     </button>
-                    <button id="practiceButton" class="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-4 py-3 rounded-lg font-medium hover:from-pink-600 hover:to-rose-600 transition-all duration-300 text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
+                    <button id="practiceButton" class="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-6 py-4 rounded-lg font-medium hover:from-pink-600 hover:to-rose-600 transition-all duration-300 text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
                         🎯 Latih Tubi
                     </button>
                 </div>
@@ -364,6 +381,28 @@
             }
             
             document.getElementById('resultText').textContent = motivationalMessage;
+            
+            // Add achievement badges
+            let badgeHTML = '<div class="mt-6 flex justify-center flex-wrap gap-2">';
+            if (percentage === 100) {
+                badgeHTML += '<span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">🏆 Pakar Perlakuan</span>';
+                badgeHTML += '<span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">⭐ Markah Penuh</span>';
+            } else if (percentage >= 80) {
+                badgeHTML += '<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">🎯 Cemerlang</span>';
+            } else if (percentage >= 60) {
+                badgeHTML += '<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">👍 Baik</span>';
+            }
+            if (score >= 5) {
+                badgeHTML += '<span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">🔥 Separuh Jalan</span>';
+            }
+            badgeHTML += '</div>';
+            
+            document.getElementById('resultText').insertAdjacentHTML('afterend', badgeHTML);
+            
+            // Add confetti for high scores
+            if (percentage >= 80) {
+                createConfetti();
+            }
         }
 
         function restartGame() {
@@ -488,9 +527,9 @@
             });
             
             reviewHTML += `
-                <div class="grid md:grid-cols-2 gap-3 mt-4">
-                    <button onclick="restartGame()" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                        🔄 Cuba Lagi
+                <div class="grid md:grid-cols-2 gap-3 mt-4 max-w-md mx-auto">
+                    <button onclick="location.reload()" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                        🏠 Kembali ke Menu
                     </button>
                     <button onclick="startPracticeMode()" class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-3 rounded-lg font-medium hover:from-orange-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
                         🎯 Latih Tubi
@@ -600,6 +639,25 @@
             displayQuestion();
         }
 
+        function createConfetti() {
+            const colors = ['#f39c12', '#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f1c40f'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 3000);
+                }, i * 100);
+            }
+        }
+
         function attachEventListeners() {
             // Re-attach all event listeners after DOM changes
             const nextBtn = document.getElementById('nextButton');
@@ -619,5 +677,5 @@
         // Initialize game
         displayQuestion();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98404af515e45348',t:'MTc1ODY5NjA1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98405ac970841ec5',t:'MTc1ODY5NjcwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
