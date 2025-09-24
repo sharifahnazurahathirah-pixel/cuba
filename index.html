@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Praktis Perlakuan - Pendidikan Moral Tingkatan 1</title>
+    <title>Flashcard Ciri-ciri Insan Bermoral</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
@@ -12,20 +12,59 @@
             font-family: 'Poppins', sans-serif;
         }
         
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .flip-card {
+            perspective: 1000px;
+            height: 400px;
         }
         
-        .card-hover {
-            transition: all 0.3s ease;
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
         }
         
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
         }
         
-        .pulse-animation {
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.6s ease-out;
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .pulse {
             animation: pulse 2s infinite;
         }
         
@@ -35,647 +74,557 @@
             100% { transform: scale(1); }
         }
         
-        .correct-answer {
-            background: linear-gradient(135deg, #4ade80, #22c55e);
-            animation: correctPulse 0.6s ease-in-out;
+        .star {
+            color: #fbbf24;
+            font-size: 1.5rem;
+            margin: 0 2px;
         }
         
-        .wrong-answer {
-            background: linear-gradient(135deg, #f87171, #ef4444);
-            animation: shake 0.5s ease-in-out;
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
-        @keyframes correctPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        .gradient-bg-2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
         
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+        .gradient-bg-3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
         
-        .progress-bar {
-            transition: width 0.5s ease-in-out;
+        .gradient-bg-4 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
         }
         
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #f39c12;
-            animation: confetti-fall 3s linear infinite;
-            z-index: 1000;
-        }
-        
-        @keyframes confetti-fall {
-            0% {
-                transform: translateY(-100vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(720deg);
-                opacity: 0;
-            }
+        .gradient-bg-5 {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
         }
     </style>
 </head>
-<body class="gradient-bg min-h-screen">
-    <div class="container mx-auto px-4 py-6">
+<body class="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 p-4">
+    <div class="max-w-6xl mx-auto">
         <!-- Header -->
         <div class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">🎯 Praktis: Perlakuan Baik, Benar dan Patut</h1>
-            <p class="text-lg text-purple-100">Pendidikan Moral Tingkatan 1 - Unit 1</p>
-            <div class="mt-4 bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 inline-block">
-                <span class="text-white font-medium">Skor: <span id="score">0</span>/10</span>
-            </div>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="mb-6">
-            <div class="bg-white/20 rounded-full h-3 overflow-hidden">
-                <div id="progressBar" class="progress-bar bg-gradient-to-r from-yellow-400 to-orange-500 h-full rounded-full" style="width: 0%"></div>
-            </div>
-            <p class="text-center text-white mt-2">Soalan <span id="currentQuestion">1</span> daripada 10</p>
-        </div>
-
-        <!-- Main Content -->
-        <div id="gameArea" class="max-w-4xl mx-auto">
-            <!-- Definition Cards -->
-            <div id="definitionSection" class="grid md:grid-cols-3 gap-4 mb-8">
-                <div class="bg-white/95 backdrop-blur-sm rounded-xl p-6 card-hover border-l-4 border-blue-500">
-                    <div class="flex items-center mb-3">
-                        <span class="text-2xl mr-3">💙</span>
-                        <h3 class="text-lg font-semibold text-blue-700">Perlakuan Baik</h3>
-                    </div>
-                    <p class="text-gray-700 text-sm">Tindakan yang membawa kebaikan dan manfaat kepada diri sendiri dan orang lain</p>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+                🌟 Ciri-ciri Insan Bermoral 🌟
+            </h1>
+            <p class="text-xl text-white/90 mb-6">Pendidikan Moral Tingkatan 1 - Unit 2</p>
+            
+            <!-- Instructions Panel -->
+            <div class="bg-white/15 backdrop-blur-sm rounded-2xl p-6 mb-6 text-left max-w-4xl mx-auto">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-2xl font-bold text-white flex items-center">
+                        📖 Cara Menggunakan Flashcard
+                    </h3>
+                    <button onclick="toggleInstructions()" id="toggleBtn" class="bg-white/20 text-white px-4 py-2 rounded-lg hover:bg-white/30 transition-all duration-200">
+                        Sembunyi
+                    </button>
                 </div>
                 
-                <div class="bg-white/95 backdrop-blur-sm rounded-xl p-6 card-hover border-l-4 border-green-500">
-                    <div class="flex items-center mb-3">
-                        <span class="text-2xl mr-3">⚖️</span>
-                        <h3 class="text-lg font-semibold text-green-700">Perlakuan Patut</h3>
+                <div id="instructionsContent" class="grid md:grid-cols-2 gap-6 text-white">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3 text-yellow-300">🎯 Cara Pembelajaran:</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex items-start">
+                                <span class="text-green-400 mr-2">1️⃣</span>
+                                <span>Klik kad untuk melihat definisi ciri-ciri insan bermoral</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-400 mr-2">2️⃣</span>
+                                <span>Baca dan fahami makna setiap ciri</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-400 mr-2">3️⃣</span>
+                                <span>Lihat contoh dalam kehidupan harian</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-400 mr-2">4️⃣</span>
+                                <span>Tekan "Faham" jika sudah memahami, "Ulang" untuk belajar lagi</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-400 mr-2">5️⃣</span>
+                                <span>Gunakan kategori untuk fokus pada aspek tertentu</span>
+                            </li>
+                        </ul>
                     </div>
-                    <p class="text-gray-700 text-sm">Tindakan yang sesuai dengan norma, adat dan budaya masyarakat</p>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3 text-yellow-300">💡 Tips Pembelajaran:</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex items-start">
+                                <span class="text-green-400 mr-2">📚</span>
+                                <span>Pilih kategori untuk fokus pembelajaran - Perlakuan, Perasaan atau Pemikiran</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-400 mr-2">🎯</span>
+                                <span>Gunakan butang "Faham" dan "Ulang" untuk menilai pemahaman</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-400 mr-2">⭐</span>
+                                <span>Lihat pencapaian anda di bahagian bawah</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 
-                <div class="bg-white/95 backdrop-blur-sm rounded-xl p-6 card-hover border-l-4 border-purple-500">
-                    <div class="flex items-center mb-3">
-                        <span class="text-2xl mr-3">✅</span>
-                        <h3 class="text-lg font-semibold text-purple-700">Perlakuan Benar</h3>
-                    </div>
-                    <p class="text-gray-700 text-sm">Tindakan yang mengikut prinsip kebenaran dan tidak melanggar undang-undang</p>
+                <div class="mt-4 p-4 bg-blue-400/20 rounded-lg border-l-4 border-blue-400">
+                    <p class="text-blue-100 text-sm">
+                        💡 <strong>Petua:</strong> Gunakan kategori untuk memahami ciri-ciri dari sudut yang berbeza - bagaimana kita berfikir, berasa, dan bertindak!
+                    </p>
                 </div>
             </div>
-
-            <!-- Question Card -->
-            <div id="questionCard" class="bg-white/95 backdrop-blur-sm rounded-xl p-6 md:p-8 mb-6 card-hover">
-                <div class="text-center mb-6">
-                    <span id="questionEmoji" class="text-4xl mb-4 block">🤔</span>
-                    <h2 class="text-xl md:text-2xl font-semibold text-gray-800 mb-4" id="questionText">Loading...</h2>
-                </div>
-                
-                <div id="optionsContainer" class="grid gap-3">
-                    <!-- Options will be populated by JavaScript -->
+            
+            <!-- Progress Bar -->
+            <div class="bg-white/20 rounded-full h-4 mb-4 backdrop-blur-sm">
+                <div id="progressBar" class="progress-bar bg-yellow-400 h-4 rounded-full flex items-center justify-end pr-2" style="width: 0%">
+                    <span id="progressText" class="text-xs font-bold text-purple-800">0/10</span>
                 </div>
             </div>
-
-            <!-- Feedback Section -->
-            <div id="feedbackSection" class="hidden bg-white/95 backdrop-blur-sm rounded-xl p-6 mb-6">
+            
+            <!-- Stats -->
+            <div class="flex justify-center space-x-6 text-white">
                 <div class="text-center">
-                    <span id="feedbackEmoji" class="text-4xl mb-3 block"></span>
-                    <h3 id="feedbackTitle" class="text-xl font-semibold mb-2"></h3>
-                    <p id="feedbackText" class="text-gray-700 mb-4"></p>
-                    <button id="nextButton" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-300 pulse-animation">
-                        Soalan Seterusnya ➡️
-                    </button>
+                    <div class="text-2xl font-bold" id="currentCard">1</div>
+                    <div class="text-sm opacity-80">Kad Semasa</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold" id="correctAnswers">0</div>
+                    <div class="text-sm opacity-80">Faham</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold" id="totalCards">10</div>
+                    <div class="text-sm opacity-80">Jumlah Kad</div>
                 </div>
             </div>
+        </div>
 
-            <!-- Results Section -->
-            <div id="resultsSection" class="hidden bg-white/95 backdrop-blur-sm rounded-xl p-6 md:p-8 text-center">
-                <span id="resultEmoji" class="text-6xl mb-4 block"></span>
-                <h2 id="resultTitle" class="text-2xl md:text-3xl font-bold mb-4"></h2>
-                <p id="resultText" class="text-lg text-gray-700 mb-6"></p>
-                <div class="grid md:grid-cols-2 gap-4 max-w-md mx-auto">
-                    <button id="reviewButton" class="bg-gradient-to-r from-green-500 to-teal-500 text-white px-6 py-4 rounded-lg font-medium hover:from-green-600 hover:to-teal-600 transition-all duration-300 text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
-                        📚 Semak Jawapan
-                    </button>
-                    <button id="practiceButton" class="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-6 py-4 rounded-lg font-medium hover:from-pink-600 hover:to-rose-600 transition-all duration-300 text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
-                        🎯 Latih Tubi
-                    </button>
+        <!-- Main Content Area -->
+        <div class="flex flex-col lg:flex-row gap-8 mb-8">
+            <!-- Category Panel -->
+            <div class="lg:w-64 flex-shrink-0">
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 sticky top-4">
+                    <h4 class="text-white text-center mb-4 font-semibold text-lg">📚 Kategori</h4>
+                    
+                    <!-- Category Buttons in 2 rows -->
+                    <div class="grid grid-cols-2 gap-2 mb-4">
+                        <!-- All Categories Button -->
+                        <button onclick="filterCategory('all')" id="filter-all" class="category-btn bg-purple-500 text-white p-3 rounded-lg font-medium hover:bg-purple-600 transition-all duration-200 active">
+                            <div class="text-center">
+                                <div class="text-xl mb-1">🌟</div>
+                                <div class="text-xs font-bold">Semua</div>
+                                <div class="text-xs opacity-80">(10)</div>
+                            </div>
+                        </button>
+                        
+                        <!-- Perlakuan Category -->
+                        <button onclick="filterCategory('perlakuan')" id="filter-perlakuan" class="category-btn bg-green-500 text-white p-3 rounded-lg font-medium hover:bg-green-600 transition-all duration-200">
+                            <div class="text-center">
+                                <div class="text-xl mb-1">🤝</div>
+                                <div class="text-xs font-bold">Perlakuan</div>
+                                <div class="text-xs opacity-80">(3)</div>
+                            </div>
+                        </button>
+                        
+                        <!-- Perasaan Category -->
+                        <button onclick="filterCategory('perasaan')" id="filter-perasaan" class="category-btn bg-pink-500 text-white p-3 rounded-lg font-medium hover:bg-pink-600 transition-all duration-200">
+                            <div class="text-center">
+                                <div class="text-xl mb-1">❤️</div>
+                                <div class="text-xs font-bold">Perasaan</div>
+                                <div class="text-xs opacity-80">(3)</div>
+                            </div>
+                        </button>
+                        
+                        <!-- Pemikiran Category -->
+                        <button onclick="filterCategory('pemikiran')" id="filter-pemikiran" class="category-btn bg-blue-500 text-white p-3 rounded-lg font-medium hover:bg-blue-600 transition-all duration-200">
+                            <div class="text-center">
+                                <div class="text-xl mb-1">🧠</div>
+                                <div class="text-xs font-bold">Pemikiran</div>
+                                <div class="text-xs opacity-80">(4)</div>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <!-- Current Category Info -->
+                    <div class="bg-white/10 rounded-lg p-3 text-center text-white">
+                        <div class="text-xs opacity-80 mb-1">Aktif:</div>
+                        <div class="font-bold text-sm" id="currentCategoryName">Semua Ciri</div>
+                        <div class="text-xs opacity-80" id="currentCategoryCount">10/10</div>
+                    </div>
                 </div>
             </div>
+            
+            <!-- Main Flashcard -->
+            <div class="flex-1 flex justify-center">
+                <div class="flip-card w-full max-w-md cursor-pointer" id="flashcard" onclick="flipCard()">
+                    <div class="flip-card-inner" id="flipCardInner">
+                        <!-- Front of card -->
+                        <div class="flip-card-front gradient-bg text-white" id="cardFront">
+                            <div class="text-6xl mb-4" id="cardEmoji">⚖️</div>
+                            <h2 class="text-2xl font-bold mb-4" id="cardTitle">Adil</h2>
+                            <p class="text-lg opacity-90 mb-6" id="cardHint">Klik untuk melihat definisi</p>
+                            <div class="text-sm opacity-70">💡 Kategori: Perlakuan</div>
+                        </div>
+                        
+                        <!-- Back of card -->
+                        <div class="flip-card-back bg-white text-gray-800" id="cardBack">
+                            <div class="text-5xl mb-4" id="backEmoji">🏛️</div>
+                            <h3 class="text-2xl font-bold mb-4 text-purple-600" id="backTitle">Adil</h3>
+                            <p class="text-lg mb-4 leading-relaxed" id="backDescription">Membuat keputusan berdasarkan kebenaran tanpa berat sebelah dan memberikan hak kepada setiap orang.</p>
+                            <div class="bg-purple-100 p-4 rounded-lg mb-4">
+                                <p class="text-sm font-medium text-purple-800" id="backExample">Contoh: Membahagi tugas kumpulan secara sama rata</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Buttons -->
+        <div class="flex justify-center space-x-4 mb-8">
+            <button onclick="flipCard()" class="bg-white text-purple-600 px-6 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+                🔄 Balik Kad
+            </button>
+            <button onclick="markUnderstood()" class="bg-green-500 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+                ✅ Faham
+            </button>
+            <button onclick="markNeedReview()" class="bg-orange-500 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+                🔄 Ulang
+            </button>
+        </div>
+
+
+
+        <!-- Navigation -->
+        <div class="flex justify-center space-x-4 mb-8">
+            <button onclick="previousCard()" class="bg-white/20 text-white px-6 py-3 rounded-full font-bold backdrop-blur-sm hover:bg-white/30 transition-all duration-200">
+                ⬅️ Sebelum
+            </button>
+            <button onclick="nextCard()" class="bg-white/20 text-white px-6 py-3 rounded-full font-bold backdrop-blur-sm hover:bg-white/30 transition-all duration-200">
+                Seterusnya ➡️
+            </button>
+        </div>
+
+
+
+        <!-- Achievement Section -->
+        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center text-white">
+            <h3 class="text-2xl font-bold mb-4">🏆 Pencapaian Anda</h3>
+            <div id="achievementStars" class="mb-4">
+                <span class="star">⭐</span>
+                <span class="star">⭐</span>
+                <span class="star">⭐</span>
+                <span class="star">⭐</span>
+                <span class="star">⭐</span>
+            </div>
+            <p id="achievementText" class="text-lg">Teruskan usaha! Anda sedang belajar dengan baik! 💪</p>
         </div>
     </div>
 
     <script>
-        const questions = [
+        const flashcards = [
+            // PERLAKUAN
             {
-                emoji: "🤝",
-                question: "Ahmad membantu nenek menyeberang jalan",
-                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
-                correct: 0,
-                explanation: "Membantu orang tua adalah tindakan yang membawa kebaikan kepada orang lain."
+                emoji: "⚖️",
+                title: "Adil",
+                hint: "Klik untuk melihat definisi",
+                backEmoji: "🏛️",
+                backTitle: "Adil",
+                description: "Membuat keputusan berdasarkan kebenaran tanpa berat sebelah dan memberikan hak kepada setiap orang.",
+                example: "Contoh: Membahagi tugas kumpulan secara sama rata",
+                gradient: "gradient-bg",
+                category: "perlakuan"
+            },
+            {
+                emoji: "🌸",
+                title: "Berbudi Pekerti",
+                hint: "Klik untuk melihat definisi",
+                backEmoji: "✨",
+                backTitle: "Berbudi Pekerti",
+                description: "Menunjukkan akhlak yang baik, sopan santun, dan tingkah laku yang mulia dalam kehidupan seharian.",
+                example: "Contoh: Bertutur kata dengan lemah lembut dan bersikap baik",
+                gradient: "gradient-bg-2",
+                category: "perlakuan"
             },
             {
                 emoji: "🙏",
-                question: "Siti mengucapkan salam apabila masuk ke rumah",
-                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
-                correct: 1,
-                explanation: "Mengucapkan salam adalah adat dan budaya yang sesuai dalam masyarakat kita."
+                title: "Hormat",
+                hint: "Klik untuk melihat definisi",
+                backEmoji: "👑",
+                backTitle: "Hormat",
+                description: "Menunjukkan penghargaan dan kesopanan kepada orang lain, terutama kepada ibu bapa, guru, dan orang yang lebih tua.",
+                example: "Contoh: Berdiri apabila guru masuk ke kelas",
+                gradient: "gradient-bg-3",
+                category: "perlakuan"
+            },
+            // PERASAAN
+            {
+                emoji: "🤗",
+                title: "Empati",
+                hint: "Klik untuk melihat definisi",
+                backEmoji: "💝",
+                backTitle: "Empati",
+                description: "Kemampuan untuk memahami dan merasai perasaan orang lain seolah-olah mengalami sendiri situasi tersebut.",
+                example: "Contoh: Turut bersedih apabila rakan menghadapi masalah",
+                gradient: "gradient-bg-4",
+                category: "perasaan"
             },
             {
-                emoji: "🚦",
-                question: "Ali mematuhi lampu isyarat semasa memandu",
-                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
-                correct: 2,
-                explanation: "Mematuhi undang-undang jalan raya adalah perlakuan benar mengikut peraturan."
+                emoji: "❤️",
+                title: "Simpati",
+                hint: "Klik untuk melihat definisi",
+                backEmoji: "🤲",
+                backTitle: "Simpati",
+                description: "Perasaan kasihan dan prihatin terhadap penderitaan atau kesusahan yang dialami orang lain.",
+                example: "Contoh: Merasa kasihan dan ingin membantu orang yang kesusahan",
+                gradient: "gradient-bg-5",
+                category: "perasaan"
             },
             {
-                emoji: "💰",
-                question: "Fatimah memulangkan dompet yang dijumpainya",
-                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
-                correct: 2,
-                explanation: "Memulangkan barang orang lain adalah mengikut prinsip kebenaran dan undang-undang."
+                emoji: "😊",
+                title: "Gembira",
+                hint: "Klik untuk melihat definisi",
+                backEmoji: "🌟",
+                backTitle: "Gembira",
+                description: "Perasaan bahagia dan ceria yang ditunjukkan dengan sikap positif dan optimis dalam kehidupan.",
+                example: "Contoh: Tersenyum dan bersikap ceria walaupun menghadapi cabaran",
+                gradient: "gradient-bg",
+                category: "perasaan"
+            },
+            // PEMIKIRAN
+            {
+                emoji: "🧠",
+                title: "Rasional",
+                hint: "Klik untuk melihat definisi",
+                backEmoji: "🔍",
+                backTitle: "Rasional",
+                description: "Berfikir secara logik dan berasas, menggunakan akal untuk menilai sesuatu dengan objektif.",
+                example: "Contoh: Menilai situasi berdasarkan fakta bukan emosi semata-mata",
+                gradient: "gradient-bg-2",
+                category: "pemikiran"
             },
             {
-                emoji: "👥",
-                question: "Hassan beratur dengan tertib di kedai",
-                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
-                correct: 1,
-                explanation: "Beratur dengan tertib adalah norma dan adat yang sesuai dalam masyarakat."
+                emoji: "🎯",
+                title: "Boleh Membuat Keputusan",
+                hint: "Klik untuk melihat definisi",
+                backEmoji: "⚡",
+                backTitle: "Boleh Membuat Keputusan",
+                description: "Kemampuan untuk memilih tindakan yang terbaik setelah mempertimbangkan semua pilihan yang ada.",
+                example: "Contoh: Memilih aktiviti yang bermanfaat daripada yang merugikan",
+                gradient: "gradient-bg-3",
+                category: "pemikiran"
             },
             {
-                emoji: "🎁",
-                question: "Aminah memberikan sedekah kepada fakir miskin",
-                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
-                correct: 0,
-                explanation: "Bersedekah adalah tindakan baik yang membawa manfaat kepada orang yang memerlukan."
+                emoji: "🔧",
+                title: "Dapat Menyelesaikan Masalah",
+                hint: "Klik untuk melihat definisi",
+                backEmoji: "💡",
+                backTitle: "Dapat Menyelesaikan Masalah",
+                description: "Kemahiran untuk mencari jalan keluar dan penyelesaian terhadap masalah yang dihadapi.",
+                example: "Contoh: Mencari cara kreatif untuk menyelesaikan konflik antara rakan",
+                gradient: "gradient-bg-4",
+                category: "pemikiran"
             },
             {
-                emoji: "📚",
-                question: "Razak tidak menyalin kerja rakan semasa peperiksaan",
-                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
-                correct: 2,
-                explanation: "Tidak meniru adalah mengikut prinsip kebenaran dan peraturan sekolah."
-            },
-            {
-                emoji: "🍽️",
-                question: "Maryam tidak membuang makanan",
-                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
-                correct: 0,
-                explanation: "Tidak membazir makanan adalah tindakan baik yang membawa manfaat."
-            },
-            {
-                emoji: "👨‍👩‍👧‍👦",
-                question: "Karim menghormati ibu bapa",
-                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
-                correct: 1,
-                explanation: "Menghormati ibu bapa adalah norma dan budaya yang sesuai dalam masyarakat."
-            },
-            {
-                emoji: "🌱",
-                question: "Lina tidak membuang sampah merata-rata",
-                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
-                correct: 2,
-                explanation: "Tidak membuang sampah sembarangan mengikut undang-undang dan peraturan kebersihan."
+                emoji: "⚖️",
+                title: "Tahu Membezakan Betul atau Salah",
+                hint: "Klik untuk melihat definisi",
+                backEmoji: "🎭",
+                backTitle: "Tahu Membezakan Betul atau Salah",
+                description: "Kemampuan untuk menilai dan membezakan antara perkara yang baik dan buruk, betul dan salah.",
+                example: "Contoh: Menolak ajakan untuk menipu dalam peperiksaan",
+                gradient: "gradient-bg-5",
+                category: "pemikiran"
             }
         ];
 
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let userAnswers = [];
+        let currentCardIndex = 0;
+        let understoodCount = 0;
+        let isFlipped = false;
+        let currentFilter = 'all';
+        let filteredCards = [...flashcards];
 
-        function updateProgress() {
-            const progress = ((currentQuestionIndex) / questions.length) * 100;
+        function updateCard() {
+            const card = filteredCards[currentCardIndex];
+            const cardFront = document.getElementById('cardFront');
+            const cardBack = document.getElementById('cardBack');
+            
+            // Update front
+            document.getElementById('cardEmoji').textContent = card.emoji;
+            document.getElementById('cardTitle').textContent = card.title;
+            document.getElementById('cardHint').textContent = card.hint;
+            
+            // Update back
+            document.getElementById('backEmoji').textContent = card.backEmoji;
+            document.getElementById('backTitle').textContent = card.backTitle;
+            document.getElementById('backDescription').textContent = card.description;
+            document.getElementById('backExample').textContent = card.example;
+            
+            // Update gradient
+            cardFront.className = `flip-card-front ${card.gradient} text-white`;
+            
+            // Update stats
+            document.getElementById('currentCard').textContent = currentCardIndex + 1;
+            
+            // Update progress
+            const progress = ((currentCardIndex + 1) / filteredCards.length) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
-            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
-        }
-
-        function displayQuestion() {
-            const question = questions[currentQuestionIndex];
-            document.getElementById('questionEmoji').textContent = question.emoji;
-            document.getElementById('questionText').textContent = question.question;
+            document.getElementById('progressText').textContent = `${currentCardIndex + 1}/${filteredCards.length}`;
             
-            const optionsContainer = document.getElementById('optionsContainer');
-            optionsContainer.innerHTML = '';
+            // Update total cards display
+            document.getElementById('totalCards').textContent = filteredCards.length;
             
-            question.options.forEach((option, index) => {
-                const button = document.createElement('button');
-                button.className = 'bg-gradient-to-r from-gray-50 to-gray-100 hover:from-blue-50 hover:to-blue-100 border-2 border-gray-200 hover:border-blue-300 rounded-lg p-4 text-left transition-all duration-300 card-hover';
-                button.innerHTML = `
-                    <div class="flex items-center">
-                        <span class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mr-3 font-semibold">${String.fromCharCode(65 + index)}</span>
-                        <span class="font-medium text-gray-800">${option}</span>
-                    </div>
-                `;
-                button.onclick = () => selectAnswer(index, button);
-                optionsContainer.appendChild(button);
-            });
+            // Update navigation buttons
+            updateNavButtons();
             
-            updateProgress();
-        }
-
-        function selectAnswer(selectedIndex, buttonElement) {
-            const question = questions[currentQuestionIndex];
-            const isCorrect = selectedIndex === question.correct;
-            
-            userAnswers.push({
-                question: question.question,
-                selected: question.options[selectedIndex],
-                correct: question.options[question.correct],
-                isCorrect: isCorrect
-            });
-            
-            // Disable all buttons
-            const buttons = document.querySelectorAll('#optionsContainer button');
-            buttons.forEach(btn => btn.disabled = true);
-            
-            // Show correct/incorrect styling
-            if (isCorrect) {
-                buttonElement.className = 'correct-answer border-2 border-green-400 rounded-lg p-4 text-left text-white font-semibold';
-                score++;
-            } else {
-                buttonElement.className = 'wrong-answer border-2 border-red-400 rounded-lg p-4 text-left text-white font-semibold';
-                // Highlight correct answer
-                buttons[question.correct].className = 'correct-answer border-2 border-green-400 rounded-lg p-4 text-left text-white font-semibold';
+            // Reset flip state
+            if (isFlipped) {
+                flipCard();
             }
             
-            document.getElementById('score').textContent = score;
-            
-            // Show feedback
+            // Add bounce animation
+            document.getElementById('flashcard').classList.add('bounce-in');
             setTimeout(() => {
-                showFeedback(isCorrect, question.explanation);
-            }, 1000);
+                document.getElementById('flashcard').classList.remove('bounce-in');
+            }, 600);
         }
 
-        function showFeedback(isCorrect, explanation) {
-            document.getElementById('questionCard').style.display = 'none';
-            document.getElementById('feedbackSection').classList.remove('hidden');
-            
-            if (isCorrect) {
-                document.getElementById('feedbackEmoji').textContent = '🎉';
-                document.getElementById('feedbackTitle').textContent = 'Betul!';
-                document.getElementById('feedbackTitle').className = 'text-xl font-semibold mb-2 text-green-600';
-            } else {
-                document.getElementById('feedbackEmoji').textContent = '😅';
-                document.getElementById('feedbackTitle').textContent = 'Tidak tepat';
-                document.getElementById('feedbackTitle').className = 'text-xl font-semibold mb-2 text-red-600';
-            }
-            
-            document.getElementById('feedbackText').textContent = explanation;
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.toggle('flipped');
+            isFlipped = !isFlipped;
         }
 
-        function nextQuestion() {
-            currentQuestionIndex++;
-            
-            if (currentQuestionIndex >= questions.length) {
-                showResults();
-            } else {
-                document.getElementById('feedbackSection').classList.add('hidden');
-                document.getElementById('questionCard').style.display = 'block';
-                displayQuestion();
+        function nextCard() {
+            if (currentCardIndex < filteredCards.length - 1) {
+                currentCardIndex++;
+                updateCard();
             }
         }
 
-        function showResults() {
-            // Hide other sections
-            document.getElementById('definitionSection').style.display = 'none';
-            document.getElementById('questionCard').style.display = 'none';
-            document.getElementById('feedbackSection').classList.add('hidden');
-            
-            // Show results section
-            document.getElementById('resultsSection').classList.remove('hidden');
-            
-            const percentage = (score / questions.length) * 100;
-            let motivationalMessage = '';
-            
-            if (percentage === 100) {
-                document.getElementById('resultEmoji').textContent = '🌟';
-                document.getElementById('resultTitle').textContent = 'Sempurna!';
-                document.getElementById('resultTitle').className = 'text-2xl md:text-3xl font-bold mb-4 text-yellow-500';
-                motivationalMessage = `Luar biasa! Anda mendapat markah penuh ${score}/${questions.length} (${percentage.toFixed(0)}%)! 🎯 Anda benar-benar memahami perbezaan antara perlakuan baik, perlakuan patut dan perlakuan benar. Teruskan sikap cemerlang ini dalam kehidupan seharian!`;
-            } else if (percentage >= 80) {
-                document.getElementById('resultEmoji').textContent = '🏆';
-                document.getElementById('resultTitle').textContent = 'Cemerlang!';
-                document.getElementById('resultTitle').className = 'text-2xl md:text-3xl font-bold mb-4 text-yellow-600';
-                motivationalMessage = `Tahniah! Anda mendapat ${score}/${questions.length} (${percentage.toFixed(0)}%)! 🎉 Pencapaian yang sangat baik! Anda hampir menguasai sepenuhnya konsep ketiga-tiga perlakuan ini. Sedikit lagi usaha untuk mencapai kesempurnaan!`;
-            } else if (percentage >= 60) {
-                document.getElementById('resultEmoji').textContent = '👍';
-                document.getElementById('resultTitle').textContent = 'Baik!';
-                document.getElementById('resultTitle').className = 'text-2xl md:text-3xl font-bold mb-4 text-blue-600';
-                motivationalMessage = `Bagus! Anda mendapat ${score}/${questions.length} (${percentage.toFixed(0)}%)! 💪 Anda sudah memahami asas-asas penting. Dengan sedikit latihan lagi, anda pasti boleh mencapai tahap cemerlang. Jangan berputus asa!`;
-            } else if (percentage >= 40) {
-                document.getElementById('resultEmoji').textContent = '📚';
-                document.getElementById('resultTitle').textContent = 'Teruskan Usaha!';
-                document.getElementById('resultTitle').className = 'text-2xl md:text-3xl font-bold mb-4 text-orange-600';
-                motivationalMessage = `Anda mendapat ${score}/${questions.length} (${percentage.toFixed(0)}%). 🌱 Ini adalah permulaan yang baik! Baca semula definisi ketiga-tiga perlakuan dan cuba lagi. Setiap kesilapan adalah peluang untuk belajar!`;
-            } else {
-                document.getElementById('resultEmoji').textContent = '💪';
-                document.getElementById('resultTitle').textContent = 'Jangan Berputus Asa!';
-                document.getElementById('resultTitle').className = 'text-2xl md:text-3xl font-bold mb-4 text-red-600';
-                motivationalMessage = `Anda mendapat ${score}/${questions.length} (${percentage.toFixed(0)}%). 🌟 Setiap pakar pernah menjadi pemula! Baca balik definisi dengan teliti dan cuba sekali lagi. Anda pasti boleh buat yang lebih baik!`;
-            }
-            
-            document.getElementById('resultText').textContent = motivationalMessage;
-            
-            // Add achievement badges
-            let badgeHTML = '<div class="mt-6 flex justify-center flex-wrap gap-2">';
-            if (percentage === 100) {
-                badgeHTML += '<span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">🏆 Pakar Perlakuan</span>';
-                badgeHTML += '<span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">⭐ Markah Penuh</span>';
-            } else if (percentage >= 80) {
-                badgeHTML += '<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">🎯 Cemerlang</span>';
-            } else if (percentage >= 60) {
-                badgeHTML += '<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">👍 Baik</span>';
-            }
-            if (score >= 5) {
-                badgeHTML += '<span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">🔥 Separuh Jalan</span>';
-            }
-            badgeHTML += '</div>';
-            
-            document.getElementById('resultText').insertAdjacentHTML('afterend', badgeHTML);
-            
-            // Add confetti for high scores
-            if (percentage >= 80) {
-                createConfetti();
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateCard();
             }
         }
 
-        function restartGame() {
-            // Reset all game variables
-            currentQuestionIndex = 0;
-            score = 0;
-            userAnswers = [];
-            
-            // Reset display elements
-            document.getElementById('score').textContent = '0';
-            document.getElementById('progressBar').style.width = '0%';
-            document.getElementById('currentQuestion').textContent = '1';
-            
-            // Reset title
-            document.querySelector('h1').innerHTML = '🎯 Praktis Perlakuan';
-            
-            // Show all sections properly
-            document.getElementById('definitionSection').style.display = 'grid';
-            document.getElementById('questionCard').style.display = 'block';
-            document.getElementById('feedbackSection').classList.add('hidden');
-            document.getElementById('resultsSection').classList.add('hidden');
-            
-            // Clear and reset game area
-            const gameArea = document.getElementById('gameArea');
-            gameArea.innerHTML = `
-                <!-- Definition Cards -->
-                <div id="definitionSection" class="grid md:grid-cols-3 gap-4 mb-8">
-                    <div class="bg-white/95 backdrop-blur-sm rounded-xl p-6 card-hover border-l-4 border-blue-500">
-                        <div class="flex items-center mb-3">
-                            <span class="text-2xl mr-3">💙</span>
-                            <h3 class="text-lg font-semibold text-blue-700">Perlakuan Baik</h3>
-                        </div>
-                        <p class="text-gray-700 text-sm">Tindakan yang membawa kebaikan dan manfaat kepada diri sendiri dan orang lain</p>
-                    </div>
-                    
-                    <div class="bg-white/95 backdrop-blur-sm rounded-xl p-6 card-hover border-l-4 border-green-500">
-                        <div class="flex items-center mb-3">
-                            <span class="text-2xl mr-3">⚖️</span>
-                            <h3 class="text-lg font-semibold text-green-700">Perlakuan Patut</h3>
-                        </div>
-                        <p class="text-gray-700 text-sm">Tindakan yang sesuai dengan norma, adat dan budaya masyarakat</p>
-                    </div>
-                    
-                    <div class="bg-white/95 backdrop-blur-sm rounded-xl p-6 card-hover border-l-4 border-purple-500">
-                        <div class="flex items-center mb-3">
-                            <span class="text-2xl mr-3">✅</span>
-                            <h3 class="text-lg font-semibold text-purple-700">Perlakuan Benar</h3>
-                        </div>
-                        <p class="text-gray-700 text-sm">Tindakan yang mengikut prinsip kebenaran dan tidak melanggar undang-undang</p>
-                    </div>
-                </div>
-
-                <!-- Question Card -->
-                <div id="questionCard" class="bg-white/95 backdrop-blur-sm rounded-xl p-6 md:p-8 mb-6 card-hover">
-                    <div class="text-center mb-6">
-                        <span id="questionEmoji" class="text-4xl mb-4 block">🤔</span>
-                        <h2 class="text-xl md:text-2xl font-semibold text-gray-800 mb-4" id="questionText">Loading...</h2>
-                    </div>
-                    
-                    <div id="optionsContainer" class="grid gap-3">
-                        <!-- Options will be populated by JavaScript -->
-                    </div>
-                </div>
-
-                <!-- Feedback Section -->
-                <div id="feedbackSection" class="hidden bg-white/95 backdrop-blur-sm rounded-xl p-6 mb-6">
-                    <div class="text-center">
-                        <span id="feedbackEmoji" class="text-4xl mb-3 block"></span>
-                        <h3 id="feedbackTitle" class="text-xl font-semibold mb-2"></h3>
-                        <p id="feedbackText" class="text-gray-700 mb-4"></p>
-                        <button id="nextButton" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-300 pulse-animation">
-                            Soalan Seterusnya ➡️
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Results Section -->
-                <div id="resultsSection" class="hidden bg-white/95 backdrop-blur-sm rounded-xl p-6 md:p-8 text-center">
-                    <span id="resultEmoji" class="text-6xl mb-4 block"></span>
-                    <h2 id="resultTitle" class="text-2xl md:text-3xl font-bold mb-4"></h2>
-                    <p id="resultText" class="text-lg text-gray-700 mb-6"></p>
-                    <div class="grid md:grid-cols-3 gap-3">
-                        <button id="restartButton" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-purple-600 transition-all duration-300 text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
-                            🔄 Cuba Lagi
-                        </button>
-                        <button id="reviewButton" class="bg-gradient-to-r from-green-500 to-teal-500 text-white px-4 py-3 rounded-lg font-medium hover:from-green-600 hover:to-teal-600 transition-all duration-300 text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
-                            📚 Semak Jawapan
-                        </button>
-                        <button id="practiceButton" class="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-4 py-3 rounded-lg font-medium hover:from-pink-600 hover:to-rose-600 transition-all duration-300 text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
-                            🎯 Latih Tubi
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            // Re-attach event listeners
-            attachEventListeners();
-            
-            // Start first question
-            displayQuestion();
+        function showCard(index) {
+            currentCardIndex = index;
+            updateCard();
         }
 
-        function showReview() {
-            let reviewHTML = '<div class="bg-white/95 backdrop-blur-sm rounded-xl p-6"><h3 class="text-xl font-bold mb-4 text-center">📋 Semakan Jawapan</h3>';
+        function markUnderstood() {
+            understoodCount++;
+            document.getElementById('correctAnswers').textContent = understoodCount;
+            updateAchievement();
+            nextCard();
+        }
+
+        function markNeedReview() {
+            nextCard();
+        }
+
+        function filterCategory(category) {
+            currentFilter = category;
             
-            userAnswers.forEach((answer, index) => {
-                const statusIcon = answer.isCorrect ? '✅' : '❌';
-                const statusColor = answer.isCorrect ? 'text-green-600' : 'text-red-600';
-                
-                reviewHTML += `
-                    <div class="mb-4 p-4 border rounded-lg ${answer.isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}">
-                        <div class="flex items-start">
-                            <span class="text-xl mr-2">${statusIcon}</span>
-                            <div class="flex-1">
-                                <p class="font-medium mb-1">${index + 1}. ${answer.question}</p>
-                                <p class="text-sm ${statusColor}">Jawapan anda: ${answer.selected}</p>
-                                ${!answer.isCorrect ? `<p class="text-sm text-green-600">Jawapan betul: ${answer.correct}</p>` : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
+            // Update filter buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.transform = 'scale(1)';
             });
             
-            reviewHTML += `
-                <div class="grid md:grid-cols-2 gap-3 mt-4 max-w-md mx-auto">
-                    <button onclick="location.reload()" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                        🏠 Kembali ke Menu
-                    </button>
-                    <button onclick="startPracticeMode()" class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-3 rounded-lg font-medium hover:from-orange-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                        🎯 Latih Tubi
-                    </button>
-                </div>
-            </div>`;
+            const activeBtn = document.getElementById(`filter-${category}`);
+            activeBtn.classList.add('active');
+            activeBtn.style.transform = 'scale(1.05)';
             
-            document.getElementById('gameArea').innerHTML = reviewHTML;
+            // Filter cards
+            if (category === 'all') {
+                filteredCards = [...flashcards];
+            } else {
+                filteredCards = flashcards.filter(card => card.category === category);
+            }
+            
+            // Update category info
+            const categoryNames = {
+                'all': 'Semua Ciri',
+                'perlakuan': 'Perlakuan',
+                'perasaan': 'Perasaan', 
+                'pemikiran': 'Pemikiran'
+            };
+            
+            document.getElementById('currentCategoryName').textContent = categoryNames[category];
+            document.getElementById('currentCategoryCount').textContent = `${filteredCards.length}/${flashcards.length}`;
+            
+            // Quick menu removed for cleaner interface
+            
+            // Reset to first card of filtered set
+            currentCardIndex = 0;
+            updateCard();
         }
 
-        function startPracticeMode() {
-            // Shuffle questions for practice mode
-            const shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
-            questions.length = 0;
-            questions.push(...shuffledQuestions);
-            
-            // Reset game state
-            currentQuestionIndex = 0;
-            score = 0;
-            userAnswers = [];
-            
-            // Reset display elements
-            document.getElementById('score').textContent = '0';
-            document.getElementById('progressBar').style.width = '0%';
-            document.getElementById('currentQuestion').textContent = '1';
-            
-            // Show practice mode indicator
-            document.querySelector('h1').innerHTML = '🎯 Praktis Perlakuan <span class="text-sm bg-pink-500 px-2 py-1 rounded-full">Mod Latih Tubi</span>';
-            
-            // Reset game area to original state
-            const gameArea = document.getElementById('gameArea');
-            gameArea.innerHTML = `
-                <!-- Definition Cards -->
-                <div id="definitionSection" class="grid md:grid-cols-3 gap-4 mb-8">
-                    <div class="bg-white/95 backdrop-blur-sm rounded-xl p-6 card-hover border-l-4 border-blue-500">
-                        <div class="flex items-center mb-3">
-                            <span class="text-2xl mr-3">💙</span>
-                            <h3 class="text-lg font-semibold text-blue-700">Perlakuan Baik</h3>
-                        </div>
-                        <p class="text-gray-700 text-sm">Tindakan yang membawa kebaikan dan manfaat kepada diri sendiri dan orang lain</p>
-                    </div>
-                    
-                    <div class="bg-white/95 backdrop-blur-sm rounded-xl p-6 card-hover border-l-4 border-green-500">
-                        <div class="flex items-center mb-3">
-                            <span class="text-2xl mr-3">⚖️</span>
-                            <h3 class="text-lg font-semibold text-green-700">Perlakuan Patut</h3>
-                        </div>
-                        <p class="text-gray-700 text-sm">Tindakan yang sesuai dengan norma, adat dan budaya masyarakat</p>
-                    </div>
-                    
-                    <div class="bg-white/95 backdrop-blur-sm rounded-xl p-6 card-hover border-l-4 border-purple-500">
-                        <div class="flex items-center mb-3">
-                            <span class="text-2xl mr-3">✅</span>
-                            <h3 class="text-lg font-semibold text-purple-700">Perlakuan Benar</h3>
-                        </div>
-                        <p class="text-gray-700 text-sm">Tindakan yang mengikut prinsip kebenaran dan tidak melanggar undang-undang</p>
-                    </div>
-                </div>
-
-                <!-- Question Card -->
-                <div id="questionCard" class="bg-white/95 backdrop-blur-sm rounded-xl p-6 md:p-8 mb-6 card-hover">
-                    <div class="text-center mb-6">
-                        <span id="questionEmoji" class="text-4xl mb-4 block">🤔</span>
-                        <h2 class="text-xl md:text-2xl font-semibold text-gray-800 mb-4" id="questionText">Loading...</h2>
-                    </div>
-                    
-                    <div id="optionsContainer" class="grid gap-3">
-                        <!-- Options will be populated by JavaScript -->
-                    </div>
-                </div>
-
-                <!-- Feedback Section -->
-                <div id="feedbackSection" class="hidden bg-white/95 backdrop-blur-sm rounded-xl p-6 mb-6">
-                    <div class="text-center">
-                        <span id="feedbackEmoji" class="text-4xl mb-3 block"></span>
-                        <h3 id="feedbackTitle" class="text-xl font-semibold mb-2"></h3>
-                        <p id="feedbackText" class="text-gray-700 mb-4"></p>
-                        <button id="nextButton" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-300 pulse-animation">
-                            Soalan Seterusnya ➡️
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Results Section -->
-                <div id="resultsSection" class="hidden bg-white/95 backdrop-blur-sm rounded-xl p-6 md:p-8 text-center">
-                    <span id="resultEmoji" class="text-6xl mb-4 block"></span>
-                    <h2 id="resultTitle" class="text-2xl md:text-3xl font-bold mb-4"></h2>
-                    <p id="resultText" class="text-lg text-gray-700 mb-6"></p>
-                    <div class="grid md:grid-cols-3 gap-3">
-                        <button id="restartButton" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-purple-600 transition-all duration-300 text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
-                            🔄 Cuba Lagi
-                        </button>
-                        <button id="reviewButton" class="bg-gradient-to-r from-green-500 to-teal-500 text-white px-4 py-3 rounded-lg font-medium hover:from-green-600 hover:to-teal-600 transition-all duration-300 text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
-                            📚 Semak Jawapan
-                        </button>
-                        <button id="practiceButton" class="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-4 py-3 rounded-lg font-medium hover:from-pink-600 hover:to-rose-600 transition-all duration-300 text-sm md:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
-                            🎯 Latih Tubi
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            // Re-attach event listeners
-            attachEventListeners();
-            
-            // Start first question
-            displayQuestion();
+        function updateNavButtons() {
+            // Function kept for compatibility but no longer needed
         }
 
-        function createConfetti() {
-            const colors = ['#f39c12', '#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f1c40f'];
+        function updateAchievement() {
+            const percentage = (understoodCount / flashcards.length) * 100;
+            const achievementText = document.getElementById('achievementText');
+            const stars = document.getElementById('achievementStars');
             
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + 'vw';
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animationDelay = Math.random() * 3 + 's';
-                    document.body.appendChild(confetti);
-                    
-                    setTimeout(() => {
-                        confetti.remove();
-                    }, 3000);
-                }, i * 100);
+            if (percentage >= 90) {
+                achievementText.textContent = "Cemerlang! Anda telah memahami hampir semua ciri! 🌟";
+                stars.innerHTML = '⭐⭐⭐⭐⭐';
+            } else if (percentage >= 70) {
+                achievementText.textContent = "Bagus sekali! Pemahaman anda semakin baik! 🎉";
+                stars.innerHTML = '⭐⭐⭐⭐☆';
+            } else if (percentage >= 50) {
+                achievementText.textContent = "Baik! Anda sedang belajar dengan tekun! 👍";
+                stars.innerHTML = '⭐⭐⭐☆☆';
+            } else if (percentage >= 30) {
+                achievementText.textContent = "Teruskan usaha! Anda semakin memahami! 💪";
+                stars.innerHTML = '⭐⭐☆☆☆';
+            } else {
+                achievementText.textContent = "Terus belajar! Setiap langkah membawa kemajuan! 🌱";
+                stars.innerHTML = '⭐☆☆☆☆';
             }
         }
 
-        function attachEventListeners() {
-            // Re-attach all event listeners after DOM changes
-            const nextBtn = document.getElementById('nextButton');
-            const restartBtn = document.getElementById('restartButton');
-            const reviewBtn = document.getElementById('reviewButton');
-            const practiceBtn = document.getElementById('practiceButton');
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case 'ArrowLeft':
+                    previousCard();
+                    break;
+                case 'ArrowRight':
+                    nextCard();
+                    break;
+                case ' ':
+                    event.preventDefault();
+                    flipCard();
+                    break;
+                case 'Enter':
+                    markUnderstood();
+                    break;
+            }
+        });
+
+        // Toggle instructions panel
+        function toggleInstructions() {
+            const content = document.getElementById('instructionsContent');
+            const btn = document.getElementById('toggleBtn');
             
-            if (nextBtn) nextBtn.onclick = nextQuestion;
-            if (restartBtn) restartBtn.onclick = restartGame;
-            if (reviewBtn) reviewBtn.onclick = showReview;
-            if (practiceBtn) practiceBtn.onclick = startPracticeMode;
+            if (content.style.display === 'none') {
+                content.style.display = 'grid';
+                btn.textContent = 'Sembunyi';
+            } else {
+                content.style.display = 'none';
+                btn.textContent = 'Tunjuk Arahan';
+            }
         }
 
-        // Event listeners - Initial setup
-        attachEventListeners();
-
-        // Initialize game
-        displayQuestion();
+        // Initialize
+        updateCard();
+        updateAchievement();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98405ac970841ec5',t:'MTc1ODY5NjcwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9840b95567c4dac0',t:'MTc1ODcwMDU3My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
