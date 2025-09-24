@@ -45,7 +45,7 @@
         }
         
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #84cc16 0%, #eab308 50%, #22c55e 100%);
         }
         
         .success-bg {
@@ -66,6 +66,43 @@
             </h1>
             <p class="text-white text-xl mb-2">Pendidikan Moral Tingkatan 1 - Unit 5</p>
             <p class="text-white text-lg opacity-90">Temui potensi tersembunyi dan kerjaya impian anda!</p>
+        </div>
+
+        <!-- Instructions Panel -->
+        <div class="bg-white rounded-xl shadow-lg p-4 mb-6 fade-in">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl">📋</span>
+                    <h3 class="text-lg font-bold text-gray-800">Arahan Permainan</h3>
+                </div>
+                <button id="toggleInstructions" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-sm">
+                    Lihat Arahan
+                </button>
+            </div>
+            
+            <div id="instructionsContent" class="hidden mt-4 space-y-4">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-blue-50 rounded-lg p-4">
+                        <h4 class="font-bold text-blue-800 mb-2">🧠 Ujian Personaliti</h4>
+                        <ul class="text-sm text-blue-700 space-y-1">
+                            <li>• Jawab 10 soalan dengan jujur</li>
+                            <li>• Pilih jawapan yang paling sesuai dengan diri anda</li>
+                            <li>• Tiada jawapan betul atau salah</li>
+                            <li>• Dapatkan hasil personaliti dan cadangan kerjaya</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-green-50 rounded-lg p-4">
+                        <h4 class="font-bold text-green-800 mb-2">🎯 Padankan Potensi</h4>
+                        <ul class="text-sm text-green-700 space-y-1">
+                            <li>• Pilih satu bakat dari senarai kiri</li>
+                            <li>• Kemudian pilih kerjaya yang sesuai dari kanan</li>
+                            <li>• Padanan betul = 10 mata</li>
+                            <li>• Cuba padankan semua untuk skor penuh!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Game Selection Menu -->
@@ -500,6 +537,25 @@
                 animation.classList.add('hidden');
             }, 2000);
         }
+
+        // Toggle instructions
+        function toggleInstructions() {
+            const content = document.getElementById('instructionsContent');
+            const button = document.getElementById('toggleInstructions');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                button.textContent = 'Sembunyikan';
+            } else {
+                content.classList.add('hidden');
+                button.textContent = 'Lihat Arahan';
+            }
+        }
+
+        // Initialize event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('toggleInstructions').addEventListener('click', toggleInstructions);
+        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'984100d2d261068e',t:'MTc1ODcwMzUwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98411610926e1685',t:'MTc1ODcwNDM3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
