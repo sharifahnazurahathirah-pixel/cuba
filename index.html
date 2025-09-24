@@ -1,573 +1,428 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ms">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Roda Impian: Sayangi Anggota Keluarga</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
-  :root{
-    --bg:#f1f5f9; --card:#fff; --muted:#6b7280;
-    --accent:#06b6d4; --accent2:#34d399; --danger:#fb7185;
-    --primary:#8b5cf6; --secondary:#f59e0b; --success:#10b981;
-    font-family: 'Poppins', Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;background:linear-gradient(135deg,#667eea 0%,#764ba2 50%,#f093fb 100%);color:#0f172a;min-height:100vh}
-  .wrap{max-width:980px;margin:24px auto;padding:16px}
-  header{display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:20px;padding:24px;box-shadow:0 20px 40px rgba(0,0,0,0.1);border:1px solid rgba(255,255,255,0.2)}
-  h1{margin:0;font-size:1.8rem;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800}
-  .instructions{width:100%;max-width:600px}
-  p.lead{margin:0 0 12px 0;color:#667eea;font-size:1.1rem;font-weight:600}
-  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px;margin:12px 0}
-  .step{background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(240,147,251,0.1));padding:8px 12px;border-radius:12px;font-size:0.9rem;font-weight:500;border:1px solid rgba(102,126,234,0.2)}
-  .target{margin:12px 0 0 0;color:#8b5cf6;font-size:0.95rem;font-weight:500}
-
-  .game{
-    display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:18px;
-  }
-  @media(max-width:880px){ 
-    .game{grid-template-columns:1fr;}
-    .wrap{padding:12px;margin:12px auto;}
-    header{padding:20px;}
-    h1{font-size:1.5rem;}
-    .wheelWrap{padding:20px;}
-    .panel{padding:16px;}
-    .spinBtn{padding:12px 24px;font-size:1rem;}
-  }
-  @media(max-width:480px){
-    .wrap{padding:8px;margin:8px auto;}
-    header{padding:16px;}
-    h1{font-size:1.3rem;}
-    .wheelWrap{padding:16px;}
-    .panel{padding:12px;}
-    .spinBtn{padding:10px 20px;font-size:0.95rem;}
-    .optBtn{padding:12px 14px;}
-  }
-  /* wheel area */
-  .wheelWrap{
-    background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));
-    backdrop-filter:blur(15px);border-radius:20px;padding:24px;
-    box-shadow:0 25px 50px rgba(0,0,0,0.15);
-    display:flex;flex-direction:column;align-items:center;gap:16px;
-    border:1px solid rgba(255,255,255,0.3);
-  }
-  .wheelCanvas{width:100%;max-width:520px}
-  .spinBtn{
-    background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);color:#fff;border:none;padding:14px 28px;border-radius:50px;font-weight:700;cursor:pointer;
-    box-shadow:0 15px 35px rgba(102,126,234,0.4);font-size:1.1rem;
-    transition:all 0.3s ease;position:relative;overflow:hidden;
-  }
-  .spinBtn:hover{transform:translateY(-2px);box-shadow:0 20px 40px rgba(102,126,234,0.5)}
-  .spinBtn:active{transform:translateY(0)}
-  .spinBtn:disabled{opacity:.5;cursor:not-allowed}
-  .infoRow{display:flex;gap:12px;align-items:center;font-size:1rem;color:#4b5563;background:rgba(255,255,255,0.7);padding:8px 16px;border-radius:25px;backdrop-filter:blur(10px)}
-  .score{font-weight:800;color:#667eea;font-size:1.2rem}
-
-  /* panel kanan */
-  .panel{
-    background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));
-    backdrop-filter:blur(15px);border-radius:20px;padding:20px;
-    box-shadow:0 25px 50px rgba(0,0,0,0.15);
-    display:flex;flex-direction:column;gap:16px;
-    border:1px solid rgba(255,255,255,0.3);
-  }
-  .panel h3{margin:0;font-size:1.2rem;background:linear-gradient(135deg,#f093fb,#f5576c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700}
-  .situasiBox{min-height:120px;display:flex;flex-direction:column;gap:12px;justify-content:center;padding:16px;border-radius:15px;border:2px dashed rgba(102,126,234,0.3);background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(240,147,251,0.1));backdrop-filter:blur(5px)}
-  .options{display:flex;flex-direction:column;gap:12px}
-  .optBtn{
-    border-radius:15px;padding:14px 18px;text-align:left;border:2px solid rgba(102,126,234,0.2);
-    background:linear-gradient(135deg,rgba(255,255,255,0.9),rgba(255,255,255,0.7));
-    cursor:pointer;font-weight:600;transition:all 0.3s ease;
-    backdrop-filter:blur(10px);box-shadow:0 8px 25px rgba(0,0,0,0.1);
-  }
-  .optBtn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(102,126,234,0.2);border-color:rgba(102,126,234,0.4)}
-  .optBtn.correct{background:linear-gradient(135deg,#10b981,#34d399);border-color:#10b981;color:#fff;box-shadow:0 12px 30px rgba(16,185,129,0.4)}
-  .optBtn.wrong{background:linear-gradient(135deg,#ef4444,#f87171);border-color:#ef4444;color:#fff;box-shadow:0 12px 30px rgba(239,68,68,0.4)}
-  .optBtn:disabled{opacity:.7;cursor:not-allowed}
-
-  .feedback{min-height:40px;color:var(--muted);font-weight:600}
-  .controlsRow{display:flex;gap:8px;justify-content:space-between;align-items:center}
-  .small{font-size:.88rem;color:var(--muted)}
-  footer{margin-top:18px;text-align:center;color:#ffffff;font-size:.86rem;font-weight:500;text-shadow:0 2px 4px rgba(0,0,0,0.3)}
-
-  /* pointer */
-  .pointer{
-    position:relative;width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-bottom:28px solid #667eea;border-radius:3px;
-    margin-top:-8px;
-    filter:drop-shadow(0 8px 15px rgba(102,126,234,0.4));
-    animation:pointerPulse 2s ease-in-out infinite;
-  }
-  @keyframes pointerPulse{
-    0%,100%{transform:scale(1)}
-    50%{transform:scale(1.1)}
-  }
-  @keyframes wheelShake{
-    0%,100%{transform:translateX(0)}
-    25%{transform:translateX(-3px)}
-    75%{transform:translateX(3px)}
-  }
-  @keyframes wheelComplete{
-    0%{transform:scale(1)}
-    50%{transform:scale(1.05)}
-    100%{transform:scale(1)}
-  }
-
-  .resetBtn{
-    background:linear-gradient(135deg,#6b7280,#4b5563);color:#fff;border:none;padding:10px 16px;border-radius:25px;font-size:.9rem;cursor:pointer;
-    transition:all 0.3s ease;box-shadow:0 8px 20px rgba(107,114,128,0.3);font-weight:600;
-  }
-  .resetBtn:hover{transform:translateY(-2px);box-shadow:0 12px 25px rgba(107,114,128,0.4)}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praktis Perlakuan - Pendidikan Moral Tingkatan 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .correct-answer {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            animation: correctPulse 0.6s ease-in-out;
+        }
+        
+        .wrong-answer {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
 </head>
-<body>
-<main class="wrap" role="main">
-  <header>
-    <h1>Roda Impian: Cara Menyayangi Anggota Keluarga</h1>
-    <div class="instructions">
-      <p class="lead">🎯 <strong>Cara Bermain:</strong></p>
-      <div class="steps">
-        <div class="step">1️⃣ Klik butang <strong>"Putar Roda"</strong> atau tekan <strong>SPACE</strong></div>
-        <div class="step">2️⃣ Baca situasi keluarga yang muncul dengan teliti</div>
-        <div class="step">3️⃣ Pilih jawapan yang menunjukkan <strong>kasih sayang terbaik</strong></div>
-        <div class="step">4️⃣ Dapatkan 10 mata untuk setiap jawapan betul! 🌟</div>
-      </div>
-      <p class="target">🎓 <em>Sesuai untuk murid Pendidikan Moral - Mari belajar nilai keluarga!</em></p>
+<body class="gradient-bg min-h-screen">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">🎯 Praktis Perlakuan</h1>
+            <p class="text-lg text-purple-100">Pendidikan Moral Tingkatan 1 - Unit 1</p>
+            <div class="mt-4 bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 inline-block">
+                <span class="text-white font-medium">Skor: <span id="score">0</span>/10</span>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="mb-6">
+            <div class="bg-white/20 rounded-full h-3 overflow-hidden">
+                <div id="progressBar" class="progress-bar bg-gradient-to-r from-yellow-400 to-orange-500 h-full rounded-full" style="width: 0%"></div>
+            </div>
+            <p class="text-center text-white mt-2">Soalan <span id="currentQuestion">1</span> daripada 10</p>
+        </div>
+
+        <!-- Main Content -->
+        <div id="gameArea" class="max-w-4xl mx-auto">
+            <!-- Definition Cards -->
+            <div id="definitionSection" class="grid md:grid-cols-3 gap-4 mb-8">
+                <div class="bg-white/95 backdrop-blur-sm rounded-xl p-6 card-hover border-l-4 border-blue-500">
+                    <div class="flex items-center mb-3">
+                        <span class="text-2xl mr-3">💙</span>
+                        <h3 class="text-lg font-semibold text-blue-700">Perlakuan Baik</h3>
+                    </div>
+                    <p class="text-gray-700 text-sm">Tindakan yang membawa kebaikan dan manfaat kepada diri sendiri dan orang lain</p>
+                </div>
+                
+                <div class="bg-white/95 backdrop-blur-sm rounded-xl p-6 card-hover border-l-4 border-green-500">
+                    <div class="flex items-center mb-3">
+                        <span class="text-2xl mr-3">⚖️</span>
+                        <h3 class="text-lg font-semibold text-green-700">Perlakuan Patut</h3>
+                    </div>
+                    <p class="text-gray-700 text-sm">Tindakan yang sesuai dengan norma, adat dan budaya masyarakat</p>
+                </div>
+                
+                <div class="bg-white/95 backdrop-blur-sm rounded-xl p-6 card-hover border-l-4 border-purple-500">
+                    <div class="flex items-center mb-3">
+                        <span class="text-2xl mr-3">✅</span>
+                        <h3 class="text-lg font-semibold text-purple-700">Perlakuan Benar</h3>
+                    </div>
+                    <p class="text-gray-700 text-sm">Tindakan yang mengikut prinsip kebenaran dan tidak melanggar undang-undang</p>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div id="questionCard" class="bg-white/95 backdrop-blur-sm rounded-xl p-6 md:p-8 mb-6 card-hover">
+                <div class="text-center mb-6">
+                    <span id="questionEmoji" class="text-4xl mb-4 block">🤔</span>
+                    <h2 class="text-xl md:text-2xl font-semibold text-gray-800 mb-4" id="questionText">Loading...</h2>
+                </div>
+                
+                <div id="optionsContainer" class="grid gap-3">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Feedback Section -->
+            <div id="feedbackSection" class="hidden bg-white/95 backdrop-blur-sm rounded-xl p-6 mb-6">
+                <div class="text-center">
+                    <span id="feedbackEmoji" class="text-4xl mb-3 block"></span>
+                    <h3 id="feedbackTitle" class="text-xl font-semibold mb-2"></h3>
+                    <p id="feedbackText" class="text-gray-700 mb-4"></p>
+                    <button id="nextButton" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-300 pulse-animation">
+                        Soalan Seterusnya ➡️
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="hidden bg-white/95 backdrop-blur-sm rounded-xl p-6 md:p-8 text-center">
+                <span id="resultEmoji" class="text-6xl mb-4 block"></span>
+                <h2 id="resultTitle" class="text-2xl md:text-3xl font-bold mb-4"></h2>
+                <p id="resultText" class="text-lg text-gray-700 mb-6"></p>
+                <div class="grid md:grid-cols-3 gap-3">
+                    <button id="restartButton" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-purple-600 transition-all duration-300 text-sm md:text-base">
+                        🔄 Cuba Lagi
+                    </button>
+                    <button id="reviewButton" class="bg-gradient-to-r from-green-500 to-teal-500 text-white px-4 py-3 rounded-lg font-medium hover:from-green-600 hover:to-teal-600 transition-all duration-300 text-sm md:text-base">
+                        📚 Semak Jawapan
+                    </button>
+                    <button id="practiceButton" class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-3 rounded-lg font-medium hover:from-orange-600 hover:to-red-600 transition-all duration-300 text-sm md:text-base">
+                        🎯 Latih Tubi
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  </header>
 
-  <section class="game" aria-label="Permainan Roda Impian">
-    <div class="wheelWrap" aria-hidden="false">
-      <canvas id="wheel" class="wheelCanvas" width="520" height="520"></canvas>
-      <div class="pointer" aria-hidden="true"></div>
-      <div style="display:flex;gap:10px;align-items:center;margin-top:8px;">
-        <button id="spinBtn" class="spinBtn" aria-label="Putar roda">Putar Roda</button>
-        <div class="infoRow"><span class="small">Skor:</span> <span class="score" id="score">0</span></div>
-      </div>
-      <div class="small" style="margin-top:6px">Petua: Gunakan kekunci ruang (space) untuk putar.</div>
-    </div>
+    <script>
+        const questions = [
+            {
+                emoji: "🤝",
+                question: "Ahmad membantu nenek menyeberang jalan",
+                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
+                correct: 0,
+                explanation: "Membantu orang tua adalah tindakan yang membawa kebaikan kepada orang lain."
+            },
+            {
+                emoji: "🙏",
+                question: "Siti mengucapkan salam apabila masuk ke rumah",
+                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
+                correct: 1,
+                explanation: "Mengucapkan salam adalah adat dan budaya yang sesuai dalam masyarakat kita."
+            },
+            {
+                emoji: "🚦",
+                question: "Ali mematuhi lampu isyarat semasa memandu",
+                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
+                correct: 2,
+                explanation: "Mematuhi undang-undang jalan raya adalah perlakuan benar mengikut peraturan."
+            },
+            {
+                emoji: "💰",
+                question: "Fatimah memulangkan dompet yang dijumpainya",
+                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
+                correct: 2,
+                explanation: "Memulangkan barang orang lain adalah mengikut prinsip kebenaran dan undang-undang."
+            },
+            {
+                emoji: "👥",
+                question: "Hassan beratur dengan tertib di kedai",
+                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
+                correct: 1,
+                explanation: "Beratur dengan tertib adalah norma dan adat yang sesuai dalam masyarakat."
+            },
+            {
+                emoji: "🎁",
+                question: "Aminah memberikan sedekah kepada fakir miskin",
+                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
+                correct: 0,
+                explanation: "Bersedekah adalah tindakan baik yang membawa manfaat kepada orang yang memerlukan."
+            },
+            {
+                emoji: "📚",
+                question: "Razak tidak menyalin kerja rakan semasa peperiksaan",
+                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
+                correct: 2,
+                explanation: "Tidak meniru adalah mengikut prinsip kebenaran dan peraturan sekolah."
+            },
+            {
+                emoji: "🍽️",
+                question: "Maryam tidak membuang makanan",
+                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
+                correct: 0,
+                explanation: "Tidak membazir makanan adalah tindakan baik yang membawa manfaat."
+            },
+            {
+                emoji: "👨‍👩‍👧‍👦",
+                question: "Karim menghormati ibu bapa",
+                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
+                correct: 1,
+                explanation: "Menghormati ibu bapa adalah norma dan budaya yang sesuai dalam masyarakat."
+            },
+            {
+                emoji: "🌱",
+                question: "Lina tidak membuang sampah merata-rata",
+                options: ["Perlakuan Baik", "Perlakuan Patut", "Perlakuan Benar"],
+                correct: 2,
+                explanation: "Tidak membuang sampah sembarangan mengikut undang-undang dan peraturan kebersihan."
+            }
+        ];
 
-    <aside class="panel" aria-live="polite">
-      <h3>Situasi & Pilihan</h3>
-      <div class="situasiBox" id="situasiBox">
-        <p style="text-align:center;color:var(--muted);font-style:italic;">Putar roda untuk mendapat situasi keluarga...</p>
-      </div>
-      
-      <div class="options" id="options" style="display:none;">
-        <button class="optBtn" id="opt1"></button>
-        <button class="optBtn" id="opt2"></button>
-        <button class="optBtn" id="opt3"></button>
-      </div>
-      
-      <div class="feedback" id="feedback"></div>
-      
-      <div class="controlsRow">
-        <button class="resetBtn" id="resetBtn">Mula Semula</button>
-        <div class="small">Soalan: <span id="questionCount">0</span>/10</div>
-      </div>
-    </aside>
-  </section>
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = [];
 
-  <footer>
-    <p>Permainan ini membantu murid memahami nilai-nilai keluarga dan cara menunjukkan kasih sayang kepada ahli keluarga.</p>
-  </footer>
-</main>
+        function updateProgress() {
+            const progress = ((currentQuestionIndex) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+        }
 
-<script>
-// Data situasi dan pilihan
-const scenarios = [
-  {
-    situation: "Adik kamu menangis kerana mainannya rosak. Apa yang kamu akan buat?",
-    options: [
-      "Tolong baiki mainan atau cari mainan lain untuk adik",
-      "Biarkan sahaja adik menangis",
-      "Marah adik kerana bising"
-    ],
-    correct: 0,
-    feedback: "Betul! Membantu adik menunjukkan kasih sayang dan kepedulian dalam keluarga."
-  },
-  {
-    situation: "Ibu kelihatan penat selepas kerja. Bagaimana kamu boleh membantu?",
-    options: [
-      "Terus bermain tanpa peduli",
-      "Bantu buat kerja rumah atau urut bahu ibu",
-      "Minta ibu masak makanan kegemaran"
-    ],
-    correct: 1,
-    feedback: "Tepat sekali! Membantu ibu yang penat adalah cara terbaik menunjukkan kasih sayang."
-  },
-  {
-    situation: "Ayah sedang membaca akhbar. Kamu mahu bermain dengan ayah. Apa yang patut?",
-    options: [
-      "Tunggu ayah habis baca, kemudian minta bermain dengan sopan",
-      "Rebut akhbar dari tangan ayah",
-      "Buat bising supaya ayah perhatikan kamu"
-    ],
-    correct: 0,
-    feedback: "Bagus! Menghormati masa ayah dan meminta dengan sopan menunjukkan adab yang baik."
-  },
-  {
-    situation: "Nenek datang melawat. Dia membawa hadiah untuk kamu. Apa reaksi yang sesuai?",
-    options: [
-      "Ambil hadiah dan terus bermain",
-      "Ucap terima kasih, peluk nenek, dan tanya khabar sihat nenek",
-      "Tanya kenapa hadiah kecil sahaja"
-    ],
-    correct: 1,
-    feedback: "Hebat! Menunjukkan rasa syukur dan kasih sayang kepada nenek adalah sangat penting."
-  },
-  {
-    situation: "Kakak kamu sedang belajar untuk peperiksaan. Rumah perlu senyap. Apa yang kamu buat?",
-    options: [
-      "Main muzik kuat-kuat",
-      "Bermain dengan senyap atau keluar rumah",
-      "Ganggu kakak supaya dia bermain dengan kamu"
-    ],
-    correct: 1,
-    feedback: "Betul! Menghormati masa belajar kakak menunjukkan kamu peduli dengan kejayaannya."
-  },
-  {
-    situation: "Masa makan malam bersama keluarga. Bagaimana cara yang betul?",
-    options: [
-      "Makan sambil tengok TV atau main telefon",
-      "Makan bersama-sama, berbual, dan bantu kemas meja",
-      "Makan cepat-cepat dan pergi bermain"
-    ],
-    correct: 1,
-    feedback: "Tepat! Masa makan bersama adalah masa penting untuk berkongsi dan mengeratkan hubungan keluarga."
-  },
-  {
-    situation: "Ibu bapa kamu bergaduh. Kamu rasa sedih. Apa yang patut kamu buat?",
-    options: [
-      "Campur tangan dan pilih pihak",
-      "Berdoa supaya mereka berbaik, dan tanya jika boleh tolong apa-apa",
-      "Buat bising supaya mereka berhenti"
-    ],
-    correct: 1,
-    feedback: "Bijak! Berdoa dan menawarkan bantuan dengan cara yang sesuai menunjukkan kematangan."
-  },
-  {
-    situation: "Hari lahir ayah esok. Kamu tidak ada wang untuk beli hadiah. Apa yang boleh buat?",
-    options: [
-      "Tidak buat apa-apa kerana tiada wang",
-      "Buat kad ucapan sendiri atau tolong buat kerja rumah extra",
-      "Minta wang dari ibu untuk beli hadiah"
-    ],
-    correct: 1,
-    feedback: "Bagus sekali! Hadiah dari hati seperti kad buatan sendiri lebih bermakna daripada hadiah mahal."
-  },
-  {
-    situation: "Adik kamu selalu ikut kamu ke mana-mana. Kamu rasa terganggu. Bagaimana?",
-    options: [
-      "Marah dan halau adik pergi",
-      "Sabar dan sesekali ajak adik join aktiviti yang sesuai",
-      "Sorok dari adik supaya dia tak jumpa"
-    ],
-    correct: 1,
-    feedback: "Hebat! Bersabar dengan adik dan melibatkannya menunjukkan kasih sayang abang/kakak yang baik."
-  },
-  {
-    situation: "Keluarga kamu merancang aktiviti hujung minggu. Kamu tidak suka pilihan mereka. Apa reaksi yang betul?",
-    options: [
-      "Merajuk dan tidak mahu ikut",
-      "Berikan cadangan dengan sopan, tapi ikut keputusan keluarga",
-      "Paksa keluarga tukar rancangan"
-    ],
-    correct: 1,
-    feedback: "Betul! Memberi pendapat dengan sopan tetapi menghormati keputusan keluarga menunjukkan sikap dewasa."
-  }
-];
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            document.getElementById('questionEmoji').textContent = question.emoji;
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'bg-gradient-to-r from-gray-50 to-gray-100 hover:from-blue-50 hover:to-blue-100 border-2 border-gray-200 hover:border-blue-300 rounded-lg p-4 text-left transition-all duration-300 card-hover';
+                button.innerHTML = `
+                    <div class="flex items-center">
+                        <span class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mr-3 font-semibold">${String.fromCharCode(65 + index)}</span>
+                        <span class="font-medium text-gray-800">${option}</span>
+                    </div>
+                `;
+                button.onclick = () => selectAnswer(index, button);
+                optionsContainer.appendChild(button);
+            });
+            
+            updateProgress();
+        }
 
-// Game state
-let currentScore = 0;
-let currentQuestion = 0;
-let currentScenario = null;
-let isSpinning = false;
-let gameStarted = false;
+        function selectAnswer(selectedIndex, buttonElement) {
+            const question = questions[currentQuestionIndex];
+            const isCorrect = selectedIndex === question.correct;
+            
+            userAnswers.push({
+                question: question.question,
+                selected: question.options[selectedIndex],
+                correct: question.options[question.correct],
+                isCorrect: isCorrect
+            });
+            
+            // Disable all buttons
+            const buttons = document.querySelectorAll('#optionsContainer button');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            // Show correct/incorrect styling
+            if (isCorrect) {
+                buttonElement.className = 'correct-answer border-2 border-green-400 rounded-lg p-4 text-left text-white font-semibold';
+                score++;
+            } else {
+                buttonElement.className = 'wrong-answer border-2 border-red-400 rounded-lg p-4 text-left text-white font-semibold';
+                // Highlight correct answer
+                buttons[question.correct].className = 'correct-answer border-2 border-green-400 rounded-lg p-4 text-left text-white font-semibold';
+            }
+            
+            document.getElementById('score').textContent = score;
+            
+            // Show feedback
+            setTimeout(() => {
+                showFeedback(isCorrect, question.explanation);
+            }, 1000);
+        }
 
-// Canvas setup
-const canvas = document.getElementById('wheel');
-const ctx = canvas.getContext('2d');
-const centerX = canvas.width / 2;
-const centerY = canvas.height / 2;
-const radius = 240;
+        function showFeedback(isCorrect, explanation) {
+            document.getElementById('questionCard').style.display = 'none';
+            document.getElementById('feedbackSection').classList.remove('hidden');
+            
+            if (isCorrect) {
+                document.getElementById('feedbackEmoji').textContent = '🎉';
+                document.getElementById('feedbackTitle').textContent = 'Betul!';
+                document.getElementById('feedbackTitle').className = 'text-xl font-semibold mb-2 text-green-600';
+            } else {
+                document.getElementById('feedbackEmoji').textContent = '😅';
+                document.getElementById('feedbackTitle').textContent = 'Tidak tepat';
+                document.getElementById('feedbackTitle').className = 'text-xl font-semibold mb-2 text-red-600';
+            }
+            
+            document.getElementById('feedbackText').textContent = explanation;
+        }
 
-// Wheel segments
-const segments = [
-  { color: '#ff6b6b', text: 'Kasih Sayang' },
-  { color: '#4ecdc4', text: 'Hormat' },
-  { color: '#667eea', text: 'Tolong Menolong' },
-  { color: '#10b981', text: 'Sabar' },
-  { color: '#f59e0b', text: 'Perhatian' },
-  { color: '#f093fb', text: 'Syukur' },
-  { color: '#06b6d4', text: 'Komunikasi' },
-  { color: '#8b5cf6', text: 'Pengorbanan' }
-];
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex >= questions.length) {
+                showResults();
+            } else {
+                document.getElementById('feedbackSection').classList.add('hidden');
+                document.getElementById('questionCard').style.display = 'block';
+                displayQuestion();
+            }
+        }
 
-let currentRotation = 0;
-let targetRotation = 0;
-let spinSpeed = 0;
+        function showResults() {
+            document.getElementById('gameArea').innerHTML = '';
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('gameArea').appendChild(document.getElementById('resultsSection'));
+            
+            const percentage = (score / questions.length) * 100;
+            let motivationalMessage = '';
+            
+            if (percentage === 100) {
+                document.getElementById('resultEmoji').textContent = '🌟';
+                document.getElementById('resultTitle').textContent = 'Sempurna!';
+                document.getElementById('resultTitle').className = 'text-2xl md:text-3xl font-bold mb-4 text-yellow-500';
+                motivationalMessage = `Luar biasa! Anda mendapat markah penuh ${score}/${questions.length} (${percentage.toFixed(0)}%)! 🎯 Anda benar-benar memahami perbezaan antara perlakuan baik, perlakuan patut dan perlakuan benar. Teruskan sikap cemerlang ini dalam kehidupan seharian!`;
+            } else if (percentage >= 80) {
+                document.getElementById('resultEmoji').textContent = '🏆';
+                document.getElementById('resultTitle').textContent = 'Cemerlang!';
+                document.getElementById('resultTitle').className = 'text-2xl md:text-3xl font-bold mb-4 text-yellow-600';
+                motivationalMessage = `Tahniah! Anda mendapat ${score}/${questions.length} (${percentage.toFixed(0)}%)! 🎉 Pencapaian yang sangat baik! Anda hampir menguasai sepenuhnya konsep ketiga-tiga perlakuan ini. Sedikit lagi usaha untuk mencapai kesempurnaan!`;
+            } else if (percentage >= 60) {
+                document.getElementById('resultEmoji').textContent = '👍';
+                document.getElementById('resultTitle').textContent = 'Baik!';
+                document.getElementById('resultTitle').className = 'text-2xl md:text-3xl font-bold mb-4 text-blue-600';
+                motivationalMessage = `Bagus! Anda mendapat ${score}/${questions.length} (${percentage.toFixed(0)}%)! 💪 Anda sudah memahami asas-asas penting. Dengan sedikit latihan lagi, anda pasti boleh mencapai tahap cemerlang. Jangan berputus asa!`;
+            } else if (percentage >= 40) {
+                document.getElementById('resultEmoji').textContent = '📚';
+                document.getElementById('resultTitle').textContent = 'Teruskan Usaha!';
+                document.getElementById('resultTitle').className = 'text-2xl md:text-3xl font-bold mb-4 text-orange-600';
+                motivationalMessage = `Anda mendapat ${score}/${questions.length} (${percentage.toFixed(0)}%). 🌱 Ini adalah permulaan yang baik! Baca semula definisi ketiga-tiga perlakuan dan cuba lagi. Setiap kesilapan adalah peluang untuk belajar!`;
+            } else {
+                document.getElementById('resultEmoji').textContent = '💪';
+                document.getElementById('resultTitle').textContent = 'Jangan Berputus Asa!';
+                document.getElementById('resultTitle').className = 'text-2xl md:text-3xl font-bold mb-4 text-red-600';
+                motivationalMessage = `Anda mendapat ${score}/${questions.length} (${percentage.toFixed(0)}%). 🌟 Setiap pakar pernah menjadi pemula! Baca balik definisi dengan teliti dan cuba sekali lagi. Anda pasti boleh buat yang lebih baik!`;
+            }
+            
+            document.getElementById('resultText').textContent = motivationalMessage;
+        }
 
-// Draw wheel
-function drawWheel() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-  const segmentAngle = (2 * Math.PI) / segments.length;
-  
-  // Draw outer glow
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, radius + 10, 0, 2 * Math.PI);
-  const glowGradient = ctx.createRadialGradient(centerX, centerY, radius - 20, centerX, centerY, radius + 15);
-  glowGradient.addColorStop(0, 'rgba(102,126,234,0)');
-  glowGradient.addColorStop(1, 'rgba(102,126,234,0.3)');
-  ctx.fillStyle = glowGradient;
-  ctx.fill();
-  
-  segments.forEach((segment, index) => {
-    const startAngle = (index * segmentAngle) + currentRotation;
-    const endAngle = ((index + 1) * segmentAngle) + currentRotation;
-    
-    // Draw segment with gradient
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-    ctx.closePath();
-    
-    // Create radial gradient for each segment
-    const gradient = ctx.createRadialGradient(centerX, centerY, 50, centerX, centerY, radius);
-    gradient.addColorStop(0, segment.color);
-    gradient.addColorStop(1, darkenColor(segment.color, 0.3));
-    ctx.fillStyle = gradient;
-    ctx.fill();
-    
-    // Add inner shadow
-    ctx.strokeStyle = 'rgba(255,255,255,0.8)';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    
-    // Draw text with better styling
-    ctx.save();
-    ctx.translate(centerX, centerY);
-    ctx.rotate(startAngle + segmentAngle / 2);
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#fff';
-    ctx.font = 'bold 15px Poppins';
-    ctx.shadowColor = 'rgba(0,0,0,0.5)';
-    ctx.shadowBlur = 3;
-    ctx.shadowOffsetX = 1;
-    ctx.shadowOffsetY = 1;
-    ctx.fillText(segment.text, radius * 0.7, 5);
-    ctx.restore();
-  });
-  
-  // Draw center circle with gradient
-  const centerGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 35);
-  centerGradient.addColorStop(0, '#667eea');
-  centerGradient.addColorStop(1, '#2d3748');
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, 35, 0, 2 * Math.PI);
-  ctx.fillStyle = centerGradient;
-  ctx.fill();
-  ctx.strokeStyle = '#fff';
-  ctx.lineWidth = 4;
-  ctx.stroke();
-  
-  // Add center sparkle
-  ctx.fillStyle = '#fff';
-  ctx.font = 'bold 20px Poppins';
-  ctx.textAlign = 'center';
-  ctx.fillText('✨', centerX, centerY + 7);
-}
+        function restartGame() {
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = [];
+            document.getElementById('score').textContent = '0';
+            location.reload();
+        }
 
-// Helper function to darken colors
-function darkenColor(color, factor) {
-  const hex = color.replace('#', '');
-  const r = Math.max(0, parseInt(hex.substr(0, 2), 16) * (1 - factor));
-  const g = Math.max(0, parseInt(hex.substr(2, 2), 16) * (1 - factor));
-  const b = Math.max(0, parseInt(hex.substr(4, 2), 16) * (1 - factor));
-  return `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
-}
+        function showReview() {
+            let reviewHTML = '<div class="bg-white/95 backdrop-blur-sm rounded-xl p-6"><h3 class="text-xl font-bold mb-4 text-center">📋 Semakan Jawapan</h3>';
+            
+            userAnswers.forEach((answer, index) => {
+                const statusIcon = answer.isCorrect ? '✅' : '❌';
+                const statusColor = answer.isCorrect ? 'text-green-600' : 'text-red-600';
+                
+                reviewHTML += `
+                    <div class="mb-4 p-4 border rounded-lg ${answer.isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}">
+                        <div class="flex items-start">
+                            <span class="text-xl mr-2">${statusIcon}</span>
+                            <div class="flex-1">
+                                <p class="font-medium mb-1">${index + 1}. ${answer.question}</p>
+                                <p class="text-sm ${statusColor}">Jawapan anda: ${answer.selected}</p>
+                                ${!answer.isCorrect ? `<p class="text-sm text-green-600">Jawapan betul: ${answer.correct}</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            reviewHTML += '<div class="grid md:grid-cols-2 gap-3 mt-4"><button onclick="restartGame()" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-300">🔄 Cuba Lagi</button><button onclick="startPracticeMode()" class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-3 rounded-lg font-medium hover:from-orange-600 hover:to-red-600 transition-all duration-300">🎯 Latih Tubi</button></div></div>';
+            
+            document.getElementById('gameArea').innerHTML = reviewHTML;
+        }
 
-// Spin wheel
-function spinWheel() {
-  if (isSpinning) return;
-  
-  isSpinning = true;
-  gameStarted = true;
-  const spinBtn = document.getElementById('spinBtn');
-  spinBtn.disabled = true;
-  spinBtn.textContent = 'Berputar...';
-  spinBtn.style.background = 'linear-gradient(135deg,#6b7280,#4b5563)';
-  
-  // Random spin with more dramatic effect
-  const spins = 4 + Math.random() * 4;
-  targetRotation = currentRotation + (spins * 2 * Math.PI);
-  spinSpeed = 0.25;
-  
-  // Add wheel shake effect
-  const wheelWrap = document.querySelector('.wheelWrap');
-  wheelWrap.style.animation = 'wheelShake 0.5s ease-in-out';
-  
-  animateSpin();
-}
+        function startPracticeMode() {
+            // Shuffle questions for practice mode
+            const shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
+            questions.length = 0;
+            questions.push(...shuffledQuestions);
+            
+            // Reset game state
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = [];
+            document.getElementById('score').textContent = '0';
+            
+            // Show practice mode indicator
+            document.querySelector('h1').innerHTML = '🎯 Praktis Perlakuan <span class="text-sm bg-orange-500 px-2 py-1 rounded-full">Mod Latih Tubi</span>';
+            
+            // Restart the game
+            location.reload();
+        }
 
-function animateSpin() {
-  if (Math.abs(targetRotation - currentRotation) > 0.01) {
-    currentRotation += (targetRotation - currentRotation) * spinSpeed;
-    spinSpeed *= 0.985; // Slower deceleration for more dramatic effect
-    drawWheel();
-    requestAnimationFrame(animateSpin);
-  } else {
-    currentRotation = targetRotation;
-    drawWheel();
-    isSpinning = false;
-    
-    // Reset button
-    const spinBtn = document.getElementById('spinBtn');
-    spinBtn.disabled = false;
-    spinBtn.textContent = 'Putar Roda';
-    spinBtn.style.background = 'linear-gradient(135deg,#667eea,#764ba2,#f093fb)';
-    
-    // Remove shake animation
-    const wheelWrap = document.querySelector('.wheelWrap');
-    wheelWrap.style.animation = '';
-    
-    // Add completion effect
-    wheelWrap.style.animation = 'wheelComplete 0.6s ease-out';
-    
-    // Determine winning segment
-    const normalizedRotation = (2 * Math.PI - (currentRotation % (2 * Math.PI))) % (2 * Math.PI);
-    const segmentAngle = (2 * Math.PI) / segments.length;
-    const winningIndex = Math.floor(normalizedRotation / segmentAngle);
-    
-    setTimeout(() => {
-      wheelWrap.style.animation = '';
-      showScenario();
-    }, 600);
-  }
-}
+        // Event listeners
+        document.getElementById('nextButton').onclick = nextQuestion;
+        document.getElementById('restartButton').onclick = restartGame;
+        document.getElementById('reviewButton').onclick = showReview;
+        document.getElementById('practiceButton').onclick = startPracticeMode;
 
-// Show scenario
-function showScenario() {
-  if (currentQuestion >= scenarios.length) {
-    showGameComplete();
-    return;
-  }
-  
-  currentScenario = scenarios[currentQuestion];
-  
-  document.getElementById('situasiBox').innerHTML = `<p><strong>Situasi:</strong> ${currentScenario.situation}</p>`;
-  
-  const optionsDiv = document.getElementById('options');
-  optionsDiv.style.display = 'flex';
-  
-  currentScenario.options.forEach((option, index) => {
-    const btn = document.getElementById(`opt${index + 1}`);
-    btn.textContent = option;
-    btn.className = 'optBtn';
-    btn.disabled = false;
-    btn.onclick = () => selectAnswer(index);
-  });
-  
-  document.getElementById('feedback').textContent = '';
-  document.getElementById('questionCount').textContent = currentQuestion + 1;
-}
-
-// Select answer
-function selectAnswer(selectedIndex) {
-  const buttons = document.querySelectorAll('.optBtn');
-  buttons.forEach(btn => btn.disabled = true);
-  
-  if (selectedIndex === currentScenario.correct) {
-    document.getElementById(`opt${selectedIndex + 1}`).classList.add('correct');
-    document.getElementById('feedback').innerHTML = `<span style="color: #059669;">✓ ${currentScenario.feedback}</span>`;
-    currentScore += 10;
-  } else {
-    document.getElementById(`opt${selectedIndex + 1}`).classList.add('wrong');
-    document.getElementById(`opt${currentScenario.correct + 1}`).classList.add('correct');
-    document.getElementById('feedback').innerHTML = `<span style="color: #dc2626;">✗ Jawapan betul: ${currentScenario.options[currentScenario.correct]}</span><br><span style="color: #059669;">${currentScenario.feedback}</span>`;
-  }
-  
-  document.getElementById('score').textContent = currentScore;
-  currentQuestion++;
-  
-  setTimeout(() => {
-    if (currentQuestion < scenarios.length) {
-      resetForNextQuestion();
-    } else {
-      showGameComplete();
-    }
-  }, 5500);
-}
-
-// Reset for next question
-function resetForNextQuestion() {
-  document.getElementById('situasiBox').innerHTML = '<p style="text-align:center;color:var(--muted);font-style:italic;">Putar roda untuk soalan seterusnya...</p>';
-  document.getElementById('options').style.display = 'none';
-  document.getElementById('feedback').textContent = '';
-}
-
-// Show game complete
-function showGameComplete() {
-  const percentage = (currentScore / (scenarios.length * 10)) * 100;
-  let message = '';
-  
-  if (percentage >= 80) {
-    message = 'Cemerlang! Kamu sangat memahami cara menyayangi keluarga! 🌟';
-  } else if (percentage >= 60) {
-    message = 'Bagus! Kamu faham konsep asas kasih sayang dalam keluarga. 👍';
-  } else {
-    message = 'Teruskan usaha! Cuba lagi untuk lebih memahami nilai keluarga. 💪';
-  }
-  
-  document.getElementById('situasiBox').innerHTML = `
-    <div style="text-align:center;">
-      <h4 style="margin:0 0 10px 0;">Permainan Selesai!</h4>
-      <p><strong>Skor Akhir: ${currentScore}/${scenarios.length * 10}</strong></p>
-      <p>${message}</p>
-    </div>
-  `;
-  document.getElementById('options').style.display = 'none';
-  document.getElementById('feedback').textContent = '';
-  document.getElementById('spinBtn').disabled = true;
-}
-
-// Reset game
-function resetGame() {
-  currentScore = 0;
-  currentQuestion = 0;
-  currentScenario = null;
-  gameStarted = false;
-  
-  document.getElementById('score').textContent = '0';
-  document.getElementById('questionCount').textContent = '0';
-  document.getElementById('situasiBox').innerHTML = '<p style="text-align:center;color:var(--muted);font-style:italic;">Putar roda untuk mendapat situasi keluarga...</p>';
-  document.getElementById('options').style.display = 'none';
-  document.getElementById('feedback').textContent = '';
-  document.getElementById('spinBtn').disabled = false;
-  
-  // Shuffle scenarios
-  for (let i = scenarios.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [scenarios[i], scenarios[j]] = [scenarios[j], scenarios[i]];
-  }
-}
-
-// Event listeners
-document.getElementById('spinBtn').addEventListener('click', spinWheel);
-document.getElementById('resetBtn').addEventListener('click', resetGame);
-
-// Keyboard support
-document.addEventListener('keydown', (e) => {
-  if (e.code === 'Space' && !isSpinning && !document.getElementById('spinBtn').disabled) {
-    e.preventDefault();
-    spinWheel();
-  }
-});
-
-// Initialize
-drawWheel();
-resetGame();
-</script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983a081f0717ace9',t:'MTc1ODYzMDQwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+        // Initialize game
+        displayQuestion();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98404081a1625348',t:'MTc1ODY5NTYyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
