@@ -31,28 +31,29 @@
 
         .header h1 {
             color: #2d3748;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-weight: 700;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            font-weight: 800;
             line-height: 1.2;
         }
 
         .header p {
             color: #718096;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            font-weight: 500;
         }
 
         .language-toggle {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 25px;
         }
 
         .lang-btn {
-            background: #e2e8f0;
-            color: #4a5568;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             border: none;
             padding: 8px 16px;
             border-radius: 20px;
@@ -60,15 +61,17 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
         .lang-btn:hover {
-            background: #cbd5e0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
         .lang-btn.active {
-            background: #4299e1;
-            color: white;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
         }
 
         .english {
@@ -123,29 +126,33 @@
         .question-selector {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
         }
 
         .question-btn {
-            background: #4299e1;
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 12px 24px;
             border-radius: 15px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+            min-width: 200px;
         }
 
         .question-btn:hover {
-            background: #3182ce;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
         }
 
         .question-btn.active {
-            background: #2b6cb0;
-            box-shadow: 0 5px 15px rgba(66, 153, 225, 0.4);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
         }
 
         .simulation-area {
@@ -173,13 +180,13 @@
         }
 
         .step-title {
-            font-size: 1.3rem;
-            font-weight: bold;
+            font-size: 1.5rem;
+            font-weight: 700;
             color: #2d3748;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .step-number {
@@ -196,15 +203,16 @@
         }
 
         .expression {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             text-align: center;
-            margin: 20px 0;
-            padding: 20px;
-            background: #edf2f7;
-            border-radius: 15px;
+            margin: 25px 0;
+            padding: 25px;
+            background: #f0f8ff;
+            border-radius: 20px;
             font-family: 'JetBrains Mono', 'Courier New', monospace;
-            font-weight: 500;
-            line-height: 1.6;
+            font-weight: 600;
+            line-height: 1.8;
+            border: 3px solid #4ecdc4;
         }
 
         .math-fraction {
@@ -277,30 +285,35 @@
         .controls {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
+            gap: 10px;
+            margin-top: 25px;
+            flex-wrap: wrap;
         }
 
         .control-btn {
-            background: #48bb78;
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
-            font-size: 1rem;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 3px 12px rgba(108, 92, 231, 0.3);
+            min-width: 120px;
         }
 
         .control-btn:hover {
-            background: #38a169;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
         }
 
         .control-btn:disabled {
-            background: #a0aec0;
+            background: linear-gradient(135deg, #bdbdbd 0%, #e0e0e0 100%);
             cursor: not-allowed;
             transform: none;
+            box-shadow: 0 2px 8px rgba(189, 189, 189, 0.2);
         }
 
         .explanation {
@@ -364,8 +377,8 @@
             <h1>🧮 <span class="malay">Gabungan Operasi Ungkapan Algebra</span> <span class="english">/ Algebraic Expression Operations</span></h1>
             <p><span class="malay">Matematik Tingkatan 2, Bab 2</span> <span class="english">/ Form 2 Mathematics, Chapter 2</span></p>
             <div class="language-toggle">
-                <button class="lang-btn active" onclick="toggleLanguage('ms')">🇲🇾 Bahasa Malaysia</button>
-                <button class="lang-btn" onclick="toggleLanguage('en')">🇬🇧 English</button>
+                <button class="lang-btn active" onclick="toggleLanguage('ms')">Bahasa Malaysia</button>
+                <button class="lang-btn" onclick="toggleLanguage('en')">English</button>
             </div>
         </div>
 
@@ -392,6 +405,21 @@
             </div>
         </div>
 
+        <div class="controls">
+            <button class="control-btn" id="prevBtn" onclick="previousStep()" disabled>
+                ⬅️ <span class="malay">Sebelum</span><span class="english hidden">Previous</span>
+            </button>
+            <button class="control-btn" id="nextBtn" onclick="nextStep()">
+                <span class="malay">Seterusnya</span><span class="english hidden">Next</span> ➡️
+            </button>
+            <button class="control-btn" id="autoPlayBtn" onclick="toggleAutoPlay()">
+                ▶️ <span class="malay">Auto</span><span class="english hidden">Auto</span>
+            </button>
+            <button class="control-btn" onclick="resetSimulation()">
+                🔄 <span class="malay">Reset</span><span class="english hidden">Reset</span>
+            </button>
+        </div>
+
         <div class="question-selector">
             <button class="question-btn active" onclick="selectQuestion(1)">
                 <span class="malay">Soalan (i): Penambahan Pecahan</span>
@@ -407,20 +435,6 @@
             <!-- Kandungan simulasi akan dipaparkan di sini -->
         </div>
 
-        <div class="controls">
-            <button class="control-btn" id="autoPlayBtn" onclick="toggleAutoPlay()">
-                ▶️ <span class="malay">Auto Play</span><span class="english hidden">Auto Play</span>
-            </button>
-            <button class="control-btn" id="prevBtn" onclick="previousStep()" disabled>
-                ⬅️ <span class="malay">Langkah Sebelum</span><span class="english hidden">Previous Step</span>
-            </button>
-            <button class="control-btn" id="nextBtn" onclick="nextStep()">
-                <span class="malay">Langkah Seterusnya</span><span class="english hidden">Next Step</span> ➡️
-            </button>
-            <button class="control-btn" onclick="resetSimulation()">
-                🔄 <span class="malay">Mula Semula</span><span class="english hidden">Reset</span>
-            </button>
-        </div>
     </div>
 
     <script>
@@ -628,12 +642,12 @@
             if (isAutoPlaying) {
                 clearInterval(autoPlayInterval);
                 isAutoPlaying = false;
-                autoPlayBtn.innerHTML = `▶️ <span class="malay">Auto Play</span><span class="english hidden">Auto Play</span>`;
-                autoPlayBtn.style.background = '#48bb78';
+                autoPlayBtn.innerHTML = `▶️ <span class="malay">Auto</span><span class="english hidden">Auto</span>`;
+                autoPlayBtn.style.background = 'linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%)';
             } else {
                 isAutoPlaying = true;
-                autoPlayBtn.innerHTML = `⏸️ <span class="malay">Berhenti</span><span class="english hidden">Pause</span>`;
-                autoPlayBtn.style.background = '#e53e3e';
+                autoPlayBtn.innerHTML = `⏸️ <span class="malay">Stop</span><span class="english hidden">Stop</span>`;
+                autoPlayBtn.style.background = 'linear-gradient(135deg, #e53e3e 0%, #ff6b6b 100%)';
                 
                 autoPlayInterval = setInterval(() => {
                     if (currentStep < maxSteps) {
@@ -641,7 +655,7 @@
                     } else {
                         toggleAutoPlay(); // Stop when reaching the end
                     }
-                }, 3000); // 3 seconds interval
+                }, 6000); // 6 seconds interval
             }
         }
 
@@ -832,12 +846,12 @@
             
             if (currentStep === maxSteps) {
                 nextBtn.innerHTML = currentLanguage === 'ms' ? 
-                    '🎉 <span class="malay">Selesai!</span><span class="english hidden">Complete!</span>' : 
-                    '🎉 <span class="malay hidden">Selesai!</span><span class="english">Complete!</span>';
+                    '🎉 <span class="malay">Selesai!</span><span class="english hidden">Done!</span>' : 
+                    '🎉 <span class="malay hidden">Selesai!</span><span class="english">Done!</span>';
             } else {
                 nextBtn.innerHTML = currentLanguage === 'ms' ? 
-                    '<span class="malay">Langkah Seterusnya</span><span class="english hidden">Next Step</span> ➡️' : 
-                    '<span class="malay hidden">Langkah Seterusnya</span><span class="english">Next Step</span> ➡️';
+                    '<span class="malay">Seterusnya</span><span class="english hidden">Next</span> ➡️' : 
+                    '<span class="malay hidden">Seterusnya</span><span class="english">Next</span> ➡️';
             }
         }
 
@@ -848,5 +862,5 @@
             updateControls();
         };
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9848a9e032e8a559',t:'MTc1ODc4MzgyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98498b7a7147164f',t:'MTc1ODc5MzA2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
