@@ -3,559 +3,575 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Potensi Diri & Kerjaya</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Kuiz Jujukan Matematik - Tingkatan 2</title>
     <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        body {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
         
-        @keyframes bounce {
-            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
-            40%, 43% { transform: translate3d(0,-30px,0); }
-            70% { transform: translate3d(0,-15px,0); }
-            90% { transform: translate3d(0,-4px,0); }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
         
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
         }
         
-        @keyframes sparkle {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.2); }
-            100% { transform: rotate(360deg) scale(1); }
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: bold;
         }
         
-        .fade-in { animation: fadeIn 0.6s ease-out; }
-        .bounce { animation: bounce 1s; }
-        .pulse { animation: pulse 2s infinite; }
-        .sparkle { animation: sparkle 2s infinite; }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
         
-        .card-hover {
+        .language-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
             transition: all 0.3s ease;
         }
         
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        .language-toggle:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
         }
         
-        .gradient-bg {
-            background: linear-gradient(135deg, #84cc16 0%, #eab308 50%, #22c55e 100%);
+        .quiz-content {
+            padding: 40px;
         }
         
-        .success-bg {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        .question-card {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 5px solid #4facfe;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
         
-        .warning-bg {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        .question-number {
+            color: #4facfe;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .sequence {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            text-align: center;
+            margin: 15px 0;
+            color: #1565c0;
+            font-weight: bold;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+        
+        .option:hover {
+            border-color: #4facfe;
+            background: #f0f8ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.2);
+        }
+        
+        .option.selected {
+            background: #4facfe;
+            color: white;
+            border-color: #4facfe;
+        }
+        
+        .option.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+        
+        .option.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto;
+            min-width: 200px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .result.excellent {
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            color: white;
+        }
+        
+        .result.good {
+            background: linear-gradient(135deg, #ff9800, #ffc107);
+            color: white;
+        }
+        
+        .result.needs-improvement {
+            background: linear-gradient(135deg, #f44336, #e91e63);
+            color: white;
+        }
+        
+        .score-display {
+            font-size: 2rem;
+            margin: 15px 0;
+        }
+        
+        .restart-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .restart-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .quiz-content {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 20px;
+            }
+            
+            .options {
+                grid-template-columns: 1fr;
+            }
+            
+            .language-toggle {
+                position: static;
+                margin-top: 15px;
+                display: inline-block;
+            }
         }
     </style>
 </head>
-<body class="gradient-bg min-h-screen p-4">
-    <div class="max-w-6xl mx-auto">
-        <!-- Header -->
-        <div class="text-center mb-8 fade-in">
-            <h1 class="text-5xl font-bold text-white mb-4 drop-shadow-lg">
-                ✨ Jelajah Potensi Diri ✨
-            </h1>
-            <p class="text-white text-xl mb-2">Pendidikan Moral Tingkatan 1 - Unit 5</p>
-            <p class="text-white text-lg opacity-90">Temui potensi tersembunyi dan kerjaya impian anda!</p>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="language-toggle" onclick="toggleLanguage()">
+                <span id="lang-btn-text">English</span>
+            </button>
+            <h1 id="title">Kuiz Jujukan Matematik</h1>
+            <p id="subtitle">Tingkatan 2 - Bab 1: Menentukan Sebutan Tertentu</p>
         </div>
-
-        <!-- Instructions Panel -->
-        <div class="bg-white rounded-xl shadow-lg p-4 mb-6 fade-in">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <span class="text-2xl">📋</span>
-                    <h3 class="text-lg font-bold text-gray-800">Arahan Permainan</h3>
-                </div>
-                <button id="toggleInstructions" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-sm">
-                    Lihat Arahan
-                </button>
+        
+        <div class="quiz-content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
             </div>
             
-            <div id="instructionsContent" class="hidden mt-4 space-y-4">
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div class="bg-blue-50 rounded-lg p-4">
-                        <h4 class="font-bold text-blue-800 mb-2">🧠 Ujian Personaliti</h4>
-                        <ul class="text-sm text-blue-700 space-y-1">
-                            <li>• Jawab 10 soalan dengan jujur</li>
-                            <li>• Pilih jawapan yang paling sesuai dengan diri anda</li>
-                            <li>• Tiada jawapan betul atau salah</li>
-                            <li>• Dapatkan hasil personaliti dan cadangan kerjaya</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-green-50 rounded-lg p-4">
-                        <h4 class="font-bold text-green-800 mb-2">🎯 Padankan Potensi</h4>
-                        <ul class="text-sm text-green-700 space-y-1">
-                            <li>• Pilih satu bakat dari senarai kiri</li>
-                            <li>• Kemudian pilih kerjaya yang sesuai dari kanan</li>
-                            <li>• Padanan betul = 10 mata</li>
-                            <li>• Cuba padankan semua untuk skor penuh!</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Game Selection Menu -->
-        <div id="gameMenu" class="grid md:grid-cols-2 gap-6 mb-8">
-            <div class="card-hover bg-white rounded-2xl shadow-xl p-8 text-center cursor-pointer" onclick="startGame('personality')">
-                <div class="text-6xl mb-4 sparkle">🧠</div>
-                <h3 class="text-2xl font-bold text-gray-800 mb-4">Ujian Personaliti</h3>
-                <p class="text-gray-600 mb-6">Kenali jenis personaliti dan kekuatan diri anda melalui soalan menarik</p>
-                <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg font-bold inline-block">
-                    🚀 Mula Ujian
-                </div>
-            </div>
+            <div id="quiz-container"></div>
             
-            <div class="card-hover bg-white rounded-2xl shadow-xl p-8 text-center cursor-pointer" onclick="startGame('matching')">
-                <div class="text-6xl mb-4 sparkle">🎯</div>
-                <h3 class="text-2xl font-bold text-gray-800 mb-4">Padankan Potensi</h3>
-                <p class="text-gray-600 mb-6">Padankan bakat dan minat dengan kerjaya yang sesuai</p>
-                <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white px-6 py-3 rounded-lg font-bold inline-block">
-                    🎮 Main Sekarang
-                </div>
-            </div>
-        </div>
-
-        <!-- Personality Test Game -->
-        <div id="personalityGame" class="hidden">
-            <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-3xl font-bold text-gray-800">🧠 Ujian Personaliti</h2>
-                    <div class="flex items-center space-x-4">
-                        <div class="text-lg">Soalan: <span id="questionNumber" class="font-bold text-blue-600">1</span>/10</div>
-                        <button onclick="backToMenu()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
-                            ← Kembali
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="progress-bar bg-gray-200 rounded-full h-3 mb-8">
-                    <div id="progressBar" class="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full transition-all duration-500" style="width: 10%"></div>
-                </div>
-                
-                <div id="questionContainer" class="text-center">
-                    <div class="text-4xl mb-6" id="questionIcon">🤔</div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-6" id="questionText"></h3>
-                    <div id="answerOptions" class="space-y-4 max-w-2xl mx-auto">
-                        <!-- Options will be generated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Matching Game -->
-        <div id="matchingGame" class="hidden">
-            <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-3xl font-bold text-gray-800">🎯 Padankan Potensi & Kerjaya</h2>
-                    <div class="flex items-center space-x-4">
-                        <div class="text-lg">Skor: <span id="matchingScore" class="font-bold text-green-600">0</span></div>
-                        <button onclick="backToMenu()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
-                            ← Kembali
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-700 mb-4 text-center">🌟 Bakat & Minat</h3>
-                        <div id="talentCards" class="space-y-3">
-                            <!-- Talent cards will be generated -->
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-700 mb-4 text-center">💼 Kerjaya</h3>
-                        <div id="careerCards" class="space-y-3">
-                            <!-- Career cards will be generated -->
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center mt-8">
-                    <button onclick="resetMatching()" class="bg-gradient-to-r from-orange-500 to-red-600 text-white px-6 py-3 rounded-lg font-bold hover:from-orange-600 hover:to-red-700">
-                        🔄 Main Semula
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Results Modal -->
-        <div id="resultsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-lg mx-4 text-center">
-                <div class="text-6xl mb-6" id="resultIcon">🎉</div>
-                <h3 class="text-3xl font-bold mb-4" id="resultTitle"></h3>
-                <div class="text-lg text-gray-600 mb-6" id="resultDescription"></div>
-                <div class="bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl p-6 mb-6">
-                    <h4 class="font-bold text-gray-800 mb-3">💡 Kerjaya Yang Sesuai:</h4>
-                    <div id="suggestedCareers" class="text-gray-700"></div>
-                </div>
-                <div class="space-y-3">
-                    <button onclick="restartPersonalityTest()" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-bold hover:from-blue-600 hover:to-purple-700">
-                        🔄 Ulang Ujian
-                    </button>
-                    <button onclick="backToMenu()" class="w-full bg-gray-500 text-white py-3 rounded-lg font-bold hover:bg-gray-600">
-                        🏠 Menu Utama
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Success Animation -->
-        <div id="successAnimation" class="fixed inset-0 pointer-events-none z-40 hidden">
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="text-8xl bounce">🎉</div>
-            </div>
+            <button class="submit-btn" id="submit-btn" onclick="submitQuiz()" disabled>
+                <span id="submit-text">Hantar Jawapan</span>
+            </button>
+            
+            <div id="result-container"></div>
         </div>
     </div>
 
     <script>
-        let currentQuestion = 0;
-        let personalityScores = { analytical: 0, creative: 0, social: 0, practical: 0 };
-        let matchingScore = 0;
-        let selectedTalent = null;
+        let currentLanguage = 'ms';
+        let selectedAnswers = {};
+        let quizSubmitted = false;
 
-        const personalityQuestions = [
-            {
-                icon: "📚",
-                question: "Apakah aktiviti yang paling anda gemari?",
-                options: [
-                    { text: "Membaca buku dan menyelidik", type: "analytical" },
-                    { text: "Melukis dan berkarya seni", type: "creative" },
-                    { text: "Bermain dengan kawan-kawan", type: "social" },
-                    { text: "Membuat sesuatu dengan tangan", type: "practical" }
-                ]
+        const translations = {
+            ms: {
+                title: "Kuiz Jujukan Matematik",
+                subtitle: "Tingkatan 2 - Bab 1: Menentukan Sebutan Tertentu",
+                langBtn: "English",
+                submitBtn: "Hantar Jawapan",
+                restartBtn: "Mula Semula",
+                selectAnswer: "Sila pilih jawapan untuk semua soalan",
+                excellent: "Cemerlang! 🎉",
+                excellentMsg: "Anda menguasai topik ini dengan baik!",
+                good: "Bagus! 👍",
+                goodMsg: "Prestasi yang baik! Teruskan usaha!",
+                needsImprovement: "Perlu Diperbaiki 📚",
+                needsImprovementMsg: "Jangan putus asa! Terus berlatih!",
+                scoreText: "Markah Anda:"
             },
-            {
-                icon: "🎯",
-                question: "Dalam kumpulan, anda lebih suka...",
-                options: [
-                    { text: "Merancang dan menganalisis", type: "analytical" },
-                    { text: "Memberikan idea kreatif", type: "creative" },
-                    { text: "Memimpin dan berkomunikasi", type: "social" },
-                    { text: "Melaksanakan tugas dengan praktikal", type: "practical" }
-                ]
-            },
-            {
-                icon: "🧩",
-                question: "Cara anda menyelesaikan masalah:",
-                options: [
-                    { text: "Mengkaji data dan fakta", type: "analytical" },
-                    { text: "Mencari penyelesaian unik", type: "creative" },
-                    { text: "Berbincang dengan orang lain", type: "social" },
-                    { text: "Mencuba cara yang terbukti berkesan", type: "practical" }
-                ]
-            },
-            {
-                icon: "🌟",
-                question: "Apa yang membuatkan anda bangga?",
-                options: [
-                    { text: "Memahami konsep yang rumit", type: "analytical" },
-                    { text: "Menghasilkan karya yang indah", type: "creative" },
-                    { text: "Membantu orang lain", type: "social" },
-                    { text: "Menyelesaikan tugas dengan sempurna", type: "practical" }
-                ]
-            },
-            {
-                icon: "🎨",
-                question: "Subjek kegemaran anda di sekolah:",
-                options: [
-                    { text: "Matematik dan Sains", type: "analytical" },
-                    { text: "Seni dan Muzik", type: "creative" },
-                    { text: "Sejarah dan Bahasa", type: "social" },
-                    { text: "Kemahiran Hidup dan Sukan", type: "practical" }
-                ]
-            },
-            {
-                icon: "💭",
-                question: "Apabila mempelajari sesuatu yang baru:",
-                options: [
-                    { text: "Saya suka memahami teori dahulu", type: "analytical" },
-                    { text: "Saya suka bereksperimen sendiri", type: "creative" },
-                    { text: "Saya suka belajar dalam kumpulan", type: "social" },
-                    { text: "Saya suka praktikal langsung", type: "practical" }
-                ]
-            },
-            {
-                icon: "🏆",
-                question: "Kejayaan bagi saya bermaksud:",
-                options: [
-                    { text: "Menemui kebenaran atau penyelesaian", type: "analytical" },
-                    { text: "Menghasilkan sesuatu yang original", type: "creative" },
-                    { text: "Memberi impak positif kepada orang lain", type: "social" },
-                    { text: "Mencapai matlamat yang ditetapkan", type: "practical" }
-                ]
-            },
-            {
-                icon: "🔍",
-                question: "Dalam masa lapang, saya suka:",
-                options: [
-                    { text: "Menonton dokumentari atau membaca", type: "analytical" },
-                    { text: "Berkarya atau mendengar muzik", type: "creative" },
-                    { text: "Bersosial dan aktiviti berkumpulan", type: "social" },
-                    { text: "Sukan atau aktiviti fizikal", type: "practical" }
-                ]
-            },
-            {
-                icon: "💡",
-                question: "Idea terbaik datang kepada saya ketika:",
-                options: [
-                    { text: "Berfikir secara sistematik", type: "analytical" },
-                    { text: "Dalam keadaan santai dan bebas", type: "creative" },
-                    { text: "Berbincang dengan orang lain", type: "social" },
-                    { text: "Sedang melakukan sesuatu", type: "practical" }
-                ]
-            },
-            {
-                icon: "🎪",
-                question: "Persekitaran kerja yang ideal:",
-                options: [
-                    { text: "Tenang dan teratur", type: "analytical" },
-                    { text: "Fleksibel dan penuh inspirasi", type: "creative" },
-                    { text: "Dinamik dan banyak interaksi", type: "social" },
-                    { text: "Praktikal dan berorientasikan hasil", type: "practical" }
-                ]
-            }
-        ];
-
-        const personalityTypes = {
-            analytical: {
-                title: "🔬 Pemikir Analitikal",
-                description: "Anda seorang yang logik, sistematik dan suka menganalisis. Anda pandai menyelesaikan masalah dengan pendekatan saintifik.",
-                careers: ["Saintis", "Jurutera", "Akauntan", "Pengaturcara", "Penyelidik", "Doktor"]
-            },
-            creative: {
-                title: "🎨 Pencipta Kreatif",
-                description: "Anda mempunyai imaginasi yang tinggi dan suka berkarya. Anda pandai melihat sesuatu dari perspektif yang unik.",
-                careers: ["Pelukis", "Arkitek", "Pereka Grafik", "Penulis", "Pemuzik", "Pelakon"]
-            },
-            social: {
-                title: "🤝 Pemimpin Sosial",
-                description: "Anda seorang yang mesra, suka berkomunikasi dan membantu orang lain. Anda pandai bekerja dalam pasukan.",
-                careers: ["Guru", "Peguam", "Ahli Politik", "Kaunselor", "Wartawan", "Pekerja Sosial"]
-            },
-            practical: {
-                title: "🔧 Pelaksana Praktikal",
-                description: "Anda seorang yang praktikal, suka bekerja dengan tangan dan menyelesaikan tugas dengan cekap.",
-                careers: ["Mekanik", "Chef", "Atlet", "Polis", "Bomba", "Tukang Kayu"]
+            en: {
+                title: "Mathematics Sequence Quiz",
+                subtitle: "Form 2 - Chapter 1: Finding Specific Terms",
+                langBtn: "Bahasa Melayu",
+                submitBtn: "Submit Answers",
+                restartBtn: "Restart Quiz",
+                selectAnswer: "Please select answers for all questions",
+                excellent: "Excellent! 🎉",
+                excellentMsg: "You have mastered this topic well!",
+                good: "Good! 👍",
+                goodMsg: "Good performance! Keep it up!",
+                needsImprovement: "Needs Improvement 📚",
+                needsImprovementMsg: "Don't give up! Keep practicing!",
+                scoreText: "Your Score:"
             }
         };
 
-        const matchingPairs = [
-            { talent: "🎨 Seni & Kreativiti", career: "🖌️ Pelukis/Pereka", id: 1 },
-            { talent: "🔬 Sains & Penyelidikan", career: "👩‍🔬 Saintis", id: 2 },
-            { talent: "💻 Teknologi & Komputer", career: "👨‍💻 Pengaturcara", id: 3 },
-            { talent: "🏥 Kesihatan & Rawatan", career: "👩‍⚕️ Doktor/Jururawat", id: 4 },
-            { talent: "📚 Pendidikan & Mengajar", career: "👨‍🏫 Guru", id: 5 },
-            { talent: "⚖️ Keadilan & Undang-undang", career: "👩‍⚖️ Peguam/Hakim", id: 6 },
-            { talent: "🏗️ Pembinaan & Kejuruteraan", career: "👷‍♂️ Jurutera/Arkitek", id: 7 },
-            { talent: "🎵 Muzik & Persembahan", career: "🎤 Pemuzik/Pelakon", id: 8 }
-        ];
+        const questions = {
+            ms: [
+                {
+                    question: "Jujukan berikut mengikut pola tertentu:",
+                    sequence: "3, 7, 11, 15, 19, ...",
+                    questionText: "Apakah sebutan ke-10 dalam jujukan ini?",
+                    options: ["35", "39", "43", "47"],
+                    correct: 1,
+                    explanation: "Pola: +4 setiap sebutan. Sebutan ke-10 = 3 + (10-1)×4 = 39"
+                },
+                {
+                    question: "Perhatikan jujukan nombor berikut:",
+                    sequence: "2, 6, 18, 54, 162, ...",
+                    questionText: "Apakah sebutan seterusnya?",
+                    options: ["324", "486", "648", "810"],
+                    correct: 1,
+                    explanation: "Pola: ×3 setiap sebutan. 162 × 3 = 486"
+                },
+                {
+                    question: "Dalam jujukan aritmetik:",
+                    sequence: "a, 12, 20, 28, 36, ...",
+                    questionText: "Berapakah nilai a?",
+                    options: ["2", "4", "6", "8"],
+                    correct: 1,
+                    explanation: "Beza sepunya = 8. Jadi a = 12 - 8 = 4"
+                },
+                {
+                    question: "Jujukan geometri berikut:",
+                    sequence: "1, 4, 16, 64, ...",
+                    questionText: "Apakah sebutan ke-6?",
+                    options: ["256", "512", "1024", "2048"],
+                    correct: 2,
+                    explanation: "Nisbah sepunya = 4. Sebutan ke-6 = 1 × 4^5 = 1024"
+                },
+                {
+                    question: "Perhatikan corak nombor:",
+                    sequence: "5, 8, 13, 20, 29, ...",
+                    questionText: "Apakah sebutan ke-7?",
+                    options: ["40", "45", "50", "53"],
+                    correct: 3,
+                    explanation: "Pola: +3, +5, +7, +9, ... (nombor ganjil berturut-turut). Sebutan ke-7 = 29 + 11 + 13 = 53"
+                }
+            ],
+            en: [
+                {
+                    question: "The following sequence follows a certain pattern:",
+                    sequence: "3, 7, 11, 15, 19, ...",
+                    questionText: "What is the 10th term in this sequence?",
+                    options: ["35", "39", "43", "47"],
+                    correct: 1,
+                    explanation: "Pattern: +4 each term. 10th term = 3 + (10-1)×4 = 39"
+                },
+                {
+                    question: "Observe the following number sequence:",
+                    sequence: "2, 6, 18, 54, 162, ...",
+                    questionText: "What is the next term?",
+                    options: ["324", "486", "648", "810"],
+                    correct: 1,
+                    explanation: "Pattern: ×3 each term. 162 × 3 = 486"
+                },
+                {
+                    question: "In the arithmetic sequence:",
+                    sequence: "a, 12, 20, 28, 36, ...",
+                    questionText: "What is the value of a?",
+                    options: ["2", "4", "6", "8"],
+                    correct: 1,
+                    explanation: "Common difference = 8. So a = 12 - 8 = 4"
+                },
+                {
+                    question: "The following geometric sequence:",
+                    sequence: "1, 4, 16, 64, ...",
+                    questionText: "What is the 6th term?",
+                    options: ["256", "512", "1024", "2048"],
+                    correct: 2,
+                    explanation: "Common ratio = 4. 6th term = 1 × 4^5 = 1024"
+                },
+                {
+                    question: "Observe the number pattern:",
+                    sequence: "5, 8, 13, 20, 29, ...",
+                    questionText: "What is the 7th term?",
+                    options: ["40", "45", "50", "53"],
+                    correct: 3,
+                    explanation: "Pattern: +3, +5, +7, +9, ... (consecutive odd numbers). 7th term = 29 + 11 + 13 = 53"
+                }
+            ]
+        };
 
-        function startGame(gameType) {
-            document.getElementById('gameMenu').classList.add('hidden');
-            
-            if (gameType === 'personality') {
-                document.getElementById('personalityGame').classList.remove('hidden');
-                currentQuestion = 0;
-                personalityScores = { analytical: 0, creative: 0, social: 0, practical: 0 };
-                showQuestion();
-            } else if (gameType === 'matching') {
-                document.getElementById('matchingGame').classList.remove('hidden');
-                setupMatchingGame();
-            }
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'ms' ? 'en' : 'ms';
+            updateLanguage();
+            renderQuiz();
         }
 
-        function showQuestion() {
-            const question = personalityQuestions[currentQuestion];
-            document.getElementById('questionNumber').textContent = currentQuestion + 1;
-            document.getElementById('progressBar').style.width = ((currentQuestion + 1) / personalityQuestions.length * 100) + '%';
-            document.getElementById('questionIcon').textContent = question.icon;
-            document.getElementById('questionText').textContent = question.question;
-            
-            const optionsContainer = document.getElementById('answerOptions');
-            optionsContainer.innerHTML = '';
-            
-            question.options.forEach((option, index) => {
-                const button = document.createElement('button');
-                button.className = 'w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 rounded-xl font-medium hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 text-left';
-                button.textContent = option.text;
-                button.onclick = () => selectAnswer(option.type);
-                optionsContainer.appendChild(button);
-            });
+        function updateLanguage() {
+            const t = translations[currentLanguage];
+            document.getElementById('title').textContent = t.title;
+            document.getElementById('subtitle').textContent = t.subtitle;
+            document.getElementById('lang-btn-text').textContent = t.langBtn;
+            document.getElementById('submit-text').textContent = t.submitBtn;
         }
 
-        function selectAnswer(type) {
-            personalityScores[type]++;
-            currentQuestion++;
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            const currentQuestions = questions[currentLanguage];
             
-            if (currentQuestion < personalityQuestions.length) {
-                setTimeout(showQuestion, 300);
-            } else {
-                showPersonalityResults();
-            }
-        }
-
-        function showPersonalityResults() {
-            const maxScore = Math.max(...Object.values(personalityScores));
-            const dominantType = Object.keys(personalityScores).find(key => personalityScores[key] === maxScore);
-            const result = personalityTypes[dominantType];
-            
-            document.getElementById('resultIcon').textContent = result.title.split(' ')[0];
-            document.getElementById('resultTitle').textContent = result.title;
-            document.getElementById('resultDescription').textContent = result.description;
-            document.getElementById('suggestedCareers').textContent = result.careers.join(', ');
-            
-            document.getElementById('personalityGame').classList.add('hidden');
-            document.getElementById('resultsModal').classList.remove('hidden');
-            document.getElementById('resultsModal').classList.add('flex');
-            
-            showSuccessAnimation();
-        }
-
-        function setupMatchingGame() {
-            matchingScore = 0;
-            selectedTalent = null;
-            document.getElementById('matchingScore').textContent = matchingScore;
-            
-            const shuffledPairs = [...matchingPairs].sort(() => Math.random() - 0.5);
-            const talents = shuffledPairs.map(pair => ({ text: pair.talent, id: pair.id }));
-            const careers = shuffledPairs.map(pair => ({ text: pair.career, id: pair.id })).sort(() => Math.random() - 0.5);
-            
-            createMatchingCards('talentCards', talents, 'talent');
-            createMatchingCards('careerCards', careers, 'career');
-        }
-
-        function createMatchingCards(containerId, items, type) {
-            const container = document.getElementById(containerId);
             container.innerHTML = '';
             
-            items.forEach(item => {
-                const card = document.createElement('div');
-                card.className = `card-hover bg-gradient-to-r from-purple-100 to-pink-100 p-4 rounded-xl cursor-pointer border-2 border-transparent transition-all duration-200`;
-                card.textContent = item.text;
-                card.dataset.id = item.id;
-                card.dataset.type = type;
-                card.onclick = () => selectCard(card, item.id, type);
-                container.appendChild(card);
+            currentQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-card';
+                
+                questionDiv.innerHTML = `
+                    <div class="question-number">${currentLanguage === 'ms' ? 'Soalan' : 'Question'} ${index + 1}</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="sequence">${q.sequence}</div>
+                    <div class="question-text">${q.questionText}</div>
+                    <div class="options" id="options-${index}">
+                        ${q.options.map((option, optIndex) => 
+                            `<div class="option" onclick="selectOption(${index}, ${optIndex})" id="option-${index}-${optIndex}">
+                                ${option}
+                            </div>`
+                        ).join('')}
+                    </div>
+                `;
+                
+                container.appendChild(questionDiv);
             });
+            
+            updateProgress();
+            updateSubmitButton();
         }
 
-        function selectCard(cardElement, id, type) {
-            // Remove previous selections of the same type
-            document.querySelectorAll(`[data-type="${type}"]`).forEach(card => {
-                card.classList.remove('border-blue-500', 'bg-blue-100');
-                card.classList.add('border-transparent');
-            });
+        function selectOption(questionIndex, optionIndex) {
+            if (quizSubmitted) return;
             
-            // Highlight selected card
-            cardElement.classList.add('border-blue-500', 'bg-blue-100');
-            cardElement.classList.remove('border-transparent');
+            // Clear previous selection
+            const options = document.querySelectorAll(`#options-${questionIndex} .option`);
+            options.forEach(opt => opt.classList.remove('selected'));
             
-            if (type === 'talent') {
-                selectedTalent = id;
-            } else if (type === 'career' && selectedTalent) {
-                checkMatch(selectedTalent, id);
+            // Select new option
+            document.getElementById(`option-${questionIndex}-${optionIndex}`).classList.add('selected');
+            selectedAnswers[questionIndex] = optionIndex;
+            
+            updateProgress();
+            updateSubmitButton();
+        }
+
+        function updateProgress() {
+            const totalQuestions = questions[currentLanguage].length;
+            const answeredQuestions = Object.keys(selectedAnswers).length;
+            const progress = (answeredQuestions / totalQuestions) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function updateSubmitButton() {
+            const totalQuestions = questions[currentLanguage].length;
+            const answeredQuestions = Object.keys(selectedAnswers).length;
+            const submitBtn = document.getElementById('submit-btn');
+            
+            if (answeredQuestions === totalQuestions && !quizSubmitted) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
             }
         }
 
-        function checkMatch(talentId, careerId) {
-            if (talentId === careerId) {
-                // Correct match
-                matchingScore += 10;
-                document.getElementById('matchingScore').textContent = matchingScore;
+        function submitQuiz() {
+            const totalQuestions = questions[currentLanguage].length;
+            const answeredQuestions = Object.keys(selectedAnswers).length;
+            
+            if (answeredQuestions < totalQuestions) {
+                alert(translations[currentLanguage].selectAnswer);
+                return;
+            }
+            
+            quizSubmitted = true;
+            let score = 0;
+            const currentQuestions = questions[currentLanguage];
+            
+            // Show correct/incorrect answers
+            currentQuestions.forEach((q, index) => {
+                const selectedOption = selectedAnswers[index];
+                const correctOption = q.correct;
                 
-                // Remove matched cards
-                document.querySelectorAll(`[data-id="${talentId}"]`).forEach(card => {
-                    card.classList.add('success-bg', 'text-white');
-                    card.textContent += ' ✅';
-                    card.onclick = null;
-                    setTimeout(() => {
-                        card.style.opacity = '0.5';
-                        card.style.pointerEvents = 'none';
-                    }, 1000);
-                });
-                
-                showSuccessAnimation();
-                
-                // Check if all matches are found
-                setTimeout(() => {
-                    const remainingCards = document.querySelectorAll('[data-type="talent"]:not([style*="opacity"])').length;
-                    if (remainingCards === 0) {
-                        alert(`🎉 Tahniah! Anda telah berjaya padankan semua! Skor akhir: ${matchingScore}`);
+                const options = document.querySelectorAll(`#options-${index} .option`);
+                options.forEach((opt, optIndex) => {
+                    if (optIndex === correctOption) {
+                        opt.classList.add('correct');
+                    } else if (optIndex === selectedOption && optIndex !== correctOption) {
+                        opt.classList.add('incorrect');
                     }
-                }, 1500);
-            } else {
-                // Wrong match
-                document.querySelectorAll('.border-blue-500').forEach(card => {
-                    card.classList.add('warning-bg', 'text-white');
-                    setTimeout(() => {
-                        card.classList.remove('warning-bg', 'text-white', 'border-blue-500', 'bg-blue-100');
-                        card.classList.add('border-transparent');
-                    }, 1000);
                 });
-            }
+                
+                if (selectedOption === correctOption) {
+                    score++;
+                }
+            });
             
-            selectedTalent = null;
+            showResult(score, totalQuestions);
+            document.getElementById('submit-btn').style.display = 'none';
         }
 
-        function resetMatching() {
-            setupMatchingGame();
-        }
-
-        function restartPersonalityTest() {
-            document.getElementById('resultsModal').classList.add('hidden');
-            document.getElementById('resultsModal').classList.remove('flex');
-            currentQuestion = 0;
-            personalityScores = { analytical: 0, creative: 0, social: 0, practical: 0 };
-            document.getElementById('personalityGame').classList.remove('hidden');
-            showQuestion();
-        }
-
-        function backToMenu() {
-            document.getElementById('personalityGame').classList.add('hidden');
-            document.getElementById('matchingGame').classList.add('hidden');
-            document.getElementById('resultsModal').classList.add('hidden');
-            document.getElementById('resultsModal').classList.remove('flex');
-            document.getElementById('gameMenu').classList.remove('hidden');
-        }
-
-        function showSuccessAnimation() {
-            const animation = document.getElementById('successAnimation');
-            animation.classList.remove('hidden');
-            setTimeout(() => {
-                animation.classList.add('hidden');
-            }, 2000);
-        }
-
-        // Toggle instructions
-        function toggleInstructions() {
-            const content = document.getElementById('instructionsContent');
-            const button = document.getElementById('toggleInstructions');
+        function showResult(score, total) {
+            const percentage = (score / total) * 100;
+            const t = translations[currentLanguage];
+            let resultClass, resultTitle, resultMessage;
             
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                button.textContent = 'Sembunyikan';
+            if (percentage >= 80) {
+                resultClass = 'excellent';
+                resultTitle = t.excellent;
+                resultMessage = t.excellentMsg;
+            } else if (percentage >= 60) {
+                resultClass = 'good';
+                resultTitle = t.good;
+                resultMessage = t.goodMsg;
             } else {
-                content.classList.add('hidden');
-                button.textContent = 'Lihat Arahan';
+                resultClass = 'needs-improvement';
+                resultTitle = t.needsImprovement;
+                resultMessage = t.needsImprovementMsg;
             }
+            
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.innerHTML = `
+                <div class="result ${resultClass}">
+                    <div>${resultTitle}</div>
+                    <div class="score-display">${t.scoreText} ${score}/${total} (${Math.round(percentage)}%)</div>
+                    <div>${resultMessage}</div>
+                    <button class="restart-btn" onclick="restartQuiz()">${t.restartBtn}</button>
+                </div>
+            `;
         }
 
-        // Initialize event listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('toggleInstructions').addEventListener('click', toggleInstructions);
-        });
+        function restartQuiz() {
+            selectedAnswers = {};
+            quizSubmitted = false;
+            document.getElementById('result-container').innerHTML = '';
+            document.getElementById('submit-btn').style.display = 'block';
+            renderQuiz();
+        }
+
+        // Initialize quiz
+        updateLanguage();
+        renderQuiz();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98411610926e1685',t:'MTc1ODcwNDM3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9847a8f3917f5615',t:'MTc1ODc3MzMwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
