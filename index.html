@@ -362,7 +362,7 @@
         .tip-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             background: white;
             padding: 12px 16px;
             border-radius: 20px;
@@ -372,11 +372,14 @@
             color: #2d3748;
             flex: 1;
             min-width: 200px;
-            justify-content: center;
+            justify-content: flex-start;
         }
 
         .tip-icon {
             font-size: 1.2rem;
+            flex-shrink: 0;
+            width: 24px;
+            text-align: center;
         }
 
         .highlight {
@@ -638,28 +641,7 @@
             </button>
         </div>
 
-        <div class="legend">
-            <div class="legend-item">
-                <div class="block x-block">x</div>
-                <span class="malay">Pembolehubah x</span>
-                <span class="english hidden">Variable x</span>
-            </div>
-            <div class="legend-item">
-                <div class="block y-block">y</div>
-                <span class="malay">Pembolehubah y</span>
-                <span class="english hidden">Variable y</span>
-            </div>
-            <div class="legend-item">
-                <div class="block number-block">2</div>
-                <span class="malay">Nombor</span>
-                <span class="english hidden">Number</span>
-            </div>
-            <div class="legend-item">
-                <div class="block constant-block">a</div>
-                <span class="malay">Pemalar lain</span>
-                <span class="english hidden">Other constants</span>
-            </div>
-        </div>
+
 
         <div class="controls">
             <button class="control-btn" id="prevBtn" onclick="previousStep()" disabled>
@@ -677,6 +659,10 @@
             <button class="control-btn practice-btn" onclick="showPractice()">
                 📝 <span class="malay">Latihan</span><span class="english hidden">Practice</span>
             </button>
+        </div>
+
+        <div class="simulation-area" id="simulationArea">
+            <!-- Kandungan simulasi akan dipaparkan di sini -->
         </div>
 
         <div class="tips-section">
@@ -700,10 +686,6 @@
                     <span class="english hidden">Division = multiplication by reciprocal</span>
                 </div>
             </div>
-        </div>
-
-        <div class="simulation-area" id="simulationArea">
-            <!-- Kandungan simulasi akan dipaparkan di sini -->
         </div>
 
     </div>
@@ -1319,5 +1301,5 @@
             updateControls();
         };
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9849bc1b05120d0a',t:'MTc1ODc5NTA1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9849d15ff67f1ec5',t:'MTc1ODc5NTkzMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
