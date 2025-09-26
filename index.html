@@ -308,7 +308,7 @@
 
         .quiz-options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             margin-bottom: 30px;
         }
@@ -499,118 +499,159 @@
             <button class="lang-btn" onclick="setLanguage('en')">English</button>
         </div>
 
+        <div class="info-panel">
+            <div class="info-title" data-ms="📚 Maklumat Pembelajaran" data-en="📚 Learning Information">📚 Maklumat Pembelajaran</div>
+            <div class="info-content">
+                <div class="info-item">
+                    <div class="info-label" data-ms="🎯 Objektif:" data-en="🎯 Objectives:">🎯 Objektif:</div>
+                    <div class="info-text" data-ms="Memahami konsep sudut pedalaman dan peluaran poligon serta cara mengira bilangan sisi" data-en="Understanding interior and exterior angles of polygons and how to calculate number of sides">Memahami konsep sudut pedalaman dan peluaran poligon serta cara mengira bilangan sisi</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label" data-ms="💡 Konsep Utama:" data-en="💡 Key Concepts:">💡 Konsep Utama:</div>
+                    <div class="info-text" data-ms="Sudut pedalaman bergantung pada bilangan sisi, tetapi jumlah sudut peluaran sentiasa 360°" data-en="Interior angles depend on number of sides, but sum of exterior angles is always 360°">Sudut pedalaman bergantung pada bilangan sisi, tetapi jumlah sudut peluaran sentiasa 360°</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label" data-ms="🔢 Formula Penting:" data-en="🔢 Important Formulas:">🔢 Formula Penting:</div>
+                    <div class="info-text" data-ms="Sudut pedalaman = (n-2) × 180°, Sudut peluaran = 360° ÷ n" data-en="Interior angles = (n-2) × 180°, Exterior angle = 360° ÷ n">Sudut pedalaman = (n-2) × 180°, Sudut peluaran = 360° ÷ n</div>
+                </div>
+            </div>
+        </div>
+
         <div class="flashcard-container">
             <!-- Card 1: Interior Angles -->
-            <div class="flashcard" onclick="flipCard(this)">
+            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
                 <div class="card-inner">
-                    <div class="card-front">
-                        <div class="card-title" data-ms="Sudut Pedalaman Poligon" data-en="Interior Angles of Polygon">Sudut Pedalaman Poligon</div>
-                        <div class="formula" data-ms="Jumlah sudut pedalaman = (n - 2) × 180°" data-en="Sum of interior angles = (n - 2) × 180°">Jumlah sudut pedalaman = (n - 2) × 180°</div>
-                        <div class="example" data-ms="n = bilangan sisi poligon" data-en="n = number of sides of polygon">n = bilangan sisi poligon</div>
-
+                    <div class="card-front" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
+                        <div class="card-title" data-ms="Sudut Pedalaman Poligon" data-en="Interior Angles of Polygon" style="color: #2c3e50;">Sudut Pedalaman Poligon</div>
+                        <div class="formula" data-ms="Jumlah sudut pedalaman<br>= (n - 2) × 180°" data-en="Sum of interior angles
+= (n - 2) × 180°" style="background: rgba(255,255,255,0.8); color: #2c3e50;">Jumlah sudut pedalaman<br>= (n - 2) × 180°</div>
+                        <div class="example" data-ms="di mana:<br>n = bilangan sisi poligon" data-en="where:
+n = number of sides of polygon" style="background: rgba(255,255,255,0.6); color: #495057;">di mana:<br>n = bilangan sisi poligon</div>
                     </div>
                     <div class="card-back">
                         <div class="card-title" data-ms="Contoh: Pentagon (5 sisi)" data-en="Example: Pentagon (5 sides)">Contoh: Pentagon (5 sisi)</div>
                         <div class="formula">n = 5</div>
-                        <div class="example" data-ms="Jumlah sudut pedalaman = (5 - 2) × 180°<br>= 3 × 180°<br>= 540°" data-en="Sum of interior angles = (5 - 2) × 180°<br>= 3 × 180°<br>= 540°">Jumlah sudut pedalaman = (5 - 2) × 180°<br>= 3 × 180°<br>= 540°</div>
-                        <div class="flip-hint" data-ms="Klik untuk kembali" data-en="Click to return">Klik untuk kembali</div>
+                        <div class="example" data-ms="Jumlah sudut pedalaman = (5 - 2) × 180°<br>= 3 × 180°<br>= 540°" data-en="Sum of interior angles = (5 - 2) × 180°
+= 3 × 180°
+= 540°">Jumlah sudut pedalaman = (5 - 2) × 180°<br>= 3 × 180°<br>= 540°</div>
                     </div>
                 </div>
             </div>
 
             <!-- Card 2: Exterior Angles -->
-            <div class="flashcard" onclick="flipCard(this)">
+            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
                 <div class="card-inner">
-                    <div class="card-front">
-                        <div class="card-title" data-ms="Sudut Peluaran Poligon" data-en="Exterior Angles of Polygon">Sudut Peluaran Poligon</div>
-                        <div class="formula" data-ms="Jumlah sudut peluaran = 360°" data-en="Sum of exterior angles = 360°">Jumlah sudut peluaran = 360°</div>
-                        <div class="example" data-ms="Untuk semua poligon, jumlah sudut peluaran sentiasa 360°" data-en="For all polygons, sum of exterior angles is always 360°">Untuk semua poligon, jumlah sudut peluaran sentiasa 360°</div>
-
+                    <div class="card-front" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                        <div class="card-title" data-ms="Sudut Peluaran Poligon" data-en="Exterior Angles of Polygon" style="color: #2c3e50;">Sudut Peluaran Poligon</div>
+                        <div class="formula" data-ms="Jumlah sudut peluaran<br>= 360°" data-en="Sum of exterior angles
+= 360°" style="background: rgba(255,255,255,0.8); color: #2c3e50;">Jumlah sudut peluaran<br>= 360°</div>
+                        <div class="example" data-ms="Untuk semua poligon,<br>jumlah sudut peluaran<br>sentiasa 360°" data-en="For all polygons,
+sum of exterior angles
+is always 360°" style="background: rgba(255,255,255,0.6); color: #495057;">Untuk semua poligon,<br>jumlah sudut peluaran<br>sentiasa 360°</div>
                     </div>
                     <div class="card-back">
                         <div class="card-title" data-ms="Contoh: Hexagon Sekata" data-en="Example: Regular Hexagon">Contoh: Hexagon Sekata</div>
                         <div class="formula">n = 6</div>
-                        <div class="example" data-ms="Setiap sudut peluaran = 360° ÷ 6<br>= 60°<br><br>Jumlah = 6 × 60° = 360°" data-en="Each exterior angle = 360° ÷ 6<br>= 60°<br><br>Total = 6 × 60° = 360°">Setiap sudut peluaran = 360° ÷ 6<br>= 60°<br><br>Jumlah = 6 × 60° = 360°</div>
-                        <div class="flip-hint" data-ms="Klik untuk kembali" data-en="Click to return">Klik untuk kembali</div>
+                        <div class="example" data-ms="Setiap sudut peluaran = 360° ÷ 6<br>= 60°<br><br>Jumlah = 6 × 60° = 360°" data-en="Each exterior angle = 360° ÷ 6
+= 60°
+
+Total = 6 × 60° = 360°">Setiap sudut peluaran = 360° ÷ 6<br>= 60°<br><br>Jumlah = 6 × 60° = 360°</div>
                     </div>
                 </div>
             </div>
 
             <!-- Card 3: Finding Number of Sides -->
-            <div class="flashcard" onclick="flipCard(this)">
+            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
                 <div class="card-inner">
-                    <div class="card-front">
-                        <div class="card-title" data-ms="Mencari Bilangan Sisi" data-en="Finding Number of Sides">Mencari Bilangan Sisi</div>
-                        <div class="formula" data-ms="n = (Jumlah sudut pedalaman ÷ 180°) + 2" data-en="n = (Sum of interior angles ÷ 180°) + 2">n = (Jumlah sudut pedalaman ÷ 180°) + 2</div>
-                        <div class="example" data-ms="atau n = 360° ÷ sudut peluaran (untuk poligon sekata)" data-en="or n = 360° ÷ exterior angle (for regular polygon)">atau n = 360° ÷ sudut peluaran (untuk poligon sekata)</div>
-
+                    <div class="card-front" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+                        <div class="card-title" data-ms="Mencari Bilangan Sisi" data-en="Finding Number of Sides" style="color: #2c3e50;">Mencari Bilangan Sisi</div>
+                        <div class="formula" data-ms="n = (Jumlah sudut pedalaman ÷ 180°)<br>+ 2" data-en="n = (Sum of interior angles ÷ 180°)
++ 2" style="background: rgba(255,255,255,0.8); color: #2c3e50;">n = (Jumlah sudut pedalaman ÷ 180°)<br>+ 2</div>
+                        <div class="example" data-ms="atau<br>n = 360° ÷ sudut peluaran<br>(untuk poligon sekata)" data-en="or
+n = 360° ÷ exterior angle
+(for regular polygon)" style="background: rgba(255,255,255,0.6); color: #495057;">atau<br>n = 360° ÷ sudut peluaran<br>(untuk poligon sekata)</div>
                     </div>
                     <div class="card-back">
                         <div class="card-title" data-ms="Contoh: Jumlah sudut pedalaman = 1080°" data-en="Example: Sum of interior angles = 1080°">Contoh: Jumlah sudut pedalaman = 1080°</div>
                         <div class="formula">1080° ÷ 180° = 6</div>
-                        <div class="example" data-ms="n = 6 + 2 = 8<br><br>Poligon tersebut ialah oktagon (8 sisi)" data-en="n = 6 + 2 = 8<br><br>The polygon is an octagon (8 sides)">n = 6 + 2 = 8<br><br>Poligon tersebut ialah oktagon (8 sisi)</div>
-                        <div class="flip-hint" data-ms="Klik untuk kembali" data-en="Click to return">Klik untuk kembali</div>
+                        <div class="example" data-ms="n = 6 + 2<br>= 8<br><br>Poligon tersebut ialah<br>oktagon (8 sisi)" data-en="n = 6 + 2
+= 8
+
+The polygon is an
+octagon (8 sides)">n = 6 + 2<br>= 8<br><br>Poligon tersebut ialah<br>oktagon (8 sisi)</div>
                     </div>
                 </div>
             </div>
 
             <!-- Card 4: Interior Angle of Regular Polygon -->
-            <div class="flashcard" onclick="flipCard(this)">
+            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);">
                 <div class="card-inner">
-                    <div class="card-front">
-                        <div class="card-title" data-ms="Sudut Pedalaman Poligon Sekata" data-en="Interior Angle of Regular Polygon">Sudut Pedalaman Poligon Sekata</div>
-                        <div class="formula" data-ms="Sudut pedalaman = (n - 2) × 180° ÷ n" data-en="Interior angle = (n - 2) × 180° ÷ n">Sudut pedalaman = (n - 2) × 180° ÷ n</div>
-                        <div class="example" data-ms="Untuk poligon sekata, semua sudut pedalaman adalah sama" data-en="For regular polygon, all interior angles are equal">Untuk poligon sekata, semua sudut pedalaman adalah sama</div>
-
+                    <div class="card-front" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);">
+                        <div class="card-title" data-ms="Sudut Pedalaman Poligon Sekata" data-en="Interior Angle of Regular Polygon" style="color: white;">Sudut Pedalaman Poligon Sekata</div>
+                        <div class="formula" data-ms="Sudut pedalaman<br>= (n - 2) × 180° ÷ n" data-en="Interior angle
+= (n - 2) × 180° ÷ n" style="background: rgba(255,255,255,0.2);">Sudut pedalaman<br>= (n - 2) × 180° ÷ n</div>
+                        <div class="example" data-ms="Untuk poligon sekata,<br>semua sudut pedalaman<br>adalah sama" data-en="For regular polygon,
+all interior angles
+are equal" style="background: rgba(255,255,255,0.15); color: white;">Untuk poligon sekata,<br>semua sudut pedalaman<br>adalah sama</div>
                     </div>
                     <div class="card-back">
                         <div class="card-title" data-ms="Contoh: Hexagon Sekata (6 sisi)" data-en="Example: Regular Hexagon (6 sides)">Contoh: Hexagon Sekata (6 sisi)</div>
                         <div class="formula">n = 6</div>
-                        <div class="example" data-ms="Sudut pedalaman = (6 - 2) × 180° ÷ 6<br>= 4 × 180° ÷ 6<br>= 720° ÷ 6 = 120°" data-en="Interior angle = (6 - 2) × 180° ÷ 6<br>= 4 × 180° ÷ 6<br>= 720° ÷ 6 = 120°">Sudut pedalaman = (6 - 2) × 180° ÷ 6<br>= 4 × 180° ÷ 6<br>= 720° ÷ 6 = 120°</div>
-                        <div class="flip-hint" data-ms="Klik untuk kembali" data-en="Click to return">Klik untuk kembali</div>
+                        <div class="example" data-ms="Sudut pedalaman = (6 - 2) × 180° ÷ 6<br>= 4 × 180° ÷ 6<br>= 720° ÷ 6<br>= 120°" data-en="Interior angle = (6 - 2) × 180° ÷ 6
+= 4 × 180° ÷ 6
+= 720° ÷ 6
+= 120°">Sudut pedalaman = (6 - 2) × 180° ÷ 6<br>= 4 × 180° ÷ 6<br>= 720° ÷ 6<br>= 120°</div>
                     </div>
                 </div>
             </div>
 
             <!-- Card 5: Exterior Angle of Regular Polygon -->
-            <div class="flashcard" onclick="flipCard(this)">
+            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);">
                 <div class="card-inner">
-                    <div class="card-front">
-                        <div class="card-title" data-ms="Sudut Peluaran Poligon Sekata" data-en="Exterior Angle of Regular Polygon">Sudut Peluaran Poligon Sekata</div>
-                        <div class="formula" data-ms="Sudut peluaran = 360° ÷ n" data-en="Exterior angle = 360° ÷ n">Sudut peluaran = 360° ÷ n</div>
-                        <div class="example" data-ms="Untuk poligon sekata, semua sudut peluaran adalah sama" data-en="For regular polygon, all exterior angles are equal">Untuk poligon sekata, semua sudut peluaran adalah sama</div>
-
+                    <div class="card-front" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);">
+                        <div class="card-title" data-ms="Sudut Peluaran Poligon Sekata" data-en="Exterior Angle of Regular Polygon" style="color: white;">Sudut Peluaran Poligon Sekata</div>
+                        <div class="formula" data-ms="Sudut peluaran<br>= 360° ÷ n" data-en="Exterior angle
+= 360° ÷ n" style="background: rgba(255,255,255,0.2);">Sudut peluaran<br>= 360° ÷ n</div>
+                        <div class="example" data-ms="Untuk poligon sekata,<br>semua sudut peluaran<br>adalah sama" data-en="For regular polygon,
+all exterior angles
+are equal" style="background: rgba(255,255,255,0.15); color: white;">Untuk poligon sekata,<br>semua sudut peluaran<br>adalah sama</div>
                     </div>
                     <div class="card-back">
                         <div class="card-title" data-ms="Contoh: Oktagon Sekata (8 sisi)" data-en="Example: Regular Octagon (8 sides)">Contoh: Oktagon Sekata (8 sisi)</div>
                         <div class="formula">n = 8</div>
-                        <div class="example" data-ms="Sudut peluaran = 360° ÷ 8<br>= 45°<br><br>Semua 8 sudut peluaran = 45°" data-en="Exterior angle = 360° ÷ 8<br>= 45°<br><br>All 8 exterior angles = 45°">Sudut peluaran = 360° ÷ 8<br>= 45°<br><br>Semua 8 sudut peluaran = 45°</div>
-                        <div class="flip-hint" data-ms="Klik untuk kembali" data-en="Click to return">Klik untuk kembali</div>
+                        <div class="example" data-ms="Sudut peluaran = 360° ÷ 8<br>= 45°<br><br>Semua 8 sudut peluaran = 45°" data-en="Exterior angle = 360° ÷ 8
+= 45°
+
+All 8 exterior angles = 45°">Sudut peluaran = 360° ÷ 8<br>= 45°<br><br>Semua 8 sudut peluaran = 45°</div>
                     </div>
                 </div>
             </div>
 
             <!-- Card 6: Polygon Names -->
-            <div class="flashcard" onclick="flipCard(this)">
+            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                 <div class="card-inner">
-                    <div class="card-front">
-                        <div class="card-title" data-ms="Nama-nama Poligon" data-en="Polygon Names">Nama-nama Poligon</div>
-                        <div class="formula" data-ms="Mengikut Bilangan Sisi" data-en="According to Number of Sides">Mengikut Bilangan Sisi</div>
-                        <div class="example" data-ms="3 sisi = Segitiga<br>4 sisi = Segiempat<br>5 sisi = Pentagon<br>6 sisi = Hexagon" data-en="3 sides = Triangle<br>4 sides = Quadrilateral<br>5 sides = Pentagon<br>6 sides = Hexagon">3 sisi = Segitiga<br>4 sisi = Segiempat<br>5 sisi = Pentagon<br>6 sisi = Hexagon</div>
-
+                    <div class="card-front" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div class="card-title" data-ms="Nama-nama Poligon" data-en="Polygon Names" style="color: white;">Nama-nama Poligon</div>
+                        <div class="formula" data-ms="Mengikut Bilangan Sisi" data-en="According to Number of Sides" style="background: rgba(255,255,255,0.2);">Mengikut Bilangan Sisi</div>
+                        <div class="example" data-ms="3 sisi = Segitiga<br>4 sisi = Segiempat<br>5 sisi = Pentagon<br>6 sisi = Hexagon" data-en="3 sides = Triangle
+4 sides = Quadrilateral
+5 sides = Pentagon
+6 sides = Hexagon" style="background: rgba(255,255,255,0.15); color: white;">3 sisi = Segitiga<br>4 sisi = Segiempat<br>5 sisi = Pentagon<br>6 sisi = Hexagon</div>
                     </div>
                     <div class="card-back">
                         <div class="card-title" data-ms="Nama Poligon Lanjutan" data-en="More Polygon Names">Nama Poligon Lanjutan</div>
-                        <div class="formula" data-ms="7 sisi = Heptagon<br>8 sisi = Oktagon" data-en="7 sides = Heptagon<br>8 sides = Octagon">7 sisi = Heptagon<br>8 sisi = Oktagon</div>
-                        <div class="example" data-ms="9 sisi = Nonagon<br>10 sisi = Dekagon<br>12 sisi = Dodekagon" data-en="9 sides = Nonagon<br>10 sides = Decagon<br>12 sides = Dodecagon">9 sisi = Nonagon<br>10 sisi = Dekagon<br>12 sisi = Dodekagon</div>
-                        <div class="flip-hint" data-ms="Klik untuk kembali" data-en="Click to return">Klik untuk kembali</div>
+                        <div class="formula" data-ms="7 sisi = Heptagon<br>8 sisi = Oktagon" data-en="7 sides = Heptagon
+8 sides = Octagon">7 sisi = Heptagon<br>8 sisi = Oktagon</div>
+                        <div class="example" data-ms="9 sisi = Nonagon<br>10 sisi = Dekagon<br>12 sisi = Dodekagon" data-en="9 sides = Nonagon
+10 sides = Decagon
+12 sides = Dodecagon">9 sisi = Nonagon<br>10 sisi = Dekagon<br>12 sisi = Dodekagon</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="quiz-section">
-            <div class="quiz-title" data-ms="Kuiz Latihan" data-en="Practice Quiz">Kuiz Latihan</div>
+            <div class="quiz-title" data-ms="Latihan" data-en="Practice">Latihan</div>
             <div id="quiz-container">
                 <div class="quiz-progress">
                     <div class="progress-bar">
@@ -831,5 +872,5 @@
         // Initialize
         loadQuestion();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9851042f92c32441',t:'MTc1ODg3MTQxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98523f3d54761be4',t:'MTc1ODg4NDMxNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
