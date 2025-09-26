@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulasi Gabungan Operasi Ungkapan Algebra</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <title>Flashcard Poligon - Tingkatan 2</title>
     <style>
         body {
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -16,779 +15,474 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
         .header {
             text-align: center;
+            color: white;
             margin-bottom: 30px;
         }
 
         .header h1 {
-            color: #2d3748;
-            font-size: 3rem;
-            margin-bottom: 15px;
-            font-weight: 800;
-            line-height: 1.2;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        .header p {
-            color: #718096;
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            font-weight: 500;
-        }
+
 
         .language-toggle {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin-bottom: 25px;
+            gap: 15px;
+            margin-bottom: 40px;
         }
 
         .lang-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 12px 25px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+            background: rgba(255,255,255,0.1);
             color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.4s ease;
+            font-weight: bold;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lang-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .lang-btn:hover::before {
+            left: 100%;
         }
 
         .lang-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.6);
         }
 
         .lang-btn.active {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
-        }
-
-        .english {
-            opacity: 0.7;
-            font-size: 0.9em;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .legend {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #f7fafc;
-            padding: 10px 20px;
-            border-radius: 15px;
-            border: 2px solid #e2e8f0;
-        }
-
-        .block {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             color: white;
-            font-size: 14px;
+            border-color: white;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        .x-block { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .y-block { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-        .number-block { 
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            color: #2d3748;
-            width: 20px; 
-            height: 20px; 
-            border-radius: 50%;
-        }
-        .constant-block { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #2d3748; }
 
-        .question-selector {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 25px 0 35px 0;
-            flex-wrap: wrap;
-        }
 
-        .question-btn {
-            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 15px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
-            min-width: 200px;
-        }
-
-        .question-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
-        }
-
-        .question-btn.active {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
-        }
-
-        .simulation-area {
-            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 50%, #fff5f5 100%);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 20px;
-            min-height: 400px;
-            border: 2px solid #e2e8f0;
-        }
-
-        .step {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: white;
-            border-radius: 12px;
-            border-left: 5px solid #4299e1;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
-        }
-
-        .step.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .step-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #2d3748;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .step-number {
-            background: #4299e1;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .expression {
-            font-size: 1.8rem;
-            text-align: center;
-            margin: 25px 0;
+        .info-panel {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            border-radius: 20px;
             padding: 25px;
-            background: #f0f8ff;
-            border-radius: 20px;
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
-            font-weight: 600;
-            line-height: 1.8;
-            border: 3px solid #4ecdc4;
-        }
-
-        .math-fraction {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 8px;
-            vertical-align: middle;
-        }
-
-        .math-numerator, .math-denominator {
-            padding: 4px 8px;
-            font-size: 1.1rem;
-        }
-
-        .math-fraction-line {
-            width: 100%;
-            height: 2px;
-            background: #2d3748;
-            margin: 2px 0;
-            min-width: 60px;
-        }
-
-        .math-operator {
-            font-size: 1.8rem;
-            margin: 0 12px;
-            color: #e53e3e;
-            font-weight: 600;
-        }
-
-        .visual-blocks {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-
-        .fraction-visual {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 10px;
-        }
-
-        .numerator, .denominator {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-            padding: 10px;
-            min-height: 40px;
-            justify-content: center;
-        }
-
-        .fraction-line {
-            width: 100%;
-            height: 3px;
-            background: #2d3748;
-            margin: 5px 0;
-        }
-
-        .operator {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #e53e3e;
-            margin: 0 15px;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-
-        .control-btn {
-            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             color: white;
-            border: none;
-            padding: 10px 20px;
+        }
+
+        .info-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .info-content {
+            display: grid;
+            gap: 15px;
+        }
+
+        .info-item {
+            background: rgba(255,255,255,0.15);
+            padding: 15px;
             border-radius: 12px;
-            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-label {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .info-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            opacity: 0.95;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .flashcard {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-weight: 500;
-            box-shadow: 0 3px 12px rgba(108, 92, 231, 0.3);
-            min-width: 120px;
-        }
-
-        .control-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
-        }
-
-        .control-btn:disabled {
-            background: linear-gradient(135deg, #bdbdbd 0%, #e0e0e0 100%);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: 0 2px 8px rgba(189, 189, 189, 0.2);
-        }
-
-        .practice-btn {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%) !important;
-            box-shadow: 0 3px 12px rgba(255, 154, 158, 0.3) !important;
-        }
-
-        .practice-btn:hover {
-            box-shadow: 0 5px 15px rgba(255, 154, 158, 0.4) !important;
-        }
-
-        .explanation {
-            background: #e6fffa;
-            border: 2px solid #81e6d9;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            color: #234e52;
-        }
-
-        .tips-section {
-            background: linear-gradient(135deg, #fff9e6 0%, #f0f8ff 100%);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 25px;
-            border: 2px solid #ffd700;
-        }
-
-        .tips-header {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #2d3748;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .tips-content {
-            display: flex;
-            justify-content: space-around;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .tip-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: white;
-            padding: 12px 16px;
-            border-radius: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #2d3748;
-            flex: 1;
-            min-width: 200px;
-            justify-content: flex-start;
-        }
-
-        .tip-icon {
-            font-size: 1.2rem;
-            flex-shrink: 0;
-            width: 24px;
-            text-align: center;
-        }
-
-        .highlight {
-            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-            padding: 3px 8px;
-            border-radius: 6px;
-            animation: glow 2s infinite;
-            font-weight: 600;
-            color: #2d3748;
-            border: 2px solid #f6ad55;
-        }
-
-        .highlight-red {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 6px;
-            animation: pulse 1.5s infinite;
-            font-weight: 600;
-        }
-
-        .highlight-green {
-            background: linear-gradient(135deg, #48bb78 0%, #68d391 100%);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 6px;
-            animation: bounce 2s infinite;
-            font-weight: 600;
-        }
-
-        .highlight-blue {
-            background: linear-gradient(135deg, #4299e1 0%, #63b3ed 100%);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 6px;
-            animation: shake 2s infinite;
-            font-weight: 600;
-        }
-
-        @keyframes glow {
-            0%, 100% { 
-                box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-                transform: scale(1);
-            }
-            50% { 
-                box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.03); }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-2px); }
-            75% { transform: translateX(2px); }
-        }
-
-        .visual-step {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 15px 0;
-            border: 2px solid #e2e8f0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .visual-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .arrow {
-            font-size: 2rem;
-            color: #4299e1;
-            margin: 10px 20px;
-            animation: moveRight 2s infinite;
-        }
-
-        @keyframes moveRight {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(10px); }
-        }
-
-        .factor-box {
-            display: inline-block;
-            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
-            border: 2px solid #4fd1c7;
-            border-radius: 10px;
-            padding: 8px 12px;
-            margin: 5px;
-            font-weight: 600;
-            color: #234e52;
-        }
-
-        .cancel-line {
+            min-height: 320px;
             position: relative;
-            display: inline-block;
         }
 
-        .cancel-line::after {
+        .flashcard::before {
             content: '';
             position: absolute;
-            top: 50%;
+            top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: #e53e3e;
-            transform: rotate(-15deg);
-            animation: drawLine 1s ease-in-out;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        @keyframes drawLine {
-            from { width: 0; }
-            to { width: 100%; }
+        .flashcard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
 
-        .step-visual {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-            flex-wrap: wrap;
+        .flashcard:hover::before {
+            opacity: 1;
         }
 
-        .fraction-display {
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            padding: 25px;
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            background: #f7fafc;
-            border-radius: 10px;
-            padding: 15px;
-            border: 2px solid #cbd5e0;
-            min-width: 120px;
+            background: white;
+            border-radius: 15px;
         }
 
-        .numerator-display, .denominator-display {
-            padding: 8px 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
+        .card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
             text-align: center;
-            min-height: 30px;
+            line-height: 1.3;
+        }
+
+        .card-back .card-title {
+            color: white;
+        }
+
+        .formula {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: center;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .card-back .formula {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .example {
+            background: #f8f9fa;
+            color: #495057;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+        .card-back .example {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+
+
+
+        .quiz-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .quiz-section > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .quiz-title {
+            font-size: 2.2rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 10px;
         }
 
-        .fraction-line-display {
+        .quiz-title::before {
+            content: '🧠';
+            font-size: 2rem;
+        }
+
+        .quiz-question {
+            background: rgba(255,255,255,0.95);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: #2c3e50;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .quiz-option {
+            padding: 18px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            background: rgba(255,255,255,0.9);
+            color: #2c3e50;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
-            height: 3px;
-            background: #2d3748;
-            margin: 8px 0;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
         }
 
-        .operation-symbol {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #e53e3e;
-            margin: 0 15px;
-            animation: pulse 2s infinite;
+        .quiz-option:hover::before {
+            left: 100%;
         }
 
-        .explanation-box {
-            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
-            border: 2px solid #fc8181;
-            border-radius: 12px;
-            padding: 15px;
-            margin: 15px 0;
+        .quiz-option:hover {
+            border-color: #4ecdc4;
+            background: rgba(78, 205, 196, 0.1);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
 
-        .key-point {
-            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
-            border-left: 4px solid #38b2ac;
-            padding: 12px 15px;
-            margin: 10px 0;
-            border-radius: 0 8px 8px 0;
+        .quiz-option.selected {
+            border-color: #4ecdc4;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(78, 205, 196, 0.4);
+        }
+
+        .quiz-option.correct {
+            border-color: #28a745;
+            background: #28a745;
+            color: white;
+            animation: correctBounce 0.8s ease;
+        }
+
+        .quiz-option.incorrect {
+            border-color: #dc3545;
+            background: #dc3545;
+            color: white;
+            animation: incorrectShake 0.6s ease;
+        }
+
+        @keyframes correctBounce {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1) rotate(5deg); }
+            50% { transform: scale(1.05) rotate(-3deg); }
+            75% { transform: scale(1.08) rotate(2deg); }
+            100% { transform: scale(1.05) rotate(0deg); }
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0) scale(1); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px) scale(1.02); }
+            20%, 40%, 60%, 80% { transform: translateX(8px) scale(1.02); }
+        }
+
+        .quiz-progress {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 16.67%;
+        }
+
+        .progress-text {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
             font-weight: 500;
         }
 
-        .fade-in {
-            animation: fadeIn 0.8s ease-in;
+        .quiz-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd8;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .quiz-result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .result-correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .result-incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
 
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                padding: 15px;
-                margin: 0;
-                border-radius: 15px;
-            }
-            
             .header h1 {
-                font-size: 1.8rem;
-                line-height: 1.3;
-            }
-            
-            .header p {
-                font-size: 1rem;
-            }
-            
-            .legend {
-                flex-direction: column;
-                gap: 10px;
-                align-items: center;
-            }
-            
-            .legend-item {
-                width: 100%;
-                max-width: 280px;
-                justify-content: center;
-                padding: 8px 15px;
-            }
-            
-            .question-selector {
-                flex-direction: column;
-                gap: 10px;
-                align-items: center;
-            }
-            
-            .question-btn {
-                width: 100%;
-                max-width: 300px;
-                padding: 15px 20px;
-                font-size: 0.9rem;
-            }
-            
-            .expression {
-                font-size: 1rem;
-                padding: 15px;
-                line-height: 1.6;
-            }
-            
-            .math-fraction {
-                margin: 0 4px;
-            }
-            
-            .math-numerator, .math-denominator {
-                font-size: 0.9rem;
-                padding: 2px 6px;
-            }
-            
-            .math-operator {
-                font-size: 1.4rem;
-                margin: 0 8px;
-            }
-            
-            .controls {
-                flex-direction: column;
-                gap: 8px;
-                align-items: center;
-            }
-            
-            .control-btn {
-                width: 100%;
-                max-width: 200px;
-                padding: 12px 16px;
-                font-size: 0.9rem;
-            }
-            
-            .simulation-area {
-                padding: 15px;
-                min-height: 300px;
-            }
-            
-            .step {
-                padding: 15px;
-                margin-bottom: 20px;
-            }
-            
-            .step-title {
-                font-size: 1.2rem;
-                flex-direction: column;
-                text-align: center;
-                gap: 8px;
-            }
-            
-            .step-number {
-                align-self: center;
-            }
-            
-            .visual-step {
-                padding: 15px;
-            }
-            
-            .step-visual {
-                flex-direction: column;
-                gap: 10px;
-                align-items: center;
-            }
-            
-            .fraction-display {
-                min-width: 100px;
-                width: 100%;
-                max-width: 200px;
-            }
-            
-            .operation-symbol {
                 font-size: 2rem;
-                margin: 10px 0;
             }
             
-            .arrow {
-                font-size: 1.5rem;
-                margin: 5px 10px;
-                transform: rotate(90deg);
+            .flashcard-container {
+                grid-template-columns: 1fr;
             }
             
-            .tips-content {
-                flex-direction: column;
-                gap: 10px;
+            .card-front, .card-back {
+                padding: 20px;
             }
             
-            .tip-item {
-                width: 100%;
-                min-width: auto;
-                padding: 10px 12px;
-                font-size: 0.85rem;
-            }
-            
-            .visual-title {
-                font-size: 1rem;
-                text-align: center;
-            }
-            
-            .key-point {
-                font-size: 0.9rem;
-                padding: 10px 12px;
-            }
-            
-            .explanation-box {
-                font-size: 0.9rem;
-                padding: 12px;
-            }
-            
-            .factor-box {
-                font-size: 0.8rem;
-                padding: 6px 8px;
-                margin: 3px;
-            }
-            
-            .numerator-display, .denominator-display {
-                font-size: 0.9rem;
-                padding: 6px 8px;
-                min-height: 25px;
-            }
-            
-            .language-toggle {
-                flex-direction: row;
-                justify-content: center;
-                gap: 5px;
-            }
-            
-            .lang-btn {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .expression {
-                font-size: 0.9rem;
-                padding: 12px;
-            }
-            
-            .math-numerator, .math-denominator {
-                font-size: 0.8rem;
-            }
-            
-            .math-operator {
-                font-size: 1.2rem;
-                margin: 0 6px;
-            }
-            
-            .step-title {
-                font-size: 1.1rem;
-            }
-            
-            .operation-symbol {
-                font-size: 1.8rem;
-            }
-            
-            .fraction-display {
-                max-width: 150px;
+            .quiz-section {
+                padding: 20px;
             }
         }
     </style>
@@ -796,684 +490,346 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧮 <span class="malay">Gabungan Operasi Ungkapan Algebra</span> <span class="english">/ Algebraic Expression Operations</span></h1>
-            <p><span class="malay">Matematik Tingkatan 2, Bab 2</span> <span class="english">/ Form 2 Mathematics, Chapter 2</span></p>
-            <div class="language-toggle">
-                <button class="lang-btn active" onclick="toggleLanguage('ms')">Bahasa Malaysia</button>
-                <button class="lang-btn" onclick="toggleLanguage('en')">English</button>
+            <h1 id="main-title">Flashcard Poligon</h1>
+            <p id="subtitle">Tingkatan 2 - Bab 4.2: Sudut dan Sisi Poligon</p>
+        </div>
+
+        <div class="language-toggle">
+            <button class="lang-btn active" onclick="setLanguage('ms')">Bahasa Melayu</button>
+            <button class="lang-btn" onclick="setLanguage('en')">English</button>
+        </div>
+
+        <div class="flashcard-container">
+            <!-- Card 1: Interior Angles -->
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-title" data-ms="Sudut Pedalaman Poligon" data-en="Interior Angles of Polygon">Sudut Pedalaman Poligon</div>
+                        <div class="formula" data-ms="Jumlah sudut pedalaman = (n - 2) × 180°" data-en="Sum of interior angles = (n - 2) × 180°">Jumlah sudut pedalaman = (n - 2) × 180°</div>
+                        <div class="example" data-ms="n = bilangan sisi poligon" data-en="n = number of sides of polygon">n = bilangan sisi poligon</div>
+
+                    </div>
+                    <div class="card-back">
+                        <div class="card-title" data-ms="Contoh: Pentagon (5 sisi)" data-en="Example: Pentagon (5 sides)">Contoh: Pentagon (5 sisi)</div>
+                        <div class="formula">n = 5</div>
+                        <div class="example" data-ms="Jumlah sudut pedalaman = (5 - 2) × 180°<br>= 3 × 180°<br>= 540°" data-en="Sum of interior angles = (5 - 2) × 180°<br>= 3 × 180°<br>= 540°">Jumlah sudut pedalaman = (5 - 2) × 180°<br>= 3 × 180°<br>= 540°</div>
+                        <div class="flip-hint" data-ms="Klik untuk kembali" data-en="Click to return">Klik untuk kembali</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Exterior Angles -->
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-title" data-ms="Sudut Peluaran Poligon" data-en="Exterior Angles of Polygon">Sudut Peluaran Poligon</div>
+                        <div class="formula" data-ms="Jumlah sudut peluaran = 360°" data-en="Sum of exterior angles = 360°">Jumlah sudut peluaran = 360°</div>
+                        <div class="example" data-ms="Untuk semua poligon, jumlah sudut peluaran sentiasa 360°" data-en="For all polygons, sum of exterior angles is always 360°">Untuk semua poligon, jumlah sudut peluaran sentiasa 360°</div>
+
+                    </div>
+                    <div class="card-back">
+                        <div class="card-title" data-ms="Contoh: Hexagon Sekata" data-en="Example: Regular Hexagon">Contoh: Hexagon Sekata</div>
+                        <div class="formula">n = 6</div>
+                        <div class="example" data-ms="Setiap sudut peluaran = 360° ÷ 6<br>= 60°<br><br>Jumlah = 6 × 60° = 360°" data-en="Each exterior angle = 360° ÷ 6<br>= 60°<br><br>Total = 6 × 60° = 360°">Setiap sudut peluaran = 360° ÷ 6<br>= 60°<br><br>Jumlah = 6 × 60° = 360°</div>
+                        <div class="flip-hint" data-ms="Klik untuk kembali" data-en="Click to return">Klik untuk kembali</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Finding Number of Sides -->
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-title" data-ms="Mencari Bilangan Sisi" data-en="Finding Number of Sides">Mencari Bilangan Sisi</div>
+                        <div class="formula" data-ms="n = (Jumlah sudut pedalaman ÷ 180°) + 2" data-en="n = (Sum of interior angles ÷ 180°) + 2">n = (Jumlah sudut pedalaman ÷ 180°) + 2</div>
+                        <div class="example" data-ms="atau n = 360° ÷ sudut peluaran (untuk poligon sekata)" data-en="or n = 360° ÷ exterior angle (for regular polygon)">atau n = 360° ÷ sudut peluaran (untuk poligon sekata)</div>
+
+                    </div>
+                    <div class="card-back">
+                        <div class="card-title" data-ms="Contoh: Jumlah sudut pedalaman = 1080°" data-en="Example: Sum of interior angles = 1080°">Contoh: Jumlah sudut pedalaman = 1080°</div>
+                        <div class="formula">1080° ÷ 180° = 6</div>
+                        <div class="example" data-ms="n = 6 + 2 = 8<br><br>Poligon tersebut ialah oktagon (8 sisi)" data-en="n = 6 + 2 = 8<br><br>The polygon is an octagon (8 sides)">n = 6 + 2 = 8<br><br>Poligon tersebut ialah oktagon (8 sisi)</div>
+                        <div class="flip-hint" data-ms="Klik untuk kembali" data-en="Click to return">Klik untuk kembali</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Interior Angle of Regular Polygon -->
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-title" data-ms="Sudut Pedalaman Poligon Sekata" data-en="Interior Angle of Regular Polygon">Sudut Pedalaman Poligon Sekata</div>
+                        <div class="formula" data-ms="Sudut pedalaman = (n - 2) × 180° ÷ n" data-en="Interior angle = (n - 2) × 180° ÷ n">Sudut pedalaman = (n - 2) × 180° ÷ n</div>
+                        <div class="example" data-ms="Untuk poligon sekata, semua sudut pedalaman adalah sama" data-en="For regular polygon, all interior angles are equal">Untuk poligon sekata, semua sudut pedalaman adalah sama</div>
+
+                    </div>
+                    <div class="card-back">
+                        <div class="card-title" data-ms="Contoh: Hexagon Sekata (6 sisi)" data-en="Example: Regular Hexagon (6 sides)">Contoh: Hexagon Sekata (6 sisi)</div>
+                        <div class="formula">n = 6</div>
+                        <div class="example" data-ms="Sudut pedalaman = (6 - 2) × 180° ÷ 6<br>= 4 × 180° ÷ 6<br>= 720° ÷ 6 = 120°" data-en="Interior angle = (6 - 2) × 180° ÷ 6<br>= 4 × 180° ÷ 6<br>= 720° ÷ 6 = 120°">Sudut pedalaman = (6 - 2) × 180° ÷ 6<br>= 4 × 180° ÷ 6<br>= 720° ÷ 6 = 120°</div>
+                        <div class="flip-hint" data-ms="Klik untuk kembali" data-en="Click to return">Klik untuk kembali</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Exterior Angle of Regular Polygon -->
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-title" data-ms="Sudut Peluaran Poligon Sekata" data-en="Exterior Angle of Regular Polygon">Sudut Peluaran Poligon Sekata</div>
+                        <div class="formula" data-ms="Sudut peluaran = 360° ÷ n" data-en="Exterior angle = 360° ÷ n">Sudut peluaran = 360° ÷ n</div>
+                        <div class="example" data-ms="Untuk poligon sekata, semua sudut peluaran adalah sama" data-en="For regular polygon, all exterior angles are equal">Untuk poligon sekata, semua sudut peluaran adalah sama</div>
+
+                    </div>
+                    <div class="card-back">
+                        <div class="card-title" data-ms="Contoh: Oktagon Sekata (8 sisi)" data-en="Example: Regular Octagon (8 sides)">Contoh: Oktagon Sekata (8 sisi)</div>
+                        <div class="formula">n = 8</div>
+                        <div class="example" data-ms="Sudut peluaran = 360° ÷ 8<br>= 45°<br><br>Semua 8 sudut peluaran = 45°" data-en="Exterior angle = 360° ÷ 8<br>= 45°<br><br>All 8 exterior angles = 45°">Sudut peluaran = 360° ÷ 8<br>= 45°<br><br>Semua 8 sudut peluaran = 45°</div>
+                        <div class="flip-hint" data-ms="Klik untuk kembali" data-en="Click to return">Klik untuk kembali</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6: Polygon Names -->
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-title" data-ms="Nama-nama Poligon" data-en="Polygon Names">Nama-nama Poligon</div>
+                        <div class="formula" data-ms="Mengikut Bilangan Sisi" data-en="According to Number of Sides">Mengikut Bilangan Sisi</div>
+                        <div class="example" data-ms="3 sisi = Segitiga<br>4 sisi = Segiempat<br>5 sisi = Pentagon<br>6 sisi = Hexagon" data-en="3 sides = Triangle<br>4 sides = Quadrilateral<br>5 sides = Pentagon<br>6 sides = Hexagon">3 sisi = Segitiga<br>4 sisi = Segiempat<br>5 sisi = Pentagon<br>6 sisi = Hexagon</div>
+
+                    </div>
+                    <div class="card-back">
+                        <div class="card-title" data-ms="Nama Poligon Lanjutan" data-en="More Polygon Names">Nama Poligon Lanjutan</div>
+                        <div class="formula" data-ms="7 sisi = Heptagon<br>8 sisi = Oktagon" data-en="7 sides = Heptagon<br>8 sides = Octagon">7 sisi = Heptagon<br>8 sisi = Oktagon</div>
+                        <div class="example" data-ms="9 sisi = Nonagon<br>10 sisi = Dekagon<br>12 sisi = Dodekagon" data-en="9 sides = Nonagon<br>10 sides = Decagon<br>12 sides = Dodecagon">9 sisi = Nonagon<br>10 sisi = Dekagon<br>12 sisi = Dodekagon</div>
+                        <div class="flip-hint" data-ms="Klik untuk kembali" data-en="Click to return">Klik untuk kembali</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="question-selector">
-            <button class="question-btn active" onclick="selectQuestion(1)">
-                <span class="malay">Soalan (i): Penambahan Pecahan</span>
-                <span class="english hidden">Question (i): Addition of Fractions</span>
-            </button>
-            <button class="question-btn" onclick="selectQuestion(2)">
-                <span class="malay">Soalan (ii): Pembahagian Pecahan</span>
-                <span class="english hidden">Question (ii): Division of Fractions</span>
-            </button>
-        </div>
-
-
-
-        <div class="controls">
-            <button class="control-btn" id="prevBtn" onclick="previousStep()" disabled>
-                ⬅️ <span class="malay">Sebelum</span><span class="english hidden">Previous</span>
-            </button>
-            <button class="control-btn" id="nextBtn" onclick="nextStep()">
-                <span class="malay">Seterusnya</span><span class="english hidden">Next</span> ➡️
-            </button>
-            <button class="control-btn" id="autoPlayBtn" onclick="toggleAutoPlay()">
-                ▶️ <span class="malay">Auto</span><span class="english hidden">Auto</span>
-            </button>
-            <button class="control-btn" onclick="resetSimulation()">
-                🔄 <span class="malay">Reset</span><span class="english hidden">Reset</span>
-            </button>
-            <button class="control-btn practice-btn" onclick="showPractice()">
-                📝 <span class="malay">Latihan</span><span class="english hidden">Practice</span>
-            </button>
-        </div>
-
-        <div class="simulation-area" id="simulationArea">
-            <!-- Kandungan simulasi akan dipaparkan di sini -->
-        </div>
-
-        <div class="tips-section">
-            <div class="tips-header">
-                💡 <span class="malay">Tips Berguna</span><span class="english hidden">Useful Tips</span>
-            </div>
-            <div class="tips-content">
-                <div class="tip-item">
-                    <span class="tip-icon">🔍</span>
-                    <span class="malay">Sentiasa faktorkan terlebih dahulu sebelum operasi</span>
-                    <span class="english hidden">Always factorize first before operations</span>
+        <div class="quiz-section">
+            <div class="quiz-title" data-ms="Kuiz Latihan" data-en="Practice Quiz">Kuiz Latihan</div>
+            <div id="quiz-container">
+                <div class="quiz-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-text" id="progress-text">Soalan 1 daripada 6</div>
                 </div>
-                <div class="tip-item">
-                    <span class="tip-icon">⚖️</span>
-                    <span class="malay">Cari penyebut sepunya untuk penambahan/penolakan</span>
-                    <span class="english hidden">Find common denominator for addition/subtraction</span>
+                <div class="quiz-question" id="question-text">
+                    Berapakah jumlah sudut pedalaman bagi sebuah heptagon (7 sisi)?
                 </div>
-                <div class="tip-item">
-                    <span class="tip-icon">🔄</span>
-                    <span class="malay">Pembahagian = pendaraban dengan songsang</span>
-                    <span class="english hidden">Division = multiplication by reciprocal</span>
+                <div class="quiz-options" id="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this, false)">720°</div>
+                    <div class="quiz-option" onclick="selectOption(this, true)">900°</div>
+                    <div class="quiz-option" onclick="selectOption(this, false)">1080°</div>
+                    <div class="quiz-option" onclick="selectOption(this, false)">1260°</div>
                 </div>
+                <div class="quiz-buttons">
+                    <button class="btn btn-primary" onclick="checkAnswer()" id="check-btn" data-ms="Semak Jawapan" data-en="Check Answer">Semak Jawapan</button>
+                    <button class="btn btn-secondary" onclick="nextQuestion()" id="next-btn" data-ms="Soalan Seterusnya" data-en="Next Question">Soalan Seterusnya</button>
+                </div>
+                <div id="quiz-result"></div>
             </div>
         </div>
-
     </div>
 
     <script>
-        let currentQuestion = 1;
-        let currentStep = 0;
-        let maxSteps = 0;
         let currentLanguage = 'ms';
-        let autoPlayInterval = null;
-        let isAutoPlaying = false;
+        let selectedOption = null;
+        let currentQuestionIndex = 0;
 
         const questions = {
-            1: {
-                title: {
-                    ms: "Penambahan Pecahan Algebra",
-                    en: "Addition of Algebraic Fractions"
+            ms: [
+                {
+                    question: "Berapakah jumlah sudut pedalaman bagi sebuah heptagon (7 sisi)?",
+                    options: ["720°", "900°", "1080°", "1260°"],
+                    correct: 1,
+                    explanation: "Jumlah sudut pedalaman = (7-2) × 180° = 5 × 180° = 900°"
                 },
-                mathExpression: `<div class="math-fraction"><div class="math-numerator">xy - 2y</div><div class="math-fraction-line"></div><div class="math-denominator">3x - 6</div></div><span class="math-operator">+</span><div class="math-fraction"><div class="math-numerator">x² - y²</div><div class="math-fraction-line"></div><div class="math-denominator">5xy + 5y²</div></div>`,
-                steps: [
-                    {
-                        title: {
-                            ms: "Soalan Asal",
-                            en: "Original Question"
-                        },
-                        expression: `<div class="math-fraction"><div class="math-numerator">xy - 2y</div><div class="math-fraction-line"></div><div class="math-denominator">3x - 6</div></div><span class="math-operator">+</span><div class="math-fraction"><div class="math-numerator">x² - y²</div><div class="math-fraction-line"></div><div class="math-denominator">5xy + 5y²</div></div>`,
-                        visual: "original1",
-                        explanation: {
-                            ms: "Kita perlu menyelesaikan penambahan dua pecahan algebra ini langkah demi langkah.",
-                            en: "We need to solve this addition of two algebraic fractions step by step."
-                        }
-                    },
-                    {
-                        title: {
-                            ms: "Langkah 1: Faktorkan Pengangka dan Penyebut",
-                            en: "Step 1: Factorize Numerator and Denominator"
-                        },
-                        expression: `<div class="math-fraction"><div class="math-numerator">y(x - 2)</div><div class="math-fraction-line"></div><div class="math-denominator">3(x - 2)</div></div><span class="math-operator">+</span><div class="math-fraction"><div class="math-numerator">(x - y)(x + y)</div><div class="math-fraction-line"></div><div class="math-denominator">5y(x + y)</div></div>`,
-                        visual: "factor1",
-                        explanation: {
-                            ms: "Faktorkan setiap bahagian: xy - 2y = y(x - 2), 3x - 6 = 3(x - 2), x² - y² = (x - y)(x + y), 5xy + 5y² = 5y(x + y)",
-                            en: "Factor each part: xy - 2y = y(x - 2), 3x - 6 = 3(x - 2), x² - y² = (x - y)(x + y), 5xy + 5y² = 5y(x + y)"
-                        }
-                    },
-                    {
-                        title: {
-                            ms: "Langkah 2: Permudahkan Pecahan",
-                            en: "Step 2: Simplify Fractions"
-                        },
-                        expression: `<div class="math-fraction"><div class="math-numerator">y</div><div class="math-fraction-line"></div><div class="math-denominator">3</div></div><span class="math-operator">+</span><div class="math-fraction"><div class="math-numerator">x - y</div><div class="math-fraction-line"></div><div class="math-denominator">5y</div></div>`,
-                        visual: "simplify1",
-                        explanation: {
-                            ms: "Batalkan faktor sama: (x - 2) dalam pecahan pertama, (x + y) dalam pecahan kedua",
-                            en: "Cancel common factors: (x - 2) in first fraction, (x + y) in second fraction"
-                        }
-                    },
-                    {
-                        title: {
-                            ms: "Langkah 3: Cari Penyebut Sepunya Terkecil (PST)",
-                            en: "Step 3: Find Lowest Common Multiple (LCM)"
-                        },
-                        expression: `<div class="math-fraction"><div class="math-numerator">5y²</div><div class="math-fraction-line"></div><div class="math-denominator">15y</div></div><span class="math-operator">+</span><div class="math-fraction"><div class="math-numerator">3(x - y)</div><div class="math-fraction-line"></div><div class="math-denominator">15y</div></div>`,
-                        visual: "lcm1",
-                        explanation: {
-                            ms: "PST untuk 3 dan 5y adalah 15y. Darabkan pengangka dan penyebut dengan faktor yang sesuai.",
-                            en: "LCM of 3 and 5y is 15y. Multiply numerator and denominator by appropriate factors."
-                        }
-                    },
-                    {
-                        title: {
-                            ms: "Langkah 4: Tambahkan Pecahan",
-                            en: "Step 4: Add Fractions"
-                        },
-                        expression: `<div class="math-fraction"><div class="math-numerator">5y² + 3x - 3y</div><div class="math-fraction-line"></div><div class="math-denominator">15y</div></div>`,
-                        visual: "add1",
-                        explanation: {
-                            ms: "Gabungkan pengangka: 5y² + 3(x - y) = 5y² + 3x - 3y",
-                            en: "Combine numerators: 5y² + 3(x - y) = 5y² + 3x - 3y"
-                        }
-                    },
-                    {
-                        title: {
-                            ms: "Jawapan Akhir",
-                            en: "Final Answer"
-                        },
-                        expression: `<div class="math-fraction"><div class="math-numerator">3x + 5y² - 3y</div><div class="math-fraction-line"></div><div class="math-denominator">15y</div></div>`,
-                        visual: "final1",
-                        explanation: {
-                            ms: "Susun semula sebutan dalam pengangka untuk mendapat jawapan akhir yang kemas.",
-                            en: "Rearrange terms in numerator to get the neat final answer."
-                        }
-                    }
-                ]
-            },
-            2: {
-                title: {
-                    ms: "Pembahagian Pecahan Algebra",
-                    en: "Division of Algebraic Fractions"
+                {
+                    question: "Jika jumlah sudut pedalaman sebuah poligon ialah 1440°, berapakah bilangan sisinya?",
+                    options: ["8 sisi", "9 sisi", "10 sisi", "12 sisi"],
+                    correct: 2,
+                    explanation: "1440° ÷ 180° = 8, jadi n = 8 + 2 = 10 sisi"
                 },
-                mathExpression: `<div class="math-fraction"><div class="math-numerator">4a² - b²</div><div class="math-fraction-line"></div><div class="math-denominator">c - d</div></div><span class="math-operator">÷</span><div class="math-fraction"><div class="math-numerator">6a - 3b</div><div class="math-fraction-line"></div><div class="math-denominator">2c - 2d</div></div>`,
-                steps: [
-                    {
-                        title: {
-                            ms: "Soalan Asal",
-                            en: "Original Question"
-                        },
-                        expression: `<div class="math-fraction"><div class="math-numerator">4a² - b²</div><div class="math-fraction-line"></div><div class="math-denominator">c - d</div></div><span class="math-operator">÷</span><div class="math-fraction"><div class="math-numerator">6a - 3b</div><div class="math-fraction-line"></div><div class="math-denominator">2c - 2d</div></div>`,
-                        visual: "original2",
-                        explanation: {
-                            ms: "Kita perlu menyelesaikan pembahagian dua pecahan algebra ini.",
-                            en: "We need to solve this division of two algebraic fractions."
-                        }
-                    },
-                    {
-                        title: "Langkah 1: Tukar Pembahagian kepada Pendaraban",
-                        expression: "((4a² - b²)/(c - d)) × ((2c - 2d)/(6a - 3b))",
-                        visual: "division2",
-                        explanation: "Pembahagian pecahan = pendaraban dengan songsang pecahan kedua"
-                    },
-                    {
-                        title: "Langkah 2: Faktorkan Semua Sebutan",
-                        expression: "((2a - b)(2a + b)/(c - d)) × (2(c - d)/(3(2a - b)))",
-                        visual: "factor2",
-                        explanation: "4a² - b² = (2a - b)(2a + b), 6a - 3b = 3(2a - b), 2c - 2d = 2(c - d)"
-                    },
-                    {
-                        title: "Langkah 3: Susun Semula untuk Mudah Dibatalkan",
-                        expression: "((2a - b)(2a + b) × 2(c - d))/((c - d) × 3(2a - b))",
-                        visual: "rearrange2",
-                        explanation: "Susun dalam bentuk pecahan tunggal untuk mudah melihat faktor yang boleh dibatalkan"
-                    },
-                    {
-                        title: "Langkah 4: Batalkan Faktor Sama",
-                        expression: "(2a + b) × 2 / 3 = 2(2a + b)/3",
-                        visual: "cancel2",
-                        explanation: "Batalkan (2a - b) dan (c - d) yang muncul dalam pengangka dan penyebut"
-                    },
-                    {
-                        title: "Jawapan Akhir",
-                        expression: "(4a + 2b)/3",
-                        visual: "final2",
-                        explanation: "Kembangkan 2(2a + b) = 4a + 2b untuk mendapat jawapan akhir"
-                    }
-                ]
-            }
+                {
+                    question: "Berapakah sudut peluaran bagi sebuah pentagon sekata?",
+                    options: ["60°", "72°", "90°", "108°"],
+                    correct: 1,
+                    explanation: "Sudut peluaran = 360° ÷ 5 = 72°"
+                },
+                {
+                    question: "Sebuah poligon sekata mempunyai sudut peluaran 40°. Berapakah bilangan sisinya?",
+                    options: ["8 sisi", "9 sisi", "10 sisi", "12 sisi"],
+                    correct: 1,
+                    explanation: "Bilangan sisi = 360° ÷ 40° = 9 sisi"
+                },
+                {
+                    question: "Berapakah sudut pedalaman bagi sebuah oktagon sekata?",
+                    options: ["120°", "135°", "140°", "150°"],
+                    correct: 1,
+                    explanation: "Sudut pedalaman = [(8-2) × 180°] ÷ 8 = 1080° ÷ 8 = 135°"
+                },
+                {
+                    question: "Jumlah sudut peluaran bagi mana-mana poligon adalah:",
+                    options: ["180°", "270°", "360°", "Bergantung pada bilangan sisi"],
+                    correct: 2,
+                    explanation: "Jumlah sudut peluaran sentiasa 360° untuk semua poligon"
+                }
+            ],
+            en: [
+                {
+                    question: "What is the sum of interior angles of a heptagon (7 sides)?",
+                    options: ["720°", "900°", "1080°", "1260°"],
+                    correct: 1,
+                    explanation: "Sum of interior angles = (7-2) × 180° = 5 × 180° = 900°"
+                },
+                {
+                    question: "If the sum of interior angles of a polygon is 1440°, how many sides does it have?",
+                    options: ["8 sides", "9 sides", "10 sides", "12 sides"],
+                    correct: 2,
+                    explanation: "1440° ÷ 180° = 8, so n = 8 + 2 = 10 sides"
+                },
+                {
+                    question: "What is the exterior angle of a regular pentagon?",
+                    options: ["60°", "72°", "90°", "108°"],
+                    correct: 1,
+                    explanation: "Exterior angle = 360° ÷ 5 = 72°"
+                },
+                {
+                    question: "A regular polygon has an exterior angle of 40°. How many sides does it have?",
+                    options: ["8 sides", "9 sides", "10 sides", "12 sides"],
+                    correct: 1,
+                    explanation: "Number of sides = 360° ÷ 40° = 9 sides"
+                },
+                {
+                    question: "What is the interior angle of a regular octagon?",
+                    options: ["120°", "135°", "140°", "150°"],
+                    correct: 1,
+                    explanation: "Interior angle = [(8-2) × 180°] ÷ 8 = 1080° ÷ 8 = 135°"
+                },
+                {
+                    question: "The sum of exterior angles of any polygon is:",
+                    options: ["180°", "270°", "360°", "Depends on number of sides"],
+                    correct: 2,
+                    explanation: "The sum of exterior angles is always 360° for all polygons"
+                }
+            ]
         };
 
-        function selectQuestion(questionNum) {
-            currentQuestion = questionNum;
-            currentStep = 0;
-            
-            // Update button states
-            document.querySelectorAll('.question-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            maxSteps = questions[questionNum].steps.length - 1;
-            updateSimulation();
-            updateControls();
-        }
-
-        function updateSimulation() {
-            const question = questions[currentQuestion];
-            const step = question.steps[currentStep];
-            
-            const simulationArea = document.getElementById('simulationArea');
-            
-            simulationArea.innerHTML = `
-                <div class="step active fade-in">
-                    <div class="step-title">
-                        <div class="step-number">${currentStep + 1}</div>
-                        ${typeof step.title === 'object' ? step.title[currentLanguage] : step.title}
-                    </div>
-                    <div class="expression">${step.expression}</div>
-                    
-                    ${generateStepVisualization(currentQuestion, currentStep)}
-
-                    <div class="explanation-box">
-                        💡 <strong><span class="malay">Penjelasan:</span><span class="english hidden">Explanation:</span></strong> ${typeof step.explanation === 'object' ? step.explanation[currentLanguage] : step.explanation}
-                    </div>
-                </div>
-            `;
-        }
-
-        function generateStepVisualization(questionNum, stepNum) {
-            const visualizations = {
-                1: { // Question 1 visualizations
-                    0: `
-                        <div class="visual-step">
-                            <div class="visual-title">🎯 <span class="malay">Lihat Soalan Asal</span><span class="english hidden">Look at Original Question</span></div>
-                            <div class="step-visual">
-                                <div class="fraction-display">
-                                    <div class="numerator-display"><span class="highlight">xy - 2y</span></div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display"><span class="highlight-blue">3x - 6</span></div>
-                                </div>
-                                <div class="operation-symbol">+</div>
-                                <div class="fraction-display">
-                                    <div class="numerator-display"><span class="highlight-green">x² - y²</span></div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display"><span class="highlight-red">5xy + 5y²</span></div>
-                                </div>
-                            </div>
-                            <div class="key-point">
-                                <span class="malay">🔍 Perhatikan: Setiap bahagian mempunyai warna berbeza untuk mudah diikuti</span>
-                                <span class="english hidden">🔍 Notice: Each part has different colors for easy tracking</span>
-                            </div>
-                        </div>
-                    `,
-                    1: `
-                        <div class="visual-step">
-                            <div class="visual-title">🔧 <span class="malay">Faktorkan Setiap Bahagian</span><span class="english hidden">Factor Each Part</span></div>
-                            <div class="step-visual">
-                                <div class="fraction-display">
-                                    <div class="numerator-display">
-                                        <span class="highlight">xy - 2y</span> <div class="arrow">→</div> <span class="factor-box">y(x - 2)</span>
-                                    </div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display">
-                                        <span class="highlight-blue">3x - 6</span> <div class="arrow">→</div> <span class="factor-box">3(x - 2)</span>
-                                    </div>
-                                </div>
-                                <div class="operation-symbol">+</div>
-                                <div class="fraction-display">
-                                    <div class="numerator-display">
-                                        <span class="highlight-green">x² - y²</span> <div class="arrow">→</div> <span class="factor-box">(x-y)(x+y)</span>
-                                    </div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display">
-                                        <span class="highlight-red">5xy + 5y²</span> <div class="arrow">→</div> <span class="factor-box">5y(x+y)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="key-point">
-                                <span class="malay">✨ Faktor sepunya: Cari faktor yang sama dalam pengangka dan penyebut</span>
-                                <span class="english hidden">✨ Common factors: Find same factors in numerator and denominator</span>
-                            </div>
-                        </div>
-                    `,
-                    2: `
-                        <div class="visual-step">
-                            <div class="visual-title">✂️ <span class="malay">Batalkan Faktor Sama</span><span class="english hidden">Cancel Common Factors</span></div>
-                            <div class="step-visual">
-                                <div class="fraction-display">
-                                    <div class="numerator-display">y<span class="cancel-line">(x - 2)</span></div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display">3<span class="cancel-line">(x - 2)</span></div>
-                                </div>
-                                <div class="operation-symbol">+</div>
-                                <div class="fraction-display">
-                                    <div class="numerator-display">(x-y)<span class="cancel-line">(x+y)</span></div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display">5y<span class="cancel-line">(x+y)</span></div>
-                                </div>
-                            </div>
-                            <div class="arrow">⬇️</div>
-                            <div class="step-visual">
-                                <div class="fraction-display">
-                                    <div class="numerator-display"><span class="highlight-green">y</span></div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display"><span class="highlight-green">3</span></div>
-                                </div>
-                                <div class="operation-symbol">+</div>
-                                <div class="fraction-display">
-                                    <div class="numerator-display"><span class="highlight-green">x - y</span></div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display"><span class="highlight-green">5y</span></div>
-                                </div>
-                            </div>
-                            <div class="key-point">
-                                <span class="malay">🎯 Hasil: Pecahan yang lebih mudah untuk ditambah!</span>
-                                <span class="english hidden">🎯 Result: Simpler fractions ready to add!</span>
-                            </div>
-                        </div>
-                    `,
-                    3: `
-                        <div class="visual-step">
-                            <div class="visual-title">🔄 <span class="malay">Cari Penyebut Sepunya (PST = 15y)</span><span class="english hidden">Find Common Denominator (LCM = 15y)</span></div>
-                            <div class="step-visual">
-                                <div class="fraction-display">
-                                    <div class="numerator-display">y × <span class="highlight">5y</span></div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display">3 × <span class="highlight">5y</span></div>
-                                </div>
-                                <div class="operation-symbol">+</div>
-                                <div class="fraction-display">
-                                    <div class="numerator-display">(x-y) × <span class="highlight-blue">3</span></div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display">5y × <span class="highlight-blue">3</span></div>
-                                </div>
-                            </div>
-                            <div class="arrow">⬇️</div>
-                            <div class="step-visual">
-                                <div class="fraction-display">
-                                    <div class="numerator-display"><span class="highlight-green">5y²</span></div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display"><span class="highlight-red">15y</span></div>
-                                </div>
-                                <div class="operation-symbol">+</div>
-                                <div class="fraction-display">
-                                    <div class="numerator-display"><span class="highlight-green">3(x-y)</span></div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display"><span class="highlight-red">15y</span></div>
-                                </div>
-                            </div>
-                            <div class="key-point">
-                                <span class="malay">⚖️ Penyebut sama: Sekarang boleh tambah pengangka!</span>
-                                <span class="english hidden">⚖️ Same denominator: Now we can add numerators!</span>
-                            </div>
-                        </div>
-                    `,
-                    4: `
-                        <div class="visual-step">
-                            <div class="visual-title">➕ <span class="malay">Tambahkan Pengangka</span><span class="english hidden">Add Numerators</span></div>
-                            <div class="step-visual">
-                                <div class="fraction-display">
-                                    <div class="numerator-display">
-                                        <span class="highlight">5y²</span> + <span class="highlight-blue">3(x-y)</span>
-                                    </div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display">15y</div>
-                                </div>
-                            </div>
-                            <div class="arrow">⬇️</div>
-                            <div class="step-visual">
-                                <div class="fraction-display">
-                                    <div class="numerator-display">
-                                        <span class="highlight">5y²</span> + <span class="highlight-blue">3x - 3y</span>
-                                    </div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display">15y</div>
-                                </div>
-                            </div>
-                            <div class="key-point">
-                                <span class="malay">📝 Kembangkan: 3(x-y) = 3x - 3y</span>
-                                <span class="english hidden">📝 Expand: 3(x-y) = 3x - 3y</span>
-                            </div>
-                        </div>
-                    `,
-                    5: `
-                        <div class="visual-step">
-                            <div class="visual-title">🎉 <span class="malay">Jawapan Akhir</span><span class="english hidden">Final Answer</span></div>
-                            <div class="step-visual">
-                                <div class="fraction-display" style="border: 3px solid #48bb78; background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);">
-                                    <div class="numerator-display">
-                                        <span class="highlight-green">3x + 5y² - 3y</span>
-                                    </div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display">
-                                        <span class="highlight-green">15y</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="key-point">
-                                <span class="malay">✅ Selesai! Susun sebutan mengikut tertib abjad: 3x, 5y², -3y</span>
-                                <span class="english hidden">✅ Done! Arrange terms alphabetically: 3x, 5y², -3y</span>
-                            </div>
-                        </div>
-                    `
-                },
-                2: { // Question 2 visualizations
-                    0: `
-                        <div class="visual-step">
-                            <div class="visual-title">🎯 <span class="malay">Soalan Pembahagian</span><span class="english hidden">Division Question</span></div>
-                            <div class="step-visual">
-                                <div class="fraction-display">
-                                    <div class="numerator-display"><span class="highlight">4a² - b²</span></div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display"><span class="highlight-blue">c - d</span></div>
-                                </div>
-                                <div class="operation-symbol">÷</div>
-                                <div class="fraction-display">
-                                    <div class="numerator-display"><span class="highlight-green">6a - 3b</span></div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display"><span class="highlight-red">2c - 2d</span></div>
-                                </div>
-                            </div>
-                            <div class="key-point">
-                                <span class="malay">🔍 Ingat: Pembahagian pecahan = pendaraban dengan songsang</span>
-                                <span class="english hidden">🔍 Remember: Division of fractions = multiplication by reciprocal</span>
-                            </div>
-                        </div>
-                    `,
-                    1: `
-                        <div class="visual-step">
-                            <div class="visual-title">🔄 <span class="malay">Tukar kepada Pendaraban</span><span class="english hidden">Change to Multiplication</span></div>
-                            <div class="step-visual">
-                                <div class="fraction-display">
-                                    <div class="numerator-display">4a² - b²</div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display">c - d</div>
-                                </div>
-                                <div class="operation-symbol">×</div>
-                                <div class="fraction-display" style="border: 3px solid #e53e3e;">
-                                    <div class="numerator-display"><span class="highlight-red">2c - 2d</span></div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display"><span class="highlight-green">6a - 3b</span></div>
-                                </div>
-                            </div>
-                            <div class="key-point">
-                                <span class="malay">🔄 Songsang: Tukar tempat pengangka dan penyebut pecahan kedua</span>
-                                <span class="english hidden">🔄 Reciprocal: Swap numerator and denominator of second fraction</span>
-                            </div>
-                        </div>
-                    `,
-                    2: `
-                        <div class="visual-step">
-                            <div class="visual-title">🔧 <span class="malay">Faktorkan Semua</span><span class="english hidden">Factor Everything</span></div>
-                            <div class="step-visual">
-                                <div style="text-align: center; margin: 20px 0;">
-                                    <div><span class="highlight">4a² - b²</span> <div class="arrow">→</div> <span class="factor-box">(2a-b)(2a+b)</span></div>
-                                    <div><span class="highlight-blue">c - d</span> <div class="arrow">→</div> <span class="factor-box">(c-d)</span></div>
-                                    <div><span class="highlight-red">2c - 2d</span> <div class="arrow">→</div> <span class="factor-box">2(c-d)</span></div>
-                                    <div><span class="highlight-green">6a - 3b</span> <div class="arrow">→</div> <span class="factor-box">3(2a-b)</span></div>
-                                </div>
-                            </div>
-                            <div class="key-point">
-                                <span class="malay">🎯 Perhatikan faktor sepunya: (2a-b) dan (c-d)</span>
-                                <span class="english hidden">🎯 Notice common factors: (2a-b) and (c-d)</span>
-                            </div>
-                        </div>
-                    `,
-                    3: `
-                        <div class="visual-step">
-                            <div class="visual-title">📝 <span class="malay">Susun untuk Pembatalan</span><span class="english hidden">Arrange for Cancellation</span></div>
-                            <div class="step-visual">
-                                <div class="fraction-display">
-                                    <div class="numerator-display">
-                                        <span class="cancel-line">(2a-b)</span>(2a+b) × 2<span class="cancel-line">(c-d)</span>
-                                    </div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display">
-                                        <span class="cancel-line">(c-d)</span> × 3<span class="cancel-line">(2a-b)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="key-point">
-                                <span class="malay">✂️ Batalkan: (2a-b) dan (c-d) muncul atas dan bawah</span>
-                                <span class="english hidden">✂️ Cancel: (2a-b) and (c-d) appear top and bottom</span>
-                            </div>
-                        </div>
-                    `,
-                    4: `
-                        <div class="visual-step">
-                            <div class="visual-title">✂️ <span class="malay">Selepas Pembatalan</span><span class="english hidden">After Cancellation</span></div>
-                            <div class="step-visual">
-                                <div class="fraction-display">
-                                    <div class="numerator-display">
-                                        <span class="highlight-green">(2a+b) × 2</span>
-                                    </div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display">
-                                        <span class="highlight-green">3</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="arrow">⬇️</div>
-                            <div class="step-visual">
-                                <div class="fraction-display">
-                                    <div class="numerator-display">
-                                        <span class="highlight-green">2(2a+b)</span>
-                                    </div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display">
-                                        <span class="highlight-green">3</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="key-point">
-                                <span class="malay">🧮 Tinggal: Darab 2 dengan (2a+b)</span>
-                                <span class="english hidden">🧮 Remaining: Multiply 2 with (2a+b)</span>
-                            </div>
-                        </div>
-                    `,
-                    5: `
-                        <div class="visual-step">
-                            <div class="visual-title">🎉 <span class="malay">Jawapan Akhir</span><span class="english hidden">Final Answer</span></div>
-                            <div class="step-visual">
-                                <div class="fraction-display" style="border: 3px solid #48bb78; background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);">
-                                    <div class="numerator-display">
-                                        <span class="highlight-green">4a + 2b</span>
-                                    </div>
-                                    <div class="fraction-line-display"></div>
-                                    <div class="denominator-display">
-                                        <span class="highlight-green">3</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="key-point">
-                                <span class="malay">✅ Selesai! 2(2a+b) = 4a + 2b</span>
-                                <span class="english hidden">✅ Done! 2(2a+b) = 4a + 2b</span>
-                            </div>
-                        </div>
-                    `
-                }
-            };
-
-            return visualizations[questionNum] && visualizations[questionNum][stepNum] 
-                ? visualizations[questionNum][stepNum] 
-                : '<div class="visual-step"><div class="visual-title">🔄 <span class="malay">Visualisasi akan dipaparkan di sini</span><span class="english hidden">Visualization will appear here</span></div></div>';
-        }
-
-        function toggleLanguage(lang) {
+        function setLanguage(lang) {
             currentLanguage = lang;
             
-            // Update button states
+            // Update language buttons
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
-            // Toggle visibility of language elements
-            if (lang === 'ms') {
-                document.querySelectorAll('.malay').forEach(el => el.classList.remove('hidden'));
-                document.querySelectorAll('.english').forEach(el => el.classList.add('hidden'));
-            } else {
-                document.querySelectorAll('.malay').forEach(el => el.classList.add('hidden'));
-                document.querySelectorAll('.english').forEach(el => el.classList.remove('hidden'));
-            }
+            // Update all text elements
+            document.querySelectorAll('[data-ms]').forEach(element => {
+                if (lang === 'ms') {
+                    element.textContent = element.getAttribute('data-ms');
+                } else {
+                    element.textContent = element.getAttribute('data-en');
+                }
+            });
             
-            updateSimulation();
-            updateControls();
-        }
-
-        function toggleAutoPlay() {
-            const autoPlayBtn = document.getElementById('autoPlayBtn');
-            
-            if (isAutoPlaying) {
-                clearInterval(autoPlayInterval);
-                isAutoPlaying = false;
-                autoPlayBtn.innerHTML = `▶️ <span class="malay">Auto</span><span class="english hidden">Auto</span>`;
-                autoPlayBtn.style.background = 'linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%)';
-            } else {
-                isAutoPlaying = true;
-                autoPlayBtn.innerHTML = `⏸️ <span class="malay">Stop</span><span class="english hidden">Stop</span>`;
-                autoPlayBtn.style.background = 'linear-gradient(135deg, #e53e3e 0%, #ff6b6b 100%)';
-                
-                autoPlayInterval = setInterval(() => {
-                    if (currentStep < maxSteps) {
-                        nextStep();
+            // Update elements with HTML content
+            document.querySelectorAll('[data-ms]').forEach(element => {
+                if (element.innerHTML.includes('<br>')) {
+                    if (lang === 'ms') {
+                        element.innerHTML = element.getAttribute('data-ms');
                     } else {
-                        toggleAutoPlay(); // Stop when reaching the end
+                        element.innerHTML = element.getAttribute('data-en');
                     }
-                }, 6000); // 6 seconds interval
-            }
-        }
-
-
-
-        function nextStep() {
-            if (currentStep < maxSteps) {
-                currentStep++;
-                updateSimulation();
-                updateControls();
-            }
-        }
-
-        function previousStep() {
-            if (currentStep > 0) {
-                currentStep--;
-                updateSimulation();
-                updateControls();
-            }
-        }
-
-        function resetSimulation() {
-            currentStep = 0;
-            updateSimulation();
-            updateControls();
-        }
-
-        function updateControls() {
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
+                }
+            });
             
-            prevBtn.disabled = currentStep === 0;
-            nextBtn.disabled = currentStep === maxSteps;
+            // Reset quiz to first question
+            currentQuestionIndex = 0;
+            loadQuestion();
+        }
+
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+
+        function loadQuestion() {
+            const question = questions[currentLanguage][currentQuestionIndex];
+            document.getElementById('question-text').textContent = question.question;
             
-            if (currentStep === maxSteps) {
-                nextBtn.innerHTML = currentLanguage === 'ms' ? 
-                    '🎉 <span class="malay">Selesai!</span><span class="english hidden">Done!</span>' : 
-                    '🎉 <span class="malay hidden">Selesai!</span><span class="english">Done!</span>';
+            // Update progress bar
+            const totalQuestions = questions[currentLanguage].length;
+            const progressPercent = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+            document.getElementById('progress-fill').style.width = progressPercent + '%';
+            
+            const progressText = currentLanguage === 'ms' 
+                ? `Soalan ${currentQuestionIndex + 1} daripada ${totalQuestions}`
+                : `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
+            document.getElementById('progress-text').textContent = progressText;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'quiz-option';
+                optionDiv.textContent = option;
+                optionDiv.onclick = () => selectOption(optionDiv, index === question.correct);
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            // Reset quiz state
+            selectedOption = null;
+            document.getElementById('quiz-result').innerHTML = '';
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+        }
+
+        function selectOption(option, isCorrect) {
+            // Remove previous selection
+            document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+            
+            // Mark current selection
+            option.classList.add('selected');
+            selectedOption = { element: option, isCorrect: isCorrect };
+        }
+
+        function checkAnswer() {
+            if (!selectedOption) {
+                alert(currentLanguage === 'ms' ? 'Sila pilih jawapan terlebih dahulu!' : 'Please select an answer first!');
+                return;
+            }
+            
+            const question = questions[currentLanguage][currentQuestionIndex];
+            const resultDiv = document.getElementById('quiz-result');
+            
+            // Show correct answer
+            document.querySelectorAll('.quiz-option').forEach((opt, index) => {
+                if (index === question.correct) {
+                    opt.classList.add('correct');
+                } else if (opt.classList.contains('selected') && !selectedOption.isCorrect) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            if (selectedOption.isCorrect) {
+                resultDiv.innerHTML = `<div class="result-correct">${currentLanguage === 'ms' ? '✓ Betul!' : '✓ Correct!'} ${question.explanation}</div>`;
             } else {
-                nextBtn.innerHTML = currentLanguage === 'ms' ? 
-                    '<span class="malay">Seterusnya</span><span class="english hidden">Next</span> ➡️' : 
-                    '<span class="malay hidden">Seterusnya</span><span class="english">Next</span> ➡️';
+                resultDiv.innerHTML = `<div class="result-incorrect">${currentLanguage === 'ms' ? '✗ Salah.' : '✗ Incorrect.'} ${question.explanation}</div>`;
             }
         }
 
-        function showPractice() {
-            const practiceQuestions = {
-                ms: [
-                    "Cuba selesaikan: (2x + 4)/(x + 2) + (x - 1)/(x + 2)",
-                    "Selesaikan: (a² - 4)/(a + 2) ÷ (a - 2)/(3a)",
-                    "Permudahkan: (3y - 6)/(y² - 4) × (y + 2)/(y - 2)"
-                ],
-                en: [
-                    "Try solving: (2x + 4)/(x + 2) + (x - 1)/(x + 2)",
-                    "Solve: (a² - 4)/(a + 2) ÷ (a - 2)/(3a)",
-                    "Simplify: (3y - 6)/(y² - 4) × (y + 2)/(y - 2)"
-                ]
-            };
-
-            const randomQuestion = practiceQuestions[currentLanguage][Math.floor(Math.random() * 3)];
-            
-            alert(currentLanguage === 'ms' ? 
-                `🎯 Soalan Latihan:\n\n${randomQuestion}\n\nCuba selesaikan sendiri menggunakan langkah-langkah yang telah dipelajari!` :
-                `🎯 Practice Question:\n\n${randomQuestion}\n\nTry solving it yourself using the steps you've learned!`
-            );
+        function nextQuestion() {
+            currentQuestionIndex = (currentQuestionIndex + 1) % questions[currentLanguage].length;
+            loadQuestion();
         }
 
-        // Initialize simulation
-        window.onload = function() {
-            maxSteps = questions[currentQuestion].steps.length - 1;
-            updateSimulation();
-            updateControls();
-        };
+        // Initialize
+        loadQuestion();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9849f7b426a65348',t:'MTc1ODc5NzQ5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9851042f92c32441',t:'MTc1ODg3MTQxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
