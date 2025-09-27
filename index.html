@@ -3,486 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flashcard Poligon - Tingkatan 2</title>
+    <title>Game Sifat Bulatan - Circle Properties Game</title>
     <style>
         body {
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 10px;
+            background: linear-gradient(135deg, #ff9a56 0%, #ffad56 50%, #ffc658 100%);
             min-height: 100vh;
+            color: #ffffff;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 0 10px;
         }
 
         .header {
             text-align: center;
-            color: white;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255, 87, 87, 0.9);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
             margin-bottom: 10px;
-            color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-
-
         .language-toggle {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 40px;
+            margin: 15px 0;
         }
 
         .lang-btn {
-            padding: 12px 25px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 30px;
-            background: rgba(255,255,255,0.1);
-            color: white;
+            background: rgba(255, 107, 107, 0.3);
+            border: 2px solid rgba(255, 107, 107, 0.5);
+            border-radius: 25px;
+            padding: 8px 20px;
+            color: #ffffff;
             cursor: pointer;
-            transition: all 0.4s ease;
-            font-weight: bold;
-            font-size: 1rem;
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .lang-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .lang-btn:hover::before {
-            left: 100%;
-        }
-
-        .lang-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            border-color: rgba(255,255,255,0.6);
+            margin: 0 5px;
+            transition: all 0.3s ease;
+            font-weight: 600;
         }
 
         .lang-btn.active {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            background: #ff5757;
+            border-color: #ff5757;
             color: white;
-            border-color: white;
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
+        .lang-btn:hover {
+            background: rgba(255, 107, 107, 0.5);
+        }
 
+        .game-modes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
 
-        .info-panel {
-            background: linear-gradient(135deg, #ff6b6b, #feca57);
+        .mode-card {
+            background: rgba(255, 87, 87, 0.7);
             border-radius: 20px;
             padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            color: white;
-        }
-
-        .info-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .info-content {
-            display: grid;
-            gap: 15px;
-        }
-
-        .info-item {
-            background: rgba(255,255,255,0.15);
-            padding: 15px;
-            border-radius: 12px;
             backdrop-filter: blur(10px);
-        }
-
-        .info-label {
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-        }
-
-        .info-text {
-            font-size: 1rem;
-            line-height: 1.5;
-            opacity: 0.95;
-        }
-
-        .flashcard-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .flashcard {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             cursor: pointer;
             transition: all 0.3s ease;
-            min-height: 320px;
-            position: relative;
+            text-align: center;
         }
 
-        .flashcard::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .flashcard:hover {
+        .mode-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            background: rgba(255, 87, 87, 0.9);
+            border-color: rgba(255, 107, 107, 0.8);
         }
 
-        .flashcard:hover::before {
-            opacity: 1;
+        .mode-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
         }
 
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-
-        .flashcard.flipped .card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            padding: 25px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: white;
-            border-radius: 15px;
-        }
-
-        .card-back {
-            transform: rotateY(180deg);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .card-title {
-            font-size: 1.4rem;
+        .mode-title {
+            font-size: 1.3rem;
             font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 20px;
-            text-align: center;
-            line-height: 1.3;
+            margin-bottom: 10px;
         }
 
-        .card-back .card-title {
-            color: white;
-        }
-
-        .formula {
-            background: #667eea;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-align: center;
-            word-wrap: break-word;
+        .mode-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
             line-height: 1.4;
         }
 
-        .card-back .formula {
-            background: rgba(255,255,255,0.2);
-            color: white;
+        .game-area {
+            background: rgba(255, 87, 87, 0.7);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 20px;
+            display: none;
         }
 
-        .example {
-            background: #f8f9fa;
-            color: #495057;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            text-align: center;
-            word-wrap: break-word;
+        .game-area.active {
+            display: block;
         }
 
-        .card-back .example {
-            background: rgba(255,255,255,0.15);
-            color: white;
-        }
-
-
-
-        .quiz-section {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-top: 30px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .quiz-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.3;
-        }
-
-        .quiz-section > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        .quiz-title {
-            font-size: 2.2rem;
-            color: white;
-            text-align: center;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        .game-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
             gap: 10px;
         }
 
-        .quiz-title::before {
-            content: '🧠';
-            font-size: 2rem;
+        .stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
-        .quiz-question {
-            background: rgba(255,255,255,0.95);
+        .stat-item {
+            background: rgba(255, 107, 107, 0.4);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            border: 1px solid rgba(255, 107, 107, 0.6);
+        }
+
+        .question-area {
+            background: rgba(255, 193, 7, 0.2);
+            border-radius: 15px;
             padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            font-size: 1.2rem;
-            line-height: 1.7;
-            color: #2c3e50;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            border-left: 5px solid #ff6b6b;
-        }
-
-        .quiz-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .quiz-option {
-            padding: 18px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 20px;
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .question-text {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
             font-weight: 600;
-            font-size: 1.1rem;
-            background: rgba(255,255,255,0.9);
-            color: #2c3e50;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .circle-visual {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
             position: relative;
-            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .quiz-option::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.5s;
+        .visual-circle {
+            border: 4px solid #e74c3c;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(231, 76, 60, 0.1);
+            color: #ecf0f1;
+            font-weight: bold;
+            font-size: 0.9rem;
         }
 
-        .quiz-option:hover::before {
-            left: 100%;
+        .answer-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
 
-        .quiz-option:hover {
-            border-color: #4ecdc4;
-            background: rgba(78, 205, 196, 0.1);
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        .answer-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 107, 107, 0.5);
+            border-radius: 15px;
+            padding: 15px 10px;
+            color: #2e7d32;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
         }
 
-        .quiz-option.selected {
-            border-color: #4ecdc4;
-            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+        .answer-btn:hover {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: #ff5757;
+            transform: translateY(-2px);
+            color: #1b5e20;
+        }
+
+        .answer-btn.correct {
+            background: rgba(39, 174, 96, 0.6);
+            border-color: #27ae60;
             color: white;
-            transform: scale(1.05);
-            box-shadow: 0 12px 30px rgba(78, 205, 196, 0.4);
         }
 
-        .quiz-option.correct {
-            border-color: #28a745;
-            background: #28a745;
+        .answer-btn.wrong {
+            background: rgba(231, 76, 60, 0.6);
+            border-color: #e74c3c;
             color: white;
-            animation: correctBounce 0.8s ease;
         }
 
-        .quiz-option.incorrect {
-            border-color: #dc3545;
-            background: #dc3545;
-            color: white;
-            animation: incorrectShake 0.6s ease;
-        }
-
-        @keyframes correctBounce {
-            0% { transform: scale(1); }
-            25% { transform: scale(1.1) rotate(5deg); }
-            50% { transform: scale(1.05) rotate(-3deg); }
-            75% { transform: scale(1.08) rotate(2deg); }
-            100% { transform: scale(1.05) rotate(0deg); }
-        }
-
-        @keyframes incorrectShake {
-            0%, 100% { transform: translateX(0) scale(1); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px) scale(1.02); }
-            20%, 40%, 60%, 80% { transform: translateX(8px) scale(1.02); }
-        }
-
-        .quiz-progress {
-            margin-bottom: 25px;
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
             text-align: center;
+        }
+
+        .feedback.correct {
+            background: rgba(39, 174, 96, 0.3);
+            border: 2px solid #27ae60;
+            color: #ecf0f1;
+        }
+
+        .feedback.wrong {
+            background: rgba(231, 76, 60, 0.3);
+            border: 2px solid #e74c3c;
+            color: #ecf0f1;
         }
 
         .progress-bar {
             width: 100%;
-            height: 8px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin: 20px 0;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-            width: 16.67%;
-        }
-
-        .progress-text {
-            color: rgba(255,255,255,0.9);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .quiz-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
+            background: linear-gradient(90deg, #ff5757, #ff4757);
+            transition: width 0.3s ease;
         }
 
         .btn {
-            padding: 12px 25px;
+            background: linear-gradient(45deg, #ff5757, #ff4757);
             border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #5a6fd8;
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-
-        .quiz-result {
-            margin-top: 20px;
-            padding: 15px;
             border-radius: 10px;
+            padding: 12px 25px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
             text-align: center;
+            padding: 30px;
+        }
+
+        .results h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 20px;
+        }
+
+        .score-display {
+            font-size: clamp(2rem, 6vw, 3rem);
             font-weight: bold;
+            color: #ffe66d;
+            margin: 20px 0;
         }
 
-        .result-correct {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .result-incorrect {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+        .formula-hint {
+            background: rgba(255, 193, 7, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            border-left: 4px solid #ffc107;
+            color: #ffffff;
         }
 
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
+            .game-header {
+                flex-direction: column;
+                align-items: stretch;
             }
             
-            .flashcard-container {
+            .stats {
+                justify-content: center;
+            }
+            
+            .circle-visual {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .answer-options {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .answer-options {
                 grid-template-columns: 1fr;
             }
             
-            .card-front, .card-back {
-                padding: 20px;
-            }
-            
-            .quiz-section {
-                padding: 20px;
+            .container {
+                padding: 0 5px;
             }
         }
     </style>
@@ -490,240 +339,160 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1 id="main-title" data-ms="Flashcard Poligon" data-en="Polygon Flashcards">Flashcard Poligon</h1>
-            <p id="subtitle" data-ms="Tingkatan 2 - Bab 4.2: Sudut dan Sisi Poligon" data-en="Form 2 - Chapter 4.2: Angles and Sides of Polygons">Tingkatan 2 - Bab 4.2: Sudut dan Sisi Poligon</p>
-        </div>
-
-        <div class="language-toggle">
-            <button class="lang-btn active" onclick="setLanguage('ms')">Bahasa Melayu</button>
-            <button class="lang-btn" onclick="setLanguage('en')">English</button>
-        </div>
-
-        <div class="info-panel">
-            <div class="info-title" data-ms="📚 Maklumat Pembelajaran" data-en="📚 Learning Information">📚 Maklumat Pembelajaran</div>
-            <div class="info-content">
-                <div class="info-item">
-                    <div class="info-label" data-ms="🎯 Objektif:" data-en="🎯 Objectives:">🎯 Objektif:</div>
-                    <div class="info-text" data-ms="Memahami konsep sudut pedalaman dan peluaran poligon serta cara mengira bilangan sisi" data-en="Understanding interior and exterior angles of polygons and how to calculate number of sides">Memahami konsep sudut pedalaman dan peluaran poligon serta cara mengira bilangan sisi</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label" data-ms="💡 Konsep Utama:" data-en="💡 Key Concepts:">💡 Konsep Utama:</div>
-                    <div class="info-text" data-ms="Sudut pedalaman bergantung pada bilangan sisi, tetapi jumlah sudut peluaran sentiasa 360°" data-en="Interior angles depend on number of sides, but sum of exterior angles is always 360°">Sudut pedalaman bergantung pada bilangan sisi, tetapi jumlah sudut peluaran sentiasa 360°</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label" data-ms="🔢 Formula Penting:" data-en="🔢 Important Formulas:">🔢 Formula Penting:</div>
-                    <div class="info-text" data-ms="Sudut pedalaman = (n-2) × 180°, Sudut peluaran = 360° ÷ n" data-en="Interior angles = (n-2) × 180°, Exterior angle = 360° ÷ n">Sudut pedalaman = (n-2) × 180°, Sudut peluaran = 360° ÷ n</div>
-                </div>
+            <h1 id="mainTitle">📚 Praktis: Bulatan</h1>
+            <p id="subtitle">Matematik Tingkatan 2 - Bab 5: Bulatan</p>
+            
+            <div class="language-toggle">
+                <button class="lang-btn active" onclick="setLanguage('ms')">Bahasa Melayu</button>
+                <button class="lang-btn" onclick="setLanguage('en')">English</button>
             </div>
         </div>
 
-        <div class="flashcard-container">
-            <!-- Card 1: Interior Angles -->
-            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
-                <div class="card-inner">
-                    <div class="card-front" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
-                        <div class="card-title" data-ms="Sudut Pedalaman Poligon" data-en="Interior Angles of Polygon" style="color: #2c3e50;">Sudut Pedalaman Poligon</div>
-                        <div class="formula" data-ms="Jumlah sudut pedalaman<br>= (n - 2) × 180°" data-en="Sum of interior angles   = (n - 2) × 180°" style="background: rgba(255,255,255,0.8); color: #2c3e50;">Jumlah sudut pedalaman<br>= (n - 2) × 180°</div>
-                        <div class="example" data-ms="di mana:<br>n = bilangan sisi poligon" data-en="where:   n = number of sides of polygon" style="background: rgba(255,255,255,0.6); color: #495057;">di mana:<br>n = bilangan sisi poligon</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="card-title" data-ms="Contoh: Pentagon (5 sisi)" data-en="Example: Pentagon (5 sides)">Contoh: Pentagon (5 sisi)</div>
-                        <div class="formula">n = 5</div>
-                        <div class="example" data-ms="Jumlah sudut pedalaman = (5 - 2) × 180°<br>= 3 × 180°<br>= 540°" data-en="Sum of interior angles = (5 - 2) × 180°   =  540°">Jumlah sudut pedalaman = (5 - 2) × 180°<br>= 3 × 180°<br>= 540°</div>
-                    </div>
+        <div id="modeSelection">
+            <div class="game-modes">
+                <div class="mode-card" onclick="startGame('learn')">
+                    <div class="mode-icon">📚</div>
+                    <div class="mode-title" id="learnTitle">Mod Pembelajaran</div>
+                    <div class="mode-desc" id="learnDesc">Belajar formula dan konsep asas bulatan dengan panduan langkah demi langkah</div>
                 </div>
-            </div>
-
-            <!-- Card 2: Exterior Angles -->
-            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                <div class="card-inner">
-                    <div class="card-front" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                        <div class="card-title" data-ms="Sudut Peluaran Poligon" data-en="Exterior Angles of Polygon" style="color: #2c3e50;">Sudut Peluaran Poligon</div>
-                        <div class="formula" data-ms="Jumlah sudut peluaran<br>= 360°" data-en="Sum of exterior angles   = 360°" style="background: rgba(255,255,255,0.8); color: #2c3e50;">Jumlah sudut peluaran<br>= 360°</div>
-                        <div class="example" data-ms="Untuk semua poligon,<br>jumlah sudut peluaran<br>sentiasa 360°" data-en="For all polygons,   sum of exterior angles   is always 360°" style="background: rgba(255,255,255,0.6); color: #495057;">Untuk semua poligon,<br>jumlah sudut peluaran<br>sentiasa 360°</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="card-title" data-ms="Contoh: Heksagon Sekata" data-en="Example: Regular Hexagon">Contoh: Heksagon Sekata</div>
-                        <div class="formula">n = 6</div>
-                        <div class="example" data-ms="Setiap sudut peluaran = 360° ÷ 6<br>= 60°<br><br>Jumlah = 6 × 60° = 360°" data-en="Each exterior angle = 360° ÷ 6   = 60° .    Total = 6 × 60° = 360°">Setiap sudut peluaran = 360° ÷ 6<br>= 60°<br><br>Jumlah = 6 × 60° = 360°</div>
-                    </div>
+                
+                <div class="mode-card" onclick="startGame('challenge')">
+                    <div class="mode-icon">⚡</div>
+                    <div class="mode-title" id="challengeTitle">Mod Cabaran</div>
+                    <div class="mode-desc" id="challengeDesc">Uji kemahiran dengan soalan yang semakin sukar dan had masa</div>
                 </div>
-            </div>
-
-            <!-- Card 3: Finding Number of Sides -->
-            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
-                <div class="card-inner">
-                    <div class="card-front" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
-                        <div class="card-title" data-ms="Mencari Bilangan Sisi" data-en="Finding Number of Sides" style="color: #2c3e50;">Mencari Bilangan Sisi</div>
-                        <div class="formula" data-ms="n = (Jumlah sudut pedalaman ÷ 180°)<br>+ 2" data-en="n = (Sum of interior angles ÷ 180°)   + 2" style="background: rgba(255,255,255,0.8); color: #2c3e50;">n = (Jumlah sudut pedalaman ÷ 180°)<br>+ 2</div>
-                        <div class="example" data-ms="atau<br>n = 360° ÷ sudut peluaran<br>(untuk poligon sekata)" data-en="or   n = 360° ÷ exterior angle   (for regular polygon)" style="background: rgba(255,255,255,0.6); color: #495057;">atau<br>n = 360° ÷ sudut peluaran<br>(untuk poligon sekata)</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="card-title" data-ms="Contoh: Jumlah sudut pedalaman = 1080°" data-en="Example: Sum of interior angles = 1080°">Contoh: Jumlah sudut pedalaman = 1080°</div>
-                        <div class="formula">1080° ÷ 180° = 6</div>
-                        <div class="example" data-ms="n = 6 + 2<br>= 8<br><br>Poligon tersebut ialah<br>oktagon (8 sisi)" data-en="n = 6 + 2   = 8   .                 The polygon is an   octagon (8 sides)">n = 6 + 2<br>= 8<br><br>Poligon tersebut ialah<br>oktagon (8 sisi)</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 4: Interior Angle of Regular Polygon -->
-            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);">
-                <div class="card-inner">
-                    <div class="card-front" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);">
-                        <div class="card-title" data-ms="Sudut Pedalaman Poligon Sekata" data-en="Interior Angle of Regular Polygon" style="color: white;">Sudut Pedalaman Poligon Sekata</div>
-                        <div class="formula" data-ms="Sudut pedalaman<br>= (n - 2) × 180° ÷ n" data-en="Interior angle   = (n - 2) × 180° ÷ n" style="background: rgba(255,255,255,0.2);">Sudut pedalaman<br>= (n - 2) × 180° ÷ n</div>
-                        <div class="example" data-ms="Untuk poligon sekata,<br>semua sudut pedalaman<br>adalah sama" data-en="For regular polygon,   all interior angles   are equal" style="background: rgba(255,255,255,0.15); color: white;">Untuk poligon sekata,<br>semua sudut pedalaman<br>adalah sama</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="card-title" data-ms="Contoh: Heksagon Sekata (6 sisi)" data-en="Example: Regular Hexagon (6 sides)">Contoh: Heksagon Sekata (6 sisi)</div>
-                        <div class="formula">n = 6</div>
-                        <div class="example" data-ms="Sudut pedalaman = (6 - 2) × 180° ÷ 6<br>= 4 × 180° ÷ 6<br>= 720° ÷ 6<br>= 120°" data-en="Interior angle = (6 - 2) × 180° ÷ 6  = 720° ÷ 6   = 120°">Sudut pedalaman = (6 - 2) × 180° ÷ 6<br>= 4 × 180° ÷ 6<br>= 720° ÷ 6<br>= 120°</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 5: Exterior Angle of Regular Polygon -->
-            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);">
-                <div class="card-inner">
-                    <div class="card-front" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);">
-                        <div class="card-title" data-ms="Sudut Peluaran Poligon Sekata" data-en="Exterior Angle of Regular Polygon" style="color: white;">Sudut Peluaran Poligon Sekata</div>
-                        <div class="formula" data-ms="Sudut peluaran<br>= 360° ÷ n" data-en="Exterior angle   = 360° ÷ n" style="background: rgba(255,255,255,0.2);">Sudut peluaran<br>= 360° ÷ n</div>
-                        <div class="example" data-ms="Untuk poligon sekata,<br>semua sudut peluaran<br>adalah sama" data-en="For regular polygon,   all exterior angles   are equal" style="background: rgba(255,255,255,0.15); color: white;">Untuk poligon sekata,<br>semua sudut peluaran<br>adalah sama</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="card-title" data-ms="Contoh: Oktagon Sekata (8 sisi)" data-en="Example: Regular Octagon (8 sides)">Contoh: Oktagon Sekata (8 sisi)</div>
-                        <div class="formula">n = 8</div>
-                        <div class="example" data-ms="Sudut peluaran = 360° ÷ 8<br>= 45°<br><br>Semua 8 sudut peluaran = 45°" data-en="Exterior angle = 360° ÷ 8   = 45°. All 8 exterior angles = 45°">Sudut peluaran = 360° ÷ 8<br>= 45°<br><br>Semua 8 sudut peluaran = 45°</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 6: Polygon Names -->
-            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                <div class="card-inner">
-                    <div class="card-front" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        <div class="card-title" data-ms="Nama-nama Poligon" data-en="Polygon Names" style="color: white;">Nama-nama Poligon</div>
-                        <div class="formula" data-ms="Mengikut Bilangan Sisi" data-en="According to Number of Sides" style="background: rgba(255,255,255,0.2);">Mengikut Bilangan Sisi</div>
-                        <div class="example" data-ms="3 sisi = Segi tiga<br>4 sisi = Segi empat<br>5 sisi = Pentagon<br>6 sisi = Heksagon" data-en="3 sides = Triangle ,    4 sides = Quadrilateral  ,      5 sides = Pentagon  ,     6 sides = Hexagon" style="background: rgba(255,255,255,0.15); color: white;">3 sisi = Segi tiga<br>4 sisi = Segi empat<br>5 sisi = Pentagon<br>6 sisi = Heksagon</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="card-title" data-ms="Nama Poligon Lanjutan" data-en="More Polygon Names">Nama Poligon Lanjutan</div>
-                        <div class="formula" data-ms="7 sisi = Heptagon<br>8 sisi = Oktagon" data-en="7 sides = Heptagon   8 sides = Octagon">7 sisi = Heptagon<br>8 sisi = Oktagon</div>
-                        <div class="example" data-ms="9 sisi = Nonagon<br>10 sisi = Dekagon<br>12 sisi = Dodekagon" data-en="9 sides = Nonagon , 10 sides = Decagon , 12 sides = Dodecagon">9 sisi = Nonagon<br>10 sisi = Dekagon<br>12 sisi = Dodekagon</div>  
-                    </div>
+                
+                <div class="mode-card" onclick="startGame('practice')">
+                    <div class="mode-icon">🎮</div>
+                    <div class="mode-title" id="practiceTitle">Mod Latihan</div>
+                    <div class="mode-desc" id="practiceDesc">Latihan tanpa tekanan dengan pelbagai jenis soalan</div>
                 </div>
             </div>
         </div>
 
-        <div class="quiz-section">
-            <div class="quiz-title" data-ms="Latihan" data-en="Practice">Latihan</div>
-            <div id="quiz-container">
-                <div class="quiz-progress">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill"></div>
+        <div id="gameArea" class="game-area">
+            <div class="game-header">
+                <button class="btn" onclick="backToMenu()" id="backBtn">← Kembali</button>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span id="scoreLabel">Skor:</span> <span id="currentScore">0</span>
                     </div>
-                    <div class="progress-text" id="progress-text">Soalan 1 daripada 6</div>
+                    <div class="stat-item">
+                        <span id="questionLabel">Soalan:</span> <span id="questionNumber">1</span>/10
+                    </div>
+                    <div class="stat-item" id="timerStat" style="display: none;">
+                        <span id="timeLabel">Masa:</span> <span id="timeLeft">30</span>s
+                    </div>
                 </div>
-                <div class="quiz-question" id="question-text">
-                    Berapakah jumlah sudut pedalaman bagi sebuah heptagon (7 sisi)?
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 10%"></div>
+            </div>
+
+            <div class="question-area">
+                <div class="question-text" id="questionText">Soalan akan muncul di sini...</div>
+                
+                <div class="circle-visual" id="circleVisual" style="display: none;">
+                    <div class="visual-circle" id="visualCircle">
+                        <span id="circleLabel"></span>
+                    </div>
                 </div>
-                <div class="quiz-options" id="quiz-options">
-                    <div class="quiz-option" onclick="selectOption(this, false)">720°</div>
-                    <div class="quiz-option" onclick="selectOption(this, true)">900°</div>
-                    <div class="quiz-option" onclick="selectOption(this, false)">1080°</div>
-                    <div class="quiz-option" onclick="selectOption(this, false)">1260°</div>
+
+                <div class="formula-hint" id="formulaHint" style="display: none;">
+                    <strong id="hintLabel">Petua:</strong> <span id="hintText"></span>
                 </div>
-                <div class="quiz-buttons">
-                    <button class="btn btn-primary" onclick="checkAnswer()" id="check-btn" data-ms="Semak Jawapan" data-en="Check Answer">Semak Jawapan</button>
-                    <button class="btn btn-secondary" onclick="nextQuestion()" id="next-btn" data-ms="Soalan Seterusnya" data-en="Next Question">Soalan Seterusnya</button>
-                </div>
-                <div id="quiz-result"></div>
+
+                <div class="answer-options" id="answerOptions"></div>
+                
+                <div class="feedback" id="feedback" style="display: none;"></div>
+                
+
+            </div>
+        </div>
+
+        <div id="resultsArea" class="game-area">
+            <div class="results">
+                <h2 id="resultsTitle">Keputusan Permainan</h2>
+                <div class="score-display" id="finalScore">0/10</div>
+                <div id="resultsMessage"></div>
+                <div id="resultsStats"></div>
+                <button class="btn" onclick="backToMenu()" id="playAgainBtn">Main Lagi</button>
             </div>
         </div>
     </div>
 
     <script>
         let currentLanguage = 'ms';
-        let selectedOption = null;
-        let currentQuestionIndex = 0;
+        let gameMode = '';
+        let currentQuestion = 0;
+        let score = 0;
+        let questions = [];
+        let timeLeft = 30;
+        let timer = null;
+        let answered = false;
 
-        const questions = {
-            ms: [
-                {
-                    question: "Berapakah jumlah sudut pedalaman bagi sebuah heptagon (7 sisi)?",
-                    options: ["720°", "900°", "1080°", "1260°"],
-                    correct: 1,
-                    explanation: "Jumlah sudut pedalaman = (7-2) × 180° = 5 × 180° = 900°"
-                },
-                {
-                    question: "Jika jumlah sudut pedalaman sebuah poligon ialah 1440°, berapakah bilangan sisinya?",
-                    options: ["8 sisi", "9 sisi", "10 sisi", "12 sisi"],
-                    correct: 2,
-                    explanation: "1440° ÷ 180° = 8, jadi n = 8 + 2 = 10 sisi"
-                },
-                {
-                    question: "Berapakah sudut peluaran bagi sebuah pentagon sekata?",
-                    options: ["60°", "72°", "90°", "108°"],
-                    correct: 1,
-                    explanation: "Sudut peluaran = 360° ÷ 5 = 72°"
-                },
-                {
-                    question: "Sebuah poligon sekata mempunyai sudut peluaran 40°. Berapakah bilangan sisinya?",
-                    options: ["8 sisi", "9 sisi", "10 sisi", "12 sisi"],
-                    correct: 1,
-                    explanation: "Bilangan sisi = 360° ÷ 40° = 9 sisi"
-                },
-                {
-                    question: "Berapakah sudut pedalaman bagi sebuah oktagon sekata?",
-                    options: ["120°", "135°", "140°", "150°"],
-                    correct: 1,
-                    explanation: "Sudut pedalaman = [(8-2) × 180°] ÷ 8 = 1080° ÷ 8 = 135°"
-                },
-                {
-                    question: "Jumlah sudut peluaran bagi mana-mana poligon adalah:",
-                    options: ["180°", "270°", "360°", "Bergantung pada bilangan sisi"],
-                    correct: 2,
-                    explanation: "Jumlah sudut peluaran sentiasa 360° untuk semua poligon"
+        const translations = {
+            ms: {
+                mainTitle: "📚 Praktis: Bulatan",
+                subtitle: "Matematik Tingkatan 2 - Bab 5: Bulatan",
+                learnTitle: "Mod Pembelajaran",
+                learnDesc: "Belajar formula dan konsep asas bulatan dengan panduan langkah demi langkah",
+                challengeTitle: "Mod Cabaran", 
+                challengeDesc: "Uji kemahiran dengan soalan yang semakin sukar dan had masa",
+                practiceTitle: "Mod Latihan",
+                practiceDesc: "Latihan tanpa tekanan dengan pelbagai jenis soalan",
+                backBtn: "← Kembali",
+                scoreLabel: "Skor:",
+                questionLabel: "Soalan:",
+                timeLabel: "Masa:",
+                nextBtnText: "Soalan Seterusnya",
+                resultsTitle: "Keputusan Permainan",
+                playAgainBtn: "Main Lagi",
+                hintLabel: "Petua:",
+                correctFeedback: "Betul! Jawapan yang tepat!",
+                wrongFeedback: "Salah. Jawapan yang betul ialah:",
+                excellentMsg: "🎉 Cemerlang! Anda menguasai sifat bulatan!",
+                goodMsg: "👍 Bagus! Teruskan usaha!",
+                tryAgainMsg: "💪 Jangan berputus asa! Cuba lagi!",
+                timeUpMsg: "⏰ Masa tamat!",
+                formulas: {
+                    diameter: "Formula: d = 2r (diameter = 2 × jejari)",
+                    radius: "Formula: r = d ÷ 2 (jejari = diameter ÷ 2)", 
+                    circumference: "Formula: Lilitan = 2πr atau πd (π = 22/7)",
+                    area: "Formula: Luas = πr² (π = 22/7)"
                 }
-            ],
-            en: [
-                {
-                    question: "What is the sum of interior angles of a heptagon (7 sides)?",
-                    options: ["720°", "900°", "1080°", "1260°"],
-                    correct: 1,
-                    explanation: "Sum of interior angles = (7-2) × 180° = 5 × 180° = 900°"
-                },
-                {
-                    question: "If the sum of interior angles of a polygon is 1440°, how many sides does it have?",
-                    options: ["8 sides", "9 sides", "10 sides", "12 sides"],
-                    correct: 2,
-                    explanation: "1440° ÷ 180° = 8, so n = 8 + 2 = 10 sides"
-                },
-                {
-                    question: "What is the exterior angle of a regular pentagon?",
-                    options: ["60°", "72°", "90°", "108°"],
-                    correct: 1,
-                    explanation: "Exterior angle = 360° ÷ 5 = 72°"
-                },
-                {
-                    question: "A regular polygon has an exterior angle of 40°. How many sides does it have?",
-                    options: ["8 sides", "9 sides", "10 sides", "12 sides"],
-                    correct: 1,
-                    explanation: "Number of sides = 360° ÷ 40° = 9 sides"
-                },
-                {
-                    question: "What is the interior angle of a regular octagon?",
-                    options: ["120°", "135°", "140°", "150°"],
-                    correct: 1,
-                    explanation: "Interior angle = [(8-2) × 180°] ÷ 8 = 1080° ÷ 8 = 135°"
-                },
-                {
-                    question: "The sum of exterior angles of any polygon is:",
-                    options: ["180°", "270°", "360°", "Depends on number of sides"],
-                    correct: 2,
-                    explanation: "The sum of exterior angles is always 360° for all polygons"
+            },
+            en: {
+                mainTitle: "📚 Practice: Circles",
+                subtitle: "Form 2 Mathematics - Chapter 5: Circles",
+                learnTitle: "Learning Mode",
+                learnDesc: "Learn formulas and basic circle concepts with step-by-step guidance",
+                challengeTitle: "Challenge Mode",
+                challengeDesc: "Test your skills with increasingly difficult questions and time limits",
+                practiceTitle: "Practice Mode", 
+                practiceDesc: "Practice without pressure with various types of questions",
+                backBtn: "← Back",
+                scoreLabel: "Score:",
+                questionLabel: "Question:",
+                timeLabel: "Time:",
+                nextBtnText: "Next Question",
+                resultsTitle: "Game Results",
+                playAgainBtn: "Play Again",
+                hintLabel: "Hint:",
+                correctFeedback: "Correct! Well done!",
+                wrongFeedback: "Wrong. The correct answer is:",
+                excellentMsg: "🎉 Excellent! You've mastered circle properties!",
+                goodMsg: "👍 Good job! Keep it up!",
+                tryAgainMsg: "💪 Don't give up! Try again!",
+                timeUpMsg: "⏰ Time's up!",
+                formulas: {
+                    diameter: "Formula: d = 2r (diameter = 2 × radius)",
+                    radius: "Formula: r = d ÷ 2 (radius = diameter ÷ 2)",
+                    circumference: "Formula: Circumference = 2πr or πd (π = 22/7)", 
+                    area: "Formula: Area = πr² (π = 22/7)"
                 }
-            ]
+            }
         };
 
         function setLanguage(lang) {
@@ -734,112 +503,450 @@
             event.target.classList.add('active');
             
             // Update all text elements
-            document.querySelectorAll('[data-ms]').forEach(element => {
-                if (lang === 'ms') {
-                    element.textContent = element.getAttribute('data-ms');
-                } else {
-                    element.textContent = element.getAttribute('data-en');
-                }
-            });
+            const t = translations[lang];
+            document.getElementById('mainTitle').textContent = t.mainTitle;
+            document.getElementById('subtitle').textContent = t.subtitle;
+            document.getElementById('learnTitle').textContent = t.learnTitle;
+            document.getElementById('learnDesc').textContent = t.learnDesc;
+            document.getElementById('challengeTitle').textContent = t.challengeTitle;
+            document.getElementById('challengeDesc').textContent = t.challengeDesc;
+            document.getElementById('practiceTitle').textContent = t.practiceTitle;
+            document.getElementById('practiceDesc').textContent = t.practiceDesc;
+            document.getElementById('backBtn').textContent = t.backBtn;
+            document.getElementById('scoreLabel').textContent = t.scoreLabel;
+            document.getElementById('questionLabel').textContent = t.questionLabel;
+            document.getElementById('timeLabel').textContent = t.timeLabel;
+            document.getElementById('nextBtnText').textContent = t.nextBtnText;
+            document.getElementById('resultsTitle').textContent = t.resultsTitle;
+            document.getElementById('playAgainBtn').textContent = t.playAgainBtn;
+            document.getElementById('hintLabel').textContent = t.hintLabel;
             
-            // Update elements with HTML content (for elements that need innerHTML)
-            document.querySelectorAll('[data-ms]').forEach(element => {
-                const msContent = element.getAttribute('data-ms');
-                const enContent = element.getAttribute('data-en');
+            // Update current question text if game is active
+            if (questions.length > 0 && currentQuestion < questions.length) {
+                const q = questions[currentQuestion];
+                document.getElementById('questionText').textContent = currentLanguage === 'ms' ? q.textMs : q.textEn;
                 
-                // Check if content contains <br> tags or needs HTML rendering
-                if (msContent && msContent.includes('<br>') || enContent && enContent.includes('<br>')) {
-                    if (lang === 'ms') {
-                        element.innerHTML = msContent;
+                // Update hint text if visible
+                if (gameMode === 'learn') {
+                    document.getElementById('hintText').textContent = currentLanguage === 'ms' ? q.hintMs : q.hintEn;
+                }
+                
+                // Update feedback if visible
+                const feedback = document.getElementById('feedback');
+                if (feedback.style.display !== 'none' && answered) {
+                    const explanation = currentLanguage === 'ms' ? q.explanationMs : q.explanationEn;
+                    if (feedback.classList.contains('correct')) {
+                        feedback.textContent = t.correctFeedback;
                     } else {
-                        element.innerHTML = enContent;
+                        feedback.textContent = t.wrongFeedback + ' ' + explanation;
                     }
                 }
-            });
-            
-            // Reset quiz to first question
-            currentQuestionIndex = 0;
-            loadQuestion();
+            }
         }
 
-        function flipCard(card) {
-            card.classList.toggle('flipped');
+        // Fixed question data for different modes
+        const questionDataByMode = {
+            learn: [
+                // Learning mode: Easy numbers, basic concepts only (diameter & radius)
+                { radius: 5, type: 'diameter' },
+                { radius: 10, type: 'radius' },
+                { radius: 3, type: 'diameter' },
+                { radius: 8, type: 'radius' },
+                { radius: 6, type: 'diameter' },
+                { radius: 12, type: 'radius' },
+                { radius: 4, type: 'diameter' },
+                { radius: 14, type: 'radius' },
+                { radius: 7, type: 'diameter' },
+                { radius: 16, type: 'radius' }
+            ],
+            challenge: [
+                // Challenge mode: All concepts with harder numbers
+                { radius: 7, type: 'circumference' },
+                { radius: 14, type: 'area' },
+                { radius: 21, type: 'circumference' },
+                { radius: 7, type: 'area' },
+                { radius: 14, type: 'circumference' },
+                { radius: 21, type: 'area' },
+                { radius: 35, type: 'circumference' },
+                { radius: 28, type: 'area' },
+                { radius: 42, type: 'circumference' },
+                { radius: 35, type: 'area' }
+            ],
+            practice: [
+                // Practice mode: Mixed difficulty and all concepts
+                { radius: 6, type: 'diameter' },
+                { radius: 7, type: 'circumference' },
+                { radius: 14, type: 'area' },
+                { radius: 18, type: 'radius' },
+                { radius: 21, type: 'circumference' },
+                { radius: 7, type: 'area' },
+                { radius: 9, type: 'diameter' },
+                { radius: 14, type: 'circumference' },
+                { radius: 21, type: 'area' },
+                { radius: 24, type: 'radius' }
+            ]
+        };
+
+        function generateQuestions(mode) {
+            questions = [];
+            const questionData = questionDataByMode[mode];
+            
+            for (let i = 0; i < 10; i++) {
+                const r = questionData[i].radius;
+                const d = r * 2;
+                const type = questionData[i].type;
+                
+                let question = {};
+                
+                switch (type) {
+                    case 'diameter':
+                        question = {
+                            textMs: `Jika jejari bulatan ialah ${r} cm, berapakah diameternya?`,
+                            textEn: `If the radius of a circle is ${r} cm, what is its diameter?`,
+                            visual: { type: 'radius', value: r },
+                            correct: d,
+                            options: [d, d + 2, d - 1, r].filter((v, i, arr) => arr.indexOf(v) === i && v > 0),
+                            hintMs: "Formula: d = 2r (diameter = 2 × jejari)",
+                            hintEn: "Formula: d = 2r (diameter = 2 × radius)",
+                            explanationMs: `Diameter = 2 × jejari = 2 × ${r} = ${d} cm`,
+                            explanationEn: `Diameter = 2 × radius = 2 × ${r} = ${d} cm`
+                        };
+                        // Ensure we have 4 unique options
+                        while (question.options.length < 4) {
+                            const newOption = d + Math.floor(Math.random() * 10) - 5;
+                            if (newOption > 0 && !question.options.includes(newOption)) {
+                                question.options.push(newOption);
+                            }
+                        }
+                        break;
+                    case 'radius':
+                        question = {
+                            textMs: `Jika diameter bulatan ialah ${d} cm, berapakah jejarinya?`,
+                            textEn: `If the diameter of a circle is ${d} cm, what is its radius?`,
+                            visual: { type: 'diameter', value: d },
+                            correct: r,
+                            options: [r, r + 1, r + 2, r - 1].filter((v, i, arr) => arr.indexOf(v) === i && v > 0),
+                            hintMs: "Formula: r = d ÷ 2 (jejari = diameter ÷ 2)",
+                            hintEn: "Formula: r = d ÷ 2 (radius = diameter ÷ 2)",
+                            explanationMs: `Jejari = diameter ÷ 2 = ${d} ÷ 2 = ${r} cm`,
+                            explanationEn: `Radius = diameter ÷ 2 = ${d} ÷ 2 = ${r} cm`
+                        };
+                        // Ensure we have 4 unique options
+                        while (question.options.length < 4) {
+                            const newOption = r + Math.floor(Math.random() * 8) - 4;
+                            if (newOption > 0 && !question.options.includes(newOption)) {
+                                question.options.push(newOption);
+                            }
+                        }
+                        break;
+                    case 'circumference':
+                        const circumferenceValue = Math.round((44 * r) / 7 * 10) / 10;
+                        question = {
+                            textMs: `Jika jejari bulatan ialah ${r} cm, berapakah lilitannya? (π = 22/7)`,
+                            textEn: `If the radius of a circle is ${r} cm, what is its circumference? (π = 22/7)`,
+                            visual: { type: 'radius', value: r },
+                            correct: circumferenceValue,
+                            options: [
+                                circumferenceValue,
+                                Math.round((circumferenceValue + 10) * 10) / 10,
+                                Math.round((circumferenceValue - 5) * 10) / 10,
+                                Math.round((r * 6) * 10) / 10
+                            ].filter((v, i, arr) => arr.indexOf(v) === i && v > 0),
+                            hintMs: "Formula: Lilitan = 2πr atau πd (π = 22/7)",
+                            hintEn: "Formula: Circumference = 2πr or πd (π = 22/7)",
+                            explanationMs: `Lilitan = 2πr = 2 × (22/7) × ${r} = (44 × ${r})/7 = ${circumferenceValue} cm`,
+                            explanationEn: `Circumference = 2πr = 2 × (22/7) × ${r} = (44 × ${r})/7 = ${circumferenceValue} cm`
+                        };
+                        // Ensure we have 4 unique options
+                        while (question.options.length < 4) {
+                            const newOption = Math.round((circumferenceValue + Math.random() * 20 - 10) * 10) / 10;
+                            if (newOption > 0 && !question.options.includes(newOption)) {
+                                question.options.push(newOption);
+                            }
+                        }
+                        break;
+                    case 'area':
+                        const areaValue = Math.round((22 * r * r) / 7 * 10) / 10;
+                        question = {
+                            textMs: `Jika jejari bulatan ialah ${r} cm, berapakah luasnya? (π = 22/7)`,
+                            textEn: `If the radius of a circle is ${r} cm, what is its area? (π = 22/7)`,
+                            visual: { type: 'radius', value: r },
+                            correct: areaValue,
+                            options: [
+                                areaValue,
+                                Math.round((areaValue + 20) * 10) / 10,
+                                Math.round((areaValue - 10) * 10) / 10,
+                                Math.round((r * r * 3) * 10) / 10
+                            ].filter((v, i, arr) => arr.indexOf(v) === i && v > 0),
+                            hintMs: "Formula: Luas = πr² (π = 22/7)",
+                            hintEn: "Formula: Area = πr² (π = 22/7)",
+                            explanationMs: `Luas = πr² = (22/7) × ${r}² = (22 × ${r * r})/7 = ${areaValue} cm²`,
+                            explanationEn: `Area = πr² = (22/7) × ${r}² = (22 × ${r * r})/7 = ${areaValue} cm²`
+                        };
+                        // Ensure we have 4 unique options
+                        while (question.options.length < 4) {
+                            const newOption = Math.round((areaValue + Math.random() * 40 - 20) * 10) / 10;
+                            if (newOption > 0 && !question.options.includes(newOption)) {
+                                question.options.push(newOption);
+                            }
+                        }
+                        break;
+                }
+                
+                questions.push(question);
+            }
         }
 
-        function loadQuestion() {
-            const question = questions[currentLanguage][currentQuestionIndex];
-            document.getElementById('question-text').textContent = question.question;
+        function startGame(mode) {
+            // Clear any existing timer
+            clearInterval(timer);
             
-            // Update progress bar
-            const totalQuestions = questions[currentLanguage].length;
-            const progressPercent = ((currentQuestionIndex + 1) / totalQuestions) * 100;
-            document.getElementById('progress-fill').style.width = progressPercent + '%';
+            // Reset all game variables
+            gameMode = mode;
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            timeLeft = 30;
             
-            const progressText = currentLanguage === 'ms' 
-                ? `Soalan ${currentQuestionIndex + 1} daripada ${totalQuestions}`
-                : `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
-            document.getElementById('progress-text').textContent = progressText;
+            // Update score display
+            document.getElementById('currentScore').textContent = '0';
             
-            const optionsContainer = document.getElementById('quiz-options');
-            optionsContainer.innerHTML = '';
+            // Generate new questions
+            generateQuestions(mode);
             
-            question.options.forEach((option, index) => {
-                const optionDiv = document.createElement('div');
-                optionDiv.className = 'quiz-option';
-                optionDiv.textContent = option;
-                optionDiv.onclick = () => selectOption(optionDiv, index === question.correct);
-                optionsContainer.appendChild(optionDiv);
-            });
+            // Show/hide appropriate screens
+            document.getElementById('modeSelection').style.display = 'none';
+            document.getElementById('gameArea').classList.add('active');
+            document.getElementById('resultsArea').classList.remove('active');
             
-            // Reset quiz state
-            selectedOption = null;
-            document.getElementById('quiz-result').innerHTML = '';
-            document.querySelectorAll('.quiz-option').forEach(opt => {
-                opt.classList.remove('selected', 'correct', 'incorrect');
-            });
+            // Show timer for challenge mode
+            if (mode === 'challenge') {
+                document.getElementById('timerStat').style.display = 'block';
+            } else {
+                document.getElementById('timerStat').style.display = 'none';
+            }
+            
+            showQuestion();
         }
 
-        function selectOption(option, isCorrect) {
-            // Remove previous selection
-            document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+        function showQuestion() {
+            console.log(`Showing question ${currentQuestion + 1} of ${questions.length}`);
             
-            // Mark current selection
-            option.classList.add('selected');
-            selectedOption = { element: option, isCorrect: isCorrect };
-        }
-
-        function checkAnswer() {
-            if (!selectedOption) {
-                alert(currentLanguage === 'ms' ? 'Sila pilih jawapan terlebih dahulu!' : 'Please select an answer first!');
+            if (currentQuestion >= questions.length) {
+                console.log('All questions completed, showing results');
+                showResults();
                 return;
             }
             
-            const question = questions[currentLanguage][currentQuestionIndex];
-            const resultDiv = document.getElementById('quiz-result');
+            answered = false;
+            const q = questions[currentQuestion];
+            console.log('Current question:', q);
             
-            // Show correct answer
-            document.querySelectorAll('.quiz-option').forEach((opt, index) => {
-                if (index === question.correct) {
-                    opt.classList.add('correct');
-                } else if (opt.classList.contains('selected') && !selectedOption.isCorrect) {
-                    opt.classList.add('incorrect');
+            // Update question number and progress
+            document.getElementById('questionNumber').textContent = currentQuestion + 1;
+            document.getElementById('progressFill').style.width = ((currentQuestion + 1) / questions.length * 100) + '%';
+            
+            // Show question based on current language
+            document.getElementById('questionText').textContent = currentLanguage === 'ms' ? q.textMs : q.textEn;
+            
+            // Show visual if needed
+            if (q.visual) {
+                const visual = document.getElementById('circleVisual');
+                const circle = document.getElementById('visualCircle');
+                const label = document.getElementById('circleLabel');
+                
+                visual.style.display = 'block';
+                
+                if (q.visual.type === 'radius') {
+                    const size = Math.min(150, q.visual.value * 8);
+                    circle.style.width = size + 'px';
+                    circle.style.height = size + 'px';
+                    label.textContent = `r = ${q.visual.value}cm`;
+                    
+                    // Add radius line
+                    circle.innerHTML = `
+                        <div style="position: absolute; width: 2px; height: ${size/2}px; background: #f39c12; top: 50%; left: 50%; transform-origin: top; transform: translateX(-50%);"></div>
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #e74c3c; width: 6px; height: 6px; border-radius: 50%;"></div>
+                        <span style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 0.8rem; color: #ecf0f1;">r = ${q.visual.value}cm</span>
+                    `;
+                } else if (q.visual.type === 'diameter') {
+                    const size = Math.min(150, q.visual.value * 4);
+                    circle.style.width = size + 'px';
+                    circle.style.height = size + 'px';
+                    
+                    // Add diameter line
+                    circle.innerHTML = `
+                        <div style="position: absolute; width: ${size}px; height: 2px; background: #f39c12; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+                        <div style="position: absolute; top: 50%; left: 0; transform: translateY(-50%); background: #e74c3c; width: 6px; height: 6px; border-radius: 50%;"></div>
+                        <div style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); background: #e74c3c; width: 6px; height: 6px; border-radius: 50%;"></div>
+                        <span style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 0.8rem; color: #ecf0f1;">d = ${q.visual.value}cm</span>
+                    `;
                 }
+            } else {
+                document.getElementById('circleVisual').style.display = 'none';
+            }
+            
+            // Show hint for learning mode
+            if (gameMode === 'learn') {
+                document.getElementById('formulaHint').style.display = 'block';
+                document.getElementById('hintText').textContent = currentLanguage === 'ms' ? q.hintMs : q.hintEn;
+            } else {
+                document.getElementById('formulaHint').style.display = 'none';
+            }
+            
+            // Show options - completely reset the options area
+            const optionsContainer = document.getElementById('answerOptions');
+            optionsContainer.innerHTML = '';
+            
+            const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+            
+            shuffledOptions.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'answer-btn';
+                btn.textContent = option;
+                btn.style.pointerEvents = 'auto'; // Ensure buttons are clickable
+                btn.onclick = () => selectAnswer(option, q);
+                optionsContainer.appendChild(btn);
             });
             
-            if (selectedOption.isCorrect) {
-                resultDiv.innerHTML = `<div class="result-correct">${currentLanguage === 'ms' ? '✓ Betul!' : '✓ Correct!'} ${question.explanation}</div>`;
-            } else {
-                resultDiv.innerHTML = `<div class="result-incorrect">${currentLanguage === 'ms' ? '✗ Salah.' : '✗ Incorrect.'} ${question.explanation}</div>`;
+            // Hide feedback and reset its state
+            const feedback = document.getElementById('feedback');
+            feedback.style.display = 'none';
+            feedback.className = 'feedback'; // Reset feedback class
+            feedback.textContent = ''; // Clear feedback text
+            
+            // Start timer for challenge mode
+            if (gameMode === 'challenge') {
+                timeLeft = 30;
+                updateTimer();
+                timer = setInterval(() => {
+                    timeLeft--;
+                    updateTimer();
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        if (!answered) {
+                            selectAnswer(null, q);
+                        }
+                    }
+                }, 1000);
             }
         }
 
+        function updateTimer() {
+            document.getElementById('timeLeft').textContent = timeLeft;
+        }
+
+        function selectAnswer(selected, question) {
+            console.log('selectAnswer called with:', selected, 'answered:', answered);
+            if (answered) return;
+            
+            answered = true;
+            clearInterval(timer);
+            console.log('Answer selected, setting up auto-advance');
+            
+            const options = document.querySelectorAll('.answer-btn');
+            const feedback = document.getElementById('feedback');
+            const t = translations[currentLanguage];
+            
+            // Disable all buttons and mark correct/wrong answers
+            options.forEach(btn => {
+                btn.onclick = null;
+                btn.style.pointerEvents = 'none';
+                if (parseFloat(btn.textContent) === question.correct) {
+                    btn.classList.add('correct');
+                } else if (parseFloat(btn.textContent) === selected && selected !== question.correct) {
+                    btn.classList.add('wrong');
+                }
+            });
+            
+            if (selected === question.correct) {
+                score++;
+                document.getElementById('currentScore').textContent = score;
+                feedback.className = 'feedback correct';
+                feedback.textContent = t.correctFeedback;
+            } else {
+                feedback.className = 'feedback wrong';
+                const explanation = currentLanguage === 'ms' ? question.explanationMs : question.explanationEn;
+                if (selected === null) {
+                    feedback.textContent = t.timeUpMsg + ' ' + explanation;
+                } else {
+                    feedback.textContent = t.wrongFeedback + ' ' + explanation;
+                }
+            }
+            
+            feedback.style.display = 'block';
+            
+            // Auto advance to next question after 3 seconds
+            setTimeout(() => {
+                if (answered) { // Only advance if we're still in answered state
+                    currentQuestion++;
+                    showQuestion();
+                }
+            }, 3000);
+        }
+
         function nextQuestion() {
-            currentQuestionIndex = (currentQuestionIndex + 1) % questions[currentLanguage].length;
-            loadQuestion();
+            // This function is no longer needed as we use auto-advance
+            currentQuestion++;
+            showQuestion();
+        }
+
+        function showResults() {
+            document.getElementById('gameArea').classList.remove('active');
+            document.getElementById('resultsArea').classList.add('active');
+            
+            const percentage = (score / questions.length) * 100;
+            const t = translations[currentLanguage];
+            
+            document.getElementById('finalScore').textContent = `${score}/${questions.length}`;
+            
+            let message = '';
+            if (percentage >= 80) {
+                message = t.excellentMsg;
+            } else if (percentage >= 60) {
+                message = t.goodMsg;
+            } else {
+                message = t.tryAgainMsg;
+            }
+            
+            document.getElementById('resultsMessage').innerHTML = `
+                <p style="font-size: 1.2rem; margin: 20px 0;">${message}</p>
+                <p style="font-size: 1.1rem; opacity: 0.9;">${currentLanguage === 'ms' ? 'Peratusan' : 'Percentage'}: ${percentage.toFixed(1)}%</p>
+            `;
+        }
+
+        function backToMenu() {
+            // Clear any existing timer
+            clearInterval(timer);
+            
+            // Reset all game variables to initial state
+            gameMode = '';
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            timeLeft = 30;
+            questions = [];
+            
+            // Reset displays
+            document.getElementById('currentScore').textContent = '0';
+            document.getElementById('questionNumber').textContent = '1';
+            document.getElementById('progressFill').style.width = '10%';
+            
+            // Clear question area
+            document.getElementById('questionText').textContent = 'Soalan akan muncul di sini...';
+            document.getElementById('answerOptions').innerHTML = '';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('circleVisual').style.display = 'none';
+            document.getElementById('formulaHint').style.display = 'none';
+            
+            // Show menu, hide game areas
+            document.getElementById('modeSelection').style.display = 'block';
+            document.getElementById('gameArea').classList.remove('active');
+            document.getElementById('resultsArea').classList.remove('active');
         }
 
         // Initialize
-        loadQuestion();
+        setLanguage('ms');
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9858d5c1d3cea319',t:'MTc1ODk1MzM5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')Ffash[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9858c85691e4f509',t:'MTc1ODk1Mjg0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
