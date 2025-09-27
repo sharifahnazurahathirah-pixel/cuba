@@ -326,9 +326,10 @@
         }
         
         .instructions-panel.open {
-            max-height: 800px;
+            max-height: 90vh;
             opacity: 1;
             margin-bottom: 30px;
+            overflow-y: auto;
         }
         
         .instructions-header {
@@ -507,18 +508,52 @@
                 font-size: 1rem;
             }
             
+            .instructions-panel.open {
+                max-height: 85vh;
+                position: fixed;
+                top: 5vh;
+                left: 10px;
+                right: 10px;
+                z-index: 1000;
+                margin: 0;
+                border-radius: 15px;
+            }
+            
             .instructions-content {
                 grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 20px;
+                gap: 15px;
+                padding: 15px;
+                max-height: calc(85vh - 80px);
+                overflow-y: auto;
             }
             
             .instructions-header {
                 padding: 15px 20px;
+                position: sticky;
+                top: 0;
+                z-index: 10;
             }
             
             .instructions-header h3 {
                 font-size: 1.2rem;
+            }
+            
+            .instruction-modes,
+            .instruction-shapes,
+            .instruction-scoring,
+            .instruction-tips {
+                padding: 15px;
+                margin-bottom: 10px;
+            }
+            
+            .instructions-content h4 {
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+            }
+            
+            .instructions-content li {
+                font-size: 0.9rem;
+                margin-bottom: 6px;
             }
             
             .level-info {
@@ -1065,5 +1100,5 @@
         // Initialize
         updateDisplay();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9859b127e7ec1d95',t:'MTc1ODk2MjM4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9859d78c9516e708',t:'MTc1ODk2Mzk1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
