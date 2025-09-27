@@ -282,16 +282,20 @@
             }
             
             .circle {
-                width: 150px;
-                height: 150px;
+                width: 120px;
+                height: 120px;
             }
             
             .radius-line {
-                width: 75px;
+                width: 60px;
             }
             
             .header h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
             }
             
             .content {
@@ -299,57 +303,145 @@
             }
             
             .section {
-                padding: 20px;
+                padding: 15px;
+            }
+            
+            .section h2 {
+                font-size: 1.5rem;
             }
             
             .circle-diagram {
-                padding: 20px;
+                padding: 15px;
+                overflow-x: auto;
             }
             
             .interactive-circle {
-                margin: 10px;
+                margin: 40px auto;
+                position: relative;
+            }
+            
+            /* Adjust all circle elements for mobile */
+            .circle div[style*="width: 100px"] {
+                width: 60px !important;
             }
             
             .label {
-                font-size: 0.7rem !important;
-                padding: 3px 6px;
+                font-size: 0.6rem !important;
+                padding: 2px 4px !important;
+                white-space: nowrap;
             }
             
-            /* Adjust label positions for mobile */
+            /* Mobile specific label positioning */
             .label[style*="left: -80px"] {
-                left: -60px !important;
+                left: -45px !important;
             }
             
             .label[style*="left: -70px"] {
-                left: -55px !important;
+                left: -40px !important;
             }
             
             .label[style*="left: -75px"] {
-                left: -60px !important;
+                left: -42px !important;
             }
             
             .label[style*="left: -65px"] {
-                left: -50px !important;
+                left: -38px !important;
             }
             
             .label[style*="right: -65px"] {
-                right: -50px !important;
+                right: -38px !important;
             }
             
             .label[style*="right: -60px"] {
-                right: -45px !important;
+                right: -35px !important;
             }
             
             .label[style*="right: -75px"] {
-                right: -55px !important;
+                right: -42px !important;
             }
             
             .label[style*="right: -70px"] {
-                right: -50px !important;
+                right: -40px !important;
             }
             
             .label[style*="right: -55px"] {
-                right: -40px !important;
+                right: -32px !important;
+            }
+            
+            /* Grid layout for definitions */
+            .circle-diagram div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+                text-align: left !important;
+            }
+            
+            .circle-diagram p {
+                font-size: 0.9rem;
+                margin: 8px 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .circle {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .circle div[style*="width: 100px"] {
+                width: 50px !important;
+            }
+            
+            .interactive-circle {
+                margin: 50px auto;
+            }
+            
+            .label {
+                font-size: 0.5rem !important;
+                padding: 1px 3px !important;
+            }
+            
+            .label[style*="left: -80px"] {
+                left: -35px !important;
+            }
+            
+            .label[style*="left: -70px"] {
+                left: -32px !important;
+            }
+            
+            .label[style*="left: -75px"] {
+                left: -33px !important;
+            }
+            
+            .label[style*="left: -65px"] {
+                left: -30px !important;
+            }
+            
+            .label[style*="right: -65px"] {
+                right: -30px !important;
+            }
+            
+            .label[style*="right: -60px"] {
+                right: -28px !important;
+            }
+            
+            .label[style*="right: -75px"] {
+                right: -33px !important;
+            }
+            
+            .label[style*="right: -70px"] {
+                right: -32px !important;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .content {
+                padding: 10px;
+            }
+            
+            .section {
+                padding: 12px;
             }
         }
     </style>
@@ -775,5 +867,5 @@
             });
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9859f5c2e04e2e0e',t:'MTc1ODk2NTE5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9859fc22b7c3c6d0',t:'MTc1ODk2NTQ1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
