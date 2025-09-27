@@ -422,6 +422,22 @@
             transform: translateY(-1px);
         }
         
+        .reset-btn {
+            padding: 10px 20px;
+            background: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .reset-btn:hover {
+            background: #c53030;
+            transform: translateY(-1px);
+        }
+        
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -502,7 +518,8 @@
             }
             
             .instructions-btn,
-            .new-question-btn {
+            .new-question-btn,
+            .reset-btn {
                 width: 100%;
                 padding: 15px 20px;
                 font-size: 1rem;
@@ -668,6 +685,9 @@
                 </button>
                 <button class="new-question-btn" onclick="startGame()">
                     <span data-ms="Mula Permainan" data-en="Start Game">Mula Permainan</span>
+                </button>
+                <button class="reset-btn" onclick="resetToMenu()">
+                    <span data-ms="🔄 Reset" data-en="🔄 Reset">🔄 Reset</span>
                 </button>
             </div>
         </div>
@@ -1097,8 +1117,61 @@
             panel.classList.toggle('open');
         }
         
+        function resetToMenu() {
+            // Stop any active game
+            gameActive = false;
+            clearInterval(timerInterval);
+            
+            // Reset all game variables
+            score = 0;
+            level = 1;
+            lives = 3;
+            streak = 0;
+            timer = 30;
+            selectedChoice = -1;
+            
+            // Reset game mode to practice
+            gameMode = 'practice';
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.mode-btn[onclick="setGameMode(\'practice\')"]').classList.add('active');
+            
+            // Hide game elements
+            document.getElementById('challenge-info').style.display = 'none';
+            document.getElementById('streak-display').style.display = 'none';
+            document.getElementById('dimensions').style.display = 'none';
+            document.getElementById('formula').style.display = 'none';
+            document.getElementById('choices').style.display = 'none';
+            document.getElementById('feedback').style.display = 'none';
+            
+            // Reset question text to initial state
+            const questionText = document.getElementById('question-text');
+            questionText.innerHTML = '<span data-ms="Tekan \'Mula Permainan\' untuk bermula!" data-en="Click \'Start Game\' to begin!">Tekan \'Mula Permainan\' untuk bermula!</span>';
+            
+            // Update language for the reset question text
+            const span = questionText.querySelector('span');
+            span.textContent = span.getAttribute(`data-${currentLanguage}`);
+            
+            // Update display
+            updateDisplay();
+            
+            // Show confirmation message
+            const feedback = document.getElementById('feedback');
+            feedback.className = 'feedback';
+            feedback.style.background = 'linear-gradient(45deg, #38b2ac, #4fd1c7)';
+            feedback.style.color = 'white';
+            feedback.textContent = currentLanguage === 'ms' ? 
+                '✅ Permainan telah di-reset! Pilih mod dan tekan "Mula Permainan"' : 
+                '✅ Game has been reset! Choose a mode and click "Start Game"';
+            feedback.style.display = 'block';
+            
+            // Hide the confirmation message after 3 seconds
+            setTimeout(() => {
+                feedback.style.display = 'none';
+            }, 3000);
+        }
+        
         // Initialize
         updateDisplay();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9859d78c9516e708',t:'MTc1ODk2Mzk1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9859e8f74342f50a',t:'MTc1ODk2NDY2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
