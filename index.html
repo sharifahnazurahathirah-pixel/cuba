@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Permainan Luas Permukaan Bentuk 3D | 3D Shape Surface Area Game</title>
+    <title>Praktis Bulatan - Circle Practice</title>
     <style>
         body {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             margin: 0;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #333;
         }
         
         .container {
@@ -20,593 +19,337 @@
             margin: 0 auto;
             background: white;
             border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
         }
         
         .header {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
             text-align: center;
-            margin-bottom: 30px;
+            padding: 30px;
         }
         
-        .title {
+        .header h1 {
+            margin: 0;
             font-size: 2.5rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
         .subtitle {
             font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 20px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
         }
         
         .language-toggle {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            text-align: center;
+            margin-bottom: 30px;
         }
         
         .lang-btn {
-            padding: 8px 16px;
-            border: 2px solid #667eea;
-            background: white;
-            color: #667eea;
+            background: linear-gradient(45deg, #48cae4, #0077b6);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 0 10px;
             border-radius: 25px;
             cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .lang-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
         
         .lang-btn.active {
-            background: #667eea;
-            color: white;
+            background: linear-gradient(45deg, #06d6a0, #118ab2);
         }
         
-        .game-area {
-            background: #f8f9ff;
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-            border: 3px solid #e1e5ff;
-        }
-        
-        .game-mode {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .mode-btn {
-            padding: 12px 24px;
-            border: 2px solid #667eea;
-            background: white;
-            color: #667eea;
+        .section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
             border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-            font-size: 1.1rem;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #ff6b6b;
         }
         
-        .mode-btn.active {
-            background: #667eea;
-            color: white;
-            transform: scale(1.05);
+        .section h2 {
+            color: #2d3436;
+            margin-top: 0;
+            font-size: 1.8rem;
         }
         
-        .mode-btn:hover {
-            transform: scale(1.02);
-        }
-        
-        .challenge-area {
+        .circle-diagram {
             text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .timer {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #e53e3e;
-            margin-bottom: 20px;
-        }
-        
-        .level-info {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 25px;
-            display: inline-block;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-        
-        .question-card {
+            margin: 30px 0;
             background: white;
-            border-radius: 15px;
             padding: 30px;
-            border: 3px solid #e1e5ff;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        .multiple-choice {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
+        .interactive-circle {
+            position: relative;
+            display: inline-block;
+            margin: 20px;
         }
         
-        .choice-btn {
-            padding: 15px 20px;
-            border: 2px solid #e2e8f0;
-            background: white;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-        
-        .choice-btn:hover {
-            border-color: #667eea;
-            background: #f8f9ff;
-            transform: translateY(-2px);
-        }
-        
-        .choice-btn.selected {
-            border-color: #667eea;
-            background: #667eea;
-            color: white;
-        }
-        
-        .choice-btn.correct {
-            border-color: #48bb78;
-            background: #48bb78;
-            color: white;
-        }
-        
-        .choice-btn.incorrect {
-            border-color: #f56565;
-            background: #f56565;
-            color: white;
-        }
-        
-        .streak-display {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            margin: 20px 0;
-        }
-        
-        .streak-dot {
-            width: 12px;
-            height: 12px;
+        .circle {
+            width: 200px;
+            height: 200px;
+            border: 4px solid #ff6b6b;
             border-radius: 50%;
-            background: #e2e8f0;
-            transition: all 0.3s;
+            position: relative;
+            background: linear-gradient(45deg, rgba(255,107,107,0.1), rgba(254,202,87,0.1));
         }
         
-        .streak-dot.active {
-            background: #48bb78;
-            transform: scale(1.2);
+        .center-point {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: #e74c3c;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        
+        .radius-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 2px;
+            background: #3498db;
+            transform-origin: left center;
+            transform: translate(0, -50%) rotate(45deg);
+        }
+        
+        .diameter-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #27ae60;
+            transform: translateY(-50%);
+        }
+        
+        .label {
+            position: absolute;
+            font-weight: bold;
+            font-size: 0.9rem;
+            padding: 4px 8px;
+            border-radius: 10px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .radius-label {
+            background: #3498db;
+            top: 20%;
+            right: 10%;
+        }
+        
+        .diameter-label {
+            background: #27ae60;
+            top: -15%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .center-label {
+            background: #e74c3c;
+            bottom: -15%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .quiz-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border-left: 5px solid #f39c12;
         }
         
         .question {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #2d3748;
-        }
-        
-        .dimensions {
-            background: #e6fffa;
-            padding: 15px;
+            background: white;
+            padding: 20px;
             border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 4px solid #38b2ac;
+            margin: 15px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
         
-        .formula-hint {
-            background: #f0fff4;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 4px solid #48bb78;
-            font-family: monospace;
-            font-size: 1.1rem;
+        .question h3 {
+            color: #2c3e50;
+            margin-top: 0;
         }
         
-        .input-area {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            margin-bottom: 20px;
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
         }
         
-        .answer-input {
-            flex: 1;
-            padding: 12px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            transition: border-color 0.3s;
-        }
-        
-        .answer-input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .submit-btn {
-            padding: 12px 24px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
+        .option {
+            background: #ecf0f1;
+            padding: 12px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
         
-        .submit-btn:hover {
-            background: #5a67d8;
+        .option:hover {
+            background: #d5dbdb;
+            transform: translateY(-1px);
+        }
+        
+        .option.selected {
+            background: #3498db;
+            color: white;
+            border-color: #2980b9;
+        }
+        
+        .option.correct {
+            background: #27ae60;
+            color: white;
+            border-color: #229954;
+        }
+        
+        .option.wrong {
+            background: #e74c3c;
+            color: white;
+            border-color: #c0392b;
+        }
+        
+        .check-btn {
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            color: #2c3e50;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .check-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
-        .feedback {
+        .result {
+            margin-top: 15px;
             padding: 15px;
             border-radius: 10px;
-            margin-bottom: 20px;
-            font-weight: 600;
+            font-weight: bold;
             text-align: center;
         }
         
-        .feedback.correct {
-            background: #f0fff4;
-            color: #22543d;
-            border: 2px solid #48bb78;
+        .result.correct {
+            background: #d5f4e6;
+            color: #27ae60;
+            border: 2px solid #27ae60;
         }
         
-        .feedback.incorrect {
-            background: #fff5f5;
-            color: #742a2a;
-            border: 2px solid #f56565;
+        .result.wrong {
+            background: #fadbd8;
+            color: #e74c3c;
+            border: 2px solid #e74c3c;
         }
         
-        .score-area {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #f7fafc;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .score {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #2d3748;
-        }
-        
-        .new-question-btn {
-            padding: 10px 20px;
-            background: #38b2ac;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .new-question-btn:hover {
-            background: #319795;
-            transform: translateY(-1px);
-        }
-        
-        .instructions-panel {
-            background: white;
-            border-radius: 20px;
-            padding: 0;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border: 3px solid #e1e5ff;
-            overflow: hidden;
-            max-height: 0;
-            transition: all 0.5s ease;
-            opacity: 0;
-        }
-        
-        .instructions-panel.open {
-            max-height: 90vh;
-            opacity: 1;
-            margin-bottom: 30px;
-            overflow-y: auto;
-        }
-        
-        .instructions-header {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .instructions-header h3 {
-            margin: 0;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        
-        .close-btn {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid rgba(255,255,255,0.3);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .close-btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: scale(1.1);
-        }
-        
-        .instructions-content {
-            padding: 30px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-        
-        .instruction-modes,
-        .instruction-shapes,
-        .instruction-scoring,
-        .instruction-tips {
-            background: #f8f9ff;
-            padding: 20px;
-            border-radius: 15px;
-            border-left: 4px solid #667eea;
-        }
-        
-        .instructions-content h4 {
-            margin: 0 0 15px 0;
-            color: #2d3748;
-            font-size: 1.2rem;
-        }
-        
-        .instructions-content ul {
-            margin: 0;
-            padding-left: 20px;
-        }
-        
-        .instructions-content li {
-            margin-bottom: 8px;
-            line-height: 1.5;
-        }
-        
-        .control-buttons {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .instructions-btn {
-            padding: 10px 20px;
-            background: #764ba2;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .instructions-btn:hover {
-            background: #6b46c1;
-            transform: translateY(-1px);
-        }
-        
-        .reset-btn {
-            padding: 10px 20px;
-            background: #e53e3e;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .reset-btn:hover {
-            background: #c53030;
-            transform: translateY(-1px);
+        .hidden {
+            display: none;
         }
         
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
+            .options {
+                grid-template-columns: 1fr;
             }
             
-            .container {
+            .circle {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .radius-line {
+                width: 75px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
                 padding: 15px;
-                border-radius: 15px;
             }
             
-            .title {
-                font-size: 1.8rem;
-                line-height: 1.2;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-            }
-            
-            .language-toggle {
-                flex-direction: column;
-                gap: 8px;
-            }
-            
-            .lang-btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
-            
-            .game-mode {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .mode-btn {
-                padding: 15px 20px;
-                font-size: 1rem;
-            }
-            
-            .game-area {
-                padding: 20px;
-                border-radius: 15px;
-            }
-            
-            .question-card {
+            .section {
                 padding: 20px;
             }
             
-            .question {
-                font-size: 1.1rem;
+            .circle-diagram {
+                padding: 20px;
             }
             
-            .multiple-choice {
-                grid-template-columns: 1fr;
-                gap: 12px;
+            .interactive-circle {
+                margin: 10px;
             }
             
-            .choice-btn {
-                padding: 18px 15px;
-                font-size: 1rem;
-                text-align: left;
+            .label {
+                font-size: 0.7rem !important;
+                padding: 3px 6px;
             }
             
-            .score-area {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
+            /* Adjust label positions for mobile */
+            .label[style*="left: -80px"] {
+                left: -60px !important;
             }
             
-            .score {
-                font-size: 1rem;
+            .label[style*="left: -70px"] {
+                left: -55px !important;
             }
             
-            .control-buttons {
-                flex-direction: column;
-                gap: 10px;
-                width: 100%;
+            .label[style*="left: -75px"] {
+                left: -60px !important;
             }
             
-            .instructions-btn,
-            .new-question-btn,
-            .reset-btn {
-                width: 100%;
-                padding: 15px 20px;
-                font-size: 1rem;
+            .label[style*="left: -65px"] {
+                left: -50px !important;
             }
             
-            .instructions-panel.open {
-                max-height: 85vh;
-                position: fixed;
-                top: 5vh;
-                left: 10px;
-                right: 10px;
-                z-index: 1000;
-                margin: 0;
-                border-radius: 15px;
+            .label[style*="right: -65px"] {
+                right: -50px !important;
             }
             
-            .instructions-content {
-                grid-template-columns: 1fr;
-                gap: 15px;
-                padding: 15px;
-                max-height: calc(85vh - 80px);
-                overflow-y: auto;
+            .label[style*="right: -60px"] {
+                right: -45px !important;
             }
             
-            .instructions-header {
-                padding: 15px 20px;
-                position: sticky;
-                top: 0;
-                z-index: 10;
+            .label[style*="right: -75px"] {
+                right: -55px !important;
             }
             
-            .instructions-header h3 {
-                font-size: 1.2rem;
+            .label[style*="right: -70px"] {
+                right: -50px !important;
             }
             
-            .instruction-modes,
-            .instruction-shapes,
-            .instruction-scoring,
-            .instruction-tips {
-                padding: 15px;
-                margin-bottom: 10px;
-            }
-            
-            .instructions-content h4 {
-                font-size: 1.1rem;
-                margin-bottom: 10px;
-            }
-            
-            .instructions-content li {
-                font-size: 0.9rem;
-                margin-bottom: 6px;
-            }
-            
-            .level-info {
-                padding: 12px 20px;
-                font-size: 1rem;
-            }
-            
-            .timer {
-                font-size: 1.5rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .title {
-                font-size: 1.5rem;
-            }
-            
-            .subtitle {
-                font-size: 0.9rem;
-            }
-            
-            .game-area {
-                padding: 15px;
-            }
-            
-            .question-card {
-                padding: 15px;
-            }
-            
-            .choice-btn {
-                padding: 15px 12px;
-                font-size: 0.9rem;
-            }
-            
-            .instructions-content {
-                padding: 15px;
+            .label[style*="right: -55px"] {
+                right: -40px !important;
             }
         }
     </style>
@@ -614,564 +357,423 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1 class="title" data-ms="Permainan Luas Permukaan Bentuk 3D" data-en="3D Shape Surface Area Game">Permainan Luas Permukaan Bentuk 3D</h1>
-            <p class="subtitle" data-ms="Tingkatan 2, Bab 6.2 - Matematik" data-en="Form 2, Chapter 6.2 - Mathematics">Tingkatan 2, Bab 6.2 - Matematik</p>
-            
+            <h1>🔵 Praktis Bulatan / Circle Practice 🔵</h1>
+            <div class="subtitle">Bab 5.1 - Bahagian Bulatan dan Sifat-sifatnya</div>
+            <div class="subtitle">Chapter 5.1 - Parts of Circle and Its Properties</div>
+        </div>
+        
+        <div class="content">
             <div class="language-toggle">
-                <button class="lang-btn active" onclick="setLanguage('ms')">Bahasa Malaysia</button>
-                <button class="lang-btn" onclick="setLanguage('en')">English</button>
+                <button class="lang-btn active" onclick="switchLanguage('ms')">Bahasa Malaysia</button>
+                <button class="lang-btn" onclick="switchLanguage('en')">English</button>
             </div>
-        </div>
-        
-        <div class="instructions-panel" id="instructions-panel">
-            <div class="instructions-header">
-                <h3 data-ms="📚 Cara Bermain" data-en="📚 How to Play">📚 Cara Bermain</h3>
-                <button class="close-btn" onclick="toggleInstructions()">×</button>
-            </div>
-            <div class="instructions-content">
-                <div class="instruction-modes">
-                    <h4 data-ms="🎮 Mod Permainan:" data-en="🎮 Game Modes:">🎮 Mod Permainan:</h4>
-                    <ul>
-                        <li><strong data-ms="Latihan" data-en="Practice">Latihan</strong>: <span data-ms="Berlatih tanpa had masa atau nyawa" data-en="Practice without time limit or lives">Berlatih tanpa had masa atau nyawa</span></li>
-                        <li><strong data-ms="Cabaran" data-en="Challenge">Cabaran</strong>: <span data-ms="3 nyawa sahaja! Hati-hati dengan jawapan salah" data-en="Only 3 lives! Be careful with wrong answers">3 nyawa sahaja! Hati-hati dengan jawapan salah</span></li>
-                        <li><strong data-ms="Laju" data-en="Speed">Laju</strong>: <span data-ms="30 saat untuk jawab sebanyak mungkin!" data-en="30 seconds to answer as many as possible!">30 saat untuk jawab sebanyak mungkin!</span></li>
-                    </ul>
-                </div>
-                
-                <div class="instruction-shapes">
-                    <h4 data-ms="📐 Jenis Pepejal:" data-en="📐 Types of Solids:">📐 Jenis Pepejal:</h4>
-                    <ul>
-                        <li><strong data-ms="Kubus" data-en="Cube">Kubus</strong>: <span data-ms="Luas Permukaan = 6 × sisi²" data-en="Surface Area = 6 × side²">Luas Permukaan = 6 × sisi²</span></li>
-                        <li><strong data-ms="Kuboid" data-en="Cuboid">Kuboid</strong>: <span data-ms="Luas Permukaan = 2(pj + pl + jl)" data-en="Surface Area = 2(lw + lh + wh)">Luas Permukaan = 2(pj + pl + jl)</span></li>
-                        <li><strong data-ms="Silinder" data-en="Cylinder">Silinder</strong>: <span data-ms="Luas Permukaan = 2πr² + 2πrh" data-en="Surface Area = 2πr² + 2πrh">Luas Permukaan = 2πr² + 2πrh</span></li>
-                        <li><strong data-ms="Prisma Tegak" data-en="Right Prism">Prisma Tegak</strong>: <span data-ms="Luas Permukaan = 2 × Luas Tapak + Perimeter × Tinggi" data-en="Surface Area = 2 × Base Area + Perimeter × Height">Luas Permukaan = 2 × Luas Tapak + Perimeter × Tinggi</span></li>
-                        <li><strong data-ms="Kon" data-en="Cone">Kon</strong>: <span data-ms="Luas Permukaan = πr² + πrl" data-en="Surface Area = πr² + πrl">Luas Permukaan = πr² + πrl</span></li>
-                    </ul>
-                </div>
-                
-                <div class="instruction-scoring">
-                    <h4 data-ms="🏆 Sistem Mata:" data-en="🏆 Scoring System:">🏆 Sistem Mata:</h4>
-                    <ul>
-                        <li data-ms="Jawapan betul = 10 × Level mata" data-en="Correct answer = 10 × Level points">Jawapan betul = 10 × Level mata</li>
-                        <li data-ms="5 jawapan betul berturut-turut = Naik level!" data-en="5 correct answers in a row = Level up!">5 jawapan betul berturut-turut = Naik level!</li>
-                        <li data-ms="Level tinggi = Soalan lebih mencabar" data-en="Higher level = More challenging questions">Level tinggi = Soalan lebih mencabar</li>
-                    </ul>
-                </div>
-                
-                <div class="instruction-tips">
-                    <h4 data-ms="💡 Tips:" data-en="💡 Tips:">💡 Tips:</h4>
-                    <ul>
-                        <li data-ms="Baca formula dengan teliti" data-en="Read the formula carefully">Baca formula dengan teliti</li>
-                        <li data-ms="Periksa dimensi yang diberi" data-en="Check the given dimensions">Periksa dimensi yang diberi</li>
-                        <li data-ms="Untuk silinder, π = 3.14" data-en="For cylinder, π = 3.14">Untuk silinder, π = 3.14</li>
-                        <li data-ms="Jawab dengan tenang dan teliti" data-en="Answer calmly and carefully">Jawab dengan tenang dan teliti</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+            
+            <!-- Bahasa Malaysia Content -->
+            <div id="ms-content">
+                <div class="section">
+                    <h2>📚 Bahagian-bahagian Bulatan</h2>
+                    <div class="circle-diagram">
+                        <div style="display: flex; justify-content: center;">
+                            <!-- Bulatan Lengkap dengan Semua Bahagian -->
+                            <div class="interactive-circle">
+                                <div class="circle">
+                                    <div class="center-point"></div>
+                                    <!-- Jejari -->
+                                    <div style="position: absolute; top: 50%; left: 50%; width: 100px; height: 2px; background: #3498db; transform-origin: left center; transform: translate(0, -50%) rotate(-135deg);"></div>
+                                    <!-- Diameter -->
+                                    <div style="position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: #27ae60; transform: translateY(-50%);"></div>
 
-        <div class="score-area">
-            <div class="score">
-                <span data-ms="Skor: " data-en="Score: ">Skor: </span>
-                <span id="score">0</span> | 
-                <span data-ms="Level: " data-en="Level: ">Level: </span>
-                <span id="level">1</span> |
-                <span data-ms="Nyawa: " data-en="Lives: ">Nyawa: </span>
-                <span id="lives">❤️❤️❤️</span>
-            </div>
-            <div class="control-buttons">
-                <button class="instructions-btn" onclick="toggleInstructions()">
-                    <span data-ms="📚 Arahan" data-en="📚 Instructions">📚 Arahan</span>
-                </button>
-                <button class="new-question-btn" onclick="startGame()">
-                    <span data-ms="Mula Permainan" data-en="Start Game">Mula Permainan</span>
-                </button>
-                <button class="reset-btn" onclick="resetToMenu()">
-                    <span data-ms="🔄 Reset" data-en="🔄 Reset">🔄 Reset</span>
-                </button>
-            </div>
-        </div>
-        
-        <div class="game-mode">
-            <button class="mode-btn active" onclick="setGameMode('practice')" data-ms="Latihan" data-en="Practice">Latihan</button>
-            <button class="mode-btn" onclick="setGameMode('challenge')" data-ms="Cabaran" data-en="Challenge">Cabaran</button>
-            <button class="mode-btn" onclick="setGameMode('speed')" data-ms="Laju" data-en="Speed">Laju</button>
-        </div>
-        
-        <div class="game-area">
-            <div class="challenge-area" id="challenge-info" style="display: none;">
-                <div class="timer" id="timer">30</div>
-                <div class="level-info">
-                    <span data-ms="Level " data-en="Level ">Level </span><span id="current-level">1</span>
+                                    <!-- Sektor (suku bulatan) -->
+                                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: conic-gradient(from 0deg, rgba(155, 89, 182, 0.4) 0deg, rgba(155, 89, 182, 0.4) 90deg, transparent 90deg); border-radius: 50%;"></div>
+                                    <!-- Jejari untuk sektor -->
+                                    <div style="position: absolute; top: 50%; left: 50%; width: 100px; height: 2px; background: #9b59b6; transform-origin: left center; transform: translate(0, -50%) rotate(0deg);"></div>
+                                    <div style="position: absolute; top: 50%; left: 50%; width: 100px; height: 2px; background: #9b59b6; transform-origin: left center; transform: translate(0, -50%) rotate(90deg);"></div>
+                                    <!-- Perentas (separuh bulatan) -->
+                                    <div style="position: absolute; top: 50%; left: 0; width: 100%; height: 3px; background: #f39c12; transform: translateY(-50%);"></div>
+                                    <!-- Tembereng (separuh bulatan bawah dengan lorek) -->
+                                    <div style="position: absolute; top: 50%; left: 0; width: 100%; height: 50%; background: repeating-linear-gradient(45deg, rgba(231, 76, 60, 0.3) 0px, rgba(231, 76, 60, 0.3) 4px, rgba(231, 76, 60, 0.6) 4px, rgba(231, 76, 60, 0.6) 8px); border-radius: 0 0 100px 100px;"></div>
+                                    
+                                    <!-- Label di sebelah kiri -->
+                                    <div class="label" style="background: #e74c3c; font-size: 0.8rem; top: 45%; left: -80px;">Pusat (O)</div>
+                                    <div class="label" style="background: #3498db; font-size: 0.8rem; top: 65%; left: -70px;">Jejari (r)</div>
+                                    <div class="label" style="background: #27ae60; font-size: 0.8rem; top: 35%; left: -80px;">Diameter (d)</div>
+                                    <div class="label" style="background: #f39c12; font-size: 0.8rem; top: 55%; left: -75px;">Perentas</div>
+                                    
+                                    <!-- Label di sebelah kanan -->
+
+                                    <div class="label" style="background: #9b59b6; font-size: 0.8rem; top: 25%; right: -60px;">Sektor</div>
+                                    <div class="label" style="background: #e74c3c; font-size: 0.8rem; top: 65%; right: -75px;">Tembereng</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+                            <p><strong>🔴 Pusat:</strong> Titik tengah bulatan</p>
+                            <p><strong>🔵 Jejari:</strong> Jarak dari pusat ke tepi bulatan</p>
+                            <p><strong>🟢 Diameter:</strong> Jarak merentasi bulatan melalui pusat</p>
+                            <p><strong>🟡 Perentas:</strong> Garis lurus yang menghubungkan dua titik pada bulatan</p>
+
+                            <p><strong>🟣 Sektor:</strong> Kawasan seperti 'pai' yang dibatasi oleh dua jejari</p>
+                            <p><strong>🔶 Tembereng:</strong> Kawasan yang dibatasi oleh perentas dan lengkok</p>
+                            <p><strong>📏 Hubungan:</strong> Diameter = 2 × Jejari</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quiz-section">
+                    <h2>🎯 Kuiz Praktis</h2>
+                    
+                    <div class="question">
+                        <h3>Soalan 1: Apakah nama untuk titik tengah bulatan?</h3>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this, false)">A) Jejari</div>
+                            <div class="option" onclick="selectOption(this, false)">B) Diameter</div>
+                            <div class="option" onclick="selectOption(this, true)">C) Pusat</div>
+                            <div class="option" onclick="selectOption(this, false)">D) Lilitan</div>
+                        </div>
+                        <button class="check-btn" onclick="checkAnswer(this)">Semak Jawapan</button>
+                        <div class="result hidden"></div>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Soalan 2: Jika jejari bulatan ialah 5 cm, berapakah diameternya?</h3>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this, false)">A) 5 cm</div>
+                            <div class="option" onclick="selectOption(this, true)">B) 10 cm</div>
+                            <div class="option" onclick="selectOption(this, false)">C) 15 cm</div>
+                            <div class="option" onclick="selectOption(this, false)">D) 25 cm</div>
+                        </div>
+                        <button class="check-btn" onclick="checkAnswer(this)">Semak Jawapan</button>
+                        <div class="result hidden"></div>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Soalan 3: Jejari adalah jarak dari _____ ke tepi bulatan.</h3>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this, true)">A) Pusat</div>
+                            <div class="option" onclick="selectOption(this, false)">B) Diameter</div>
+                            <div class="option" onclick="selectOption(this, false)">C) Lilitan</div>
+                            <div class="option" onclick="selectOption(this, false)">D) Perentas</div>
+                        </div>
+                        <button class="check-btn" onclick="checkAnswer(this)">Semak Jawapan</button>
+                        <div class="result hidden"></div>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Soalan 4: Apakah nama untuk garis lurus yang menghubungkan dua titik pada bulatan?</h3>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this, false)">A) Jejari</div>
+                            <div class="option" onclick="selectOption(this, true)">B) Perentas</div>
+                            <div class="option" onclick="selectOption(this, false)">C) Diameter</div>
+                            <div class="option" onclick="selectOption(this, false)">D) Lengkok</div>
+                        </div>
+                        <button class="check-btn" onclick="checkAnswer(this)">Semak Jawapan</button>
+                        <div class="result hidden"></div>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Soalan 5: Kawasan seperti 'pai' yang dibatasi oleh dua jejari dipanggil:</h3>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this, false)">A) Tembereng</div>
+                            <div class="option" onclick="selectOption(this, true)">B) Sektor</div>
+                            <div class="option" onclick="selectOption(this, false)">C) Lengkok</div>
+                            <div class="option" onclick="selectOption(this, false)">D) Perentas</div>
+                        </div>
+                        <button class="check-btn" onclick="checkAnswer(this)">Semak Jawapan</button>
+                        <div class="result hidden"></div>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Soalan 6: Bahagian melengkung pada tepi bulatan dipanggil:</h3>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this, false)">A) Perentas</div>
+                            <div class="option" onclick="selectOption(this, false)">B) Sektor</div>
+                            <div class="option" onclick="selectOption(this, true)">C) Lengkok</div>
+                            <div class="option" onclick="selectOption(this, false)">D) Tembereng</div>
+                        </div>
+                        <button class="check-btn" onclick="checkAnswer(this)">Semak Jawapan</button>
+                        <div class="result hidden"></div>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Soalan 7: Kawasan yang dibatasi oleh perentas dan lengkok dipanggil:</h3>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this, false)">A) Sektor</div>
+                            <div class="option" onclick="selectOption(this, true)">B) Tembereng</div>
+                            <div class="option" onclick="selectOption(this, false)">C) Jejari</div>
+                            <div class="option" onclick="selectOption(this, false)">D) Diameter</div>
+                        </div>
+                        <button class="check-btn" onclick="checkAnswer(this)">Semak Jawapan</button>
+                        <div class="result hidden"></div>
+                    </div>
                 </div>
             </div>
             
-            <div class="streak-display" id="streak-display" style="display: none;">
-                <div class="streak-dot"></div>
-                <div class="streak-dot"></div>
-                <div class="streak-dot"></div>
-                <div class="streak-dot"></div>
-                <div class="streak-dot"></div>
-            </div>
-            
-            <div class="question-card">
-                <div class="question" id="question-text">
-                    <span data-ms="Tekan 'Mula Permainan' untuk bermula!" data-en="Click 'Start Game' to begin!">Tekan 'Mula Permainan' untuk bermula!</span>
+            <!-- English Content -->
+            <div id="en-content" class="hidden">
+                <div class="section">
+                    <h2>📚 Parts of a Circle</h2>
+                    <div class="circle-diagram">
+                        <div style="display: flex; justify-content: center;">
+                            <!-- Complete Circle with All Parts -->
+                            <div class="interactive-circle">
+                                <div class="circle">
+                                    <div class="center-point"></div>
+                                    <!-- Radius -->
+                                    <div style="position: absolute; top: 50%; left: 50%; width: 100px; height: 2px; background: #3498db; transform-origin: left center; transform: translate(0, -50%) rotate(-135deg);"></div>
+                                    <!-- Diameter -->
+                                    <div style="position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: #27ae60; transform: translateY(-50%);"></div>
+
+                                    <!-- Sector (quarter circle) -->
+                                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: conic-gradient(from 0deg, rgba(155, 89, 182, 0.4) 0deg, rgba(155, 89, 182, 0.4) 90deg, transparent 90deg); border-radius: 50%;"></div>
+                                    <!-- Radii for sector -->
+                                    <div style="position: absolute; top: 50%; left: 50%; width: 100px; height: 2px; background: #9b59b6; transform-origin: left center; transform: translate(0, -50%) rotate(0deg);"></div>
+                                    <div style="position: absolute; top: 50%; left: 50%; width: 100px; height: 2px; background: #9b59b6; transform-origin: left center; transform: translate(0, -50%) rotate(90deg);"></div>
+                                    <!-- Chord (half circle) -->
+                                    <div style="position: absolute; top: 50%; left: 0; width: 100%; height: 3px; background: #f39c12; transform: translateY(-50%);"></div>
+                                    <!-- Segment (bottom half with stripes) -->
+                                    <div style="position: absolute; top: 50%; left: 0; width: 100%; height: 50%; background: repeating-linear-gradient(45deg, rgba(231, 76, 60, 0.3) 0px, rgba(231, 76, 60, 0.3) 4px, rgba(231, 76, 60, 0.6) 4px, rgba(231, 76, 60, 0.6) 8px); border-radius: 0 0 100px 100px;"></div>
+                                    
+                                    <!-- Labels on the left -->
+                                    <div class="label" style="background: #e74c3c; font-size: 0.8rem; top: 45%; left: -80px;">Centre (O)</div>
+                                    <div class="label" style="background: #3498db; font-size: 0.8rem; top: 65%; left: -70px;">Radius (r)</div>
+                                    <div class="label" style="background: #27ae60; font-size: 0.8rem; top: 35%; left: -80px;">Diameter (d)</div>
+                                    <div class="label" style="background: #f39c12; font-size: 0.8rem; top: 55%; left: -65px;">Chord</div>
+                                    
+                                    <!-- Labels on the right -->
+
+                                    <div class="label" style="background: #9b59b6; font-size: 0.8rem; top: 25%; right: -60px;">Sector</div>
+                                    <div class="label" style="background: #e74c3c; font-size: 0.8rem; top: 65%; right: -70px;">Segment</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+                            <p><strong>🔴 Centre:</strong> The middle point of the circle</p>
+                            <p><strong>🔵 Radius:</strong> Distance from centre to edge of circle</p>
+                            <p><strong>🟢 Diameter:</strong> Distance across the circle through centre</p>
+                            <p><strong>🟡 Chord:</strong> A straight line connecting two points on the circle</p>
+
+                            <p><strong>🟣 Sector:</strong> A 'pie-slice' area bounded by two radii</p>
+                            <p><strong>🔶 Segment:</strong> Area bounded by a chord and an arc</p>
+                            <p><strong>📏 Relationship:</strong> Diameter = 2 × Radius</p>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="dimensions" id="dimensions" style="display: none;">
-                    Panjang sisi = 8 cm
+                <div class="quiz-section">
+                    <h2>🎯 Practice Quiz</h2>
+                    
+                    <div class="question">
+                        <h3>Question 1: What is the name for the middle point of a circle?</h3>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this, false)">A) Radius</div>
+                            <div class="option" onclick="selectOption(this, false)">B) Diameter</div>
+                            <div class="option" onclick="selectOption(this, true)">C) Centre</div>
+                            <div class="option" onclick="selectOption(this, false)">D) Circumference</div>
+                        </div>
+                        <button class="check-btn" onclick="checkAnswer(this)">Check Answer</button>
+                        <div class="result hidden"></div>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Question 2: If the radius of a circle is 5 cm, what is its diameter?</h3>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this, false)">A) 5 cm</div>
+                            <div class="option" onclick="selectOption(this, true)">B) 10 cm</div>
+                            <div class="option" onclick="selectOption(this, false)">C) 15 cm</div>
+                            <div class="option" onclick="selectOption(this, false)">D) 25 cm</div>
+                        </div>
+                        <button class="check-btn" onclick="checkAnswer(this)">Check Answer</button>
+                        <div class="result hidden"></div>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Question 3: The radius is the distance from the _____ to the edge of the circle.</h3>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this, true)">A) Centre</div>
+                            <div class="option" onclick="selectOption(this, false)">B) Diameter</div>
+                            <div class="option" onclick="selectOption(this, false)">C) Circumference</div>
+                            <div class="option" onclick="selectOption(this, false)">D) Chord</div>
+                        </div>
+                        <button class="check-btn" onclick="checkAnswer(this)">Check Answer</button>
+                        <div class="result hidden"></div>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Question 4: What is the name for a straight line connecting two points on a circle?</h3>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this, false)">A) Radius</div>
+                            <div class="option" onclick="selectOption(this, true)">B) Chord</div>
+                            <div class="option" onclick="selectOption(this, false)">C) Diameter</div>
+                            <div class="option" onclick="selectOption(this, false)">D) Arc</div>
+                        </div>
+                        <button class="check-btn" onclick="checkAnswer(this)">Check Answer</button>
+                        <div class="result hidden"></div>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Question 5: A 'pie-slice' area bounded by two radii is called a:</h3>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this, false)">A) Segment</div>
+                            <div class="option" onclick="selectOption(this, true)">B) Sector</div>
+                            <div class="option" onclick="selectOption(this, false)">C) Arc</div>
+                            <div class="option" onclick="selectOption(this, false)">D) Chord</div>
+                        </div>
+                        <button class="check-btn" onclick="checkAnswer(this)">Check Answer</button>
+                        <div class="result hidden"></div>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Question 6: A curved part of the circle's edge is called an:</h3>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this, false)">A) Chord</div>
+                            <div class="option" onclick="selectOption(this, false)">B) Sector</div>
+                            <div class="option" onclick="selectOption(this, true)">C) Arc</div>
+                            <div class="option" onclick="selectOption(this, false)">D) Segment</div>
+                        </div>
+                        <button class="check-btn" onclick="checkAnswer(this)">Check Answer</button>
+                        <div class="result hidden"></div>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Question 7: The area bounded by a chord and an arc is called a:</h3>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this, false)">A) Sector</div>
+                            <div class="option" onclick="selectOption(this, true)">B) Segment</div>
+                            <div class="option" onclick="selectOption(this, false)">C) Radius</div>
+                            <div class="option" onclick="selectOption(this, false)">D) Diameter</div>
+                        </div>
+                        <button class="check-btn" onclick="checkAnswer(this)">Check Answer</button>
+                        <div class="result hidden"></div>
+                    </div>
                 </div>
-                
-                <div class="formula-hint" id="formula" style="display: none;">
-                    Formula: Luas Permukaan = 6 × sisi²
-                </div>
-                
-                <div class="multiple-choice" id="choices" style="display: none;">
-                    <button class="choice-btn" onclick="selectChoice(0)">A) 384 cm²</button>
-                    <button class="choice-btn" onclick="selectChoice(1)">B) 192 cm²</button>
-                    <button class="choice-btn" onclick="selectChoice(2)">C) 256 cm²</button>
-                    <button class="choice-btn" onclick="selectChoice(3)">D) 144 cm²</button>
-                </div>
-                
-                <div id="feedback" class="feedback" style="display: none;"></div>
             </div>
         </div>
     </div>
-
+    
     <script>
         let currentLanguage = 'ms';
-        let gameMode = 'practice';
-        let currentQuestion = {};
-        let score = 0;
-        let level = 1;
-        let lives = 3;
-        let streak = 0;
-        let timer = 30;
-        let timerInterval;
-        let gameActive = false;
-        let selectedChoice = -1;
         
-        const shapes = {
-            cube: {
-                name: { ms: 'Kubus', en: 'Cube' },
-                formula: { 
-                    ms: 'Formula: Luas Permukaan = 6 × sisi²', 
-                    en: 'Formula: Surface Area = 6 × side²' 
-                },
-                generate: (difficulty = 1) => {
-                    const side = Math.floor(Math.random() * (5 + difficulty * 2)) + 3;
-                    return {
-                        dimensions: { side },
-                        answer: 6 * side * side,
-                        dimensionText: {
-                            ms: `Panjang sisi = ${side} cm`,
-                            en: `Side length = ${side} cm`
-                        },
-                        questionText: {
-                            ms: 'Kira luas permukaan kubus ini.',
-                            en: 'Calculate the surface area of this cube.'
-                        }
-                    };
-                }
-            },
-            cuboid: {
-                name: { ms: 'Kuboid', en: 'Cuboid' },
-                formula: { 
-                    ms: 'Formula: Luas Permukaan = 2(pj + pl + jl)', 
-                    en: 'Formula: Surface Area = 2(lw + lh + wh)' 
-                },
-                generate: (difficulty = 1) => {
-                    const length = Math.floor(Math.random() * (4 + difficulty * 2)) + 4;
-                    const width = Math.floor(Math.random() * (3 + difficulty)) + 3;
-                    const height = Math.floor(Math.random() * (4 + difficulty)) + 3;
-                    return {
-                        dimensions: { length, width, height },
-                        answer: 2 * (length * width + length * height + width * height),
-                        dimensionText: {
-                            ms: `Panjang = ${length} cm, Lebar = ${width} cm, Tinggi = ${height} cm`,
-                            en: `Length = ${length} cm, Width = ${width} cm, Height = ${height} cm`
-                        },
-                        questionText: {
-                            ms: 'Kira luas permukaan kuboid ini.',
-                            en: 'Calculate the surface area of this cuboid.'
-                        }
-                    };
-                }
-            },
-            cylinder: {
-                name: { ms: 'Silinder', en: 'Cylinder' },
-                formula: { 
-                    ms: 'Formula: Luas Permukaan = 2πr² + 2πrh', 
-                    en: 'Formula: Surface Area = 2πr² + 2πrh' 
-                },
-                generate: (difficulty = 1) => {
-                    const radius = Math.floor(Math.random() * (3 + difficulty)) + 2;
-                    const height = Math.floor(Math.random() * (5 + difficulty * 2)) + 4;
-                    const answer = Math.round(2 * 3.14 * radius * radius + 2 * 3.14 * radius * height);
-                    return {
-                        dimensions: { radius, height },
-                        answer: answer,
-                        dimensionText: {
-                            ms: `Jejari = ${radius} cm, Tinggi = ${height} cm`,
-                            en: `Radius = ${radius} cm, Height = ${height} cm`
-                        },
-                        questionText: {
-                            ms: 'Kira luas permukaan silinder ini. (Gunakan π = 3.14)',
-                            en: 'Calculate the surface area of this cylinder. (Use π = 3.14)'
-                        }
-                    };
-                }
-            },
-            triangularPrism: {
-                name: { ms: 'Prisma Segitiga', en: 'Triangular Prism' },
-                formula: { 
-                    ms: 'Formula: Luas Permukaan = 2 × Luas Tapak + Perimeter × Tinggi', 
-                    en: 'Formula: Surface Area = 2 × Base Area + Perimeter × Height' 
-                },
-                generate: (difficulty = 1) => {
-                    const base = Math.floor(Math.random() * (4 + difficulty)) + 4;
-                    const height = Math.floor(Math.random() * (3 + difficulty)) + 3;
-                    const prismHeight = Math.floor(Math.random() * (5 + difficulty * 2)) + 5;
-                    
-                    // Right triangle base area and perimeter
-                    const baseArea = 0.5 * base * height;
-                    const hypotenuse = Math.sqrt(base * base + height * height);
-                    const perimeter = base + height + hypotenuse;
-                    const answer = Math.round(2 * baseArea + perimeter * prismHeight);
-                    
-                    return {
-                        dimensions: { base, height, prismHeight },
-                        answer: answer,
-                        dimensionText: {
-                            ms: `Tapak segitiga: ${base} cm × ${height} cm, Tinggi prisma = ${prismHeight} cm`,
-                            en: `Triangle base: ${base} cm × ${height} cm, Prism height = ${prismHeight} cm`
-                        },
-                        questionText: {
-                            ms: 'Kira luas permukaan prisma segitiga tegak ini.',
-                            en: 'Calculate the surface area of this right triangular prism.'
-                        }
-                    };
-                }
-            },
-            cone: {
-                name: { ms: 'Kon', en: 'Cone' },
-                formula: { 
-                    ms: 'Formula: Luas Permukaan = πr² + πrl', 
-                    en: 'Formula: Surface Area = πr² + πrl' 
-                },
-                generate: (difficulty = 1) => {
-                    const radius = Math.floor(Math.random() * (3 + difficulty)) + 3;
-                    const height = Math.floor(Math.random() * (4 + difficulty * 2)) + 5;
-                    const slantHeight = Math.sqrt(radius * radius + height * height);
-                    const answer = Math.round(3.14 * radius * radius + 3.14 * radius * slantHeight);
-                    
-                    return {
-                        dimensions: { radius, height, slantHeight: Math.round(slantHeight * 10) / 10 },
-                        answer: answer,
-                        dimensionText: {
-                            ms: `Jejari = ${radius} cm, Tinggi = ${height} cm, Garis condong = ${Math.round(slantHeight * 10) / 10} cm`,
-                            en: `Radius = ${radius} cm, Height = ${height} cm, Slant height = ${Math.round(slantHeight * 10) / 10} cm`
-                        },
-                        questionText: {
-                            ms: 'Kira luas permukaan kon ini. (Gunakan π = 3.14)',
-                            en: 'Calculate the surface area of this cone. (Use π = 3.14)'
-                        }
-                    };
-                }
-            }
-        };
-        
-        function setLanguage(lang) {
+        function switchLanguage(lang) {
             currentLanguage = lang;
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
             
-            document.querySelectorAll('[data-ms]').forEach(element => {
-                element.textContent = element.getAttribute(`data-${lang}`);
+            // Update button states
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
             });
-            
-            if (gameActive && currentQuestion.type) {
-                updateQuestionDisplay();
-            }
-        }
-        
-        function setGameMode(mode) {
-            gameMode = mode;
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
-            resetGame();
-            
-            if (mode === 'challenge' || mode === 'speed') {
-                document.getElementById('challenge-info').style.display = 'block';
-                document.getElementById('streak-display').style.display = 'flex';
+            // Show/hide content
+            if (lang === 'ms') {
+                document.getElementById('ms-content').classList.remove('hidden');
+                document.getElementById('en-content').classList.add('hidden');
             } else {
-                document.getElementById('challenge-info').style.display = 'none';
-                document.getElementById('streak-display').style.display = 'none';
-            }
-        }
-        
-        function startGame() {
-            gameActive = true;
-            resetGame();
-            
-            if (gameMode === 'speed') {
-                startTimer();
+                document.getElementById('ms-content').classList.add('hidden');
+                document.getElementById('en-content').classList.remove('hidden');
             }
             
-            generateQuestion();
+            // Reset all quiz states
+            resetAllQuizzes();
         }
         
-        function resetGame() {
-            score = 0;
-            level = 1;
-            lives = 3;
-            streak = 0;
-            timer = gameMode === 'speed' ? 30 : 60;
-            
-            updateDisplay();
-            clearInterval(timerInterval);
-            
-            document.getElementById('feedback').style.display = 'none';
-        }
-        
-        function startTimer() {
-            timerInterval = setInterval(() => {
-                timer--;
-                document.getElementById('timer').textContent = timer;
-                
-                if (timer <= 0) {
-                    endGame();
-                }
-            }, 1000);
-        }
-        
-        function generateQuestion() {
-            if (!gameActive) return;
-            
-            const shapeTypes = Object.keys(shapes);
-            const randomShape = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
-            
-            const difficulty = Math.floor(level / 3) + 1;
-            currentQuestion = {
-                type: randomShape,
-                ...shapes[randomShape].generate(difficulty)
-            };
-            
-            generateChoices();
-            updateQuestionDisplay();
-            selectedChoice = -1;
-            
-            document.getElementById('dimensions').style.display = 'block';
-            document.getElementById('formula').style.display = 'block';
-            document.getElementById('choices').style.display = 'grid';
-            document.getElementById('feedback').style.display = 'none';
-        }
-        
-        function generateChoices() {
-            const correctAnswer = currentQuestion.answer;
-            const choices = [correctAnswer];
-            
-            // Generate 3 wrong answers
-            while (choices.length < 4) {
-                let wrongAnswer;
-                if (Math.random() < 0.5) {
-                    // Common mistakes
-                    wrongAnswer = Math.round(correctAnswer * (0.5 + Math.random() * 0.8));
-                } else {
-                    // Random nearby values
-                    wrongAnswer = Math.round(correctAnswer + (Math.random() - 0.5) * correctAnswer * 0.6);
-                }
-                
-                if (wrongAnswer > 0 && !choices.includes(wrongAnswer)) {
-                    choices.push(wrongAnswer);
-                }
-            }
-            
-            // Shuffle choices
-            for (let i = choices.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [choices[i], choices[j]] = [choices[j], choices[i]];
-            }
-            
-            currentQuestion.choices = choices;
-            currentQuestion.correctIndex = choices.indexOf(correctAnswer);
-        }
-        
-        function updateQuestionDisplay() {
-            document.getElementById('question-text').textContent = currentQuestion.questionText[currentLanguage];
-            document.getElementById('dimensions').textContent = currentQuestion.dimensionText[currentLanguage];
-            document.getElementById('formula').textContent = shapes[currentQuestion.type].formula[currentLanguage];
-            
-            const choiceButtons = document.querySelectorAll('.choice-btn');
-            const letters = ['A', 'B', 'C', 'D'];
-            
-            choiceButtons.forEach((btn, index) => {
-                btn.textContent = `${letters[index]}) ${currentQuestion.choices[index]} cm²`;
-                btn.className = 'choice-btn';
+        function selectOption(element, isCorrect) {
+            // Remove previous selections in this question
+            const question = element.closest('.question');
+            question.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
             });
+            
+            // Mark this option as selected
+            element.classList.add('selected');
+            element.dataset.correct = isCorrect;
+            
+            // Reset result display
+            const result = question.querySelector('.result');
+            result.classList.add('hidden');
+            result.classList.remove('correct', 'wrong');
         }
         
-        function selectChoice(index) {
-            if (selectedChoice !== -1) return; // Already answered
+        function checkAnswer(button) {
+            const question = button.closest('.question');
+            const selectedOption = question.querySelector('.option.selected');
+            const result = question.querySelector('.result');
             
-            selectedChoice = index;
-            const choiceButtons = document.querySelectorAll('.choice-btn');
-            const feedback = document.getElementById('feedback');
+            if (!selectedOption) {
+                const message = currentLanguage === 'ms' ? 
+                    'Sila pilih jawapan terlebih dahulu!' : 
+                    'Please select an answer first!';
+                alert(message);
+                return;
+            }
             
-            choiceButtons[index].classList.add('selected');
+            const isCorrect = selectedOption.dataset.correct === 'true';
             
-            setTimeout(() => {
-                const isCorrect = index === currentQuestion.correctIndex;
-                
-                choiceButtons.forEach((btn, i) => {
-                    if (i === currentQuestion.correctIndex) {
-                        btn.classList.add('correct');
-                    } else if (i === index && !isCorrect) {
-                        btn.classList.add('incorrect');
-                    }
-                });
-                
-                if (isCorrect) {
-                    score += 10 * level;
-                    streak++;
-                    
-                    if (streak >= 5) {
-                        level++;
-                        streak = 0;
-                        feedback.className = 'feedback correct';
-                        feedback.textContent = currentLanguage === 'ms' ? 
-                            `Betul! Level naik ke ${level}! 🎉` : 
-                            `Correct! Level up to ${level}! 🎉`;
-                    } else {
-                        feedback.className = 'feedback correct';
-                        feedback.textContent = currentLanguage === 'ms' ? 
-                            `Betul! +${10 * level} mata! 🎉` : 
-                            `Correct! +${10 * level} points! 🎉`;
-                    }
-                } else {
-                    lives--;
-                    streak = 0;
-                    
-                    feedback.className = 'feedback incorrect';
-                    feedback.textContent = currentLanguage === 'ms' ? 
-                        `Salah! Jawapan betul: ${currentQuestion.answer} cm² 💪` : 
-                        `Wrong! Correct answer: ${currentQuestion.answer} cm² 💪`;
-                    
-                    if (lives <= 0 && gameMode !== 'practice') {
-                        endGame();
-                        return;
-                    }
-                }
-                
-                feedback.style.display = 'block';
-                updateDisplay();
-                updateStreakDisplay();
-                
-                setTimeout(() => {
-                    generateQuestion();
-                }, 2000);
-                
-            }, 500);
-        }
-        
-        function updateDisplay() {
-            document.getElementById('score').textContent = score;
-            document.getElementById('level').textContent = level;
-            document.getElementById('current-level').textContent = level;
-            
-            const heartsArray = ['💔', '❤️', '❤️❤️', '❤️❤️❤️'];
-            document.getElementById('lives').textContent = heartsArray[lives] || '💔';
-        }
-        
-        function updateStreakDisplay() {
-            const dots = document.querySelectorAll('.streak-dot');
-            dots.forEach((dot, index) => {
-                if (index < streak) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
+            // Show correct/wrong styling
+            question.querySelectorAll('.option').forEach(opt => {
+                if (opt.dataset.correct === 'true') {
+                    opt.classList.add('correct');
+                } else if (opt.classList.contains('selected') && !isCorrect) {
+                    opt.classList.add('wrong');
                 }
             });
+            
+            // Show result message
+            result.classList.remove('hidden');
+            if (isCorrect) {
+                result.classList.add('correct');
+                result.textContent = currentLanguage === 'ms' ? 
+                    '🎉 Betul! Tahniah!' : 
+                    '🎉 Correct! Well done!';
+            } else {
+                result.classList.add('wrong');
+                result.textContent = currentLanguage === 'ms' ? 
+                    '❌ Salah. Cuba lagi!' : 
+                    '❌ Wrong. Try again!';
+            }
+            
+            // Disable further selection
+            question.querySelectorAll('.option').forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+            button.style.display = 'none';
+            
+            // Add reset button
+            const resetBtn = document.createElement('button');
+            resetBtn.className = 'check-btn';
+            resetBtn.textContent = currentLanguage === 'ms' ? 'Cuba Lagi' : 'Try Again';
+            resetBtn.onclick = () => resetQuestion(question);
+            button.parentNode.insertBefore(resetBtn, result);
         }
         
-        function endGame() {
-            gameActive = false;
-            clearInterval(timerInterval);
+        function resetQuestion(question) {
+            // Reset all options
+            question.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'wrong');
+                opt.style.pointerEvents = 'auto';
+            });
             
-            const feedback = document.getElementById('feedback');
-            feedback.className = 'feedback';
-            feedback.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
-            feedback.style.color = 'white';
-            feedback.textContent = currentLanguage === 'ms' ? 
-                `Permainan Tamat! Skor Akhir: ${score} mata, Level: ${level}` : 
-                `Game Over! Final Score: ${score} points, Level: ${level}`;
-            feedback.style.display = 'block';
+            // Hide result
+            const result = question.querySelector('.result');
+            result.classList.add('hidden');
+            result.classList.remove('correct', 'wrong');
             
-            document.getElementById('choices').style.display = 'none';
+            // Show check button, hide reset button
+            const checkBtn = question.querySelector('.check-btn');
+            checkBtn.style.display = 'inline-block';
+            
+            // Remove reset button
+            const resetBtn = question.querySelector('.check-btn:last-of-type');
+            if (resetBtn && resetBtn.textContent.includes('Cuba') || resetBtn.textContent.includes('Try')) {
+                resetBtn.remove();
+            }
         }
         
-        function toggleInstructions() {
-            const panel = document.getElementById('instructions-panel');
-            panel.classList.toggle('open');
+        function resetAllQuizzes() {
+            document.querySelectorAll('.question').forEach(question => {
+                resetQuestion(question);
+            });
         }
-        
-        function resetToMenu() {
-            // Stop any active game
-            gameActive = false;
-            clearInterval(timerInterval);
-            
-            // Reset all game variables
-            score = 0;
-            level = 1;
-            lives = 3;
-            streak = 0;
-            timer = 30;
-            selectedChoice = -1;
-            
-            // Reset game mode to practice
-            gameMode = 'practice';
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector('.mode-btn[onclick="setGameMode(\'practice\')"]').classList.add('active');
-            
-            // Hide game elements
-            document.getElementById('challenge-info').style.display = 'none';
-            document.getElementById('streak-display').style.display = 'none';
-            document.getElementById('dimensions').style.display = 'none';
-            document.getElementById('formula').style.display = 'none';
-            document.getElementById('choices').style.display = 'none';
-            document.getElementById('feedback').style.display = 'none';
-            
-            // Reset question text to initial state
-            const questionText = document.getElementById('question-text');
-            questionText.innerHTML = '<span data-ms="Tekan \'Mula Permainan\' untuk bermula!" data-en="Click \'Start Game\' to begin!">Tekan \'Mula Permainan\' untuk bermula!</span>';
-            
-            // Update language for the reset question text
-            const span = questionText.querySelector('span');
-            span.textContent = span.getAttribute(`data-${currentLanguage}`);
-            
-            // Update display
-            updateDisplay();
-            
-            // Show confirmation message
-            const feedback = document.getElementById('feedback');
-            feedback.className = 'feedback';
-            feedback.style.background = 'linear-gradient(45deg, #38b2ac, #4fd1c7)';
-            feedback.style.color = 'white';
-            feedback.textContent = currentLanguage === 'ms' ? 
-                '✅ Permainan telah di-reset! Pilih mod dan tekan "Mula Permainan"' : 
-                '✅ Game has been reset! Choose a mode and click "Start Game"';
-            feedback.style.display = 'block';
-            
-            // Hide the confirmation message after 3 seconds
-            setTimeout(() => {
-                feedback.style.display = 'none';
-            }, 3000);
-        }
-        
-        // Initialize
-        updateDisplay();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9859e8f74342f50a',t:'MTc1ODk2NDY2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9859e5aca176164f',t:'MTc1ODk2NDUzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
