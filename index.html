@@ -177,8 +177,8 @@
                     </div>
                 </div>
                 <button onclick="showCalculator('cuboid')" class="interactive-btn w-full bg-white text-blue-500 font-bold py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:bg-gray-100 text-sm sm:text-base mobile-text-base">
-                    <span class="language-content">🧮 Kalkulator</span>
-                    <span class="language-content hidden">🧮 Calculator</span>
+                    <span id="cuboid-calc-btn-ms" class="language-content">🧮 Kalkulator</span>
+                    <span id="cuboid-calc-btn-en" class="language-content hidden">🧮 Calculator</span>
                 </button>
             </div>
 
@@ -204,8 +204,8 @@
                     </div>
                 </div>
                 <button onclick="showCalculator('cylinder')" class="interactive-btn w-full bg-white text-green-500 font-bold py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:bg-gray-100 text-sm sm:text-base mobile-text-base">
-                    <span class="language-content">🧮 Kalkulator</span>
-                    <span class="language-content hidden">🧮 Calculator</span>
+                    <span id="cylinder-calc-btn-ms" class="language-content">🧮 Kalkulator</span>
+                    <span id="cylinder-calc-btn-en" class="language-content hidden">🧮 Calculator</span>
                 </button>
             </div>
 
@@ -231,8 +231,8 @@
                     </div>
                 </div>
                 <button onclick="showCalculator('cone')" class="interactive-btn w-full bg-white text-orange-500 font-bold py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:bg-gray-100 text-sm sm:text-base mobile-text-base">
-                    <span class="language-content">🧮 Kalkulator</span>
-                    <span class="language-content hidden">🧮 Calculator</span>
+                    <span id="cone-calc-btn-ms" class="language-content">🧮 Kalkulator</span>
+                    <span id="cone-calc-btn-en" class="language-content hidden">🧮 Calculator</span>
                 </button>
             </div>
         </div>
@@ -307,8 +307,8 @@
         });
 
         function toggleLanguage() {
-            const msElements = document.querySelectorAll('#intro-ms, #cube-title-ms, #cube-formula-ms, #cuboid-title-ms, #cuboid-formula-ms, #cylinder-title-ms, #cylinder-formula-ms, #cone-title-ms, #cone-formula-ms, #tips-ms');
-            const enElements = document.querySelectorAll('#intro-en, #cube-title-en, #cube-formula-en, #cuboid-title-en, #cuboid-formula-en, #cylinder-title-en, #cylinder-formula-en, #cone-title-en, #cone-formula-en, #tips-en');
+            const msElements = document.querySelectorAll('#intro-ms, #cube-title-ms, #cube-formula-ms, #calc-btn-ms, #cuboid-title-ms, #cuboid-formula-ms, #cuboid-calc-btn-ms, #cylinder-title-ms, #cylinder-formula-ms, #cylinder-calc-btn-ms, #cone-title-ms, #cone-formula-ms, #cone-calc-btn-ms, #tips-ms');
+            const enElements = document.querySelectorAll('#intro-en, #cube-title-en, #cube-formula-en, #calc-btn-en, #cuboid-title-en, #cuboid-formula-en, #cuboid-calc-btn-en, #cylinder-title-en, #cylinder-formula-en, #cylinder-calc-btn-en, #cone-title-en, #cone-formula-en, #cone-calc-btn-en, #tips-en');
             const toggleBtn = document.getElementById('langToggle');
 
             if (currentLanguage === 'en') {
@@ -528,5 +528,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9858c4027288a319',t:'MTc1ODk1MjY2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9858cd354247a319',t:'MTc1ODk1MzA0NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
