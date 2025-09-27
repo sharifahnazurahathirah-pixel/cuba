@@ -2,840 +2,531 @@
 <html lang="ms">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flashcard Poligon - Tingkatan 2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Isi Padu Bentuk 3D - Volume of 3D Shapes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-
-
-        .language-toggle {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 40px;
-        }
-
-        .lang-btn {
-            padding: 12px 25px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 30px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            font-weight: bold;
-            font-size: 1rem;
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .lang-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .lang-btn:hover::before {
-            left: 100%;
-        }
-
-        .lang-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            border-color: rgba(255,255,255,0.6);
-        }
-
-        .lang-btn.active {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            color: white;
-            border-color: white;
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-
-
-        .info-panel {
-            background: linear-gradient(135deg, #ff6b6b, #feca57);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            color: white;
-        }
-
-        .info-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .info-content {
-            display: grid;
-            gap: 15px;
-        }
-
-        .info-item {
-            background: rgba(255,255,255,0.15);
-            padding: 15px;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-        }
-
-        .info-label {
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-        }
-
-        .info-text {
-            font-size: 1rem;
+            font-size: 16px;
             line-height: 1.5;
-            opacity: 0.95;
         }
-
-        .flashcard-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
+        
+        /* Mobile-first responsive design */
+        @media (max-width: 640px) {
+            .mobile-text-sm { font-size: 0.875rem; }
+            .mobile-text-base { font-size: 1rem; }
+            .mobile-text-lg { font-size: 1.125rem; }
+            .mobile-text-xl { font-size: 1.25rem; }
+            .mobile-text-2xl { font-size: 1.5rem; }
+            .mobile-text-3xl { font-size: 1.875rem; }
+            .mobile-padding { padding: 1rem; }
+            .mobile-margin { margin: 0.5rem; }
         }
-
-        .flashcard {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            overflow: hidden;
-            cursor: pointer;
+        
+        /* Tablet adjustments */
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .tablet-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        /* Desktop optimizations */
+        @media (min-width: 1025px) {
+            .desktop-grid { grid-template-columns: repeat(2, 1fr); }
+            .desktop-max-width { max-width: 1200px; }
+        }
+        .shape-card {
             transition: all 0.3s ease;
-            min-height: 320px;
-            position: relative;
         }
-
-        .flashcard::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .flashcard:hover {
+        .shape-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        }
-
-        .flashcard:hover::before {
-            opacity: 1;
-        }
-
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-
-        .flashcard.flipped .card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            padding: 25px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: white;
-            border-radius: 15px;
-        }
-
-        .card-back {
-            transform: rotateY(180deg);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .card-title {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 20px;
-            text-align: center;
-            line-height: 1.3;
-        }
-
-        .card-back .card-title {
-            color: white;
-        }
-
-        .formula {
-            background: #667eea;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-align: center;
-            word-wrap: break-word;
-            line-height: 1.4;
-        }
-
-        .card-back .formula {
-            background: rgba(255,255,255,0.2);
-            color: white;
-        }
-
-        .example {
-            background: #f8f9fa;
-            color: #495057;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            text-align: center;
-            word-wrap: break-word;
-        }
-
-        .card-back .example {
-            background: rgba(255,255,255,0.15);
-            color: white;
-        }
-
-
-
-        .quiz-section {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-top: 30px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .quiz-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.3;
-        }
-
-        .quiz-section > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        .quiz-title {
-            font-size: 2.2rem;
-            color: white;
-            text-align: center;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .quiz-title::before {
-            content: '🧠';
-            font-size: 2rem;
-        }
-
-        .quiz-question {
-            background: rgba(255,255,255,0.95);
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            font-size: 1.2rem;
-            line-height: 1.7;
-            color: #2c3e50;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            border-left: 5px solid #ff6b6b;
-        }
-
-        .quiz-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .quiz-option {
-            padding: 18px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-align: center;
-            font-weight: 600;
-            font-size: 1.1rem;
-            background: rgba(255,255,255,0.9);
-            color: #2c3e50;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .quiz-option::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.5s;
-        }
-
-        .quiz-option:hover::before {
-            left: 100%;
-        }
-
-        .quiz-option:hover {
-            border-color: #4ecdc4;
-            background: rgba(78, 205, 196, 0.1);
-            transform: translateY(-3px) scale(1.02);
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
-
-        .quiz-option.selected {
-            border-color: #4ecdc4;
-            background: linear-gradient(135deg, #4ecdc4, #44a08d);
-            color: white;
+        .formula-highlight {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+        .interactive-btn {
+            transition: all 0.2s ease;
+        }
+        .interactive-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 12px 30px rgba(78, 205, 196, 0.4);
         }
-
-        .quiz-option.correct {
-            border-color: #28a745;
-            background: #28a745;
-            color: white;
-            animation: correctBounce 0.8s ease;
+        .calculator-input {
+            border: 2px solid #e2e8f0;
+            transition: border-color 0.2s ease;
         }
-
-        .quiz-option.incorrect {
-            border-color: #dc3545;
-            background: #dc3545;
-            color: white;
-            animation: incorrectShake 0.6s ease;
+        .calculator-input:focus {
+            border-color: #3b82f6;
+            outline: none;
         }
-
-        @keyframes correctBounce {
-            0% { transform: scale(1); }
-            25% { transform: scale(1.1) rotate(5deg); }
-            50% { transform: scale(1.05) rotate(-3deg); }
-            75% { transform: scale(1.08) rotate(2deg); }
-            100% { transform: scale(1.05) rotate(0deg); }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
         }
-
-        @keyframes incorrectShake {
-            0%, 100% { transform: translateX(0) scale(1); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px) scale(1.02); }
-            20%, 40%, 60%, 80% { transform: translateX(8px) scale(1.02); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        .quiz-progress {
-            margin-bottom: 25px;
-            text-align: center;
+        .pulse-animation {
+            animation: pulse 2s infinite;
         }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-            width: 16.67%;
-        }
-
-        .progress-text {
-            color: rgba(255,255,255,0.9);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .quiz-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #5a6fd8;
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-
-        .quiz-result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .result-correct {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .result-incorrect {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .flashcard-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .card-front, .card-back {
-                padding: 20px;
-            }
-            
-            .quiz-section {
-                padding: 20px;
-            }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1 id="main-title" data-ms="Flashcard Poligon" data-en="Polygon Flashcards">Flashcard Poligon</h1>
-            <p id="subtitle" data-ms="Tingkatan 2 - Bab 4.2: Sudut dan Sisi Poligon" data-en="Form 2 - Chapter 4.2: Angles and Sides of Polygons">Tingkatan 2 - Bab 4.2: Sudut dan Sisi Poligon</p>
+<body class="bg-gradient-to-br from-purple-100 via-pink-50 to-blue-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 sm:p-6 shadow-lg">
+        <div class="container mx-auto text-center desktop-max-width">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 mobile-text-2xl">📐 Isi Padu Bentuk 3D</h1>
+            <h2 class="text-lg sm:text-xl md:text-2xl font-semibold opacity-90 mobile-text-lg">Volume of 3D Shapes</h2>
+            <p class="mt-2 text-xs sm:text-sm md:text-base opacity-80 mobile-text-sm">Tingkatan 2 • Bab 6.4 | Form 2 • Chapter 6.4</p>
         </div>
+    </header>
 
-        <div class="language-toggle">
-            <button class="lang-btn active" onclick="setLanguage('ms')">Bahasa Melayu</button>
-            <button class="lang-btn" onclick="setLanguage('en')">English</button>
-        </div>
-
-        <div class="info-panel">
-            <div class="info-title" data-ms="📚 Maklumat Pembelajaran" data-en="📚 Learning Information">📚 Maklumat Pembelajaran</div>
-            <div class="info-content">
-                <div class="info-item">
-                    <div class="info-label" data-ms="🎯 Objektif:" data-en="🎯 Objectives:">🎯 Objektif:</div>
-                    <div class="info-text" data-ms="Memahami konsep sudut pedalaman dan peluaran poligon serta cara mengira bilangan sisi" data-en="Understanding interior and exterior angles of polygons and how to calculate number of sides">Memahami konsep sudut pedalaman dan peluaran poligon serta cara mengira bilangan sisi</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label" data-ms="💡 Konsep Utama:" data-en="💡 Key Concepts:">💡 Konsep Utama:</div>
-                    <div class="info-text" data-ms="Sudut pedalaman bergantung pada bilangan sisi, tetapi jumlah sudut peluaran sentiasa 360°" data-en="Interior angles depend on number of sides, but sum of exterior angles is always 360°">Sudut pedalaman bergantung pada bilangan sisi, tetapi jumlah sudut peluaran sentiasa 360°</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label" data-ms="🔢 Formula Penting:" data-en="🔢 Important Formulas:">🔢 Formula Penting:</div>
-                    <div class="info-text" data-ms="Sudut pedalaman = (n-2) × 180°, Sudut peluaran = 360° ÷ n" data-en="Interior angles = (n-2) × 180°, Exterior angle = 360° ÷ n">Sudut pedalaman = (n-2) × 180°, Sudut peluaran = 360° ÷ n</div>
-                </div>
+    <!-- Language Toggle -->
+    <div class="container mx-auto px-4 py-4">
+        <div class="flex justify-center">
+            <div class="bg-white rounded-full p-1 shadow-md">
+                <button id="langToggle" class="interactive-btn bg-gradient-to-r from-purple-500 to-blue-500 text-white px-6 py-2 rounded-full font-semibold">
+                    🌐 Switch to English
+                </button>
             </div>
         </div>
+    </div>
 
-        <div class="flashcard-container">
-            <!-- Card 1: Interior Angles -->
-            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
-                <div class="card-inner">
-                    <div class="card-front" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
-                        <div class="card-title" data-ms="Sudut Pedalaman Poligon" data-en="Interior Angles of Polygon" style="color: #2c3e50;">Sudut Pedalaman Poligon</div>
-                        <div class="formula" data-ms="Jumlah sudut pedalaman<br>= (n - 2) × 180°" data-en="Sum of interior angles   = (n - 2) × 180°" style="background: rgba(255,255,255,0.8); color: #2c3e50;">Jumlah sudut pedalaman<br>= (n - 2) × 180°</div>
-                        <div class="example" data-ms="di mana:<br>n = bilangan sisi poligon" data-en="where:   n = number of sides of polygon" style="background: rgba(255,255,255,0.6); color: #495057;">di mana:<br>n = bilangan sisi poligon</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="card-title" data-ms="Contoh: Pentagon (5 sisi)" data-en="Example: Pentagon (5 sides)">Contoh: Pentagon (5 sisi)</div>
-                        <div class="formula">n = 5</div>
-                        <div class="example" data-ms="Jumlah sudut pedalaman = (5 - 2) × 180°<br>= 3 × 180°<br>= 540°" data-en="Sum of interior angles = (5 - 2) × 180° = 540°">Jumlah sudut pedalaman = (5 - 2) × 180°<br>= 3 × 180°<br>= 540°</div>
-                    </div>
-                </div>
+    <!-- Main Content -->
+    <div class="container mx-auto px-3 sm:px-4 pb-8 desktop-max-width">
+        <!-- Introduction -->
+        <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 fade-in mobile-padding">
+            <div id="intro-ms" class="language-content">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">🎯 Objektif Pembelajaran</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li>Memahami konsep isi padu bentuk 3D</li>
+                    <li>Mengira isi padu kubus, kuboid, silinder dan kon</li>
+                    <li>Menggunakan formula yang betul untuk setiap bentuk</li>
+                    <li>Menyelesaikan masalah berkaitan isi padu</li>
+                </ul>
             </div>
-
-            <!-- Card 2: Exterior Angles -->
-            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                <div class="card-inner">
-                    <div class="card-front" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                        <div class="card-title" data-ms="Sudut Peluaran Poligon" data-en="Exterior Angles of Polygon" style="color: #2c3e50;">Sudut Peluaran Poligon</div>
-                        <div class="formula" data-ms="Jumlah sudut peluaran<br>= 360°" data-en="Sum of exterior angles   = 360°" style="background: rgba(255,255,255,0.8); color: #2c3e50;">Jumlah sudut peluaran<br>= 360°</div>
-                        <div class="example" data-ms="Untuk semua poligon,<br>jumlah sudut peluaran<br>sentiasa 360°" data-en="For all polygons,   sum of exterior angles   is always 360°" style="background: rgba(255,255,255,0.6); color: #495057;">Untuk semua poligon,<br>jumlah sudut peluaran<br>sentiasa 360°</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="card-title" data-ms="Contoh: Hexagon Sekata" data-en="Example: Regular Hexagon">Contoh: Hexagon Sekata</div>
-                        <div class="formula">n = 6</div>
-                        <div class="example" data-ms="Setiap sudut peluaran = 360° ÷ 6<br>= 60°<br><br>Jumlah = 6 × 60° = 360°" data-en="Each exterior angle = 360° ÷ 6   = 60°   ,  Total = 6 × 60° = 360°">Setiap sudut peluaran = 360° ÷ 6<br>= 60°<br><br>Jumlah = 6 × 60° = 360°</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3: Finding Number of Sides -->
-            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
-                <div class="card-inner">
-                    <div class="card-front" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
-                        <div class="card-title" data-ms="Mencari Bilangan Sisi" data-en="Finding Number of Sides" style="color: #2c3e50;">Mencari Bilangan Sisi</div>
-                        <div class="formula" data-ms="n = (Jumlah sudut pedalaman ÷ 180°)<br>+ 2" data-en="n = (Sum of interior angles ÷ 180°)   + 2" style="background: rgba(255,255,255,0.8); color: #2c3e50;">n = (Jumlah sudut pedalaman ÷ 180°)<br>+ 2</div>
-                        <div class="example" data-ms="atau<br>n = 360° ÷ sudut peluaran<br>(untuk poligon sekata)" data-en="or   n = 360° ÷ exterior angle   (for regular polygon)" style="background: rgba(255,255,255,0.6); color: #495057;">atau<br>n = 360° ÷ sudut peluaran<br>(untuk poligon sekata)</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="card-title" data-ms="Contoh: Jumlah sudut pedalaman = 1080°" data-en="Example: Sum of interior angles = 1080°">Contoh: Jumlah sudut pedalaman = 1080°</div>
-                        <div class="formula">1080° ÷ 180° = 6</div>
-                        <div class="example" data-ms="n = 6 + 2<br>= 8<br><br>Poligon tersebut ialah<br>oktagon (8 sisi)" data-en="n = 6 + 2   = 8  .               The polygon is an   octagon (8 sides)">n = 6 + 2<br>= 8<br><br>Poligon tersebut ialah<br>oktagon (8 sisi)</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 4: Interior Angle of Regular Polygon -->
-            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);">
-                <div class="card-inner">
-                    <div class="card-front" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);">
-                        <div class="card-title" data-ms="Sudut Pedalaman Poligon Sekata" data-en="Interior Angle of Regular Polygon" style="color: white;">Sudut Pedalaman Poligon Sekata</div>
-                        <div class="formula" data-ms="Sudut pedalaman<br>= (n - 2) × 180° ÷ n" data-en="Interior angle   = (n - 2) × 180° ÷ n" style="background: rgba(255,255,255,0.2);">Sudut pedalaman<br>= (n - 2) × 180° ÷ n</div>
-                        <div class="example" data-ms="Untuk poligon sekata,<br>semua sudut pedalaman<br>adalah sama" data-en="For regular polygon,   all interior angles   are equal" style="background: rgba(255,255,255,0.15); color: white;">Untuk poligon sekata,<br>semua sudut pedalaman<br>adalah sama</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="card-title" data-ms="Contoh: Hexagon Sekata (6 sisi)" data-en="Example: Regular Hexagon (6 sides)">Contoh: Hexagon Sekata (6 sisi)</div>
-                        <div class="formula">n = 6</div>
-                        <div class="example" data-ms="Sudut pedalaman = (6 - 2) × 180° ÷ 6<br>= 4 × 180° ÷ 6<br>= 720° ÷ 6<br>= 120°" data-en="Interior angle = (6 - 2) × 180° ÷ 6   = 720° ÷ 6 = 120°">Sudut pedalaman = (6 - 2) × 180° ÷ 6<br>= 4 × 180° ÷ 6<br>= 720° ÷ 6<br>= 120°</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 5: Exterior Angle of Regular Polygon -->
-            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);">
-                <div class="card-inner">
-                    <div class="card-front" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);">
-                        <div class="card-title" data-ms="Sudut Peluaran Poligon Sekata" data-en="Exterior Angle of Regular Polygon" style="color: white;">Sudut Peluaran Poligon Sekata</div>
-                        <div class="formula" data-ms="Sudut peluaran<br>= 360° ÷ n" data-en="Exterior angle   = 360° ÷ n" style="background: rgba(255,255,255,0.2);">Sudut peluaran<br>= 360° ÷ n</div>
-                        <div class="example" data-ms="Untuk poligon sekata,<br>semua sudut peluaran<br>adalah sama" data-en="For regular polygon,   all exterior angles   are equal" style="background: rgba(255,255,255,0.15); color: white;">Untuk poligon sekata,<br>semua sudut peluaran<br>adalah sama</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="card-title" data-ms="Contoh: Oktagon Sekata (8 sisi)" data-en="Example: Regular Octagon (8 sides)">Contoh: Oktagon Sekata (8 sisi)</div>
-                        <div class="formula">n = 8</div>
-                        <div class="example" data-ms="Sudut peluaran = 360° ÷ 8<br>= 45°<br><br>Semua 8 sudut peluaran = 45°" data-en="Exterior angle = 360° ÷ 8   = 45° .                         All 8 exterior angles = 45°">Sudut peluaran = 360° ÷ 8<br>= 45°<br><br>Semua 8 sudut peluaran = 45°</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 6: Polygon Names -->
-            <div class="flashcard" onclick="flipCard(this)" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                <div class="card-inner">
-                    <div class="card-front" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        <div class="card-title" data-ms="Nama-nama Poligon" data-en="Polygon Names" style="color: white;">Nama-nama Poligon</div>
-                        <div class="formula" data-ms="Mengikut Bilangan Sisi" data-en="According to Number of Sides" style="background: rgba(255,255,255,0.2);">Mengikut Bilangan Sisi</div>
-                        <div class="example" data-ms="3 sisi = Segi tiga<br>4 sisi = Segi empat<br>5 sisi = Pentagon<br>6 sisi = Heksagon" data-en="3 sides = Triangle ,     4 sides = Quadrilateral,      5 sides = Pentagon  ,    6 sides = Hexagon" style="background: rgba(255,255,255,0.15); color: white;">3 sisi = Segi tiga<br>4 sisi = Segi empat<br>5 sisi = Pentagon<br>6 sisi = Heagon</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="card-title" data-ms="Nama Poligon Lanjutan" data-en="More Polygon Names">Nama Poligon Lanjutan</div>
-                        <div class="formula" data-ms="7 sisi = Heptagon<br>8 sisi = Oktagon" data-en="7 sides = Heptagon ,     8 sides = Octagon">7 sisi = Heptagon<br>8 sisi = Oktagon</div>
-                        <div class="example" data-ms="9 sisi = Nonagon<br>10 sisi = Dekagon<br>12 sisi = Dodekagon" data-en="9 sides = Nonagon ,      10 sides = Decagon  ,     12 sides = Dodecagon">9 sisi = Nonagon<br>10 sisi = Dekagon<br>12 sisi = Dodekagon</div>
-                    </div>
-                </div>
+            <div id="intro-en" class="language-content hidden">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">🎯 Learning Objectives</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li>Understand the concept of volume of 3D shapes</li>
+                    <li>Calculate volume of cube, cuboid, cylinder and cone</li>
+                    <li>Use correct formulas for each shape</li>
+                    <li>Solve problems related to volume</li>
+                </ul>
             </div>
         </div>
 
-        <div class="quiz-section">
-            <div class="quiz-title" data-ms="Latihan" data-en="Practice">Latihan</div>
-            <div id="quiz-container">
-                <div class="quiz-progress">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill"></div>
+        <!-- Shapes Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8 tablet-grid desktop-grid">
+            <!-- Cube -->
+            <div class="shape-card bg-gradient-to-br from-red-400 to-pink-500 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white shadow-lg mobile-padding">
+                <div class="text-center mb-3 sm:mb-4">
+                    <div class="text-4xl sm:text-5xl md:text-6xl mb-2">🧊</div>
+                    <div id="cube-title-ms" class="language-content">
+                        <h3 class="text-xl sm:text-2xl font-bold mobile-text-xl">Kubus</h3>
                     </div>
-                    <div class="progress-text" id="progress-text">Soalan 1 daripada 6</div>
+                    <div id="cube-title-en" class="language-content hidden">
+                        <h3 class="text-xl sm:text-2xl font-bold mobile-text-xl">Cube</h3>
+                    </div>
                 </div>
-                <div class="quiz-question" id="question-text">
-                    Berapakah jumlah sudut pedalaman bagi sebuah heptagon (7 sisi)?
+                <div class="bg-white bg-opacity-20 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4">
+                    <div id="cube-formula-ms" class="language-content">
+                        <p class="text-center text-base sm:text-lg font-semibold mobile-text-base">Formula: V = s³</p>
+                        <p class="text-center text-xs sm:text-sm mt-1 sm:mt-2 mobile-text-sm">s = panjang sisi</p>
+                    </div>
+                    <div id="cube-formula-en" class="language-content hidden">
+                        <p class="text-center text-base sm:text-lg font-semibold mobile-text-base">Formula: V = s³</p>
+                        <p class="text-center text-xs sm:text-sm mt-1 sm:mt-2 mobile-text-sm">s = side length</p>
+                    </div>
                 </div>
-                <div class="quiz-options" id="quiz-options">
-                    <div class="quiz-option" onclick="selectOption(this, false)">720°</div>
-                    <div class="quiz-option" onclick="selectOption(this, true)">900°</div>
-                    <div class="quiz-option" onclick="selectOption(this, false)">1080°</div>
-                    <div class="quiz-option" onclick="selectOption(this, false)">1260°</div>
+                <button onclick="showCalculator('cube')" class="interactive-btn w-full bg-white text-red-500 font-bold py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:bg-gray-100 text-sm sm:text-base mobile-text-base">
+                    <span id="calc-btn-ms" class="language-content">🧮 Kalkulator</span>
+                    <span id="calc-btn-en" class="language-content hidden">🧮 Calculator</span>
+                </button>
+            </div>
+
+            <!-- Cuboid -->
+            <div class="shape-card bg-gradient-to-br from-blue-400 to-cyan-500 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white shadow-lg mobile-padding">
+                <div class="text-center mb-3 sm:mb-4">
+                    <div class="text-4xl sm:text-5xl md:text-6xl mb-2">📦</div>
+                    <div id="cuboid-title-ms" class="language-content">
+                        <h3 class="text-xl sm:text-2xl font-bold mobile-text-xl">Kuboid</h3>
+                    </div>
+                    <div id="cuboid-title-en" class="language-content hidden">
+                        <h3 class="text-xl sm:text-2xl font-bold mobile-text-xl">Cuboid</h3>
+                    </div>
                 </div>
-                <div class="quiz-buttons">
-                    <button class="btn btn-primary" onclick="checkAnswer()" id="check-btn" data-ms="Semak Jawapan" data-en="Check Answer">Semak Jawapan</button>
-                    <button class="btn btn-secondary" onclick="nextQuestion()" id="next-btn" data-ms="Soalan Seterusnya" data-en="Next Question">Soalan Seterusnya</button>
+                <div class="bg-white bg-opacity-20 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4">
+                    <div id="cuboid-formula-ms" class="language-content">
+                        <p class="text-center text-base sm:text-lg font-semibold mobile-text-base">Formula: V = p × l × t</p>
+                        <p class="text-center text-xs sm:text-sm mt-1 sm:mt-2 mobile-text-sm">p=panjang, l=lebar, t=tinggi</p>
+                    </div>
+                    <div id="cuboid-formula-en" class="language-content hidden">
+                        <p class="text-center text-base sm:text-lg font-semibold mobile-text-base">Formula: V = l × w × h</p>
+                        <p class="text-center text-xs sm:text-sm mt-1 sm:mt-2 mobile-text-sm">l=length, w=width, h=height</p>
+                    </div>
                 </div>
-                <div id="quiz-result"></div>
+                <button onclick="showCalculator('cuboid')" class="interactive-btn w-full bg-white text-blue-500 font-bold py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:bg-gray-100 text-sm sm:text-base mobile-text-base">
+                    <span class="language-content">🧮 Kalkulator</span>
+                    <span class="language-content hidden">🧮 Calculator</span>
+                </button>
+            </div>
+
+            <!-- Cylinder -->
+            <div class="shape-card bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white shadow-lg mobile-padding">
+                <div class="text-center mb-3 sm:mb-4">
+                    <div class="text-4xl sm:text-5xl md:text-6xl mb-2">🥫</div>
+                    <div id="cylinder-title-ms" class="language-content">
+                        <h3 class="text-xl sm:text-2xl font-bold mobile-text-xl">Silinder</h3>
+                    </div>
+                    <div id="cylinder-title-en" class="language-content hidden">
+                        <h3 class="text-xl sm:text-2xl font-bold mobile-text-xl">Cylinder</h3>
+                    </div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4">
+                    <div id="cylinder-formula-ms" class="language-content">
+                        <p class="text-center text-base sm:text-lg font-semibold mobile-text-base">Formula: V = πr²h</p>
+                        <p class="text-center text-xs sm:text-sm mt-1 sm:mt-2 mobile-text-sm">r=jejari, h=tinggi</p>
+                    </div>
+                    <div id="cylinder-formula-en" class="language-content hidden">
+                        <p class="text-center text-base sm:text-lg font-semibold mobile-text-base">Formula: V = πr²h</p>
+                        <p class="text-center text-xs sm:text-sm mt-1 sm:mt-2 mobile-text-sm">r=radius, h=height</p>
+                    </div>
+                </div>
+                <button onclick="showCalculator('cylinder')" class="interactive-btn w-full bg-white text-green-500 font-bold py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:bg-gray-100 text-sm sm:text-base mobile-text-base">
+                    <span class="language-content">🧮 Kalkulator</span>
+                    <span class="language-content hidden">🧮 Calculator</span>
+                </button>
+            </div>
+
+            <!-- Cone -->
+            <div class="shape-card bg-gradient-to-br from-orange-400 to-yellow-500 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white shadow-lg mobile-padding">
+                <div class="text-center mb-3 sm:mb-4">
+                    <div class="text-4xl sm:text-5xl md:text-6xl mb-2">🍦</div>
+                    <div id="cone-title-ms" class="language-content">
+                        <h3 class="text-xl sm:text-2xl font-bold mobile-text-xl">Kon</h3>
+                    </div>
+                    <div id="cone-title-en" class="language-content hidden">
+                        <h3 class="text-xl sm:text-2xl font-bold mobile-text-xl">Cone</h3>
+                    </div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4">
+                    <div id="cone-formula-ms" class="language-content">
+                        <p class="text-center text-base sm:text-lg font-semibold mobile-text-base">Formula: V = ⅓πr²h</p>
+                        <p class="text-center text-xs sm:text-sm mt-1 sm:mt-2 mobile-text-sm">r=jejari, h=tinggi</p>
+                    </div>
+                    <div id="cone-formula-en" class="language-content hidden">
+                        <p class="text-center text-base sm:text-lg font-semibold mobile-text-base">Formula: V = ⅓πr²h</p>
+                        <p class="text-center text-xs sm:text-sm mt-1 sm:mt-2 mobile-text-sm">r=radius, h=height</p>
+                    </div>
+                </div>
+                <button onclick="showCalculator('cone')" class="interactive-btn w-full bg-white text-orange-500 font-bold py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:bg-gray-100 text-sm sm:text-base mobile-text-base">
+                    <span class="language-content">🧮 Kalkulator</span>
+                    <span class="language-content hidden">🧮 Calculator</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Calculator Modal -->
+        <div id="calculatorModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-3 sm:p-4">
+            <div class="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 max-w-sm sm:max-w-md w-full max-h-screen overflow-y-auto mobile-padding">
+                <div class="flex justify-between items-center mb-3 sm:mb-4">
+                    <h3 id="calcTitle" class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mobile-text-lg"></h3>
+                    <button onclick="closeCalculator()" class="text-gray-500 hover:text-gray-700 text-xl sm:text-2xl">×</button>
+                </div>
+                <div id="calcContent" class="space-y-3 sm:space-y-4">
+                    <!-- Calculator content will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white shadow-lg mobile-padding">
+            <div id="tips-ms" class="language-content">
+                <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 mobile-text-xl">💡 Tips Penting</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 tablet-grid desktop-grid">
+                    <div class="bg-white bg-opacity-20 rounded-lg p-3 sm:p-4">
+                        <h4 class="font-bold mb-1 sm:mb-2 text-sm sm:text-base mobile-text-sm">🔢 Unit Pengukuran</h4>
+                        <p class="text-xs sm:text-sm mobile-text-sm">Pastikan semua ukuran dalam unit yang sama (cm, m, dll)</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-3 sm:p-4">
+                        <h4 class="font-bold mb-1 sm:mb-2 text-sm sm:text-base mobile-text-sm">📏 Nilai π (Pi)</h4>
+                        <p class="text-xs sm:text-sm mobile-text-sm">Gunakan π = 3.14159 atau 22/7 untuk pengiraan</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-3 sm:p-4">
+                        <h4 class="font-bold mb-1 sm:mb-2 text-sm sm:text-base mobile-text-sm">✅ Semak Jawapan</h4>
+                        <p class="text-xs sm:text-sm mobile-text-sm">Pastikan jawapan masuk akal dengan saiz objek</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-3 sm:p-4">
+                        <h4 class="font-bold mb-1 sm:mb-2 text-sm sm:text-base mobile-text-sm">📝 Tunjuk Kerja</h4>
+                        <p class="text-xs sm:text-sm mobile-text-sm">Sentiasa tunjukkan langkah pengiraan anda</p>
+                    </div>
+                </div>
+            </div>
+            <div id="tips-en" class="language-content hidden">
+                <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 mobile-text-xl">💡 Important Tips</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 tablet-grid desktop-grid">
+                    <div class="bg-white bg-opacity-20 rounded-lg p-3 sm:p-4">
+                        <h4 class="font-bold mb-1 sm:mb-2 text-sm sm:text-base mobile-text-sm">🔢 Units of Measurement</h4>
+                        <p class="text-xs sm:text-sm mobile-text-sm">Ensure all measurements are in the same unit (cm, m, etc)</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-3 sm:p-4">
+                        <h4 class="font-bold mb-1 sm:mb-2 text-sm sm:text-base mobile-text-sm">📏 Value of π (Pi)</h4>
+                        <p class="text-xs sm:text-sm mobile-text-sm">Use π = 3.14159 or 22/7 for calculations</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-3 sm:p-4">
+                        <h4 class="font-bold mb-1 sm:mb-2 text-sm sm:text-base mobile-text-sm">✅ Check Answers</h4>
+                        <p class="text-xs sm:text-sm mobile-text-sm">Make sure answers make sense with object size</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-3 sm:p-4">
+                        <h4 class="font-bold mb-1 sm:mb-2 text-sm sm:text-base mobile-text-sm">📝 Show Working</h4>
+                        <p class="text-xs sm:text-sm mobile-text-sm">Always show your calculation steps</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         let currentLanguage = 'ms';
-        let selectedOption = null;
-        let currentQuestionIndex = 0;
 
-        const questions = {
-            ms: [
-                {
-                    question: "Berapakah jumlah sudut pedalaman bagi sebuah heptagon (7 sisi)?",
-                    options: ["720°", "900°", "1080°", "1260°"],
-                    correct: 1,
-                    explanation: "Jumlah sudut pedalaman = (7-2) × 180° = 5 × 180° = 900°"
-                },
-                {
-                    question: "Jika jumlah sudut pedalaman sebuah poligon ialah 1440°, berapakah bilangan sisinya?",
-                    options: ["8 sisi", "9 sisi", "10 sisi", "12 sisi"],
-                    correct: 2,
-                    explanation: "1440° ÷ 180° = 8, jadi n = 8 + 2 = 10 sisi"
-                },
-                {
-                    question: "Berapakah sudut peluaran bagi sebuah pentagon sekata?",
-                    options: ["60°", "72°", "90°", "108°"],
-                    correct: 1,
-                    explanation: "Sudut peluaran = 360° ÷ 5 = 72°"
-                },
-                {
-                    question: "Sebuah poligon sekata mempunyai sudut peluaran 40°. Berapakah bilangan sisinya?",
-                    options: ["8 sisi", "9 sisi", "10 sisi", "12 sisi"],
-                    correct: 1,
-                    explanation: "Bilangan sisi = 360° ÷ 40° = 9 sisi"
-                },
-                {
-                    question: "Berapakah sudut pedalaman bagi sebuah oktagon sekata?",
-                    options: ["120°", "135°", "140°", "150°"],
-                    correct: 1,
-                    explanation: "Sudut pedalaman = [(8-2) × 180°] ÷ 8 = 1080° ÷ 8 = 135°"
-                },
-                {
-                    question: "Jumlah sudut peluaran bagi mana-mana poligon adalah:",
-                    options: ["180°", "270°", "360°", "Bergantung pada bilangan sisi"],
-                    correct: 2,
-                    explanation: "Jumlah sudut peluaran sentiasa 360° untuk semua poligon"
-                }
-            ],
-            en: [
-                {
-                    question: "What is the sum of interior angles of a heptagon (7 sides)?",
-                    options: ["720°", "900°", "1080°", "1260°"],
-                    correct: 1,
-                    explanation: "Sum of interior angles = (7-2) × 180° = 5 × 180° = 900°"
-                },
-                {
-                    question: "If the sum of interior angles of a polygon is 1440°, how many sides does it have?",
-                    options: ["8 sides", "9 sides", "10 sides", "12 sides"],
-                    correct: 2,
-                    explanation: "1440° ÷ 180° = 8, so n = 8 + 2 = 10 sides"
-                },
-                {
-                    question: "What is the exterior angle of a regular pentagon?",
-                    options: ["60°", "72°", "90°", "108°"],
-                    correct: 1,
-                    explanation: "Exterior angle = 360° ÷ 5 = 72°"
-                },
-                {
-                    question: "A regular polygon has an exterior angle of 40°. How many sides does it have?",
-                    options: ["8 sides", "9 sides", "10 sides", "12 sides"],
-                    correct: 1,
-                    explanation: "Number of sides = 360° ÷ 40° = 9 sides"
-                },
-                {
-                    question: "What is the interior angle of a regular octagon?",
-                    options: ["120°", "135°", "140°", "150°"],
-                    correct: 1,
-                    explanation: "Interior angle = [(8-2) × 180°] ÷ 8 = 1080° ÷ 8 = 135°"
-                },
-                {
-                    question: "The sum of exterior angles of any polygon is:",
-                    options: ["180°", "270°", "360°", "Depends on number of sides"],
-                    correct: 2,
-                    explanation: "The sum of exterior angles is always 360° for all polygons"
-                }
-            ]
-        };
+        // Language toggle functionality
+        document.getElementById('langToggle').addEventListener('click', function() {
+            currentLanguage = currentLanguage === 'ms' ? 'en' : 'ms';
+            toggleLanguage();
+        });
 
-        function setLanguage(lang) {
-            currentLanguage = lang;
-            
-            // Update language buttons
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            // Update all text elements
-            document.querySelectorAll('[data-ms]').forEach(element => {
-                if (lang === 'ms') {
-                    element.textContent = element.getAttribute('data-ms');
-                } else {
-                    element.textContent = element.getAttribute('data-en');
-                }
-            });
-            
-            // Update elements with HTML content
-            document.querySelectorAll('[data-ms]').forEach(element => {
-                if (element.innerHTML.includes('<br>')) {
-                    if (lang === 'ms') {
-                        element.innerHTML = element.getAttribute('data-ms');
-                    } else {
-                        element.innerHTML = element.getAttribute('data-en');
-                    }
-                }
-            });
-            
-            // Reset quiz to first question
-            currentQuestionIndex = 0;
-            loadQuestion();
-        }
+        function toggleLanguage() {
+            const msElements = document.querySelectorAll('#intro-ms, #cube-title-ms, #cube-formula-ms, #cuboid-title-ms, #cuboid-formula-ms, #cylinder-title-ms, #cylinder-formula-ms, #cone-title-ms, #cone-formula-ms, #tips-ms');
+            const enElements = document.querySelectorAll('#intro-en, #cube-title-en, #cube-formula-en, #cuboid-title-en, #cuboid-formula-en, #cylinder-title-en, #cylinder-formula-en, #cone-title-en, #cone-formula-en, #tips-en');
+            const toggleBtn = document.getElementById('langToggle');
 
-        function flipCard(card) {
-            card.classList.toggle('flipped');
-        }
-
-        function loadQuestion() {
-            const question = questions[currentLanguage][currentQuestionIndex];
-            document.getElementById('question-text').textContent = question.question;
-            
-            // Update progress bar
-            const totalQuestions = questions[currentLanguage].length;
-            const progressPercent = ((currentQuestionIndex + 1) / totalQuestions) * 100;
-            document.getElementById('progress-fill').style.width = progressPercent + '%';
-            
-            const progressText = currentLanguage === 'ms' 
-                ? `Soalan ${currentQuestionIndex + 1} daripada ${totalQuestions}`
-                : `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
-            document.getElementById('progress-text').textContent = progressText;
-            
-            const optionsContainer = document.getElementById('quiz-options');
-            optionsContainer.innerHTML = '';
-            
-            question.options.forEach((option, index) => {
-                const optionDiv = document.createElement('div');
-                optionDiv.className = 'quiz-option';
-                optionDiv.textContent = option;
-                optionDiv.onclick = () => selectOption(optionDiv, index === question.correct);
-                optionsContainer.appendChild(optionDiv);
-            });
-            
-            // Reset quiz state
-            selectedOption = null;
-            document.getElementById('quiz-result').innerHTML = '';
-            document.querySelectorAll('.quiz-option').forEach(opt => {
-                opt.classList.remove('selected', 'correct', 'incorrect');
-            });
-        }
-
-        function selectOption(option, isCorrect) {
-            // Remove previous selection
-            document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
-            
-            // Mark current selection
-            option.classList.add('selected');
-            selectedOption = { element: option, isCorrect: isCorrect };
-        }
-
-        function checkAnswer() {
-            if (!selectedOption) {
-                alert(currentLanguage === 'ms' ? 'Sila pilih jawapan terlebih dahulu!' : 'Please select an answer first!');
-                return;
-            }
-            
-            const question = questions[currentLanguage][currentQuestionIndex];
-            const resultDiv = document.getElementById('quiz-result');
-            
-            // Show correct answer
-            document.querySelectorAll('.quiz-option').forEach((opt, index) => {
-                if (index === question.correct) {
-                    opt.classList.add('correct');
-                } else if (opt.classList.contains('selected') && !selectedOption.isCorrect) {
-                    opt.classList.add('incorrect');
-                }
-            });
-            
-            if (selectedOption.isCorrect) {
-                resultDiv.innerHTML = `<div class="result-correct">${currentLanguage === 'ms' ? '✓ Betul!' : '✓ Correct!'} ${question.explanation}</div>`;
+            if (currentLanguage === 'en') {
+                msElements.forEach(el => el.classList.add('hidden'));
+                enElements.forEach(el => el.classList.remove('hidden'));
+                toggleBtn.textContent = '🌐 Tukar ke Bahasa Melayu';
             } else {
-                resultDiv.innerHTML = `<div class="result-incorrect">${currentLanguage === 'ms' ? '✗ Salah.' : '✗ Incorrect.'} ${question.explanation}</div>`;
+                enElements.forEach(el => el.classList.add('hidden'));
+                msElements.forEach(el => el.classList.remove('hidden'));
+                toggleBtn.textContent = '🌐 Switch to English';
             }
         }
 
-        function nextQuestion() {
-            currentQuestionIndex = (currentQuestionIndex + 1) % questions[currentLanguage].length;
-            loadQuestion();
+        // Calculator functionality
+        function showCalculator(shape) {
+            const modal = document.getElementById('calculatorModal');
+            const title = document.getElementById('calcTitle');
+            const content = document.getElementById('calcContent');
+            
+            const shapes = {
+                ms: {
+                    cube: 'Kalkulator Kubus',
+                    cuboid: 'Kalkulator Kuboid',
+                    cylinder: 'Kalkulator Silinder',
+                    cone: 'Kalkulator Kon'
+                },
+                en: {
+                    cube: 'Cube Calculator',
+                    cuboid: 'Cuboid Calculator',
+                    cylinder: 'Cylinder Calculator',
+                    cone: 'Cone Calculator'
+                }
+            };
+
+            title.textContent = shapes[currentLanguage][shape];
+            content.innerHTML = getCalculatorContent(shape);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
-        // Initialize
-        loadQuestion();
+        function closeCalculator() {
+            const modal = document.getElementById('calculatorModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function getCalculatorContent(shape) {
+            const labels = {
+                ms: {
+                    calculate: 'Kira',
+                    result: 'Hasil',
+                    side: 'Panjang Sisi',
+                    length: 'Panjang',
+                    width: 'Lebar',
+                    height: 'Tinggi',
+                    radius: 'Jejari',
+                    example: 'Contoh'
+                },
+                en: {
+                    calculate: 'Calculate',
+                    result: 'Result',
+                    side: 'Side Length',
+                    length: 'Length',
+                    width: 'Width',
+                    height: 'Height',
+                    radius: 'Radius',
+                    example: 'Example'
+                }
+            };
+
+            const l = labels[currentLanguage];
+
+            switch(shape) {
+                case 'cube':
+                    return `
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2 mobile-text-sm">${l.side} (cm):</label>
+                                <input type="number" id="cubeSide" class="calculator-input w-full p-2 sm:p-3 rounded-lg text-sm sm:text-base mobile-text-base" placeholder="5">
+                            </div>
+                            <button onclick="calculateCube()" class="interactive-btn w-full bg-gradient-to-r from-red-400 to-pink-500 text-white font-bold py-2 sm:py-3 px-3 sm:px-4 rounded-lg text-sm sm:text-base mobile-text-base">
+                                ${l.calculate}
+                            </button>
+                            <div id="cubeResult" class="bg-gray-100 p-4 rounded-lg hidden">
+                                <h4 class="font-bold text-gray-800">${l.result}:</h4>
+                                <p id="cubeAnswer" class="text-lg font-semibold text-red-600"></p>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-blue-800">${l.example}:</h4>
+                                <p class="text-sm text-blue-700">V = 5³ = 5 × 5 × 5 = 125 cm³</p>
+                            </div>
+                        </div>
+                    `;
+                case 'cuboid':
+                    return `
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">${l.length} (cm):</label>
+                                <input type="number" id="cuboidLength" class="calculator-input w-full p-3 rounded-lg" placeholder="8">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">${l.width} (cm):</label>
+                                <input type="number" id="cuboidWidth" class="calculator-input w-full p-3 rounded-lg" placeholder="6">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">${l.height} (cm):</label>
+                                <input type="number" id="cuboidHeight" class="calculator-input w-full p-3 rounded-lg" placeholder="4">
+                            </div>
+                            <button onclick="calculateCuboid()" class="interactive-btn w-full bg-gradient-to-r from-blue-400 to-cyan-500 text-white font-bold py-3 px-4 rounded-lg">
+                                ${l.calculate}
+                            </button>
+                            <div id="cuboidResult" class="bg-gray-100 p-4 rounded-lg hidden">
+                                <h4 class="font-bold text-gray-800">${l.result}:</h4>
+                                <p id="cuboidAnswer" class="text-lg font-semibold text-blue-600"></p>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-blue-800">${l.example}:</h4>
+                                <p class="text-sm text-blue-700">V = 8 × 6 × 4 = 192 cm³</p>
+                            </div>
+                        </div>
+                    `;
+                case 'cylinder':
+                    return `
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">${l.radius} (cm):</label>
+                                <input type="number" id="cylinderRadius" class="calculator-input w-full p-3 rounded-lg" placeholder="3">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">${l.height} (cm):</label>
+                                <input type="number" id="cylinderHeight" class="calculator-input w-full p-3 rounded-lg" placeholder="10">
+                            </div>
+                            <button onclick="calculateCylinder()" class="interactive-btn w-full bg-gradient-to-r from-green-400 to-emerald-500 text-white font-bold py-3 px-4 rounded-lg">
+                                ${l.calculate}
+                            </button>
+                            <div id="cylinderResult" class="bg-gray-100 p-4 rounded-lg hidden">
+                                <h4 class="font-bold text-gray-800">${l.result}:</h4>
+                                <p id="cylinderAnswer" class="text-lg font-semibold text-green-600"></p>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-blue-800">${l.example}:</h4>
+                                <p class="text-sm text-blue-700">V = π × 3² × 10 = 3.14159 × 9 × 10 = 282.74 cm³</p>
+                            </div>
+                        </div>
+                    `;
+                case 'cone':
+                    return `
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">${l.radius} (cm):</label>
+                                <input type="number" id="coneRadius" class="calculator-input w-full p-3 rounded-lg" placeholder="4">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">${l.height} (cm):</label>
+                                <input type="number" id="coneHeight" class="calculator-input w-full p-3 rounded-lg" placeholder="12">
+                            </div>
+                            <button onclick="calculateCone()" class="interactive-btn w-full bg-gradient-to-r from-orange-400 to-yellow-500 text-white font-bold py-3 px-4 rounded-lg">
+                                ${l.calculate}
+                            </button>
+                            <div id="coneResult" class="bg-gray-100 p-4 rounded-lg hidden">
+                                <h4 class="font-bold text-gray-800">${l.result}:</h4>
+                                <p id="coneAnswer" class="text-lg font-semibold text-orange-600"></p>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-blue-800">${l.example}:</h4>
+                                <p class="text-sm text-blue-700">V = ⅓ × π × 4² × 12 = ⅓ × 3.14159 × 16 × 12 = 201.06 cm³</p>
+                            </div>
+                        </div>
+                    `;
+            }
+        }
+
+        function calculateCube() {
+            const side = parseFloat(document.getElementById('cubeSide').value);
+            if (side > 0) {
+                const volume = Math.pow(side, 3);
+                document.getElementById('cubeResult').classList.remove('hidden');
+                document.getElementById('cubeAnswer').textContent = `V = ${side}³ = ${volume.toFixed(2)} cm³`;
+            }
+        }
+
+        function calculateCuboid() {
+            const length = parseFloat(document.getElementById('cuboidLength').value);
+            const width = parseFloat(document.getElementById('cuboidWidth').value);
+            const height = parseFloat(document.getElementById('cuboidHeight').value);
+            if (length > 0 && width > 0 && height > 0) {
+                const volume = length * width * height;
+                document.getElementById('cuboidResult').classList.remove('hidden');
+                document.getElementById('cuboidAnswer').textContent = `V = ${length} × ${width} × ${height} = ${volume.toFixed(2)} cm³`;
+            }
+        }
+
+        function calculateCylinder() {
+            const radius = parseFloat(document.getElementById('cylinderRadius').value);
+            const height = parseFloat(document.getElementById('cylinderHeight').value);
+            if (radius > 0 && height > 0) {
+                const volume = Math.PI * Math.pow(radius, 2) * height;
+                document.getElementById('cylinderResult').classList.remove('hidden');
+                document.getElementById('cylinderAnswer').textContent = `V = π × ${radius}² × ${height} = ${volume.toFixed(2)} cm³`;
+            }
+        }
+
+        function calculateCone() {
+            const radius = parseFloat(document.getElementById('coneRadius').value);
+            const height = parseFloat(document.getElementById('coneHeight').value);
+            if (radius > 0 && height > 0) {
+                const volume = (1/3) * Math.PI * Math.pow(radius, 2) * height;
+                document.getElementById('coneResult').classList.remove('hidden');
+                document.getElementById('coneAnswer').textContent = `V = ⅓ × π × ${radius}² × ${height} = ${volume.toFixed(2)} cm³`;
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('calculatorModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCalculator();
+            }
+        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98583c9420fd068e',t:'MTc1ODk0NzEyMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9858c4027288a319',t:'MTc1ODk1MjY2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
