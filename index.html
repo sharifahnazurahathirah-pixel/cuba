@@ -215,6 +215,12 @@
             font-weight: 600;
             line-height: 1.8;
             border: 3px solid #4ecdc4;
+            overflow-x: auto;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
         }
 
         .math-fraction {
@@ -223,11 +229,16 @@
             align-items: center;
             margin: 0 8px;
             vertical-align: middle;
+            flex-shrink: 0;
         }
 
         .math-numerator, .math-denominator {
             padding: 4px 8px;
             font-size: 1.1rem;
+            word-break: break-all;
+            text-align: center;
+            max-width: 150px;
+            overflow-wrap: break-word;
         }
 
         .math-fraction-line {
@@ -243,6 +254,7 @@
             margin: 0 12px;
             color: #e53e3e;
             font-weight: 600;
+            flex-shrink: 0;
         }
 
         .visual-blocks {
@@ -632,20 +644,32 @@
                 font-size: 1rem;
                 padding: 15px;
                 line-height: 1.6;
+                flex-wrap: wrap;
+                white-space: normal;
+                justify-content: center;
+                gap: 10px;
+                min-height: 60px;
             }
             
             .math-fraction {
-                margin: 0 4px;
+                margin: 5px 4px;
+                min-width: 80px;
             }
             
             .math-numerator, .math-denominator {
-                font-size: 0.9rem;
-                padding: 2px 6px;
+                font-size: 0.85rem;
+                padding: 3px 6px;
+                max-width: 120px;
+                min-height: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             
             .math-operator {
                 font-size: 1.4rem;
-                margin: 0 8px;
+                margin: 5px 8px;
+                align-self: center;
             }
             
             .controls {
@@ -719,33 +743,47 @@
                 min-width: auto;
                 padding: 10px 12px;
                 font-size: 0.85rem;
+                text-align: left;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
             
             .visual-title {
                 font-size: 1rem;
                 text-align: center;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
             
             .key-point {
                 font-size: 0.9rem;
                 padding: 10px 12px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
             
             .explanation-box {
                 font-size: 0.9rem;
                 padding: 12px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
             
             .factor-box {
                 font-size: 0.8rem;
                 padding: 6px 8px;
                 margin: 3px;
+                display: inline-block;
+                word-break: break-all;
             }
             
             .numerator-display, .denominator-display {
                 font-size: 0.9rem;
                 padding: 6px 8px;
                 min-height: 25px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                text-align: center;
             }
             
             .language-toggle {
@@ -763,24 +801,39 @@
         @media (max-width: 480px) {
             .header h1 {
                 font-size: 1.5rem;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
             
             .expression {
-                font-size: 0.9rem;
-                padding: 12px;
+                font-size: 0.85rem;
+                padding: 10px;
+                gap: 8px;
+                min-height: 50px;
             }
             
             .math-numerator, .math-denominator {
-                font-size: 0.8rem;
+                font-size: 0.75rem;
+                padding: 2px 4px;
+                max-width: 100px;
+                min-height: 18px;
+                line-height: 1.2;
             }
             
             .math-operator {
                 font-size: 1.2rem;
-                margin: 0 6px;
+                margin: 3px 6px;
+            }
+            
+            .math-fraction {
+                margin: 3px 2px;
+                min-width: 70px;
             }
             
             .step-title {
                 font-size: 1.1rem;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
             
             .operation-symbol {
@@ -788,7 +841,29 @@
             }
             
             .fraction-display {
-                max-width: 150px;
+                max-width: 140px;
+                min-width: 90px;
+            }
+            
+            .visual-step {
+                padding: 10px;
+                margin: 10px 0;
+            }
+            
+            .factor-box {
+                font-size: 0.7rem;
+                padding: 4px 6px;
+                margin: 2px;
+                word-break: break-all;
+                max-width: 120px;
+                display: inline-block;
+            }
+            
+            .numerator-display, .denominator-display {
+                font-size: 0.8rem;
+                padding: 4px 6px;
+                min-height: 20px;
+                line-height: 1.2;
             }
         }
     </style>
@@ -1501,5 +1576,5 @@
             updateControls();
         };
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9860713cd7a50d0a',t:'MTc1OTAzMzE2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9860834ea532b2e8',t:'MTc1OTAzMzkwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
